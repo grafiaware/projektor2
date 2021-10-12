@@ -1,0 +1,42 @@
+obrázky:
+loga
+pozadí certifikátů
+
+databáze:
+c_projekt - přidat projekt
+c_kancelar - přidat kanceláře
+s_beh_projektu - přidat běhy
+sys_users - přiad uživatele a přidat sloupce tlačítek pro projekt
+ -> sys_acc_usr_kancelar - přidat vazby user - kancelář
+(sys_acc_usr_projekt je asi zbytečná - v p_2_1_4 projekt se vybírá již při přihlašování - login a zde jsou zobrazeny všechny projekty)
+
+přidat možnosti do
+- Projektor2_AppContext
+- Projektor2_View_PDF_Common
+
+přidat složku View/HTML/NNN a do ní upravené view
+- Projektor2_View_HTML_NNN_.... -> upravit akce formulářů a href tlačítek
+- Projektor2_View_HTML_NNN_Export - upravit select ( dodelat pohledy v databazi pro NNN projekt )
+
+přidat složku View/PDF/NNN a do ní upravené view
+Projektor2_View_PDF_NNN_....
+- nejdříve views, až se budou upravovat formuláře, bude IDE našeptávat
+
+upravit kotrolery
+Projektor2_Controller_ZobrazeniRegistraci (metoda getLeftMenuArrayNNN()
+Projektor2_Controller_Formular - switch
+Projektor2_Controller_Export_Excel - přidat case pro projekt NNN (volá Projektor2_View_HTML_NNN_Export)
+
+přidat složku
+Projektor2_Controller_Formular_NNN_.....
+- upravit controllers, až se budou upravovat routery, bude IDE našeptávat
+
+upravit
+Projektor2_Router_Akce
+Projektor2_Router_Form
+
+upravit
++ příslušně upravit model db tabulky Projektor2_Model_Db_SysUser a také mapper Projektor2_Model_Db_SysUserMapper
++ povolit userům tlačítka v databázi sys_user
+
+přidat složku do _ExportProjektor - při exportu pdf se projektová složka nevytváří

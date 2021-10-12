@@ -1,0 +1,52 @@
+obrázky:
+loga - NEMÁM
+pozadí certifikátů - STEJNÉ
+
+databáze:
+c_projekt - přidat projekt - PŘÍDÁN PROJEKT 19
+c_kancelar - přidat kanceláře - PŘIDÁNY KANCELÁŘE MB PLZEŇ A TESTOVACÍ
+s_beh_projektu - přidat běhy - 1 BĚH
+sys_users - přiad uživatele a přidat sloupce tlačítek pro projekt: - PŘIDÁNA JEN PRVNÍ DVĚ
+ALTER TABLE `projektor_2`.`sys_users`
+ADD COLUMN `tl_mb_sml` TINYINT(1) NOT NULL DEFAULT '0' AFTER `tl_pdu_ukon`,
+ADD COLUMN `tl_mb_souhlas` TINYINT(1) NOT NULL DEFAULT '0' AFTER `tl_mb_sml`;
+
+
+ -> sys_acc_usr_kancelar - přidat vazby user - kancelář
+(sys_acc_usr_projekt je asi zbytečná - v p_2_1_4 projekt se vybírá již při přihlašování - login a zde jsou zobrazeny všechny projekty)
+INSERT INTO `projektor_2`.`sys_acc_usr_kancelar` (`id_sys_users`, `id_c_kancelar`) VALUES ('10', '104');
+INSERT INTO `projektor_2`.`sys_acc_usr_kancelar` (`id_sys_users`, `id_c_kancelar`) VALUES ('10', '105');
+INSERT INTO `projektor_2`.`sys_acc_usr_kancelar` (`id_sys_users`, `id_c_kancelar`) VALUES ('89', '104');
+INSERT INTO `projektor_2`.`sys_acc_usr_kancelar` (`id_sys_users`, `id_c_kancelar`) VALUES ('89', '105');
+
+přidat možnosti do
+- Projektor2_AppContext - AKTIVITY JSOU ZKOPÍROVÁNY Z SJLP - OPRAVIT
+- Projektor2_View_PDF_Common
+
+přidat složku View/HTML/NNN a do ní upravené view
+- Projektor2_View_HTML_NNN_.... -> upravit akce formulářů a href tlačítek
+- Projektor2_View_HTML_NNN_Export - upravit select ( dodelat pohledy v databazi pro NNN projekt ) - NEJSOU VIEWs
+
+přidat složku View/PDF/NNN a do ní upravené view
+Projektor2_View_PDF_NNN_....
+- nejdříve views, až se budou upravovat formuláře, bude IDE našeptávat
+
+upravit kotrolery
+Projektor2_Controller_ZobrazeniRegistraci (metoda getLeftMenuArrayNNN()
+Projektor2_Controller_Formular - switch
+
+Projektor2_Controller_Export_Excel - přidat case pro projekt NNN (volá Projektor2_View_HTML_NNN_Export)
+
+přidat složku
+Projektor2_Controller_Formular_NNN_.....
+- upravit controllers, až se budou upravovat routery, bude IDE našeptávat
+
+upravit
+Projektor2_Router_Akce
+Projektor2_Router_Form
+
+upravit
++ příslušně upravit model db tabulky Projektor2_Model_Db_SysUser a také mapper Projektor2_Model_Db_SysUserMapper - JEN DVĚ TLAČÍTKA
++ povolit userům tlačítka v databázi sys_user - POVOLENA JEN DVĚ
+
+přidat složku do _ExportProjektor - při exportu pdf se projektová složka nevytváří
