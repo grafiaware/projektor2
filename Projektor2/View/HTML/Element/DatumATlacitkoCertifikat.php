@@ -32,7 +32,7 @@ class Projektor2_View_HTML_Element_DatumATlacitkoCertifikat extends Framework_Vi
         $this->parts[] = '<p>';
         $this->parts[] = '<label>Datum vydání osvědčení: </label>';
         $inputTag = '<input type="'.$dateInputType.'" '
-                . 'name="'.$this->context['nameDatumCertif'].'"'
+                . 'name="'.$this->context['nameDatumCertif'].'" '
                 . 'value="'.$this->context['valueDatumCertif'].'" '
                 . $disabledAttribute;
         if ($zobrazTiskniCertifikat) {

@@ -7,21 +7,29 @@
 class Projektor2_Controller_Formular_Mb_IP1 extends Projektor2_Controller_Formular_IP {
 
     protected function createFormModels($zajemce) {
-        $this->models['plan'] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
-        $this->models['dotaznik'] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+        // Položky kontextu, které budou použity v elementech formuláře pro zadání (výběr) hodnot uživatelem,
+        // t.j. elementy input, textarea, select, checkbox, radiobutton.
+        // Kontext je asociativní pole, indexy kontextu se ve formuláři použijí jako jména (name) proměnných formuláře a hodnoty kontextu jako hodnoty (value) proměnných formuláře.
+        //
+        // pro uložení hodnot do plan FT
+        $this->models[Projektor2_View_HTML_Formular_IP1::PLAN_FT] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
+        // pro uložení hodnot do za FT
+        $this->models[Projektor2_View_HTML_Formular_IP1::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+//        $this->models[Projektor2_View_HTML_Formular_IP1::PLAN_AKTIVITA] = Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $zajemce);
+        // pro uložení hodnot do planKurz FT
+        $this->models[Projektor2_View_HTML_Formular_IP1::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($zajemce);
     }
 
     protected function getResultFormular() {
         $aktivityProjektuTypuKurz = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
         $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
-        $kurzyPlanAssoc = Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA PROJEKTU Moje Budoucnost')
             ->assign('formAction', 'mb_plan_uc')
             ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)
-            ->assign('kurzyModels', $kurzyModelsAssoc)
-            ->assign('kurzyPlan', $kurzyPlanAssoc)
+            ->assign('kurzyModels', $kurzyModelsAssoc)   // Projektor2_Model_Db_SKurz[]
+//            ->assign('aktivityPlan', Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce, 'kurz'))  // Projektor2_Model_AktivitaPlan[]
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))
             ->assign('submitTiskIP1', array('name'=>'pdf', 'value'=>'Tiskni IP 1.část'));
         return $view;
@@ -29,14 +37,12 @@ class Projektor2_Controller_Formular_Mb_IP1 extends Projektor2_Controller_Formul
 
      protected function getResultPdf() {
         if ($this->request->post('pdf') == "Tiskni IP 1.část") {
-            $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
             $view = new Projektor2_View_PDF_Mb_IP1($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast1_aktivity';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)
                 ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
-                ->assign('znacka', $this->sessionStatus->zajemce->znacka)
-                ->assign('kurzyPlan', $kurzyPlan);
+                ->assign('znacka', $this->sessionStatus->zajemce->znacka);
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 

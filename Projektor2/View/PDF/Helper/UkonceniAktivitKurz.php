@@ -14,10 +14,10 @@
 class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF_Helper_Base {
 
     public static function createContent($pdf, $context, $caller, $dolniokrajAPaticka, $mistoDatumPodpisy) {
-        $count = count($context['kurzyPlan']);
+        $count = count($context['aktivityPlan']);
         if ($count) {
             $counter = 0;
-            foreach($context['kurzyPlan'] as $aktivita) {
+            foreach($context['aktivityPlan'] as $aktivita) {
 //                    $kurzPlan = new Projektor2_Model_KurzPlan();
                 if (isset($aktivita->sKurz) AND $aktivita->sKurz->isNaplanovan()) {
                     $counter++;

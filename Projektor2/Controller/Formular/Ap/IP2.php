@@ -29,7 +29,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
             ->assign('duvodUkonceniHelpArray', $ukonceniArray['duvodHelp'])
             ->assign('s_certifikatem', $ukonceniArray['s_certifikatem'])
             ->assign('kurzyModels', $kurzyModelsAssoc)
-            ->assign('kurzyPlan', $kurzyPlanAssoc)                
+            ->assign('aktivityPlan', $kurzyPlanAssoc)                
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))                
             ->assign('submitTiskIP2', array('name'=>'pdf', 'value'=>'Tiskni IP 2.část - vyhodnocení aktivit'))
             ->assign('submitTiskIP2Hodnoceni', array('name'=>'pdf', 'value'=>'Tiskni IP 2.část - doplnění hodnocení'))
@@ -48,7 +48,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
                 ->assign('user_name', $this->sessionStatus->user->name)
                 ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
                 ->assign('znacka', $this->sessionStatus->zajemce->znacka)
-                ->assign('kurzyPlan', $kurzyPlan)
+                ->assign('aktivityPlan', $kurzyPlan)
                 ->assign('aktivityProjektuTypuPoradenstvi', $aktivityProjektuTypuPoradenstvi);                
 //            $this->assignKurzyToPdfView($this->models['plan'], $view);
             $fileName = $this->createFileName($this->sessionStatus, $file);
@@ -68,7 +68,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
                 ->assign('user_name', $this->sessionStatus->user->name)
                 ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
                 ->assign('znacka', $this->sessionStatus->zajemce->znacka)
-                ->assign('kurzyPlan', $kurzyPlan)
+                ->assign('aktivityPlan', $kurzyPlan)
                 ->assign('aktivityProjektuTypuPoradenstvi', $aktivityProjektuTypuPoradenstvi);                
 //            $this->assignKurzyToPdfView($this->models['plan'], $view);
             $fileName = $this->createFileName($this->sessionStatus, $file);

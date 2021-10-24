@@ -27,7 +27,7 @@ class Projektor2_Controller_Formular_Sjlp_IP2 extends Projektor2_Controller_Form
             ->assign('duvodUkonceniHelpArray', $ukonceniArray['duvodHelp'])
             ->assign('s_certifikatem', $ukonceniArray['s_certifikatem'])
             ->assign('kurzyModels', $kurzyModelsAssoc)
-            ->assign('kurzyPlan', $kurzyPlanAssoc)                
+            ->assign('aktivityPlan', $kurzyPlanAssoc)                
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))                
             ->assign('submitTiskIP2', array('name'=>'pdf', 'value'=>'Tiskni IP 2.část - vyhodnocení aktivit'))
             ->assign('submitTiskUkonceni', array('name'=>'pdf', 'value'=>'Tiskni ukončení účasti'));
@@ -44,7 +44,7 @@ class Projektor2_Controller_Formular_Sjlp_IP2 extends Projektor2_Controller_Form
                 ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
                 ->assign('znacka', $this->sessionStatus->zajemce->znacka)
 //                ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)
-                ->assign('kurzyPlan', $kurzyPlan);        
+                ->assign('aktivityPlan', $kurzyPlan);        
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 

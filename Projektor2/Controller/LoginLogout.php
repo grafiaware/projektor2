@@ -5,19 +5,22 @@
  * @author pes2704
  */
 class Projektor2_Controller_LoginLogout extends Projektor2_Controller_Abstract {
-    
+
+    const LOGIN_NAME_FIELD = 'projektor_name';
+    const LOGIN_PASSWORD_FIELD = 'projektor_password';
+
     private $warning;
-    
+
     /**
-     * 
+     *
      * @return boolean True pokud je uýivatel přihlášen
      */
     private function performLoginPostActions() {
         if ($this->request->isPost()) {
             if ($this->request->get('akce') == 'login') {
-                $name = $this->request->post('name');
-                $password = $this->request->post('password');
-                $userid = Projektor2_Auth_Authentication::check_credentials($name,$password);    
+                $name = $this->request->post(self::LOGIN_NAME_FIELD);
+                $password = $this->request->post(self::LOGIN_PASSWORD_FIELD);
+                $userid = Projektor2_Auth_Authentication::check_credentials($name,$password);
                 if($userid){
                     $authCookie = new Projektor2_Auth_Cookie($this->request, $this->response, $userid);
                     $authCookie->set();
@@ -43,22 +46,22 @@ class Projektor2_Controller_LoginLogout extends Projektor2_Controller_Abstract {
                         if (!isset($loggedIn) OR $loggedIn!=TRUE) {
                             $this->warning = "Prosím vyberte projekt ke kterému se chcete přihlásit a přihlašte se znovu !";
                             $this->sessionStatus->setProjekt();
-                        }                        
+                        }
                     }
                 } else {
-                    $this->warning = "Přihlášení se nezdařilo.";       
+                    $this->warning = "Přihlášení se nezdařilo.";
                 }
             }
         }
-        return (isset($loggedIn) AND $loggedIn) ? TRUE : FALSE;        
+        return (isset($loggedIn) AND $loggedIn) ? TRUE : FALSE;
     }
-    
+
     /**
-     * 
+     *
      * @param Projektor2_Auth_Cookie $authCookie
      * @return type TRUE pokud došlo k odhlášení uživatele
      */
-    private function performLogoutPostActions() {    
+    private function performLogoutPostActions() {
         if ($this->request->isPost()) {
             if ($this->request->get('akce') == 'logout') {
                 $authCookie = $this->sessionStatus->authCookie;
@@ -69,9 +72,9 @@ class Projektor2_Controller_LoginLogout extends Projektor2_Controller_Abstract {
                 $loggedOut = TRUE;
             }
             return (isset($loggedOut) AND $loggedOut) ? TRUE : FALSE;
-        }        
+        }
     }
-    
+
     public function getResult() {
         if ($this->sessionStatus->user) {  //uživatel přihlášen
             $loggedOut = $this->performLogoutPostActions();  // POST request na logout
@@ -81,7 +84,7 @@ class Projektor2_Controller_LoginLogout extends Projektor2_Controller_Abstract {
                 // je přihlášen a neodhlásil se
                 $parts[] = $this->createLogoutView();
                 if ($this->sessionStatus->projekt) {
-                    $performContinue = TRUE;                    
+                    $performContinue = TRUE;
                 } else {
                     $performContinue = FALSE;
                 }
@@ -94,29 +97,29 @@ class Projektor2_Controller_LoginLogout extends Projektor2_Controller_Abstract {
             } else {
                 $parts[] = $this->createLoginView();
             }
-        }        
+        }
         // podmínka pro pokračování
         if (isset($performContinue) AND $performContinue===TRUE) {
             $layoutController = new Projektor2_Controller_Layout($this->sessionStatus, $this->request, $this->response);
-            $parts[] = $layoutController->getResult();        
+            $parts[] = $layoutController->getResult();
         }
         $view = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         return $view;
     }
-    
+
     private function createLoginView() {
-        $projekty = Projektor2_Model_Db_ProjektMapper::findAll(); 
-       
+        $projekty = Projektor2_Model_Db_ProjektMapper::findAll();
+
         return new Projektor2_View_HTML_Login($this->sessionStatus,
-                        array('projekty'=>$projekty, 
+                        array('projekty'=>$projekty,
                             'id_projekt'=>isset($this->sessionStatus->projekt->id) ? $this->sessionStatus->projekt->id : NULL,
                             'warning'=>$this->warning)
-                        );        
+                        );
     }
-    
+
     private function createLogoutView() {
-        $contextController = new Projektor2_Controller_ConnectionInfo($this->sessionStatus, $this->request, $this->response);      
+        $contextController = new Projektor2_Controller_ConnectionInfo($this->sessionStatus, $this->request, $this->response);
         $context['contextControllerResult'] = $contextController->getResult();
-        return new Projektor2_View_HTML_Logout($this->sessionStatus, $context);         
+        return new Projektor2_View_HTML_Logout($this->sessionStatus, $context);
     }
 }

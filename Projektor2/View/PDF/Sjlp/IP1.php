@@ -46,12 +46,12 @@ class Projektor2_View_PDF_Sjlp_IP1 extends Projektor2_View_PDF_Common {
             $blok->odsazeniZleva(0);
         $this->pdf->TiskniBlok($blok);
 
-        $count = count($this->context['kurzyPlan']);
+        $count = count($this->context['aktivityPlan']);
         $dolniokrajAPaticka = 25;
         $mistoDatumPodpisy = 60;
         if ($count) {
             $counter = 0;
-            foreach($this->context['kurzyPlan'] as $kurzPlan) {
+            foreach($this->context['aktivityPlan'] as $kurzPlan) {
 //                $kurzPlan = new Projektor2_Model_KurzPlan();
                 if ($kurzPlan->sKurz->isNaplanovan()) {
                     $counter++;

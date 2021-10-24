@@ -5,7 +5,13 @@
  * @author pes2704
  */
 class Projektor2_View_HTML_Element_Select extends Framework_View_Abstract {
-    
+
+    /**
+     * @var Projektor2_Model_Element_Select
+     */
+    private $viewModel;
+
+
     /**
      * Metoda generuje html kód elementu select.
      * Parametry očekává jako prvky pole context.
@@ -21,47 +27,47 @@ class Projektor2_View_HTML_Element_Select extends Framework_View_Abstract {
      * @return \Projektor2_View_HTML_Element_Select HTML kód select
      */
     public function render() {
-        $disabledAttribute = ((isset($this->context['readonly']) AND $this->context['readonly']) OR (isset($this->context['disabled']) AND $this->context['disabled'])) ? ' disabled="disabled" ' : ' ';
-        $requiredAttribute = (isset($this->context['required']) AND $this->context['required']) ? ' required="required" ' : ' ';
-        $onChangeCode = (isset($this->context['onChangeJsCode']) AND $this->context['onChangeJsCode']) ? ' onChange="'.$this->context['onChangeJsCode'].'"':' ';
-        $style = (isset($this->context['display']) AND $this->context['display']) ? 'style=display:'.$this->context['display']:' ';
+        $this->viewModel = $this->context['viewModel'];
+        $disabledAttribute = ($this->viewModel->getReadonly() OR $this->viewModel->getDisabled()) ? ' disabled="disabled" ' : ' ';
+        $requiredAttribute = ($this->viewModel->getRequired()) ? ' required="required" ' : ' ';
+        $onChangeCode = ($this->viewModel->getOnChangeJsCode()) ? ' onChange="'.$this->viewModel->getOnChangeJsCode().'"':' ';
+        $style = ($this->viewModel->getDisplay()) ? 'style=display:'.$this->viewModel->getDisplay() : ' ';
 
         $this->parts[] = '<select '
-                . 'id="'.$this->context['selectId'].'" '
+                . 'id="'.$this->viewModel->getSelectId().'" '
                 . 'size="1" '
-                . 'name="'.$this->context['selectName'].'" '
+                . 'name="'.$this->viewModel->getSelectName().'" '
                 .$disabledAttribute
                 .$requiredAttribute
                 .$style
                 .$onChangeCode
                 . ' >';
-        if ($this->context['valuesArray']) {
-            foreach ($this->context['valuesArray'] as $value) {
-                $this->parts[] = $this->optionCode($value);
-            }
+        foreach ($this->viewModel->getValues() as $value) {
+            $this->parts[] = $this->optionCode($value);
         }
         $this->parts[] = '</select>';
         return $this;
     }
-    
+
     private function optionCode($value) {
         $option = '<option ';
-        $contextValue = $this->context['actualValue'];
+        $contextValue = $this->viewModel->getActualValue();
         if (is_object($value)) {
-            $prop = $this->context['returnedObjectProperty'];
+            $prop = $this->viewModel->getReturnedObjectProperty();
             $valueObjectProperty = $value->$prop;
             if (isset($contextValue) AND $contextValue == $valueObjectProperty) {
                 $option .= 'selected="selected"';
             }
-            $option .= ' value="'.$valueObjectProperty.'">'.call_user_func($this->context['innerTextCallable'], $value).'</option>'; 
+            $option .= ' value="'.$valueObjectProperty.'">'.call_user_func($this->viewModel->getInnerTextCallable(), $value).'</option>';
         } else {
             if (isset($contextValue) AND $contextValue == $value) {
                 $option .= 'selected="selected"';
             }
-            if (isset($this->context['innerTextCallable'])) {
-                $option .= ' value='.$value.'>'.call_user_func($this->context['innerTextCallable'], $value).'</option>';                 
+            if ($this->viewModel->getInnerTextCallable())
+           {
+                $option .= ' value='.$value.'>'.call_user_func($this->viewModel->getInnerTextCallable(), $value).'</option>';
             } else {
-                $option .= ' value="'.$value.'">'.$value.'</option>';             
+                $option .= ' value="'.$value.'">'.$value.'</option>';
             }
         }
         return $option;

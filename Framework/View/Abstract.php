@@ -5,48 +5,48 @@
  * @author pes2704
  */
 abstract class Framework_View_Abstract implements Framework_View_Interface {
-    
+
     /**
      * Unikátní název instancí objektů zděděných z této třídy
-     * @var type 
+     * @var type
      */
     protected $viewUniqueName;
-    
+
     /**
      * Počítadlo instancí objektů zděděných z této třídy
      */
-    static $instance = 0;   
-    
+    static $instance = 0;
+
     protected $sessionStatus;
 
 
     protected $context = array();
-    
+
     protected $parts = array();
-    
+
     protected $isConvertedToString = FALSE;
 
 //    public function __construct(array $context=NULL) {
     public function __construct(Projektor2_Model_SessionStatus $sessionStatus, array $context=NULL) {
         $this->sessionStatus = $sessionStatus;
         $this->context = $context;
-        $this->viewUniqueName = get_called_class().''.++self::$instance; //název třídy s číslem instance třídy        
+        $this->viewUniqueName = get_called_class().'-'.++self::$instance; //název třídy s číslem instance třídy
     }
 
     /**
      * Metoda přidá pole zadané jako parametr k poli context.
      * @param array $appendedContext
-     */    
+     */
     public function appendContext(array $appendContext=NULL) {
         if ($this->context) {
             $this->context = array_merge($this->context, $appendContext);
         } else {
-            $this->context = $appendContext;            
+            $this->context = $appendContext;
         }
         $this->isConvertedToString = FALSE;
         return $this;
     }
-    
+
     /**
      * Metoda přídá jednu proměnnou do pole context
      * @param string $name
@@ -58,7 +58,7 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
         $this->isConvertedToString = FALSE;
         return $this;
     }
-    
+
     /**
      * Metoda umožňuje použít objekt view přímo jako proměnnou (prvek contextu) pro další view
      * @return string
@@ -66,27 +66,27 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
     public function __toString() {
         //varianta pro produkci - bez použití error handleru vyhazujícího výjimky
         $str =$this->toString();
-        
+
         // varianta pro ladění - tuto variantu je třeba použít, pokud používáš error handler vyhazující výjimky (např. v bootsstrapu).
-        // Problém je v tom, že php neumožňuje vyhazovat výjimky uvnitř metody __toString. Samozřejmě není možné vyloučit 
-        // vyhození nějaké výjimky v metodách render(). Proto je nutné zde, uvnitř metody __toString přepnout error handler na handler 
+        // Problém je v tom, že php neumožňuje vyhazovat výjimky uvnitř metody __toString. Samozřejmě není možné vyloučit
+        // vyhození nějaké výjimky v metodách render(). Proto je nutné zde, uvnitř metody __toString přepnout error handler na handler
         // nevyhazující výjimky a po renderu handler vrátit.
 //        set_error_handler(array($this, 'tostring_handler'));
 //        $render = $this->render();
 //        $str =$this->toString();
-//        restore_error_handler();      
-            
+//        restore_error_handler();
+
         return $str;
     }
 
-    
+
     public function tostring_handler($errno, $errstr, $errfile, $errline )
     {
-        // Vypisuje do výstupu (echo) a tedy jsou tyto texty odeslány před odesláním <head> z response objektu. Neumí tedy česky 
+        // Vypisuje do výstupu (echo) a tedy jsou tyto texty odeslány před odesláním <head> z response objektu. Neumí tedy česky
         // a zkazí češtinu (všechna nastavení v head) i zbytku stránky. Řešením by bylo posílat tyto výpisy do response objektu.
         echo '<p>Chyba pri vykonavani metody __toString: '.$errstr.' in: '.$errfile.' on line: '.$errline.'.</p>'.PHP_EOL;
     }
-    
+
     private function toString() {
         if (!$this->parts) {
             $render = $this->render();
@@ -103,7 +103,7 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
         $this->isConvertedToString = TRUE;
         return $str;
     }
-    
+
     /**
      * Převede pole na string. Všechny prvky pole se přetypují na string. Prvky pole mohou být proměnné libovolného typu,
      * umožňující převod na string. Pro skalární proměnné se použije výchozí typecasting php, pro prvky ostatních typů musí přetypovábí zajistit uživatel.
@@ -122,7 +122,10 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
         }
         $string =  implode(PHP_EOL, $html);
         }
+        if(!is_string($string)) {
+            $stop=1;
+        }
         return $string;
-    }    
+    }
 }
 

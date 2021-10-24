@@ -21,7 +21,7 @@ class Projektor2_Controller_Formular_Help_IP1 extends Projektor2_Controller_Form
             ->assign('formAction', 'he_plan_uc')
             ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)
             ->assign('kurzyModels', $kurzyModelsAssoc)
-            ->assign('kurzyPlan', $kurzyPlanAssoc)
+            ->assign('aktivityPlan', $kurzyPlanAssoc)
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))
             ->assign('submitTiskIP1', array('name'=>'pdf', 'value'=>'Tiskni IP 1.část'));
         return $view;
@@ -36,7 +36,7 @@ class Projektor2_Controller_Formular_Help_IP1 extends Projektor2_Controller_Form
                 ->assign('user_name', $this->sessionStatus->user->name)
                 ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
                 ->assign('znacka', $this->sessionStatus->zajemce->znacka)
-                ->assign('kurzyPlan', $kurzyPlan);
+                ->assign('aktivityPlan', $kurzyPlan);
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 

@@ -16,21 +16,21 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     protected $attributes;
     protected $changed;
     protected $primaryKeyColumnName;
-    
+
     protected $isHydrated;
     protected $isPersisted;
 
     /**
-     * Konstruktor přetěžuje rodičovský konstruktor. Musí být volán s parametrem $mainObject nebo (pro nově vytvářený main object) 
+     * Konstruktor přetěžuje rodičovský konstruktor. Musí být volán s parametrem $mainObject nebo (pro nově vytvářený main object)
      * s parametrem $mainObject=NULL a s nastaveným parametrem $mainObjectMapperClassName
      * @param string $tableName Název db tabulky
      * @param string $mainObject
-     * @param string $idColumnName Název sloupce s primárním klíčem db tabulky $table_name. Pokud parametr není zadán, 
+     * @param string $idColumnName Název sloupce s primárním klíčem db tabulky $table_name. Pokud parametr není zadán,
      *          metoda použije default hodnotu složenou z prefixu 'id_' a názvu tabulky (např. pro název tabulky 'osoba' použije !id_osoba'
      * @param string $mainObjectMapperClassName Název třídy mapperu, který vytvoří nový main object k pravě vytvářenímu objektu flat table
      * @throws UnexpectedValueException
      */
-    public function __construct($tableName, $mainObject=null, $idColumnName=NULL, $mainObjectMapperClassName=NULL) {          
+    public function __construct($tableName, $mainObject=null, $idColumnName=NULL, $mainObjectMapperClassName=NULL) {
         $this->tableName = $tableName;
         $this->idColumnName = $idColumnName;
         if ($mainObject) {
@@ -49,10 +49,10 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
 //        $query = "SHOW COLUMNS FROM ".$this->tableName;
 //        $sth = $this->dbh->prepare($query);
 //        $succ = $sth->execute();
-//        $columnsInfo = $sth->fetchAll(PDO::FETCH_ASSOC);         
+//        $columnsInfo = $sth->fetchAll(PDO::FETCH_ASSOC);
 //        foreach($columnsInfo as $columnInfo) {
 //            $this->attributes[$columnInfo['Field']] = $columnInfo['Default'];
-//            if ($columnInfo['Key']=="PRI") $this->primaryKeyColumnName = $columnInfo['Field'];        
+//            if ($columnInfo['Key']=="PRI") $this->primaryKeyColumnName = $columnInfo['Field'];
 //        }
         $this->attributes = Framework_Database_Cache::getAttributes($this->dbh, $this->tableName);
         $this->primaryKeyColumnName = Framework_Database_Cache::getPrimaryKeyName($this->dbh, $this->tableName);
@@ -66,18 +66,21 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             $this->mainObjectIdColumnName = $this->idColumnName;
         } elseif ($mainObjectClassName::TABLE) {
             $this->mainObjectIdColumnName = 'id_'.$mainObjectClassName::TABLE;
-            } else {
-                throw new LogicException("Nelze vytvořit default název primárního klíče flat table. Parametr konstruktoru \$idColumnName nebyl nastaven a hlavní objekt $this->mainObjectClassName nemá konstantu TABLE, ze které lze odvodit default hodnotu." );
-            }        
+        } else {
+            throw new LogicException("Nelze vytvořit default název primárního klíče flat table. Parametr konstruktoru \$idColumnName nebyl nastaven a hlavní objekt $this->mainObjectClassName nemá konstantu TABLE, ze které lze odvodit default hodnotu." );
+        }
     }
-    
+
     private function createNewMainObject() {
         $mapperClassName = $this->mainObjectMapperClassName;
         $mainObject = $mapperClassName::create();
-        $this->initializeMainObject($mainObject);
+        $this->initializeMainObject($mainObject);  // ukládá mainObject do $this->mainObject
+        if(!$this->mainObject->id){
+            throw new LogicException("Při pokusu o uložení flat table bez hlavního objektu se nepodařilo vytvořit nový hlavní objekt flat table nebo hlavní objekt $this->mainObjectClassName nemá id, nemohu ukládat podřízený objekt do ".$this->tableName);
+        }
         $this->isCreatedNewMainObject = TRUE;
     }
-    
+
     /**
      * Getter, vrací jen existující vlastnosti.
      * @param type $name
@@ -89,10 +92,10 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             return $this->attributes[$name];
         }
     }
-    
+
     /**
-     * Setter, přetěžuje setter rodiče. Nastavuje jen hodnoty existujících vlastností, nepřidává další vlastnosti. 
-     * V případě, že $name neodpovídá existující vlastnosti metoda jen tiše skončí. Jedinou výjimkou je pokus o nastevení vlastnosti 
+     * Setter, přetěžuje setter rodiče. Nastavuje jen hodnoty existujících vlastností, nepřidává další vlastnosti.
+     * V případě, že $name neodpovídá existující vlastnosti metoda jen tiše skončí. Jedinou výjimkou je pokus o nastevení vlastnosti
      * odpovídající id objektu, v takovém případě metoda vyhodí výjimku.
      * @param type $name
      * @param type $value
@@ -104,49 +107,57 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         if ($name == $this->primaryKeyColumnName) {
             throw new UnexpectedValueException("nelze nastavovat vlastnost $name odpovídající primárnímu klíči tabulky $this->tableName");
         }
-        if ($this->getIterator()->offsetExists($name)) {        
+        if ($this->getIterator()->offsetExists($name)) {
             $this->attributes[$name] = $value;
             $this->changed[$name] = $value;
             return $value;
         }
     }
-    
+
     public function persist() {
         assert(FALSE, 'Metoda '.__METHOD__.' není implementována.');
         return parent::persist(new Framework_Model_FlatTableMapper());
-    }  
-    
-    protected function hydrate() {
+    }
+
+    public function hydrate($data=[]) {
         if (!$this->isHydrated) {
             if(!isset($this->mainObject->id)){
                 return $this;
-//                throw new LogicException("Neexistuje hlavní objekt nebo hlavní objekt nemá id, nemohu načíst data z tabulky $this->tableName");
             } else {
-                $whereParams = array($this->mainObjectIdColumnName=>$this->mainObject->id);
-                $query = 'SELECT '.implode(', ', array_keys($this->attributes)).' FROM '.$this->tableName.$this->createWhereExpression($whereParams);                
-                $sth = $this->dbh->prepare($query);
-                $succ = $sth->execute($whereParams);
-                if ($succ) {
-                    $data = $sth->fetch(PDO::FETCH_ASSOC);  
-                    if($data) {
-                        foreach ($data as $key => $value) {  //$this->attributes = $data;
-                            $this->attributes[$key] = $value;
-                        }
-                        $this->id = $this->attributes[$this->primaryKeyColumnName];
-                        $this->isHydrated = TRUE;
-                        $this->isPersisted = TRUE;
-                    } else {
-                        $this->isHydrated = TRUE;
-                        $this->isPersisted = FALSE;                        
+                if (!$data) {
+                    $data = $this->select();
+                }
+                if($data) {
+                    foreach ($data as $key => $value) {  //$this->attributes = $data;
+                        $this->attributes[$key] = $value;
                     }
+                    $this->id = $this->attributes[$this->primaryKeyColumnName];
+                    $this->isHydrated = TRUE;
+                    $this->isPersisted = TRUE;
+                } else {
+                    $this->isHydrated = TRUE;
+                    $this->isPersisted = FALSE;
                 }
             }
         }
         return $this;
     }
-    
+
+    private function select() {
+
+        $whereParams = array($this->mainObjectIdColumnName=>$this->mainObject->id);
+        $query = 'SELECT '.implode(', ', array_keys($this->attributes)).' FROM '.$this->tableName.$this->createWhereExpression($whereParams);
+        $sth = $this->dbh->prepare($query);
+        $succ = $sth->execute($whereParams);
+        $data = [];
+        if ($succ) {
+            $data = $sth->fetch(PDO::FETCH_ASSOC);
+        }
+        return $data;
+    }
+
     /**
-     * 
+     *
      * @return \Framework_Model_ItemFlatTable
      * @throws LogicException
      * @throws UnexpectedValueException
@@ -154,9 +165,6 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     public function save() {
         if(!$this->mainObject->id){
             $this->createNewMainObject();
-            if(!$this->mainObject->id){
-                throw new LogicException("Při pokusu o uložení flat table bez hlavního objektu se nepodařilo vytvořit nový hlavní objekt flat table nebo hlavní objekt $this->mainObjectClassName nemá id, nemohu ukládat podřízený objekt do ".$this->tableName);
-            }            
         }
         if (!array_key_exists($this->mainObjectIdColumnName, $this->attributes)) {
             throw new UnexpectedValueException("Nenalezen očekávaný sloupec s názvem $this->mainObjectIdColumnName v tabulce $this->tableName");
@@ -166,18 +174,18 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         } else {
             $this->insert();
         }
-        return $this;        
+        return $this;
     }
 
     /**
-     * 
+     *
      * @throws RuntimeException
      */
     private function update() {
         if ($this->changed) {
             $set = array();
             foreach ($this->changed as $col => $value) {
-                    $set[] = $col . " = :" . $col;                    
+                    $set[] = $col . " = :" . $col;
             }
             $whereParams = array($this->primaryKeyColumnName=>$this->attributes[$this->primaryKeyColumnName]);
             $query = "UPDATE ".  $this->tableName." SET ".implode(", ", $set).$this->createWhereExpression($whereParams);
@@ -187,21 +195,21 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
                 throw new RuntimeException("Nepodařilo se provést příkaz $query.");
             }
             $this->changed = array();
-        }        
+        }
     }
 
     /**
-     * 
+     *
      * @throws RuntimeException
      */
     private function insert() {
         if ($this->changed) {
             $this->attributes[$this->mainObjectIdColumnName] = $this->mainObject->id;
             $this->changed[$this->mainObjectIdColumnName] = $this->mainObject->id;
-        
+
             $cols = implode(', ', array_keys($this->changed));
             $values = ':'.implode(', :', array_keys($this->changed));
-            $query = "INSERT INTO ".$this->tableName." (".$cols.")  VALUES (" .$values.")";   
+            $query = "INSERT INTO ".$this->tableName." (".$cols.")  VALUES (" .$values.")";
             $sth = $this->dbh->prepare($query);
             $succ = $sth->execute($this->changed);
             if (!$succ) {
@@ -212,8 +220,8 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             $this->changed = array();
             $this->isPersisted = TRUE;
         }
-    }    
-    
+    }
+
     private function createWhereExpression($whereBind, $boolOperator = "AND") {
         if($whereBind) {
             $whereConditions = array();
@@ -222,25 +230,25 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             }
             $expr = ' WHERE '.implode(" ".$boolOperator." ", $whereConditions);
         }
-        return $expr;        
-    }    
+        return $expr;
+    }
 
     public function getMainObject() {
         return $this->mainObject;
     }
-    
+
     public function isCreatedNewMainObject() {
         return $this->isCreatedNewMainObject;
     }
-    
+
     public function getTableName() {
         return $this->tableName;
     }
-    
+
     public function getPrimaryKeyColumnName() {
         return $this->primaryKeyColumnName;
     }
-    
+
     /**
      * Metoda vrací iterátor obsahující public vlastnosti objektu. Přetěžuje metodu rodiče.
      * @return \ArrayIterator
@@ -248,7 +256,7 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     public function getIterator() {
         if ($this->isPersisted !== FALSE) {
             $this->hydrate();
-        } 
-        return new ArrayIterator($this->attributes); 
+        }
+        return new ArrayIterator($this->attributes);
     }
 }

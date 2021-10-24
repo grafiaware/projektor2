@@ -5,7 +5,7 @@
  * @author pes2704
  */
 abstract class Framework_Model_ItemAbstract implements Framework_Model_ItemInterface, IteratorAggregate {
-    
+
     /**
      * Getter, vrací jen hodnoty existujících vlastnosti.
      * @param type $name
@@ -16,9 +16,9 @@ abstract class Framework_Model_ItemAbstract implements Framework_Model_ItemInter
             return $this->$name;
         }
     }
-    
+
     /**
-     * Setter, nastavuje jen hodnoty existujících vlastností, nepřidává další vlastnosti objektu. 
+     * Setter, nastavuje jen hodnoty existujících vlastností, nepřidává další vlastnosti objektu.
      * V případě, že $name neodpovídá existující vlastnosti objektu metoda jen tiše skončí.
      * @param type $name
      * @param type $value
@@ -28,7 +28,7 @@ abstract class Framework_Model_ItemAbstract implements Framework_Model_ItemInter
             $this->$name = $value;
         }
     }
-    
+
     /**
      * Metoda vrací názvy public vlastností modelu v číselně indexovaném poli.
      * @return array
@@ -40,19 +40,19 @@ abstract class Framework_Model_ItemAbstract implements Framework_Model_ItemInter
     /**
      * Metoda vrací hodnoty public vlastností modelu v číselně indexovaném poli.
      * @return array
-     */    
+     */
     public function getValues() {
-        return iterator_to_array($this->getIterator(), FALSE);
+        return array_values(iterator_to_array($this->getIterator(), FALSE));
     }
-    
+
     /**
      * Metoda vrací hodnoty a názvy public vlastností modelu jako asociativní pole.
      * @return array
-     */    
+     */
     public function getValuesAssoc() {
         return iterator_to_array($this->getIterator(), TRUE);
     }
-    
+
     /**
      * Metoda vrací iterátor obsahující vlastnosti objektu
      * @return \ArrayIterator
