@@ -16,11 +16,14 @@ Obě části IP budou podepsány poradcem i klientem. Kopie IP budou předány s
 * @author pes2704
 */
 class Projektor2_View_PDF_Mb_IP1 extends Projektor2_View_PDF_Common {
-    const MODEL_DOTAZNIK = "dotaznik->";
-    const MODEL_PLAN = "plan->";
 
     public function createPDFObject() {
-         $textPaticky = "Individuální plán účastníka v projektu „Moje budoucnost“ - část 1 - plán aktivit  ".$this->context["file"];
+        $signDotaznik = Projektor2_Controller_Formular_Base::DOTAZNIK_FT;
+        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $signPlan = Projektor2_Controller_Formular_Base::PLAN_FT;
+        $prefixPlan = $signPlan.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+
+        $textPaticky = "Individuální plán účastníka v projektu „Moje budoucnost“ - část 1 - plán aktivit  ".$this->context["file"];
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1 - plán aktivit";
         $textyNadpisu[] = 'Projekt „Moje budoucnost“';
         $this->setHeaderFooter($textPaticky);
@@ -28,7 +31,7 @@ class Projektor2_View_PDF_Mb_IP1 extends Projektor2_View_PDF_Common {
         //*****************************************************
         $this->tiskniTitul($textyNadpisu);
         //*****************************************************
-        $this->tiskniOsobniUdaje(self::MODEL_DOTAZNIK);
+        $this->tiskniOsobniUdaje();
         //********************************************************
         $blok = new Projektor2_PDF_Blok;
             $blok->Nadpis("Preambule");
@@ -51,20 +54,20 @@ class Projektor2_View_PDF_Mb_IP1 extends Projektor2_View_PDF_Common {
         $mistoDatumPodpisy = 60;
         if ($count) {
             $counter = 0;
-            foreach($this->context['aktivityPlan'] as $kurzPlan) {
-//                $kurzPlan = new Projektor2_Model_KurzPlan();
-                if ($kurzPlan->sKurz->isNaplanovan()) {
+            foreach($this->context['aktivityPlan'] as $planKurz) {
+                // aktivityPlan obsahuje všechny aktivity projektu, 
+                if (isset($planKurz->sKurz)) {
                     $counter++;
                     $yPositionBefore = $this->pdf->getY();
                     $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
                     $kurzSadaBunek->SpustSadu(true);
-                    $kurzSadaBunek->Nadpis($kurzPlan->nadpisAktivity); // prohledaz podle kurz_druh
+                    $kurzSadaBunek->Nadpis($planKurz->nadpisAktivity);
                     $kurzSadaBunek->MezeraPredNadpisem(0);
                     $kurzSadaBunek->ZarovnaniNadpisu("L");
                     $kurzSadaBunek->VyskaPismaNadpisu(11);
                     $kurzSadaBunek->MezeraPredSadouBunek(0);
-                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$kurzPlan->sKurz->kurz_nazev, 1);
-                    $kurzSadaBunek->PridejBunku("Termín konání: ",$kurzPlan->sKurz->date_zacatek.' - '.$kurzPlan->sKurz->date_konec, 1);
+                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$planKurz->sKurz->kurz_nazev, 1);
+                    $kurzSadaBunek->PridejBunku("Termín konání: ",$planKurz->sKurz->date_zacatek.' - '.$planKurz->sKurz->date_konec, 1);
                     $this->pdf->TiskniSaduBunek($kurzSadaBunek);
                     if ($counter == $count-1) {
                         $potrebneMisto = $dolniokrajAPaticka+$mistoDatumPodpisy;
@@ -83,8 +86,8 @@ class Projektor2_View_PDF_Mb_IP1 extends Projektor2_View_PDF_Common {
         }
 
         //##################################################################################################
-        $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $this->context[self::MODEL_PLAN . "datum_upravy_dok_plan"]);
-        $this->tiskniPodpisy(self::MODEL_DOTAZNIK);
+        $this->tiskniMistoDatum($this->context[$signDotaznik], $this->context[$signPlan][$prefixPlan . "datum_upravy_dok_plan"]);
+        $this->tiskniPodpisy($this->context[$signDotaznik]);
         return $this->pdf;
     }
 

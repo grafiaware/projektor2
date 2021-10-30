@@ -50,7 +50,7 @@ class Projektor2_Model_AktivityPlanMapper {
 //    }
 
     /**
-     * Vrací pole modelů Projektor2_Model_AktivitaPlan
+     * Vrací pole modelů Projektor2_Model_AktivitaPlan pro všechny aktivity projektu i nenaplánované
      *
      * @param Projektor2_Model_SessionStatus $sessionStatus
      * @param Projektor2_Model_Db_Zajemce $zajemce

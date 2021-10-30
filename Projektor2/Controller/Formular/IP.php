@@ -31,7 +31,7 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
 
     /**
      * Vytvoří asociativní pole polí Projektor2_Model_SKurz, první index je druh kurzu, druhý id SKurz.
-     * Pole je použito ve formulářích IP 
+     * Pole je použito ve formulářích IP
      *
      * @param type $kurzy
      * @return array[Projektor2_Model_SKurz[]] array of arrays of Projektor2_Model_SKurz

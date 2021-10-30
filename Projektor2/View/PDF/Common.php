@@ -77,10 +77,12 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $this->pdf->TiskniBlok($podpisy);
     }
 
-    protected function celeJmeno($modelSmlouva) {   //--vs
-        $celeJmeno = $this->context[$modelSmlouva."titul"]." ".  $this->context[$modelSmlouva ."jmeno"]." ".  $this->context[$modelSmlouva ."prijmeni"];
-        if ($this->context[$modelSmlouva ."titul_za"]) {
-            $celeJmeno = $celeJmeno.", ".  $this->context[$modelSmlouva ."titul_za"];
+    protected function celeJmeno() {
+        $signDotaznik = Projektor2_Controller_Formular_Base::DOTAZNIK_FT;
+        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $celeJmeno = $this->context[$signDotaznik][$prefixDotaznik."titul"]." ".  $this->context[$signDotaznik][$prefixDotaznik ."jmeno"]." ".  $this->context[$signDotaznik][$prefixDotaznik ."prijmeni"];
+        if ($this->context[$signDotaznik][$prefixDotaznik ."titul_za"]) {
+            $celeJmeno = $celeJmeno.", ". $this->context[$signDotaznik][$prefixDotaznik ."titul_za"];
         }
         return $celeJmeno;
     }
@@ -225,18 +227,20 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
 
 
-    protected function tiskniOsobniUdaje($modelSmlouva) {
+    protected function tiskniOsobniUdaje() {
+        $signDotaznik = Projektor2_Controller_Formular_Base::DOTAZNIK_FT;
+        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
         $osobniUdaje = new Projektor2_PDF_Blok;
         $osobniUdaje->MezeraMeziOdstavci(1.5);
         $osobniUdaje->Radkovani(1);
 
-        $osobniUdaje->Odstavec("jméno, příjmení, titul: ".$this->celeJmeno($modelSmlouva));
-        $osobniUdaje->PridejOdstavec("bydliště: ".$this->celaAdresa($this->context[$modelSmlouva."ulice"], $this->context[$modelSmlouva."mesto"], $this->context[$modelSmlouva."psc"]));
-        $celaAdresa2 = $this->celaAdresa($this->context[$modelSmlouva ."ulice2"], $this->context[$modelSmlouva."mesto2"], $this->context[$modelSmlouva ."psc2"]);
+        $osobniUdaje->Odstavec("jméno, příjmení, titul: ".$this->celeJmeno());
+        $osobniUdaje->PridejOdstavec("bydliště: ".$this->celaAdresa($this->context[$signDotaznik][$prefixDotaznik."ulice"], $this->context[$signDotaznik][$prefixDotaznik."mesto"], $this->context[$signDotaznik][$prefixDotaznik."psc"]));
+        $celaAdresa2 = $this->celaAdresa($this->context[$signDotaznik][$prefixDotaznik ."ulice2"], $this->context[$signDotaznik][$prefixDotaznik."mesto2"], $this->context[$signDotaznik][$prefixDotaznik ."psc2"]);
         if  ($celaAdresa2) {
             $osobniUdaje->PridejOdstavec("adresa dojíždění odlišná od místa bydliště: ".$celaAdresa2);
         }
-        $osobniUdaje->PridejOdstavec("nar.: " . $this->context[$modelSmlouva ."datum_narozeni"]);
+        $osobniUdaje->PridejOdstavec("nar.: " . $this->context[$signDotaznik][$prefixDotaznik ."datum_narozeni"]);
         switch ($this->sessionStatus->projekt->kod) {
             case 'AP':
                 $osobniUdaje->PridejOdstavec("identifikační číslo účastníka: ".$this->context["identifikator"]);

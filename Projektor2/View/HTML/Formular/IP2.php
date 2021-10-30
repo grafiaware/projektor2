@@ -5,15 +5,15 @@
  */
 class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
 
-    const MODEL_UKONCENI = 'ukonceni';
-    const MODEL_PLAN = 'plan';
-
     public function render() {
+        $signUkonceni = Projektor2_Controller_Formular_Base::UKONC_FT;
+        $prefixUkonceni = $signUkonceni.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+
         $requiredAttribute = ' required="required" ';
         $checkedAttribute = ' checked="checked" ';
 
-        $nameDokonceno = self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'dokonceno';
-        if ($this->context[$nameDokonceno] == 'Ano') {
+        $nameDokonceno = $prefixUkonceni.'dokonceno';
+        if ($this->context[$signUkonceni][$nameDokonceno] == 'Ano') {
             $zadanoDokoncenoAno = TRUE;
         } else {
             $zadanoDokoncenoAno = FALSE;
@@ -23,15 +23,15 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
         } else {
             $zadanoDokoncenoNe = FALSE;
         }
-        $nameDatumCertif = self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'datum_certif';
-        $nameDatumUkonceni = self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'datum_ukonceni';
+        $nameDatumCertif = $prefixUkonceni.'datum_certif';
+        $nameDatumUkonceni = $prefixUkonceni.'datum_ukonceni';
         $idBlokDuvod = 'idDuvodSelect';
-        if ($this->context[$nameDatumUkonceni]) {
+        if ($this->context[$signUkonceni][$nameDatumUkonceni]) {
             $displayBlokDuvod = 'block';
         } else {
             $displayBlokDuvod = 'none';
         }
-        $zobrazBlokUspesneNeuspesnePodporenySCertifikatem = $this->context['s_certifikatem'];
+        $zobrazBlokUspesneNeuspesnePodporenySCertifikatem = $this->context['aktivitaProjektu']['s_certifikatem'];
         $idBlokHodnoceni = 'idBlokHodnoceni';
         // blok úspěšně/neúspěšně se zobrazuje pokud je zadáno dokončeno (buď ano nebo ne)
         if ($zadanoDokoncenoAno OR $zadanoDokoncenoNe) {
@@ -57,7 +57,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                         $this->parts[] = '<input '
                             . 'type="date" name="'.$nameDatumUkonceni.'" '
                             . 'size="10" maxlength="10" '
-                            . 'value="'.$this->context[$nameDatumUkonceni].'" '
+                            . 'value="'.$this->context[$signUkonceni][$nameDatumUkonceni].'" '
                             . $requiredAttribute
                             . $disabledAttributeDatumADuvod
                             . 'onChange="showIfNotEmpty(\''.$idBlokDuvod.'\', this);" >';
@@ -66,17 +66,17 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     $this->parts[] = '<span id="'.$idBlokDuvod.'" style="display:'.$displayBlokDuvod.'">';
                         $this->parts[] = '<p>Důvod ukončení účasti v projektu:';
 //                            $viewSelect = new Projektor2_View_HTML_Element_Select($this->sessionStatus, $this->context);
-                            $name = self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'duvod_ukonceni';
+                            $name = $prefixUkonceni.'duvod_ukonceni';
 //                            $viewSelect->assign('selectId', 'ukonceni')
 //                                    ->assign('selectName', $name)
 //                                    ->assign('valuesArray', $this->context['duvodUkonceniValuesArray'])
 //                                    ->assign('actualValue', $this->context[$name])
 //                                    ->assign('disabled', $disabledDuvod)
 //                                    ->assign('required', TRUE);  //funkční jen pro prázdnou hodnotu v prvním option
-                            
-        $modelSelect = new Projektor2_Model_Element_Select($name, $this->context['duvodUkonceniValuesArray'], $this->context[$name]);
+
+        $modelSelect = new Projektor2_Model_Element_Select($name, $this->context['duvodUkonceniValuesArray'], $this->context[$signUkonceni][$name]);
         $modelSelect->setSelectId('ukonceni');
-        $modelSelect->setDisabled(true);
+        $modelSelect->setDisabled(false);
         $modelSelect->setRequired(true);
         $viewSelect = new Projektor2_View_HTML_Element_Select($this->sessionStatus);
         $viewSelect->assign('viewModel', $modelSelect);
@@ -88,10 +88,10 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                         $this->parts[] = '<p>';
                             $this->parts[] = '<input'
                                     . ' ID="popis_ukonceni"'
-                                    . ' type="text" name="'.self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'popis_ukonceni"'
+                                    . ' type="text" name="'.$prefixUkonceni.'popis_ukonceni"'
                                     . ' size="120"'
                                     . ' maxlength="120"'
-                                    . ' value="'.$this->context[self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'popis_ukonceni'].'"'
+                                    . ' value="'.$this->context[$signUkonceni][$prefixUkonceni.'popis_ukonceni'].'"'
                                     . $disabledAttributeDatumADuvod
                                     . '>';
                         $this->parts[] = '</p>';
@@ -114,7 +114,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                         }
                         $viewCertifikat->assign('idBlokCertifikat', 'idBlokCertifikat');
                         $viewCertifikat->assign('nameDatumCertif', $nameDatumCertif);
-                        $viewCertifikat->assign('valueDatumCertif', $this->context[$nameDatumCertif]);
+                        $viewCertifikat->assign('valueDatumCertif', $this->context[$signUkonceni][$nameDatumCertif]);
                         $viewCertifikat->assign('druhKurzu', 'projekt');
                         if ($zadanoDokoncenoAno) {
                             $viewCertifikat->assign('displayBlokCertifikat', 'block');
@@ -156,12 +156,12 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     if (isset($this->context['kurzyModels']) AND $this->context['kurzyModels']) {
                         foreach ($this->context['kurzyModels'] as $druhKurzu=>$sKurzyJednohoDruhu) {
                             $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);
-                            $view->assign('planPrefix', self::MODEL_PLAN)
-                                ->assign('ukonceniPrefix', self::MODEL_UKONCENI)
+                            $view->assign('planPrefix', Projektor2_Controller_Formular_Base::PLAN_KURZ)
+                                ->assign('ukonceniPrefix', Projektor2_Controller_Formular_Base::UKONC_FT)
                                 ->assign('druhKurzu', $druhKurzu)
                                 ->assign('modelsArray', $sKurzyJednohoDruhu)
                                 ->assign('returnedModelProperty', 'id')
-                                ->assign('aktivita', $this->context['aktivityProjektuTypuKurz'][$druhKurzu])
+                                ->assign('aktivitaProjektu', $this->context['aktivityProjektuTypuKurz'][$druhKurzu])
                                 ->assign('kurzPlan', $kurzyPlan[$druhKurzu])
                                 ->assign('readonly', FALSE);
                             $this->parts[] = $view;
@@ -171,9 +171,13 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     if (isset($this->context['aktivityProjektuTypuPoradenstvi']) AND $this->context['aktivityProjektuTypuPoradenstvi']) {
                         foreach ($this->context['aktivityProjektuTypuPoradenstvi'] as $druhKurzu => $aktivita) {
                             $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);
-                            $view->assign('ukonceniPrefix', self::MODEL_UKONCENI)
+                            $view->assign('planPrefix', Projektor2_Controller_Formular_Base::PLAN_KURZ)
+                                ->assign('ukonceniPrefix', Projektor2_Controller_Formular_Base::UKONC_FT)
                                 ->assign('druhKurzu', $druhKurzu)
-                                ->assign('aktivita', $this->context['aktivityProjektuTypuPoradenstvi'][$druhKurzu])
+                                ->assign('modelsArray', $sKurzyJednohoDruhu)
+                                ->assign('returnedModelProperty', 'id')
+                                ->assign('aktivitaProjektu', $this->context['aktivityProjektuTypuKurz'][$druhKurzu])
+                                ->assign('kurzPlan', $kurzyPlan[$druhKurzu])
                                 ->assign('readonly', FALSE);
                             $this->parts[] = $view;
                         }
@@ -183,25 +187,25 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     $this->parts[] = '<legend>Příloha</legend>';
                         $this->parts[] = '<p>V případě, že nebylo možné získat podpis účastníka, uveďte zde důvod:</p>';
                         $this->parts[] = '<p>';
-                            $this->parts[] = '<input ID="neni_podpis" type="text" name="'.self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'neni_podpis" size="120" maxlength="120" value="'.$this->context[self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'neni_podpis'].'">';
+                            $this->parts[] = '<input ID="neni_podpis" type="text" name="'.$prefixUkonceni.'neni_podpis" size="120" maxlength="120" value="'.$this->context[$signUkonceni][$prefixUkonceni.'neni_podpis'].'">';
                         $this->parts[] = '</p>';
                         $this->parts[] = '<p>Příloha:';
-                            $this->parts[] = '<input ID="priloha" type="text" name="'.self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'priloha" size="120" maxlength="120" value="'.$this->context[self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'priloha'].'"> (zde uveďte typ přílohy)';
+                            $this->parts[] = '<input ID="priloha" type="text" name="'.$prefixUkonceni.'priloha" size="120" maxlength="120" value="'.$this->context[$signUkonceni][$prefixUkonceni.'priloha'].'"> (zde uveďte typ přílohy)';
                         $this->parts[] = '</p>';
                 $this->parts[] = '</span>';
                 $this->parts[] = '</span>';
             $this->parts[] = '</fieldset>';
             // datumy
             $this->parts[] = '<p>Datum vytvoření:';
-                $this->parts[] = '<input ID="datum_vytvor_dok" type="date" name="'.self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'datum_vytvor_dok_ukonc" size="8" maxlength="10" value="'
-                        .$this->context[self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'datum_vytvor_dok_ukonc'].'" required >';
+                $this->parts[] = '<input ID="datum_vytvor_dok" type="date" name="'.$prefixUkonceni.'datum_vytvor_dok_ukonc" size="8" maxlength="10" value="'
+                        .$this->context[$signUkonceni][$prefixUkonceni.'datum_vytvor_dok_ukonc'].'" required >';
             $this->parts[] = '</p>';
             // submit
             $this->parts[] = '<p>';
                 $this->parts[] = isset($this->context['submitUloz']) ? '<input type="submit" value="'.$this->context['submitUloz']['value'].'" name="'.$this->context['submitUloz']['name'].'">&nbsp;&nbsp;&nbsp;</p> ' : '';
                 $this->parts[] = '<input type="reset" value="Zruš provedené změny" name="dummy">';
             $this->parts[] = '</p>';
-            if ($this->context[self::MODEL_UKONCENI.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'id_zajemce']){
+            if ($this->context[$signUkonceni][$prefixUkonceni.'id_zajemce']){
                 $this->parts[] = isset($this->context['submitTiskIP2']) ? '<p><input type="submit" value="'.$this->context['submitTiskIP2']['value'].'" name="'.$this->context['submitTiskIP2']['name'].'">&nbsp;&nbsp;&nbsp;</p> ' : '';
                 $this->parts[] = isset($this->context['submitTiskIP2Hodnoceni']) ? '<p><input type="submit" value="'.$this->context['submitTiskIP2Hodnoceni']['value'].'" name="'.$this->context['submitTiskIP2Hodnoceni']['name'].'">&nbsp;&nbsp;&nbsp;</p> ' : '';
                 $this->parts[] = isset($this->context['submitTiskUkonceni']) ? '<p><input type="submit" value="'.$this->context['submitTiskUkonceni']['value'].'" name="'.$this->context['submitTiskUkonceni']['name'].'">&nbsp;&nbsp;&nbsp;</p> ' : '';

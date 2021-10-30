@@ -9,6 +9,12 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
     const MODEL_SEPARATOR = '->';
     const ITEM_SEPARATOR = ':';
 
+    const PLAN_FT = 'planFT';
+    const DOTAZNIK_FT = 'dotaznikFT';
+    const PLAN_KURZ = 'planKurz';
+    const UKONC_FT = 'ukoncFT';
+    const ZAM_FT = 'zamFT';
+
     /**
      * Další modely formuláře, které budou naplňovány daty a ukládány po odeslání fotmuláře-
      * @var type
@@ -72,14 +78,15 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
                                 if ($transformValuesForHtml) {
                                     $value = $this->transformDatumToRfc($key, $value);
                                 }
-                                $context[
-                                     $modelSign
-                                    .Projektor2_Controller_Formular_Base::ITEM_SEPARATOR
-                                    .$itemSign
-                                    .Projektor2_Controller_Formular_Base::MODEL_SEPARATOR
-                                    .$key
+                                $context[$modelSign][$itemSign]
+                                        [
+                                         $modelSign
+                                        .Projektor2_Controller_Formular_Base::ITEM_SEPARATOR
+                                        .$itemSign
+                                        .Projektor2_Controller_Formular_Base::MODEL_SEPARATOR
+                                        .$key
                                         ] = $value;
-                            }
+                                }
                         } else {
                             throw new \LogicException("Položka kolekce modelů ". get_class($model)." s indexem $itemSign je typu ".get_class($itemModel).", není Framework_Model_ItemFlatTable.");
                         }                    }
@@ -89,7 +96,7 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
                             if ($transformValuesForHtml) {
                                 $value = $this->transformDatumToRfc($key, $value);
                             }
-                            $context[$modelSign.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$key] = $value;
+                            $context[$modelSign][$modelSign.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$key] = $value;
                         }
                     } else {
                         throw new \LogicException("Model ".get_class($model)." není Framework_Model_ItemFlatTable.");
@@ -130,9 +137,10 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
                             break;
                     }
 
-                } else {
-                    throw new \LogicException('Název post proměnné '.$key.' neodpovídá žádnému nastavenému modelu formulářového kontroleru '.get_called_class().'.');
                 }
+//                else {
+//                    throw new \LogicException('Název post proměnné '.$key.' neodpovídá žádnému nastavenému modelu formulářového kontroleru '.get_called_class().'.');
+//                }
             }
         }
     }

@@ -2009,9 +2009,26 @@ abstract class Projektor2_AppContext
     }
 
 ############# AKTIVITY PROJEKTU #############
+
+//            'zztp'=>array(
+//                'typ'=>'kurz',    // pro výběr v metode self::getAktivityProjektuTypu()
+//                'kurz_druh'=>'ZZTP',   // hodnota pro hledání v tabulce s_kurz (Projektor2_Model_Db_SKurzMapper) podle hodnot ve sloupci kurz_druh (velká písmena)
+//                'vyberovy'=> 0,   // nepoužito
+//                'nadpis'=>'Kurz základních znalostí trhu práce',
+//                's_hodnocenim' => FALSE,
+//                's_certifikatem' => TRUE,
+//                'tiskni_certifikat' => TRUE,
+//                'help'=>'Příklady známek a slovního zhodnocení Kurz základních znalostí trhu práce<br>
+//    1 = Účastník absolvoval kurz v plném rozsahu a se stoprocentní docházkou.<br>
+//    2 = Účastník úspěšně absolvoval kurz, jeho docházka byla postačující.<br>
+//    3 = Kurz účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
+//                ),
+
+
+
     /**
      * Vrací pole pro formuláře IP projektu
-     * @param type $kod
+     * @param string $kod Kód projektu
      * @return array
      * @throws UnexpectedValueException
      */

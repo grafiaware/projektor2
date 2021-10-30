@@ -9,12 +9,12 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
     public function render() {
         $modelSeparator = Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
         $itemSeparator = Projektor2_Controller_Formular_Base::ITEM_SEPARATOR;
-        $planKurzSign = Projektor2_View_HTML_Formular_IP1::PLAN_KURZ;
+        $planKurzSign = Projektor2_Controller_Formular_Base::PLAN_KURZ;
 
         $druhKurzu = $this->context['druhKurzu'];
-
+        $planKurzArray = $this->context[$planKurzSign][$druhKurzu];
         // hodnoty proměnných pro vytváření atributů při skládání tagů
-        if (isset($this->context['readonly']) AND $this->context['readonly']) {
+        if ($this->context['readonly'] ?? false) {
             // inputy jsou readonly nebo disabled, inputy pro datum jsou typu text (a readonly) a class fieldsetu pro css je "readonly"
             $readonlyAttribute = ' readonly="readonly" ';
             $disabledAttribute = ' disabled="disabled" ';
@@ -31,7 +31,7 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
 
         $planKurzPrefix = 'planKurz'.$itemSeparator.$druhKurzu.$modelSeparator;
         $nameIdSKurz = $planKurzPrefix.'id_s_kurz_FK';
-        $idSKurz = $this->context[$nameIdSKurz];
+        $idSKurz = $planKurzArray[$nameIdSKurz];
         /** @var Projektor2_Model_Db_SKurz $modelSKurz */
         $modelSKurz = $this->context['kurzyModels'][$druhKurzu][$idSKurz];
         if ($idSKurz>3) {
@@ -49,10 +49,10 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         $nameDatumCertif = $planKurzPrefix.'datum_certif';
         $nameDuvodNeukonceni = $planKurzPrefix.'duvod_neukonceni';
 
-        $zadanyAbsolvovaneHodiny = ($this->context[$namePocAbsHodin] ?? null) >0 ? TRUE : FALSE;
-        $zadanoUspesneNeuspesne = ($this->context[$nameDokonceno] ?? null) ? TRUE : FALSE;  // hodnota je "Ano" nebo "Ne", tedy zadaná hodnote -> TRUE
-        $zadanoDokoncenoAno = (($this->context[$nameDokonceno] ?? null) == 'Ano') ? TRUE:FALSE;
-        $zadanoDokoncenoNe = (($this->context[$nameDokonceno] ?? null) == 'Ne') ? TRUE : FALSE;
+        $zadanyAbsolvovaneHodiny = ($planKurzArray[$namePocAbsHodin] ?? null) >0 ? TRUE : FALSE;
+        $zadanoUspesneNeuspesne = ($planKurzArray[$nameDokonceno] ?? null) ? TRUE : FALSE;  // hodnota je "Ano" nebo "Ne", tedy zadaná hodnote -> TRUE
+        $zadanoDokoncenoAno = (($planKurzArray[$nameDokonceno] ?? null) == 'Ano') ? TRUE:FALSE;
+        $zadanoDokoncenoNe = (($planKurzArray[$nameDokonceno] ?? null) == 'Ne') ? TRUE : FALSE;
         $zobrazBlokCertifikat = ($this->context['aktivitaProjektu']['s_certifikatem'] ?? null) ? TRUE : FALSE;
         $zobrazTiskniCertifikat = ($this->context['aktivitaProjektu']['tiskni_certifikat'] ?? null) ? TRUE : FALSE;
         $zobrazTiskniCertifikatMonitoring = ($this->context['aktivitaProjektu']['tiskni_certifikat_monitoring'] ?? null) ? TRUE : FALSE;
@@ -67,7 +67,7 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         $displayBlokAbsolvovano = ($zadanyAbsolvovaneHodiny OR $zadanoUspesneNeuspesne) ? 'block':'none';
             // další bloky jsou uvnitř bloku BlokAbsolvovano
             $displayBlokPocetHodin = ($planovanyPocetHodin>0) ? 'block':'none';
-            $displayBlokDuvodAbsence = ($this->context[$nameDuvodAbsence] ?? null) ? 'block':'none';
+            $displayBlokDuvodAbsence = ($planKurzArray[$nameDuvodAbsence] ?? null) ? 'block':'none';
             $displayBlokDokonceno = (!($planovanyPocetHodin>0) OR $zadanoUspesneNeuspesne) ? 'block':'none';
         //blok certifikat
         $idBlokCertifikat = $uniqueFieldsetSign.'_certifikat';
@@ -77,8 +77,9 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         $modelSelect = new Projektor2_Model_Element_Select($nameIdSKurz, $this->context['kurzyModels'][$druhKurzu], $idSKurz, $this->context['returnedModelProperty']);
         $modelSelect->setSelectId($idSelect);
         $modelSelect->setInnerTextCallable(array($this,'text_retezec_kurz'));
-        $modelSelect->setOnChangeJsCode('submitForm(this);');// SUBMIT po ksždé změně hodnoty - je potřebný pro načtení plánovaného počtu hodin právě zvoleného kurzu
-        if ($zadanyAbsolvovaneHodiny OR $zadanoUspesneNeuspesne) {
+        $modelSelect->setOnChangeJsCode('submitForm(this);');// SUBMIT po každé změně hodnoty - je potřebný pro načtení plánovaného počtu hodin právě zvoleného kurzu
+        // $this->context['readonly'] nastyví readonly pro všechny elementy fieldsetu
+        if (($this->context['readonly'] ?? false)OR $zadanyAbsolvovaneHodiny OR $zadanoUspesneNeuspesne) {
             $modelSelect->setReadonly(true);
         }
 
@@ -112,7 +113,7 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
                     $this->parts[] = '<label>Počet absolvovaných hodin: </label>';
                     $this->parts[] = '<input type="number" pattern="\d+" min="0" max="'.$planovanyPocetHodin.'" '
                             . 'name="'.$namePocAbsHodin.'" '
-                            . 'size=8 maxlength=10 value="'.$this->context[$namePocAbsHodin].'" '
+                            . 'size=8 maxlength=10 value="'.$planKurzArray[$namePocAbsHodin].'" '
                             . $disabledAttribute
                             . ' onChange="showWithRequiredInputsIfIn(\''.$nameDuvodAbsence.'\', this, 1, '.($planovanyPocetHodin-1).');'
                             . 'showWithRequiredInputsIfGt(\''.$nameDokonceno.'\', this, 0);">';
@@ -121,7 +122,7 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
                     $this->parts[] ='<p id="'.$nameDuvodAbsence.'" style="display:'.$displayBlokDuvodAbsence.'">';
                     $this->parts[] ='<label>V případě, že neabsolvoval plný počet hodin, uveďte důvod: </label>';
                     $this->parts[] ='<input type="text" name="'.$nameDuvodAbsence.'" size=120 maxlength=120 '
-                                . 'value="'.$this->context[$nameDuvodAbsence].'" '
+                                . 'value="'.$planKurzArray[$nameDuvodAbsence].'" '
                                 . $disabledAttribute.' >'
                                 . '</input>';
                     $this->parts[] ='</p>';
@@ -169,7 +170,7 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
                 $viewCertifikat->assign('zobrazTiskniCertifikat', $zobrazTiskniCertifikat);
                 $viewCertifikat->assign('zobrazTiskniCertifikatMonitoring', $zobrazTiskniCertifikatMonitoring);
                 $viewCertifikat->assign('nameDatumCertif', $nameDatumCertif);
-                $viewCertifikat->assign('valueDatumCertif', $this->context[$nameDatumCertif]);
+                $viewCertifikat->assign('valueDatumCertif', $planKurzArray[$nameDatumCertif]);
                 $viewCertifikat->assign('druhKurzu', $druhKurzu);
                 $this->parts[] = $viewCertifikat;
             }

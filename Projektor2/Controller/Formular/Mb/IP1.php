@@ -11,13 +11,9 @@ class Projektor2_Controller_Formular_Mb_IP1 extends Projektor2_Controller_Formul
         // t.j. elementy input, textarea, select, checkbox, radiobutton.
         // Kontext je asociativní pole, indexy kontextu se ve formuláři použijí jako jména (name) proměnných formuláře a hodnoty kontextu jako hodnoty (value) proměnných formuláře.
         //
-        // pro uložení hodnot do plan FT
-        $this->models[Projektor2_View_HTML_Formular_IP1::PLAN_FT] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
-        // pro uložení hodnot do za FT
-        $this->models[Projektor2_View_HTML_Formular_IP1::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
-//        $this->models[Projektor2_View_HTML_Formular_IP1::PLAN_AKTIVITA] = Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $zajemce);
-        // pro uložení hodnot do planKurz FT
-        $this->models[Projektor2_View_HTML_Formular_IP1::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($zajemce);
+        $this->models[Projektor2_Controller_Formular_Base::PLAN_FT] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
+        $this->models[Projektor2_Controller_Formular_Base::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+        $this->models[Projektor2_Controller_Formular_Base::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($zajemce);
     }
 
     protected function getResultFormular() {
@@ -42,7 +38,9 @@ class Projektor2_Controller_Formular_Mb_IP1 extends Projektor2_Controller_Formul
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)
                 ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
-                ->assign('znacka', $this->sessionStatus->zajemce->znacka);
+                ->assign('znacka', $this->sessionStatus->zajemce->znacka)
+                ->assign('aktivityPlan', Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce))  // Projektor2_Model_AktivitaPlan[]
+                    ;
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 

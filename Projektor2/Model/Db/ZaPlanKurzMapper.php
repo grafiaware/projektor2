@@ -29,13 +29,15 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
      * Vytvoří pole objektů Projektor2_Model_Db_ZaPlanKurz z dat vybraných pro jednoho zájemce.
      *
      * @param int $id_zajemce
+     * @param int $minimalIdSKurz Default 3 - zařazen (naplánován) konkrétní kurz
      * @return Projektor2_Model_Db_ZaPlanKurz[] Pole objektů Projektor2_Model_Db_ZaPlanKurz
      */
-    public static function findAllForZajemce($id_zajemce) {
+    public static function findAllForZajemce($id_zajemce, $minimalIdSKurz = 3) {
         $dbh = Projektor2_AppContext::getDb();
-        $query = "SELECT * FROM za_plan_kurz WHERE id_zajemce=:id_zajemce ORDER BY kurz_typ_fk ASC, poradi ASC";
+        $query = "SELECT * FROM za_plan_kurz WHERE id_zajemce=:id_zajemce AND id_s_kurz_FK>:minimal_id_s_kurz_FK ORDER BY kurz_typ_fk ASC, poradi ASC";
         $sth = $dbh->prepare($query);
         $sth->bindValue(':id_zajemce', $id_zajemce);
+        $sth->bindValue('minimal_id_s_kurz_FK', $minimalIdSKurz);
         $succ = $sth->execute();
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
         if(!$rows) {

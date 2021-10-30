@@ -13,7 +13,7 @@
 class Projektor2_Controller_Formular_Mb_Smlouva extends Projektor2_Controller_Formular_Base {
 
     protected function createFormModels($zajemce) {
-        $this->models['smlouva'] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+        $this->models[Projektor2_Controller_Formular_Base::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
     }
 
     protected function getResultFormular() {

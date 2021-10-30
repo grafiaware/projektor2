@@ -10,11 +10,11 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Formular_Mb_Dotaznik extends Projektor2_Controller_Formular_Base {
+class Projektor2_Controller_Formular_Mb_Dotaznik extends Projektor2_Controller_Formular_Dotaznik {
 
 
     protected function createFormModels($zajemce) {
-        $this->models['dotaznik']= new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+        $this->models[Projektor2_Controller_Formular_Base::DOTAZNIK_FT]= new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
     }
 
     protected function getResultFormular() {
