@@ -11,8 +11,11 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         $itemSeparator = Projektor2_Controller_Formular_Base::ITEM_SEPARATOR;
         $planKurzSign = Projektor2_Controller_Formular_Base::PLAN_KURZ;
 
-        $druhKurzu = $this->context['druhKurzu'];
-        $planKurzArray = $this->context[$planKurzSign][$druhKurzu];
+        $aktivita = $this->context['aktivita'];
+        $parametryAktivity = $this->context['aktivityKurz'][$aktivita];
+        $modelyKurzu = $this->context['modelyKurzu'][$aktivita];
+        $planKurzArray = $this->context[$planKurzSign][$aktivita];
+
         // hodnoty proměnných pro vytváření atributů při skládání tagů
         if ($this->context['readonly'] ?? false) {
             // inputy jsou readonly nebo disabled, inputy pro datum jsou typu text (a readonly) a class fieldsetu pro css je "readonly"
@@ -29,11 +32,24 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         }
         $checkedAttribute = ' checked="checked" ';
 
-        $planKurzPrefix = 'planKurz'.$itemSeparator.$druhKurzu.$modelSeparator;
+        $planKurzPrefix = 'planKurz'.$itemSeparator.$aktivita.$modelSeparator;
+
+        // názvy hodnoty v contextu
+        ### povinné proměnné formuláře - musí existovat a mít nastevené neprázdné hodnoty - bez nich dojde k uložení chybných, neúplných dat do tabulky za_plan_kurz
         $nameIdSKurz = $planKurzPrefix.'id_s_kurz_FK';
+        $nameKurzDruh = $planKurzPrefix.'kurz_druh_fk';
+        $nameAktivita = $planKurzPrefix.'aktivita';
+        ### ostatní proměnné formuláře
+        $namePocAbsHodin = $planKurzPrefix.'poc_abs_hodin';
+        $nameDokonceno = $planKurzPrefix.'dokonceno';
+        $nameDuvodAbsence = $planKurzPrefix.'duvod_absence';
+        $nameDatumCertif = $planKurzPrefix.'datum_certif';
+        $nameDuvodNeukonceni = $planKurzPrefix.'duvod_neukonceni';
+
+        // hodnoty z contextu
         $idSKurz = $planKurzArray[$nameIdSKurz];
         /** @var Projektor2_Model_Db_SKurz $modelSKurz */
-        $modelSKurz = $this->context['kurzyModels'][$druhKurzu][$idSKurz];
+        $modelSKurz = $modelyKurzu[$idSKurz];
         if ($idSKurz>3) {
             $planovanyPocetHodin = $modelSKurz->pocet_hodin;
             $naplanovanKurz = true;
@@ -42,22 +58,15 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
             $naplanovanKurz = false;
         }
 
-        // názvy pro návratové hodnoty do contextu
-        $namePocAbsHodin = $planKurzPrefix.'poc_abs_hodin';
-        $nameDokonceno = $planKurzPrefix.'dokonceno';
-        $nameDuvodAbsence = $planKurzPrefix.'duvod_absence';
-        $nameDatumCertif = $planKurzPrefix.'datum_certif';
-        $nameDuvodNeukonceni = $planKurzPrefix.'duvod_neukonceni';
-
         $zadanyAbsolvovaneHodiny = ($planKurzArray[$namePocAbsHodin] ?? null) >0 ? TRUE : FALSE;
         $zadanoUspesneNeuspesne = ($planKurzArray[$nameDokonceno] ?? null) ? TRUE : FALSE;  // hodnota je "Ano" nebo "Ne", tedy zadaná hodnote -> TRUE
         $zadanoDokoncenoAno = (($planKurzArray[$nameDokonceno] ?? null) == 'Ano') ? TRUE:FALSE;
         $zadanoDokoncenoNe = (($planKurzArray[$nameDokonceno] ?? null) == 'Ne') ? TRUE : FALSE;
-        $zobrazBlokCertifikat = ($this->context['aktivitaProjektu']['s_certifikatem'] ?? null) ? TRUE : FALSE;
-        $zobrazTiskniCertifikat = ($this->context['aktivitaProjektu']['tiskni_certifikat'] ?? null) ? TRUE : FALSE;
-        $zobrazTiskniCertifikatMonitoring = ($this->context['aktivitaProjektu']['tiskni_certifikat_monitoring'] ?? null) ? TRUE : FALSE;
+        $zobrazBlokCertifikat = ($parametryAktivity['s_certifikatem'] ?? null) ? TRUE : FALSE;
+        $zobrazTiskniCertifikat = ($parametryAktivity['tiskni_certifikat'] ?? null) ? TRUE : FALSE;
+        $zobrazTiskniCertifikatMonitoring = ($parametryAktivity['tiskni_certifikat_monitoring'] ?? null) ? TRUE : FALSE;
 
-        $uniqueFieldsetSign = $druhKurzu;  // ?? je unikátní ? s pořadím
+        $uniqueFieldsetSign = $aktivita;
         $idSelect = $uniqueFieldsetSign.'_select';
         $idTlacitkoAbsolvovano = $uniqueFieldsetSign.'_tlacitko_absolvovano';
         $idUdajeAbsolvovano = $uniqueFieldsetSign.'_udaje_absolvovano';
@@ -74,13 +83,14 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
         $displayBlokCertifikat = ($zadanoDokoncenoAno) ? 'block':'none';
 
 
-        $modelSelect = new Projektor2_Model_Element_Select($nameIdSKurz, $this->context['kurzyModels'][$druhKurzu], $idSKurz, $this->context['returnedModelProperty']);
+        $modelSelect = new Projektor2_Model_Element_Select($nameIdSKurz, $modelyKurzu, $idSKurz, $this->context['returnedModelProperty']);
         $modelSelect->setSelectId($idSelect);
         $modelSelect->setInnerTextCallable(array($this,'text_retezec_kurz'));
-        $modelSelect->setOnChangeJsCode('submitForm(this);');// SUBMIT po každé změně hodnoty - je potřebný pro načtení plánovaného počtu hodin právě zvoleného kurzu
         // $this->context['readonly'] nastyví readonly pro všechny elementy fieldsetu
         if (($this->context['readonly'] ?? false)OR $zadanyAbsolvovaneHodiny OR $zadanoUspesneNeuspesne) {
             $modelSelect->setReadonly(true);
+        } else {
+            $modelSelect->setOnChangeJsCode('submitForm(this);');// SUBMIT po každé změně hodnoty - je potřebný pro načtení plánovaného počtu hodin právě zvoleného kurzu
         }
 
         $viewSelect = new Projektor2_View_HTML_Element_Select($this->sessionStatus, $this->context);
@@ -88,11 +98,15 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
 
         ####### html ############
         $this->parts[] ='<fieldset class="'.$fieldsetClass.'">';
-        $this->parts[] ='<legend>'.$this->context['aktivitaProjektu']['nadpis'].'</legend>';
+        $this->parts[] ='<legend>'.$parametryAktivity['nadpis'].'</legend>';
         $this->parts[] ='<p>';
-            $this->parts[] ='<label>'.$this->context['aktivitaProjektu']['nadpis'].': </label>';
+            $this->parts[] ='<label>'.$parametryAktivity['nadpis'].': </label>';
             $this->parts[] = $viewSelect;
-        $this->parts[] ='</p>';
+            $this->parts[] ='<input type="hidden" name="'.$nameKurzDruh.'" size=120 maxlength=120 value="'.$parametryAktivity['kurz_druh'].'" >'
+                        . '</input>';
+            $this->parts[] ='<input type="hidden" name="'.$nameAktivita.'" size=120 maxlength=120 value="'.$aktivita.'" >'
+                        . '</input>';
+            $this->parts[] ='</p>';
 
         // tlačítko zadání údajů absolvováno
         if ($displayTlacitkoAbsolvovano) {

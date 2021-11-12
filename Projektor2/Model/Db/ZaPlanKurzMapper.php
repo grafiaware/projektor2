@@ -34,7 +34,7 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
      */
     public static function findAllForZajemce($id_zajemce, $minimalIdSKurz = 3) {
         $dbh = Projektor2_AppContext::getDb();
-        $query = "SELECT * FROM za_plan_kurz WHERE id_zajemce=:id_zajemce AND id_s_kurz_FK>:minimal_id_s_kurz_FK ORDER BY kurz_typ_fk ASC, poradi ASC";
+        $query = "SELECT * FROM za_plan_kurz WHERE id_zajemce=:id_zajemce AND id_s_kurz_FK>:minimal_id_s_kurz_FK ORDER BY kurz_druh_fk ASC, aktivita ASC";
         $sth = $dbh->prepare($query);
         $sth->bindValue(':id_zajemce', $id_zajemce);
         $sth->bindValue('minimal_id_s_kurz_FK', $minimalIdSKurz);
@@ -76,8 +76,8 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
             $data['id_za_plan_kurz'],
             $data['id_zajemce'],
             $data['id_s_kurz_FK'],
-            $data['kurz_typ_fk'],
-            $data['poradi'],
+            $data['kurz_druh_fk'],
+            $data['aktivita'],
             $data['text'],
             $data['poc_abs_hodin'],
             $data['duvod_absence'],

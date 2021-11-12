@@ -15,19 +15,18 @@ class Projektor2_Controller_Formular_Mb_IP2 extends Projektor2_Controller_Formul
 
     protected function getResultFormular() {
         $aktivityProjektuTypuKurz = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
-        $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
-        
+        $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
+
         $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->projekt->kod);
 
         $view = new Projektor2_View_HTML_Formular_IP2($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'UKONČENÍ ÚČASTI V PROJEKTU A DOPLNĚNÍ IP - 2. část ÚČASTNÍKA PROJEKTU Moje Budoucnost')
             ->assign('formAction', 'mb_ukonceni_uc')
-            ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)
+            ->assign('aktivityKurz', $aktivityProjektuTypuKurz)
+            ->assign('modelyKurzu', $modelyKurzu)   // Projektor2_Model_Db_SKurz[]
             ->assign('duvodUkonceniValuesArray', $ukonceniArray['duvod'])
             ->assign('duvodUkonceniHelpArray', $ukonceniArray['duvodHelp'])
             ->assign('s_certifikatem', $ukonceniArray['s_certifikatem'])
-            ->assign('kurzyModels', $kurzyModelsAssoc)   // Projektor2_Model_Db_SKurz[]
-//            ->assign('aktivityPlan', Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce, 'kurz'))  // Projektor2_Model_AktivitaPlan[]
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))
             ->assign('submitTiskIP2', array('name'=>'pdf', 'value'=>'Tiskni IP 2.část - vyhodnocení aktivit'))
             ->assign('submitTiskUkonceni', array('name'=>'pdf', 'value'=>'Tiskni ukončení účasti'));

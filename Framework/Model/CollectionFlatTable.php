@@ -21,12 +21,13 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
     protected $attributes;
     protected $primaryKeyColumnName;
 
+    protected $mainObject;
     /**
      * Prvky kolekce
      * @var Framework_Model_ItemFlatTable
      */
-    private $item;
-    private $isHydrated;
+    private $items = [];
+    private $isHydrated = false;
 
     public function __construct($tableName, $mainObject=null, $idColumnName=NULL, $mainObjectMapperClassName=NULL) {
         $this->tableName = $tableName;
@@ -87,16 +88,27 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
             } else {
                 $data = $this->select();
                 if($data) {
-                    foreach ($data as $row) {  //$this->attributes = $data;
+                    foreach ($data as $row) {
                         $item = $this->createItem($this->mainObject);
-                        $item->hydrate($row);   // nastaví item->isHydrated, ->isPersisted
-                        $this->item[$this->provideCollectionKey($row)] = $item;
+                        $item->hydrate($row);   // nastaví item->isHydrated, NENASTAVUJE ->isPersisted
+                        $item->setPersisted(true);
+                        $this->items[$this->provideCollectionKey($row)] = $item;
                     }
                 }
                 $this->isHydrated = TRUE;
             }
         }
-        return $this;
+    }
+
+    /**
+     *
+     * @param string $collectionKey
+     * @return Framework_Model_ItemFlatTable
+     */
+    public function addItem($collectionKey) {
+        $item = $this->createItem($this->mainObject);
+        $this->items[$collectionKey] = $item;
+        return $item;
     }
 
     /**
@@ -104,7 +116,7 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
      * se jednalo v rámci kolekce o klíč unikátní.
      * @return type
      */
-    private function select() {
+    protected function select() {
 
         $whereBinds = $this->provideWhereBindParams();
         $query = 'SELECT '.implode(', ', array_keys($this->attributes)).' FROM '.$this->tableName.$this->createWhereExpression($whereBinds);
@@ -137,11 +149,22 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
     }
 
     /**
+     * Klíč (index) kolekce
      *
      * @return string
      */
     protected function provideCollectionKey($row) {
         return $row[$this->primaryKeyColumnName];
+    }
+
+    /**
+     * Hydratuje atribut item odpovídající klíči db tabulky
+     *
+     * @param type $item
+     * @param type $row
+     */
+    protected function hydrateKeyAttributes($item, $row) {
+        $item->{$this->primaryKeyColumnName} = $row[$this->primaryKeyColumnName];
     }
 
     /**
@@ -154,7 +177,8 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
         if(!$this->mainObject->id){
             $this->createNewMainObject();
         }
-        foreach ($this->item as $key => $item) {
+        foreach ($this->items as $key => $item) {
+            $item->setMainObject($this->mainObject);
             $item->save();
         }
         return $this;
@@ -166,10 +190,18 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
      * @return Framework_Model_ItemFlatTable
      */
     public function getItem($id) {
-        if ($this->isPersisted !== FALSE) {
-            $this->hydrate();
-        }
-        return array_key_exists($id, $this->item) ? $this->item[$id] : null;
+        $this->hydrate();
+        return array_key_exists($id, $this->items) ? $this->items[$id] : null;
+    }
+
+    /**
+     *
+     * @param Projektor2_Model_Db_Zajemce $zajemce
+     * @return Framework_Model_ItemFlatTable
+     * @throws LogicException
+     */
+    protected function createItem(Projektor2_Model_Db_Zajemce $zajemce) {
+        throw new LogicException("Kolekce ". get_called_class()." musí implementovat metodu createItem().");
     }
 
     /**
@@ -177,9 +209,7 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
      * @return \ArrayIterator
      */
     public function getIterator() {
-        if ($this->isPersisted !== FALSE) {
-            $this->hydrate();
-        }
-        return new ArrayIterator($this->item);
+        $this->hydrate();
+        return new ArrayIterator($this->items);
     }
 }

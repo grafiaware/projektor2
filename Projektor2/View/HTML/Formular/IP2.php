@@ -18,7 +18,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
         } else {
             $zadanoDokoncenoAno = FALSE;
         }
-        if ($this->context[$nameDokonceno] == 'Ne') {
+        if ($this->context[$signUkonceni][$nameDokonceno] == 'Ne') {
             $zadanoDokoncenoNe = TRUE;
         } else {
             $zadanoDokoncenoNe = FALSE;
@@ -153,19 +153,27 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                 $this->parts[] = '<span id="'.$idBlokHodnoceni.'" style="display:'.$displayBlokHodnoceni.'">';
                     // hodnocení kurzy
                     $kurzyPlan = $this->context['aktivityPlan'];
-                    if (isset($this->context['kurzyModels']) AND $this->context['kurzyModels']) {
-                        foreach ($this->context['kurzyModels'] as $druhKurzu=>$sKurzyJednohoDruhu) {
+                    if (isset($this->context['modelyKurzu']) AND $this->context['modelyKurzu']) {
+                        foreach (array_keys($this->context['aktivityKurz']) as $aktivita) {  // používám jen klíče - pole aktivit je v context
                             $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);
-                            $view->assign('planPrefix', Projektor2_Controller_Formular_Base::PLAN_KURZ)
+                            $view
+                                ->assign('aktivita', $aktivita)
                                 ->assign('ukonceniPrefix', Projektor2_Controller_Formular_Base::UKONC_FT)
-                                ->assign('druhKurzu', $druhKurzu)
-                                ->assign('modelsArray', $sKurzyJednohoDruhu)
-                                ->assign('returnedModelProperty', 'id')
-                                ->assign('aktivitaProjektu', $this->context['aktivityProjektuTypuKurz'][$druhKurzu])
-                                ->assign('kurzPlan', $kurzyPlan[$druhKurzu])
-                                ->assign('readonly', FALSE);
+                                ->assign('readonly', FALSE);  // pro hodnocení, kurzy fieldset jsou readonly
                             $this->parts[] = $view;
                         }
+//                        foreach ($this->context['kurzyModels'] as $druhKurzu=>$sKurzyJednohoDruhu) {
+//                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);
+//                            $view->assign('planPrefix', Projektor2_Controller_Formular_Base::PLAN_KURZ)
+//                                ->assign('ukonceniPrefix', Projektor2_Controller_Formular_Base::UKONC_FT)
+//                                ->assign('druhKurzu', $druhKurzu)
+//                                ->assign('modelsArray', $sKurzyJednohoDruhu)
+//                                ->assign('returnedModelProperty', 'id')
+//                                ->assign('aktivitaProjektu', $this->context['aktivityProjektuTypuKurz'][$druhKurzu])
+//                                ->assign('kurzPlan', $kurzyPlan[$druhKurzu])
+//                                ->assign('readonly', FALSE);
+//                            $this->parts[] = $view;
+//                        }
                     }
                     // hodnocení poradenství
                     if (isset($this->context['aktivityProjektuTypuPoradenstvi']) AND $this->context['aktivityProjektuTypuPoradenstvi']) {

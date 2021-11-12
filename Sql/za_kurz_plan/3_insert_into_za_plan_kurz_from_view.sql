@@ -10,11 +10,11 @@
 
 INSERT INTO za_plan_kurz
 (
-  `id_zajemce`,`id_s_kurz_FK`,`kurz_typ_fk`,`poradi`,`text`,`poc_abs_hodin`,`duvod_absence`,`dokonceno`,`duvod_neukonceni`,`datum_certif`
+  `id_zajemce`,`id_s_kurz_FK`,`kurz_druh_fk`,`aktivita`,`text`,`poc_abs_hodin`,`duvod_absence`,`dokonceno`,`duvod_neukonceni`,`datum_certif`
 )
 
 SELECT
-  `id_zajemce`,`id_s_kurz_FK`,`kurz_typ_fk`,`poradi`,`text`,`poc_abs_hodin`,`duvod_absence`,`dokonceno`,`duvod_neukonceni`,`datum_certif`
+  `id_zajemce`,`id_s_kurz_FK`,`kurz_druh_fk`,`aktivita`,`text`,`poc_abs_hodin`,`duvod_absence`,`dokonceno`,`duvod_neukonceni`,`datum_certif`
 FROM
   v_za_kurz
 

@@ -13,15 +13,12 @@ class Projektor2_View_HTML_Formular_IP1 extends Framework_View_Abstract {
         $this->parts[] = '<form method="POST" action="index.php?akce=form&form='.$this->context['formAction'].'" name="form_plan">';
 
 //        foreach ($this->context['kurzyModels'] as $druhKurzu=>$sKurzyJednohoDruhu) {
-        foreach (array_keys($this->context['kurzyModels']) as $druhKurzu) {
+        foreach (array_keys($this->context['aktivityKurz']) as $aktivita) {  // používám jen klíče - pole aktivit je v context
                 $view = new Projektor2_View_HTML_Element_KurzFieldset($this->sessionStatus, $this->context);
                 $view
-                    ->assign('druhKurzu', $druhKurzu)
+                    ->assign('aktivita', $aktivita)
                     ->assign('readonly', FALSE)
-//                    ->assign('aktivitaPlan', $this->context['aktivityPlan'][$druhKurzu])   // v konstruktoru už dostal všechny 'aktivityPlan' -> stačí použít druhKurzu
-//                    ->assign('modelsArray', $sKurzyJednohoDruhu)
                     ->assign('returnedModelProperty', 'id')
-                    ->assign('aktivitaProjektu', $this->context['aktivityProjektuTypuKurz'][$druhKurzu])
                         ;
                 $this->parts[] = $view;
         }

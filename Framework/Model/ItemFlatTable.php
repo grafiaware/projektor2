@@ -17,8 +17,8 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     protected $changed;
     protected $primaryKeyColumnName;
 
-    protected $isHydrated;
-    protected $isPersisted;
+    protected $isHydrated = false;
+    protected $isPersisted = false;
 
     /**
      * Konstruktor přetěžuje rodičovský konstruktor. Musí být volán s parametrem $mainObject nebo (pro nově vytvářený main object)
@@ -34,8 +34,7 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         $this->tableName = $tableName;
         $this->idColumnName = $idColumnName;
         if ($mainObject) {
-            $this->initializeMainObject($mainObject);
-            $this->isCreatedNewMainObject = FALSE;
+            $this->setMainObject($mainObject);
         } else {
             if (!$mainObjectMapperClassName) {
                 throw new UnexpectedValueException('Není zadán hlavní objekt a není zadán ani mapper pro jeho vytvoření.');
@@ -45,17 +44,13 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         }
         $this->dbh = Projektor2_AppContext::getDb();
         // jedno načtení trvá cca 10ms, bez cache se jedna struktuta (struktura jedné tabulky) čte průměrně 5x
-//        //Nacteni struktury tabulky, datovych typu a ost parametru tabulky
-//        $query = "SHOW COLUMNS FROM ".$this->tableName;
-//        $sth = $this->dbh->prepare($query);
-//        $succ = $sth->execute();
-//        $columnsInfo = $sth->fetchAll(PDO::FETCH_ASSOC);
-//        foreach($columnsInfo as $columnInfo) {
-//            $this->attributes[$columnInfo['Field']] = $columnInfo['Default'];
-//            if ($columnInfo['Key']=="PRI") $this->primaryKeyColumnName = $columnInfo['Field'];
-//        }
         $this->attributes = Framework_Database_Cache::getAttributes($this->dbh, $this->tableName);
         $this->primaryKeyColumnName = Framework_Database_Cache::getPrimaryKeyName($this->dbh, $this->tableName);
+    }
+
+    public function  setMainObject($mainObject) {
+            $this->initializeMainObject($mainObject);
+            $this->isCreatedNewMainObject = FALSE;
     }
 
     private function initializeMainObject($mainObject) {
@@ -103,7 +98,7 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
      * @throws UnexpectedValueException
      */
     public function __set($name,$value){
-        $this->hydrate();
+//        $this->hydrate();
         if ($name == $this->primaryKeyColumnName) {
             throw new UnexpectedValueException("nelze nastavovat vlastnost $name odpovídající primárnímu klíči tabulky $this->tableName");
         }
@@ -114,9 +109,8 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         }
     }
 
-    public function persist() {
-        assert(FALSE, 'Metoda '.__METHOD__.' není implementována.');
-        return parent::persist(new Framework_Model_FlatTableMapper());
+    public function setPersisted($persisted = false) {
+        $this->isPersisted = $persisted;
     }
 
     public function hydrate($data=[]) {
@@ -126,21 +120,26 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             } else {
                 if (!$data) {
                     $data = $this->select();
-                }
-                if($data) {
-                    foreach ($data as $key => $value) {  //$this->attributes = $data;
-                        $this->attributes[$key] = $value;
+                    if ($data) {
+                        $this->setAttributes($data);
+                        $this->isPersisted = TRUE;
                     }
-                    $this->id = $this->attributes[$this->primaryKeyColumnName];
-                    $this->isHydrated = TRUE;
-                    $this->isPersisted = TRUE;
                 } else {
-                    $this->isHydrated = TRUE;
-                    $this->isPersisted = FALSE;
+                    $this->setAttributes($data);
                 }
             }
+            $this->isHydrated = TRUE;
         }
         return $this;
+    }
+
+    private function setAttributes($data) {
+        foreach ($data as $key => $value) {  // nastaví jen položky,m které nebyly již měněny
+            if (!isset($this->changed[$key])) {
+                $this->attributes[$key] = $value;
+            }
+        }
+        $this->id = $this->attributes[$this->primaryKeyColumnName];
     }
 
     private function select() {
@@ -218,7 +217,8 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             $this->id = $this->dbh->lastInsertId();
             $this->attributes[$this->primaryKeyColumnName] = $this->id;
             $this->changed = array();
-            $this->isPersisted = TRUE;
+            $this->isPersisted = true;
+            $this->isHydrated = true;
         }
     }
 

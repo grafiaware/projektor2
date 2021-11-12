@@ -176,7 +176,7 @@ class Projektor2_Model_AktivityPlanMapper {
     private static function getPlanSortedAssoc($planovaneKurzy) {
         /** @var Projektor2_Model_Db_ZaPlanKurz[] $planovaneKurzy */
         foreach ($planovaneKurzy as $planKurz) {
-            $planSortedAssoc[$planKurz->kurz_typ_fk.$planKurz->poradi] = $planKurz;
+            $planSortedAssoc[$planKurz->aktivita] = $planKurz;
         }
         return $planSortedAssoc;
     }

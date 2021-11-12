@@ -2009,23 +2009,6 @@ abstract class Projektor2_AppContext
     }
 
 ############# AKTIVITY PROJEKTU #############
-
-//            'zztp'=>array(
-//                'typ'=>'kurz',    // pro výběr v metode self::getAktivityProjektuTypu()
-//                'kurz_druh'=>'ZZTP',   // hodnota pro hledání v tabulce s_kurz (Projektor2_Model_Db_SKurzMapper) podle hodnot ve sloupci kurz_druh (velká písmena)
-//                'vyberovy'=> 0,   // nepoužito
-//                'nadpis'=>'Kurz základních znalostí trhu práce',
-//                's_hodnocenim' => FALSE,
-//                's_certifikatem' => TRUE,
-//                'tiskni_certifikat' => TRUE,
-//                'help'=>'Příklady známek a slovního zhodnocení Kurz základních znalostí trhu práce<br>
-//    1 = Účastník absolvoval kurz v plném rozsahu a se stoprocentní docházkou.<br>
-//    2 = Účastník úspěšně absolvoval kurz, jeho docházka byla postačující.<br>
-//    3 = Kurz účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-//                ),
-
-
-
     /**
      * Vrací pole pro formuláře IP projektu
      * @param string $kod Kód projektu
@@ -2928,6 +2911,7 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
                 'nadpis'=>'Kurz finanční gramotnosti',
                 's_certifikatem' => TRUE,
                 'tiskni_certifikat' => TRUE,
+                's_hodnocenim' => FALSE,
                 'help'=>'Příklady známek a slovního zhodnocení Kurz finanční gramotnosti<br>
     1 = Účastník absolvoval kurz v plném rozsahu a se stoprocentní docházkou.<br>
     2 = Účastník úspěšně absolvoval kurz, jeho docházka byla postačující.<br>
@@ -3011,7 +2995,7 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
                 'nadpis'=>'Odborný kurz 1',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
+                'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
     Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
@@ -3020,7 +3004,22 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
     3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
     5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
                 ),
-            'prdi'=>array(
+            'odb2'=>array(
+                'typ'=>'kurz',
+                'nadpis'=>'Odborný kurz 2',
+                'kurz_druh'=>'ODB',
+                's_certifikatem' => TRUE,
+                'tiskni_certifikat' => TRUE,
+                's_hodnocenim' => FALSE,
+                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
+    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
+    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
+    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
+    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
+    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
+                ),
+
+        'prdi'=>array(
                 'typ'=>'kurz',
                 'nadpis'=>'Pracovní diagnostika',
                 'kurz_druh'=>'PD',

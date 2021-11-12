@@ -72,23 +72,23 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
         if ($this->models) {
             foreach ($this->models as $modelSign => $model) {
                 if ($model instanceof Framework_Model_CollectionFlatTable) {
-                    foreach ($model as $itemSign => $itemModel) {  // itemSign je primary key, itemModel je FT
-                        if ($itemModel instanceof Framework_Model_ItemFlatTable) {
-                            foreach ($itemModel as $key => $value) {
+                    foreach ($model as $collectionKey => $itemFT) {  // itemSign je primary key, itemModel je FT
+                        if ($itemFT instanceof Framework_Model_ItemFlatTable) {
+                            foreach ($itemFT as $key => $value) {
                                 if ($transformValuesForHtml) {
                                     $value = $this->transformDatumToRfc($key, $value);
                                 }
-                                $context[$modelSign][$itemSign]
+                                $context[$modelSign][$collectionKey]
                                         [
                                          $modelSign
                                         .Projektor2_Controller_Formular_Base::ITEM_SEPARATOR
-                                        .$itemSign
+                                        .$collectionKey
                                         .Projektor2_Controller_Formular_Base::MODEL_SEPARATOR
                                         .$key
                                         ] = $value;
                                 }
                         } else {
-                            throw new \LogicException("Položka kolekce modelů ". get_class($model)." s indexem $itemSign je typu ".get_class($itemModel).", není Framework_Model_ItemFlatTable.");
+                            throw new \LogicException("Položka kolekce modelů ". get_class($model)." s indexem $collectionKey je typu ".get_class($itemFT).", není Framework_Model_ItemFlatTable.");
                         }                    }
                 } else {
                     if ($model instanceof Framework_Model_ItemFlatTable) {
@@ -129,8 +129,15 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
                             $this->models[$chunks[0]]->{$chunks[1]} = $this->transformDateToCzech($chunks[1], $value);
                             break;
                         case 2:
-                            $itemFT = $this->models[$parsedChunk[0]]->getItem($parsedChunk[1]);
-                            $itemFT->{$chunks[1]} = $this->transformDateToCzech($chunks[1], $value);
+                            $collectionFT = $this->models[$parsedChunk[0]];
+                            if (isset($collectionFT)) {
+                                /** @var Framework_Model_CollectionFlatTable $collectionFT */
+                                $itemFT = $collectionFT->getItem($parsedChunk[1]);
+                                if (!isset($itemFT)) {
+                                   $itemFT = $collectionFT->addItem($parsedChunk[1]);
+                                }
+                                $itemFT->{$chunks[1]} = $this->transformDateToCzech($chunks[1], $value);
+                            }
                             break;
                         default:
                             throw new LogicException("První řetězec '$chunks[0]' v názvu post proměnné '$key' obsahujevíce než jeden separator '".Projektor2_Controller_Formular_Base::ITEM_SEPARATOR.".");

@@ -12,8 +12,8 @@ CREATE TABLE `za_plan_kurz` (
   `id_za_plan_kurz` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_zajemce` int(10) unsigned DEFAULT NULL,
   `id_s_kurz_FK` int(10) unsigned DEFAULT NULL,
-  `kurz_typ_fk` varchar(45) DEFAULT NULL,
-  `poradi` int(11) DEFAULT NULL,
+  `kurz_druh_fk` varchar(45) DEFAULT NULL,
+  `aktivita` varchar(45) DEFAULT NULL,
   `text` varchar(120) CHARACTER SET utf8 COLLATE utf8_czech_ci DEFAULT NULL,
   `poc_abs_hodin` varchar(10) DEFAULT NULL,
   `duvod_absence` varchar(120) CHARACTER SET utf8 COLLATE utf8_czech_ci DEFAULT NULL,
@@ -27,4 +27,4 @@ CREATE TABLE `za_plan_kurz` (
   KEY `za_plan_kurz_fk1` (`id_zajemce`),
   CONSTRAINT `za_plan_kurz_fk1` FOREIGN KEY (`id_zajemce`) REFERENCES `zajemce` (`id_zajemce`),
   CONSTRAINT `za_plan_kurz_fk2` FOREIGN KEY (`id_s_kurz_FK`) REFERENCES `s_kurz` (`id_s_kurz`)
-) ENGINE=InnoDB AUTO_INCREMENT=46729 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -7,6 +7,15 @@
 class Projektor2_View_HTML_Element_HodnoceniFieldset extends Framework_View_Abstract {
 
     public function render() {
+        $modelSeparator = Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $itemSeparator = Projektor2_Controller_Formular_Base::ITEM_SEPARATOR;
+        $planKurzSign = Projektor2_Controller_Formular_Base::PLAN_KURZ;
+
+        $aktivita = $this->context['aktivita'];
+        $parametryAktivity = $this->context['aktivityKurz'][$aktivita];
+        $modelyKurzu = $this->context['modelyKurzu'][$aktivita];
+        $planKurzArray = $this->context[$planKurzSign][$aktivita];
+
         $signUkonceni = Projektor2_Controller_Formular_Base::UKONC_FT;
         $prefixUkonceni = $signUkonceni.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
 
@@ -18,41 +27,40 @@ class Projektor2_View_HTML_Element_HodnoceniFieldset extends Framework_View_Abst
             $disabledAttribute = ' ';
         }
         $this->parts[] = '<fieldset>';
-        $this->parts[] = '<legend>'.$this->context['aktivitaProjektu']['nadpis'].' - hodnocení</legend>';
+        $this->parts[] ='<legend>'.$parametryAktivity['nadpis'].' - hodnocení</legend>';
         // kurz fieldset je readonly
-        if ($this->context['aktivitaProjektu']['typ']=='kurz') {
+        if ($parametryAktivity['typ']=='kurz') {
             $view = new Projektor2_View_HTML_Element_KurzFieldset($this->sessionStatus, $this->context);
+            $view->assign('returnedModelProperty', 'id');
             $view->assign('readonly', TRUE);
             $this->parts[] = $view;
         }
-        $this->parts[] = '<p>';
-            $nameZnamka = $prefixUkonceni.$this->context['druhKurzu'].'_znamka';
-            //default value je 0
-            $valueZnamka = $this->context[$signUkonceni][$nameZnamka] ?? 0;
-            $this->parts[] = '<input '
-                    . 'type="number" min=0 max=5 '
-                    . 'name="'.$nameZnamka.'" '
-                    . 'size=1 maxlength=1 '
-                    . 'value="'.$valueZnamka.'" '
-                    . $disabledAttribute.'>';
-            $this->parts[] = '<span class="help"> (zde uveďte známku hodnotící účast od 1 do 5 jako ve škole - známka je pro interní použití)</span>';
-        $this->parts[] = '</p>';
-        if (isset($this->context['aktivitaProjektu']['s_hodnocenim']) AND $this->context['aktivitaProjektu']['s_hodnocenim']) {
-            $requiredAttribute = 'required="required"';
-        } else {
-            $requiredAttribute = '';
-        }
 
-        $nameHodnoceni = $prefixUkonceni.$this->context['druhKurzu'].'_hodnoceni';
-        $this->parts[] = '<textarea '
-                . 'name="'.$nameHodnoceni.'" '
-                . 'cols=100 rows=2'
-                . $disabledAttribute.$requiredAttribute.'>'
-                . $this->context[$signUkonceni][$nameHodnoceni]
-                . '</textarea>';
-        $this->parts[] = '<p class="help"> (zde uveďte slovní hodnocení účasti - pro individuální plán)'
-                . $this->context['aktivitaProjektu']['help']
-                . '</p>';
+        if (isset($parametryAktivity['s_hodnocenim']) AND $parametryAktivity['s_hodnocenim']) {
+            $this->parts[] = '<p>';
+                $nameZnamka = $prefixUkonceni.$aktivita.'_znamka';
+                //default value je 0
+                $valueZnamka = $this->context[$signUkonceni][$nameZnamka] ?? 0;
+                $this->parts[] = '<input '
+                        . 'type="number" min=0 max=5 '
+                        . 'name="'.$nameZnamka.'" '
+                        . 'size=1 maxlength=1 '
+                        . 'value="'.$valueZnamka.'" '
+                        . $disabledAttribute.'>';
+                $this->parts[] = '<span class="help"> (zde uveďte známku hodnotící účast od 1 do 5 jako ve škole - známka je pro interní použití)</span>';
+            $this->parts[] = '</p>';
+
+            $nameHodnoceni = $prefixUkonceni.$aktivita.'_hodnoceni';
+            $this->parts[] = '<textarea '
+                    . 'name="'.$nameHodnoceni.'" '
+                    . 'cols=100 rows=2'
+                    . $disabledAttribute.'required="required"'.'>'
+                    . $this->context[$signUkonceni][$nameHodnoceni]
+                    . '</textarea>';
+            $this->parts[] = '<p class="help"> (zde uveďte slovní hodnocení účasti - pro individuální plán)'
+                    . $this->context['aktivitaProjektu']['help']
+                    . '</p>';
+        }
         $this->parts[] ='</fieldset>   ';
         return $this;
     }
