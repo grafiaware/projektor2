@@ -27,9 +27,9 @@ abstract class Projektor2_AppContext
             case 'projektor':
                 if(!isset(self::$db['projektor']) OR !isset(self::$db['projektor'])) {
                     if (self::isRunningOnProductionMachine()) {
-                        $dbh = new Framework_Database_HandlerSqlMysql_Neon();
+                        $dbh = new Projektor2_DB_Mysql_NeonProjektor2col();
                     } else {
-                        $dbh = new Framework_Database_HandlerSqlMysql_Localhost();
+                        $dbh = new Projektor2_DB_Mysql_Localhost();
                     }
                     self::$db['projektor'] = $dbh;
                 }
@@ -1610,7 +1610,7 @@ abstract class Projektor2_AppContext
      * @throws UnexpectedValueException
      */
     public static function getFileBaseFolder() {
-        $fileBaseFolder = '_ExportProjektor/';
+        $fileBaseFolder = '_ExportProjektor2col/';
         return $fileBaseFolder;
     }
     /**

@@ -254,7 +254,7 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
      * @return \ArrayIterator
      */
     public function getIterator() {
-        if ($this->isPersisted !== FALSE) {
+        if (!$this->isHydrated) {
             $this->hydrate();
         }
         return new ArrayIterator($this->attributes);

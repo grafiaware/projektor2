@@ -13,24 +13,12 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
         $checkedAttribute = ' checked="checked" ';
 
         $nameDokonceno = $prefixUkonceni.'dokonceno';
-        if ($this->context[$signUkonceni][$nameDokonceno] == 'Ano') {
-            $zadanoDokoncenoAno = TRUE;
-        } else {
-            $zadanoDokoncenoAno = FALSE;
-        }
-        if ($this->context[$signUkonceni][$nameDokonceno] == 'Ne') {
-            $zadanoDokoncenoNe = TRUE;
-        } else {
-            $zadanoDokoncenoNe = FALSE;
-        }
+        $zadanoDokoncenoAno = ($this->context[$signUkonceni][$nameDokonceno] == 'Ano');
+        $zadanoDokoncenoNe = ($this->context[$signUkonceni][$nameDokonceno] == 'Ne');
         $nameDatumCertif = $prefixUkonceni.'datum_certif';
         $nameDatumUkonceni = $prefixUkonceni.'datum_ukonceni';
         $idBlokDuvod = 'idDuvodSelect';
-        if ($this->context[$signUkonceni][$nameDatumUkonceni]) {
-            $displayBlokDuvod = 'block';
-        } else {
-            $displayBlokDuvod = 'none';
-        }
+        $displayBlokDuvod = ($this->context[$signUkonceni][$nameDatumUkonceni]) ? 'block' : 'none';
         $zobrazBlokUspesneNeuspesnePodporenySCertifikatem = $this->context['aktivitaProjektu']['s_certifikatem'];
         $idBlokHodnoceni = 'idBlokHodnoceni';
         // blok úspěšně/neúspěšně se zobrazuje pokud je zadáno dokončeno (buď ano nebo ne)

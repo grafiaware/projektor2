@@ -1,11 +1,8 @@
 <?php
-class Projektor2_DB_Mysql_Localhost extends Projektor2_DB_Mysql {
-    protected $user   = "root";
-    protected $pass   = "spravce";
-    protected $dbhost = "localhost";
-    protected $dbname = "projektor_2";
+class Projektor2_DB_Mysql_Localhost extends Framework_Database_HandlerSqlMysql {
 
-    public function __construct() { }
+    public function __construct($dbName='', $user='', $pass='', $dbHost='', $dbPort='', $charset='') {
+
+        parent::__construct("projektor_2", "root", "spravce", "localhost");
+    }
 }
-
-?>

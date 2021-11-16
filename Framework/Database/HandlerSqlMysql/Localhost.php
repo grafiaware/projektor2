@@ -5,6 +5,8 @@
 class Framework_Database_HandlerSqlMysql_Localhost extends Framework_Database_HandlerSqlMysql {
 
     public function __construct($dbName='', $user='', $pass='', $dbHost='', $dbPort='', $charset='') {
-        parent::__construct("projektor_2", "root", "spravce", "localhost");
+
+        // TOTO JE PŘÍKLAD složka s konfigurací db přopijení patří do projektu
+        //parent::__construct("projektor_2", "root", "spravce", "localhost");
     }
 }
