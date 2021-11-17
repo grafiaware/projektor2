@@ -185,7 +185,7 @@ class Projektor2_View_HTML_Element_KurzFieldset extends Framework_View_Abstract 
                 $viewCertifikat->assign('zobrazTiskniCertifikatMonitoring', $zobrazTiskniCertifikatMonitoring);
                 $viewCertifikat->assign('nameDatumCertif', $nameDatumCertif);
                 $viewCertifikat->assign('valueDatumCertif', $planKurzArray[$nameDatumCertif]);
-                $viewCertifikat->assign('druhKurzu', $druhKurzu);
+                $viewCertifikat->assign('aktivita', $aktivita);
                 $this->parts[] = $viewCertifikat;
             }
             // konec bloku certifikát

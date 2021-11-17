@@ -66,7 +66,7 @@ abstract class Projektor2_AppContext
      * @return string
      */
     public static function getLogsPath() {
-        return $_SERVER['DOCUMENT_ROOT'].'/_LogsProjektor/'; // absolutní - podsložka dovument root -> složka _LogsProjektor je v kořenovém adresáři (htdocs)
+        return $_SERVER['DOCUMENT_ROOT'].'/_LogsProjektor2col/'; // absolutní - podsložka dovument root -> složka _LogsProjektor je v kořenovém adresáři (htdocs)
     }
 
 ############# LOGO PROJEKTU #######################

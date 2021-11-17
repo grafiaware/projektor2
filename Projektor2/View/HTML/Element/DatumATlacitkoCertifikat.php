@@ -26,7 +26,7 @@ class Projektor2_View_HTML_Element_DatumATlacitkoCertifikat extends Framework_Vi
         } else {
             $displayTiskniCertifikat = 'none';
         }
-        $idTiskniCertifikat = $this->context['druhKurzu'].'_tiskni_certifikat';
+        $idTiskniCertifikat = $this->context['aktivita'].'_tiskni_certifikat';
 
         $this->parts[] = '<div id="'.$this->context['idBlokCertifikat'].'" style="display:'.$this->context['displayBlokCertifikat'].'">';
         $this->parts[] = '<p>';
@@ -45,13 +45,13 @@ class Projektor2_View_HTML_Element_DatumATlacitkoCertifikat extends Framework_Vi
         if ($zobrazTiskniCertifikat) {
             $this->parts[] ='<p id="'.$idTiskniCertifikat.'" style="display:'.$displayTiskniCertifikat.'">';
             $this->parts[] ='<button '
-                    . 'type="submit" value="Tiskni osvědčení Grafia'.$this->context['druhKurzu'].'" '
+                    . 'type="submit" value="Tiskni osvědčení Grafia'.$this->context['aktivita'].'" '
                     . 'name="pdf" '.$disabledAttribute.'>'
                     . 'Tiskni osvědčení Grafia'
                     . '</button>';
             if ($zobrazTiskniCertifikatMonitoring) {
                 $this->parts[] ='<button '
-                        . 'type="submit" value="Tiskni osvědčení pro monitoring '.$this->context['druhKurzu'].'" '
+                        . 'type="submit" value="Tiskni osvědčení pro monitoring '.$this->context['aktivita'].'" '
                         . 'name="pdf" '.$disabledAttribute.'>'
                         . 'Tiskni osvědčení pro monitoring'
                         . '</button>';
