@@ -33,15 +33,15 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
      * Vytvoří asociativní pole polí Projektor2_Model_SKurz, první index je druh kurzu, druhý id SKurz.
      * Pole je použito ve formulářích IP
      *
-     * @param type $kurzy
+     * @param type $aktivityProjektu
      * @return array[Projektor2_Model_SKurz[]] array of arrays of Projektor2_Model_SKurz
      */
-    protected function createDbSKurzModelsAssoc($kurzy) {
+    protected function createDbSKurzModelsAssoc($aktivityProjektu) {
         $DbSKurzModels = array();
-        foreach ($kurzy as $druhKurzu => $kurz) {
-            foreach ( $this->getContextSelectedDbSKurzModels($kurz['kurz_druh']) as $sKurz) {
+        foreach ($aktivityProjektu as $indexAktivity => $parametryAktivity) {
+            foreach ( $this->getContextSelectedDbSKurzModels($parametryAktivity['kurz_druh']) as $sKurz) {
                 /** @var Projektor2_Model_Db_SKurz $sKurz */
-                $DbSKurzModels[$druhKurzu][$sKurz->id] = $sKurz;
+                $DbSKurzModels[$indexAktivity][$sKurz->id] = $sKurz;
             }
         }
         return $DbSKurzModels;
