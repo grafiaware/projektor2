@@ -13,7 +13,7 @@
  */
 class Projektor2_Model_Db_Flat_ZaPlanKurzCollection extends Framework_Model_CollectionFlatTable {
 
-    const COLLECTION_KEY_ATTRIBUTE = ['aktivita'];
+    const COLLECTION_KEY_ATTRIBUTE = 'aktivita';
 
     public function __construct(Projektor2_Model_Db_Zajemce $zajemce){
         parent::__construct("za_plan_kurz",$zajemce);
@@ -28,13 +28,21 @@ class Projektor2_Model_Db_Flat_ZaPlanKurzCollection extends Framework_Model_Coll
         return new Projektor2_Model_Db_Flat_ZaPlanKurz($zajemce);
     }
 
+    /**
+     * Vrací hodnotu klíce (indexu) položky kolekce získanou z hodnot řádku dat.
+     * Kolekce NENÍ indexována podle promárního klíče tabulky!
+     *
+     * Pozn. Metoda select() kolekce čte podle id_zajemce (main object id), aktivita je pak unikátní v kolekci
+     *
+     * @param type $row
+     * @return type
+     */
     protected function provideCollectionKey($row) {
-        return implode("", array_intersect_key($row, array_flip(static::COLLECTION_KEY_ATTRIBUTE)));
+        return $row[static::COLLECTION_KEY_ATTRIBUTE];
     }
 
     protected function hydrateKeyAttributes($item, $row) {
-        foreach (static::COLLECTION_KEY_ATTRIBUTE as $field) {
-            $item->$field = $row[$field];
-        }
+        $field = static::COLLECTION_KEY_ATTRIBUTE;
+        $item->$field = $row[$field];
     }
 }

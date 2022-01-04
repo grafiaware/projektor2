@@ -27,7 +27,7 @@ abstract class Projektor2_AppContext
             case 'projektor':
                 if(!isset(self::$db['projektor']) OR !isset(self::$db['projektor'])) {
                     if (self::isRunningOnProductionMachine()) {
-                        $dbh = new Projektor2_DB_Mysql_NeonProjektor2col();
+                        $dbh = new Projektor2_DB_Mysql_NeonProjektor2();
                     } else {
                         $dbh = new Projektor2_DB_Mysql_Localhost();
                     }
@@ -66,7 +66,7 @@ abstract class Projektor2_AppContext
      * @return string
      */
     public static function getLogsPath() {
-        return $_SERVER['DOCUMENT_ROOT'].'/_LogsProjektor2col/'; // absolutní - podsložka dovument root -> složka _LogsProjektor je v kořenovém adresáři (htdocs)
+        return $_SERVER['DOCUMENT_ROOT'].'/_LogsProjektor/'; // absolutní - podsložka dovument root -> složka _LogsProjektor je v kořenovém adresáři (htdocs)
     }
 
 ############# LOGO PROJEKTU #######################
@@ -1610,7 +1610,7 @@ abstract class Projektor2_AppContext
      * @throws UnexpectedValueException
      */
     public static function getFileBaseFolder() {
-        $fileBaseFolder = '_ExportProjektor2col/';
+        $fileBaseFolder = '_ExportProjektor/';
         return $fileBaseFolder;
     }
     /**
@@ -2929,7 +2929,19 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
     3 = Účastník úspěšně absolvoval a Kurz obsluhy PC.<br>
     5 = Kurz obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
                 ),
-            'prof1'=>array(
+            'pc2'=>array(
+                'typ'=>'kurz',
+                'nadpis'=>'PC kurz doplňkový',
+                'kurz_druh'=>'PC',
+                's_certifikatem' => TRUE,
+                'tiskni_certifikat' => TRUE,
+                's_hodnocenim' => FALSE,
+                'help'=>'Příklady známek a slovního zhodnocení Kurzu obsluhy PC<br>
+    1 = Účastník Kurz obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br>
+    3 = Účastník úspěšně absolvoval a Kurz obsluhy PC.<br>
+    5 = Kurz obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
+                ),
+        'prof1'=>array(
                 'typ'=>'kurz',
                 'nadpis'=>'Rekvalifikační kurz s jazykem',
                 'kurz_druh'=>'RKJAZ',

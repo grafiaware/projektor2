@@ -83,7 +83,7 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
      */
     public function __get($name){
         $this->hydrate();
-        if ($this->getIterator()->offsetExists($name)) {
+        if(array_key_exists($name, $this->attributes)) {
             return $this->attributes[$name];
         }
     }
@@ -94,18 +94,23 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
      * odpovídající id objektu, v takovém případě metoda vyhodí výjimku.
      * @param type $name
      * @param type $value
-     * @return mixed
+     * @return void
      * @throws UnexpectedValueException
      */
     public function __set($name,$value){
-//        $this->hydrate();
+        $this->hydrate();
         if ($name == $this->primaryKeyColumnName) {
             throw new UnexpectedValueException("nelze nastavovat vlastnost $name odpovídající primárnímu klíči tabulky $this->tableName");
         }
-        if ($this->getIterator()->offsetExists($name)) {
+        if(array_key_exists($name, $this->attributes)) {
+            if (isset($this->attributes[$name])) {
+                if ($this->attributes[$name]!==$value) {
+                    $this->changed[$name] = $value;
+                }
+            } else {
+                $this->changed[$name] = $value;
+            }
             $this->attributes[$name] = $value;
-            $this->changed[$name] = $value;
-            return $value;
         }
     }
 
@@ -113,12 +118,13 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         $this->isPersisted = $persisted;
     }
 
-    public function hydrate($data=[]) {
+    public function hydrate($data=null) {
         if (!$this->isHydrated) {
-            if(!isset($this->mainObject->id)){
+            if(!isset($this->mainObject->id)){  // není mainOnject = není zapsáno v db
+                $this->isHydrated = true;
                 return $this;
             } else {
-                if (!$data) {
+                if (!isset($data)) {
                     $data = $this->select();
                     if ($data) {
                         $this->setAttributes($data);
@@ -143,8 +149,10 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     }
 
     private function select() {
+//!! tato podmínka vybírá v případě vazby 1:N (planKurz) recordset se všemi kurzy (pro kolekci) a následné fetch vrací vždy jen první položku
+//!! primární klíč v tomto případě není $this->mainObject->id
 
-        $whereParams = array($this->mainObjectIdColumnName=>$this->mainObject->id);
+    $whereParams = array($this->mainObjectIdColumnName=>$this->mainObject->id);
         $query = 'SELECT '.implode(', ', array_keys($this->attributes)).' FROM '.$this->tableName.$this->createWhereExpression($whereParams);
         $sth = $this->dbh->prepare($query);
         $succ = $sth->execute($whereParams);
@@ -162,16 +170,18 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
      * @throws UnexpectedValueException
      */
     public function save() {
-        if(!$this->mainObject->id){
-            $this->createNewMainObject();
-        }
-        if (!array_key_exists($this->mainObjectIdColumnName, $this->attributes)) {
-            throw new UnexpectedValueException("Nenalezen očekávaný sloupec s názvem $this->mainObjectIdColumnName v tabulce $this->tableName");
-        }
-        if ($this->isPersisted) {
-            $this->update();
-        } else {
-            $this->insert();
+        if($this->isHydrated) {  //isHydreted se mění na true při __get, __set, getIterator a insert - pokud item není hydrated, není třeba nic zapisovat
+            if(!$this->mainObject->id){
+                $this->createNewMainObject();
+                if (!array_key_exists($this->mainObjectIdColumnName, $this->attributes)) {
+                    throw new UnexpectedValueException("Nenalezen očekávaný sloupec pro id hlavního objektu s názvem '$this->mainObjectIdColumnName' v tabulce '$this->tableName'.");
+                }
+            }
+            if ($this->isPersisted) {
+                $this->update();
+            } else {
+                $this->insert();
+            }
         }
         return $this;
     }
@@ -202,7 +212,6 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
      * @throws RuntimeException
      */
     private function insert() {
-        if ($this->changed) {
             $this->attributes[$this->mainObjectIdColumnName] = $this->mainObject->id;
             $this->changed[$this->mainObjectIdColumnName] = $this->mainObject->id;
 
@@ -219,7 +228,6 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             $this->changed = array();
             $this->isPersisted = true;
             $this->isHydrated = true;
-        }
     }
 
     private function createWhereExpression($whereBind, $boolOperator = "AND") {

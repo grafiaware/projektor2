@@ -86,7 +86,7 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
             if(!isset($this->mainObject->id)){
                 return $this;
             } else {
-                $data = $this->select();
+                $data = $this->selectAll();
                 if($data) {
                     foreach ($data as $row) {
                         $item = $this->createItem($this->mainObject);
@@ -100,6 +100,17 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
         }
     }
 
+    ########################
+    /**
+     *
+     * @param mixed $id
+     * @return Framework_Model_ItemFlatTable
+     */
+    public function getItem($id) {
+        $this->hydrate();
+        return array_key_exists($id, $this->items) ? $this->items[$id] : null;
+    }
+
     /**
      *
      * @param string $collectionKey
@@ -107,18 +118,32 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
      */
     public function addItem($collectionKey) {
         $item = $this->createItem($this->mainObject);
+
+        $row = $this->selectOne([static::COLLECTION_KEY_ATTRIBUTE => $collectionKey]);
+        // hydratuje se i prázným polem dat - i neexistující položka musí být nastavena na isHydrated=true jinak by se ItemFlatTable pokoušel načítat data a hydratovat
+        // pozor - kdyby došlo k pokusu i hydrataci v ItemFlatTable jsou do collection item nastavena data prvního řádku resultsetu pro celou kolekci - chyba!
+        $item->hydrate($row);   // nastaví item->isHydrated, NENASTAVUJE ->isPersisted
         $this->items[$collectionKey] = $item;
+
         return $item;
     }
 
     /**
-     * Možno přetížit a tím získat jinou kolekci - může být řazena podle jiného klíče něž podle "primárního klíče". Podmínkou je, aby
-     * se jednalo v rámci kolekce o klíč unikátní.
+     *
+     * @param Projektor2_Model_Db_Zajemce $zajemce
+     * @return Framework_Model_ItemFlatTable
+     * @throws LogicException
+     */
+    protected function createItem(Projektor2_Model_Db_Zajemce $zajemce) {
+        throw new LogicException("Kolekce ". get_called_class()." musí implementovat metodu createItem().");
+    }
+    #########################
+
+    /**
      * @return type
      */
-    protected function select() {
-
-        $whereBinds = $this->provideWhereBindParams();
+    private function selectAll() {
+        $whereBinds = [$this->mainObjectIdColumnName=>$this->mainObject->id];
         $query = 'SELECT '.implode(', ', array_keys($this->attributes)).' FROM '.$this->tableName.$this->createWhereExpression($whereBinds);
         $sth = $this->dbh->prepare($query);
         $succ = $sth->execute($whereBinds);
@@ -127,6 +152,24 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
             $data = $sth->fetchAll(PDO::FETCH_ASSOC);
         }
         return $data;
+    }
+
+    /**
+     * Vrací vždy pole, pokud nenačetl žádná data, vrací prázdné pole.
+     * @param type $collectionKeyBind
+     * @return array
+     */
+    private function selectOne($collectionKeyBind) {
+        // $collectionKeyBind je dvojice k=>v odpovídající sloupci klíče položky v kolekci - pokud je zadána slouží k výběru je jedné položky kolekce
+        $whereBinds = array_merge([$this->mainObjectIdColumnName=>$this->mainObject->id], $collectionKeyBind);
+        $query = 'SELECT '.implode(', ', array_keys($this->attributes)).' FROM '.$this->tableName.$this->createWhereExpression($whereBinds);
+        $sth = $this->dbh->prepare($query);
+        $succ = $sth->execute($whereBinds);
+        $data = [];
+        if ($succ) {
+            $data = $sth->fetch(PDO::FETCH_ASSOC);
+        }
+        return ($data!==false) ? $data : [];
     }
 
     private function createWhereExpression($whereBind, $boolOperator = "AND") {
@@ -141,15 +184,7 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
     }
 
     /**
-     *
-     * @return array
-     */
-    protected function provideWhereBindParams(): array {
-        return [$this->mainObjectIdColumnName=>$this->mainObject->id];
-    }
-
-    /**
-     * Klíč (index) kolekce
+     * Klíč (index) kolekce. Metodu lze přetížit, pokud kolekce má být indexována jinak.
      *
      * @return string
      */
@@ -178,30 +213,12 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
             $this->createNewMainObject();
         }
         foreach ($this->items as $key => $item) {
-            $item->setMainObject($this->mainObject);
+            if (!$item->getMainObject()) {
+                $this->setMainObject($this->mainObject);
+            }
             $item->save();
         }
         return $this;
-    }
-
-    /**
-     *
-     * @param mixed $id
-     * @return Framework_Model_ItemFlatTable
-     */
-    public function getItem($id) {
-        $this->hydrate();
-        return array_key_exists($id, $this->items) ? $this->items[$id] : null;
-    }
-
-    /**
-     *
-     * @param Projektor2_Model_Db_Zajemce $zajemce
-     * @return Framework_Model_ItemFlatTable
-     * @throws LogicException
-     */
-    protected function createItem(Projektor2_Model_Db_Zajemce $zajemce) {
-        throw new LogicException("Kolekce ". get_called_class()." musí implementovat metodu createItem().");
     }
 
     /**
