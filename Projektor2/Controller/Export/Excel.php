@@ -53,6 +53,9 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                 case 'MB':
                     $parts[] = new Projektor2_View_HTML_Mb_Export($this->sessionStatus);
                     break;
+                case 'CJC':
+                    $parts[] = new Projektor2_View_HTML_Cjc_Export($this->sessionStatus);
+                    break;
 
                 default:
                     break;

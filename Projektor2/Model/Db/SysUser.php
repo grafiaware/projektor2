@@ -103,6 +103,8 @@ class Projektor2_Model_Db_SysUser {
     public $tl_mb_porad;
     public $tl_mb_ukon;
     public $tl_mb_zam;
+    public $tl_cj_sml;
+    public $tl_cj_souhlas;
 
    public function __construct(
             $id = NULL,
@@ -209,8 +211,10 @@ class Projektor2_Model_Db_SysUser {
             $tl_mb_plan= NULL,
             $tl_mb_porad= NULL,
             $tl_mb_ukon= NULL,
-            $tl_mb_zam= NULL
+            $tl_mb_zam= NULL,
 
+            $tl_cj_sml= NULL,
+            $tl_cj_souhlas= NULL
            )
        {
 
@@ -322,6 +326,9 @@ class Projektor2_Model_Db_SysUser {
         $this->tl_mb_porad = $tl_mb_porad;
         $this->tl_mb_ukon = $tl_mb_ukon;
         $this->tl_mb_zam = $tl_mb_zam;
+
+        $this->tl_cj_sml = $tl_cj_sml;
+        $this->tl_cj_souhlas = $tl_cj_souhlas;
         }
 
 }

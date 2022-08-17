@@ -18,7 +18,8 @@ class Projektor2_Router_Form {
 
     public function getController() {
         $form = $this->request->get('form');
-        switch ($this->sessionStatus->projekt->kod) {
+        $kodProjektu = $this->sessionStatus->projekt->kod;
+        switch ($kodProjektu) {
             case 'AGP':
                 /** AGP **/
                 switch($form) {
@@ -358,6 +359,35 @@ class Projektor2_Router_Form {
                         throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form \"'.$form.'\" v projektu '.$this->sessionStatus->projekt->kod);
                 }
                 break;
+            case 'CJC':
+                /** CJC **/
+                switch($form) {
+                    case "cj_novy_zajemce":
+                        return new Projektor2_Controller_Formular_Cjc_Smlouva($this->sessionStatus, $this->request, $this->response);
+                        break;
+                    case "cj_reg_dot":
+                        return new Projektor2_Controller_Formular_Cjc_Dotaznik($this->sessionStatus, $this->request, $this->response);
+                        break;
+                    case "cj_sml_uc":
+                        return new Projektor2_Controller_Formular_Cjc_Smlouva($this->sessionStatus, $this->request, $this->response);
+                        break;
+                    case "cj_souhlas_uc":
+                        return new Projektor2_Controller_Formular_Cjc_Souhlas($this->sessionStatus, $this->request, $this->response);
+                        break;
+                    case "cj_plan_uc":
+                        return new Projektor2_Controller_Formular_Cjc_IP1($this->sessionStatus, $this->request, $this->response);
+                        break;
+                    case "cj_ukonceni_uc":
+                        return new Projektor2_Controller_Formular_Cjc_IP2($this->sessionStatus, $this->request, $this->response);
+                        break;
+                    case "cj_zamestnani_uc":
+                        return new Projektor2_Controller_Formular_Cjc_Zamestnani($this->sessionStatus, $this->request, $this->response);
+                        break;
+                    default:
+                        throw new UnexpectedValueException("Router ".get_called_class()." - Neznámý parametr předaný routeru '$form' v projektu $kodProjektu.");
+                }
+                break;
+
 
             default:
                 throw new UnexpectedValueException('Neznámý kód projektu: '.$this->sessionStatus->projekt->kod);

@@ -5,7 +5,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Mb_Souhlas extends Projektor2_View_HTML_FormularPHP4 {
+class Projektor2_View_HTML_Cjc_Souhlas extends Projektor2_View_HTML_FormularPHP4 {
 
     /**
      * Metoda obsahuje php kod (ve stylu PHP4), který užívá PHP jako šablonovací jazyk. Na základě dat zadaných v konstruktoru
@@ -21,7 +21,7 @@ class Projektor2_View_HTML_Mb_Souhlas extends Projektor2_View_HTML_FormularPHP4 
     ?>
 <H3>SOUHLAS SE ZPRACOVÁNÍM OSOBNICH UDAJŮ V PROJEKTU Moje budoucnost</H3>
 
-<form method="POST" action="index.php?akce=form&form=mb_souhlas_uc" name="<?=$prefixDotaznik.'form_souhlas'?>">
+<form method="POST" action="index.php?akce=form&form=cj_souhlas_uc" name="<?=$prefixDotaznik.'form_souhlas'?>">
 
 <!--dále následuje původní kód-->
 

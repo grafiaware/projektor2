@@ -63,6 +63,9 @@ class Projektor2_Controller_ZobrazeniRegistraci extends Projektor2_Controller_Ab
             case "MB":
                 $menuArray = $this->getLeftMenuArrayMb();
                 break;
+            case "CJC":
+                $menuArray = $this->getLeftMenuArrayCjc();
+                break;
 
             default:
                 break;
@@ -173,6 +176,13 @@ class Projektor2_Controller_ZobrazeniRegistraci extends Projektor2_Controller_Ab
         return $menuArray;
     }
 
+    protected function getLeftMenuArrayCjc() {
+        $menuArray[] = array('href'=>'index.php?akce=form&form=cj_novy_zajemce', 'text'=>'Nová osoba');
+//        if ( ($this->sessionStatus->user->username == "sys_admin" OR $this->sessionStatus->user->username == "cj_manager" OR $this->sessionStatus->user->username == "cj_monitor")) {
+            $menuArray[] = array('href'=>'index.php?akce=export', 'text'=>'Exportuj přehled');
+//        }
+        return $menuArray;
+    }
 ###################
     public function getResult() {
         $this->sessionStatus->setZajemce();  //smazání zajemce v session

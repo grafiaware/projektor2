@@ -164,6 +164,10 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $texts = Projektor2_AppContext::getCertificateTexts($this->sessionStatus);
                 self::completeFooter( $textPaticky . $texts['financovan'], $cislovani);
                 break;
+            case 'CJC':
+                self::completeHeader( "./img/loga/cestina.gif", 0, 5, 165,26 );
+                self::completeFooter( $textPaticky , $cislovani);
+                break;
             default:
                 throw new RuntimeException('Nepodarilo se vytvorit pdf - nanastaveno HeaderFooter pro projekt.');
                 break;
@@ -207,6 +211,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'RP':
             case 'VDTP':
             case 'PDU':
+            case 'CJC':
                 $grafia->PridejOdstavec("jako dodavatel (dále jen „Dodavatel“)");
                 break;
             case 'HELP':
@@ -263,6 +268,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'VDTP':
             case 'PDU':
             case 'MB':
+            case 'CJC':
                 $osobniUdaje->PridejOdstavec("identifikační číslo účastníka: ".$this->context["identifikator"]);
                 $osobniUdaje->PridejOdstavec("(dále jen „Účastník“)");
                 break;
@@ -284,6 +290,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'RP':
             case 'VDTP':
             case 'PDU':
+            case 'CJC':
                 $podpisy->PridejBunku("Účastník:", '', FALSE, 100);
                 $podpisy->PridejBunku("Dodavatel:","",TRUE);
                 break;
@@ -335,6 +342,9 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'MB':
                 $podpisy->PridejBunku("poradce projektu","",TRUE);
                 break;
+            case 'CJC':
+                $podpisy->PridejBunku("pracovník sekce vzdělávání","",TRUE);
+                break;
             default:
                 throw new RuntimeException('Nepodarilo se vytvorit pdf - neosetrene Podpisy ');
                 break;
@@ -380,6 +390,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'VDTP':
             case 'PDU':
             case 'MB':
+            case 'CJC':
                 $podpisy = new Projektor2_PDF_SadaBunek();
                 $podpisy->PridejBunku('', '', FALSE, 110);
                 $podpisy->PridejBunku("Účastník:", '',TRUE);
@@ -445,6 +456,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'SJPO':
             case 'SJLP':
             case 'MB':
+            case 'CJC':
                 $mistoDatum = new Projektor2_PDF_SadaBunek();
                 $mistoDatum->MezeraPredSadouBunek(6);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);  //odsazeni zleva
@@ -464,14 +476,13 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 
     protected function tiskniMistoDatumPms($modelSmlouva, $datum) {
         switch ($this->sessionStatus->projekt->kod) {
-
+            // jen pro PMS
             case 'VZP':
             case 'ZPM':
             case 'SPP':
             case 'RP':
             case 'VDTP':
             case 'PDU':
-            case 'MB':
                 $mistoDatum = new Projektor2_PDF_SadaBunek();
                 $mistoDatum->MezeraPredSadouBunek(8);
 //                $mistoDatum->PridejBunku('', '', FALSE, 0);  //odsazeni zleva

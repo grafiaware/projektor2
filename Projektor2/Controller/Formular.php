@@ -52,6 +52,7 @@ class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
             case "VDTP":
             case "PDU":
             case "MB":
+            case "CJC":
                 $menuArray = $this->getLeftMenuArrayUni();
                 break;
             default:

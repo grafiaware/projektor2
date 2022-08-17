@@ -163,6 +163,12 @@ abstract class Projektor2_AppContext
                 $context['src'] = "logo_Moje_Budoucnost.png";
                 $context['alt'] = "Logo projektu Moje Budoucnost.";
                 break;
+            case "CJC":
+                $context['nadpis'] = 'ČEŠTINA PRO CIZINCE';
+                $context['src'] = "cestina.gif";
+                $context['alt'] = "Logo Čeština pro cizince.";
+                break;
+
             default:
                 $context['nadpis'] = 'PROJEKT DOSUD NEBYL PLNĚ NASTAVEN';
                 $context['src'] = "logo_Projektu.png";
@@ -1317,6 +1323,102 @@ abstract class Projektor2_AppContext
                     $skupina->setMenuSignal('zamestnani', $modelSignal);
                 }
                 break;
+            case 'CJC':
+                 // skupina dotaznik
+                $skupina = new Projektor2_Model_Menu_Skupina();
+                //smlouva
+                if ($user->tl_mb_sml) {
+                    $modelTlacitko = new Projektor2_Model_Menu_Tlacitko();
+                    $modelTlacitko->form = 'cj_sml_uc';
+                    $modelTlacitko->text = 'Smlouva';
+                    $modelTlacitko->title = 'Úprava údajů smlouvy';
+                    $modelTlacitko->status = 'edit';
+                    $skupina->setMenuTlacitko('tl_cj_sml', $modelTlacitko);
+                }
+                //souhlas se zpracováním osobních údajů
+                if ($user->tl_mb_souhlas) {
+                    $modelTlacitko = new Projektor2_Model_Menu_Tlacitko();
+                    $modelTlacitko->form = 'cj_souhlas_uc';
+                    $modelTlacitko->text = 'Souhlas';
+                    $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
+                    $modelTlacitko->status = 'print';
+                    $skupina->setMenuTlacitko('tl_cj_souhlas', $modelTlacitko);
+                }
+                //dotazník
+                if ($user->tl_mb_dot) {
+                    $modelTlacitko = new Projektor2_Model_Menu_Tlacitko();
+                    $modelTlacitko->form = 'cj_reg_dot';
+                    $modelTlacitko->text = 'Dotazník';
+                    $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
+                    $modelTlacitko->status = 'edit';
+                    $skupina->setMenuTlacitko('cj_mb_dot', $modelTlacitko);
+                }
+                if (count($skupina->getMenuTlacitkaAssoc())) {
+                    $zajemceRegistrace->setSkupina('dotaznik', $skupina);
+                }
+
+                // skupina plan
+                $skupina = new Projektor2_Model_Menu_Skupina();
+                //plán
+                if ($user->tl_mb_plan) {
+                    $modelTlacitko = new Projektor2_Model_Menu_Tlacitko();
+                    $modelTlacitko->form = 'cj_plan_uc';
+                    $modelTlacitko->text = 'Plán kurzů';
+                    $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
+                    $modelTlacitko->status = 'edit';
+                    $skupina->setMenuTlacitko('cj_mb_plan', $modelTlacitko);
+                }
+                if (count($skupina->getMenuTlacitkaAssoc())) {
+                    $zajemceRegistrace->setSkupina('plan', $skupina);
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    if ($kolekceAktivityPlan) {
+                        foreach ($kolekceAktivityPlan as $aktivitaPlan) {
+//                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
+                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal->setByAktivitaPlan($aktivitaPlan);
+                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                        }
+                    }
+                }
+                // skupina ukonceni
+                $skupina = new Projektor2_Model_Menu_Skupina();
+                //ukončení
+                if ($user->tl_mb_ukon) {
+                    $modelTlacitko = new Projektor2_Model_Menu_Tlacitko();
+                    $modelTlacitko->form = 'cj_ukonceni_uc';
+                    $modelTlacitko->text = 'Ukončení a IP2';
+                    $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
+                    $modelTlacitko->status = 'edit';
+                    $skupina->setMenuTlacitko('cj_mb_ukon', $modelTlacitko);
+                }
+//                if (count($skupina->getMenuTlacitkaAssoc())) {
+//                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
+//                }
+                if (count($skupina->getMenuTlacitkaAssoc())) {
+                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
+                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                }
+                // skupina zamestnani
+                $skupina = new Projektor2_Model_Menu_Skupina();
+                //zaměstnání
+                if ($user->tl_mb_zam) {
+                    $modelTlacitko = new Projektor2_Model_Menu_Tlacitko();
+                    $modelTlacitko->form = 'cj_zamestnani_uc';
+                    $modelTlacitko->text = 'Zaměstnání';
+                    $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
+                    $modelTlacitko->status = 'edit';
+                    $skupina->setMenuTlacitko('cj_mb_zam', $modelTlacitko);
+                }
+                if (count($skupina->getMenuTlacitkaAssoc())) {
+                    $zajemceRegistrace->setSkupina('zamestnani', $skupina);
+                    $modelSignal = new Projektor2_Model_Menu_Signal_Zamestnani();
+                    $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
+                    $skupina->setMenuSignal('zamestnani', $modelSignal);
+                }
+                break;
+
             default:
                     throw new UnexpectedValueException('Nelze nastavit tlačítka. Neznámý kód projektu '.$kod);
                 break;
@@ -1448,6 +1550,14 @@ abstract class Projektor2_AppContext
                 $texts['financovan'] = "\nProjekt Rozvoj nabídky služeb zaměstnosti Moje budoucnost CZ.03.1.48/0.0/0.0/16_045/0015019 je financován z Evropského "
                                     . "sociálního fondu prostřednictvím OPZ a ze státního rozpočtu ČR.";    // DOPLNIT
                 break;
+        ######## MB MOJE BUDOUCNOST #################
+            case 'CJC':
+                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerPosition'] = 'pracovník sekce vzdělávání';
+                $texts['v_projektu'] = 'v programu „Čeština pro cizince“';
+                $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu „Čeština pro cizince“ ";
+                $texts['financovan'] = "\n";    // DOPLNIT
+                break;
 
             default:
                 throw new UnexpectedValueException('Nejsou definovány texty pro certifikát v projektu '.$kod.'.');
@@ -1467,6 +1577,7 @@ abstract class Projektor2_AppContext
             case 'SJPO':
             case 'SJLP':
             case 'MB':
+            case 'CJC':
                 $filePath = "img/pozadi/pozadi_osvedceni.png";   // pozadi.jpg je bez log, zobrazuje se niže na stránce, loga jsou v hlavičce
                 break;
 
@@ -1505,6 +1616,7 @@ abstract class Projektor2_AppContext
             case 'VDTP':
             case 'PDU':
             case 'MB':
+            case 'MB':
                 // jedno pozadí - stejné jako originál (bez podpisu)
                 $filePath = self::getCertificateOriginalBackgroundImageFilepath($sessionStatus);
                 break;
@@ -1527,6 +1639,7 @@ abstract class Projektor2_AppContext
             case 'SJLP':
             case 'VDTP':
             case 'PDU':
+            case 'MB':
             case 'MB':
                 // jedno pozadí
                 $filePath = "img/pozadi/pozadi_osvedceni_pms.png";   // parte rámeček
@@ -1672,6 +1785,10 @@ abstract class Projektor2_AppContext
        ######## MB #################
             case 'MB':
                 return 'MB/';
+                break;
+       ######## CJC #################
+            case 'CJC':
+                return 'CJC/';
                 break;
             default:
                 throw new UnexpectedValueException('Není definována cesta pro dokumenty projektu '.$kod);
@@ -1972,6 +2089,28 @@ abstract class Projektor2_AppContext
                 break;
         ######## MB #################
             case 'MB':
+                return array(
+                    'duvod'=>array(
+                        '',     //první položka prázdná - select je required
+                        '1 | Řádné absolvování programu',
+                        '2a | Nástupem do pracovního poměru',
+                        '2b | Výpovědí nebo jiným ukončení programu ze strany účastníka',
+                        '3a | Pro porušování podmínek účasti v programu',
+                        '3b | Na základě podnětu ÚP'
+                        ),
+                    'duvodHelp' => array(
+                        '1. řádné absolvování vzdělávacího programu',
+                        '2. předčasným ukončením účasti ze strany účastníka',
+                                '&nbsp;&nbsp;a.      dnem předcházejícím nástupu účastníka do pracovního poměru (ve výjimečných případech může být dohodnuto jinak)',
+                                '&nbsp;&nbsp;b.      výpovědí dohody o účasti v projektu účastníkem nebo ukončením dohody z jiného důvodu než nástupu do zaměstnání (ukončení bude dnem, kdy byla výpověď doručena zástupci dodavatele)',
+                                '3. předčasným ukončením účasti ze strany dodavatele',
+                                '&nbsp;&nbsp;a.       pokud účastník porušuje podmínky účasti v projektu, neplní své povinnosti při účasti na aktivitách projektu (zejména na rekvalifikaci) nebo jiným závažným způsobem maří účel účasti v projektu',
+                                '&nbsp;&nbsp;b.       ve výjimečných případech na základě podnětu vysílajícího ÚP, např. při sankčním vyřazení z evidence ÚP (ukončení bude v pracovní den předcházející dni vzniku důvodu ukončení)'
+                        ),
+                    's_certifikatem'=>FALSE
+                    );
+                break;
+            case 'CJC':
                 return array(
                     'duvod'=>array(
                         '',     //první položka prázdná - select je required
@@ -3092,7 +3231,44 @@ Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a prov
     5 = Vzhledem ke zkušenostem z jednání a konzultací s účastníkem lze konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Možnost uplatnění účastníka je tedy na trhu práce poněkud omezená, zřejmě by potřeboval intenzivní pomoc konzultantů Úřadu práce.<br>'),
             );
                 break;
+        ######## ČEŠTINA PRO CIZINCE #################
+            case 'CJC':
 
+    $aktivity = [
+
+        'prof1'=> [
+                'typ'=>'kurz',
+                'nadpis'=>'Český jazyk pro cizince A1',
+                'kurz_druh'=>'RKJAZ',
+                's_certifikatem' => TRUE,
+                'tiskni_certifikat' => TRUE,
+                's_hodnocenim' => FALSE,
+                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
+    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
+    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
+    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
+    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
+    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
+                ],
+            'prof2'=>[
+                'typ'=>'kurz',
+                'nadpis'=>'Český jazyk pro cizince A2',
+                'kurz_druh'=>'RKJAZ',
+                's_certifikatem' => TRUE,
+                'tiskni_certifikat' => TRUE,
+                's_hodnocenim' => FALSE,
+                'help'=>'Příklady známek a slovního zhodnocení jazykového kurzu<br>
+    Jazykové kurzy <br>
+    1 = Účastník měl jasnou představu o svém dalším odborném jazykovém vzdělání. Jazykový kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
+    2 = Účastník projevoval během účasti v projektu aktivní zájem o své další odborné jazykové vzdělávání.
+    Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
+    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru.
+    Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit.
+    Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
+    5 = Účastník pasivně přistupoval k výběru vhodného kurzu odborného jazyka. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
+                ],
+                ];
+                break;
             default:
         throw new UnexpectedValueException('Neexistuje konfigurace pro daný kód projektu: ', $kod);
         };

@@ -1,0 +1,65 @@
+obrázky:
+loga - NEMÁM
+pozadí certifikátů - STEJNÉ
+
+databáze:
+c_projekt - přidat projekt - PŘÍDÁN PROJEKT 20
+INSERT INTO projektor_2.c_projekt (razeni, kod, `text`, plny_text, valid) VALUES (20, 'CJC', 'Český jazyk pro cizince', 'Český jazyk pro cizince', 1);
+
+c_kancelar - přidat kanceláře - PŘIDÁNY KANCELÁŘE cjc_Plzeň
+INSERT INTO `projektor_2`.`c_kancelar` (`id_c_projekt_FK`, `razeni`, `kod`, `text`, `plny_text`, `valid`)
+VALUES (20, 1, 'CJC_PL', 'cjc_Plzeň', 'cjc_Plzeň', 1);
+INSERT INTO `projektor_2`.`c_kancelar` (`id_c_projekt_FK`, `razeni`, `kod`, `text`, `plny_text`, `valid`)
+VALUES (20, 2, 'CJC_TST', 'cjc_testovací', 'cjc_testovací', 1);
+
+s_beh_projektu - přidat běhy - 1 BĚH
+INSERT INTO `projektor_2`.`s_beh_projektu` (`beh_cislo`, `oznaceni_turnusu`, `id_c_projekt`, `text`, `zacatek`, `konec`, `closed`, `valid`)
+VALUES (1, 1, 20, '1. turnus CJC', '2022-06-01', NULL, 0, 1);
+
+sys_users - přidat sloupce tlačítek pro projekt: - PŘIDÁNA JEN PRVNÍ DVĚ
+ALTER TABLE `projektor_2`.`sys_users`
+ADD COLUMN `tl_cj_sml` TINYINT(1) NOT NULL DEFAULT '0' AFTER `tl_mb_zam`,
+ADD COLUMN `tl_cj_souhlas` TINYINT(1) NOT NULL DEFAULT '0' AFTER `tl_cj_sml`;
+
+sys_users - přidat uživatele
+INSERT INTO `projektor_2`.`sys_users` (`username`, `name`, `authtype`, `password`, `povolen_zapis`, `monitor`, `tl_cj_sml`, `tl_cj_souhlas`)
+VALUES ('cj_vzdelavac', 'Obeť Doby', 'password', 'pass', 1, 0, 1, 1);
+
+ -> sys_acc_usr_kancelar - přidat vazby user - kancelář
+(sys_acc_usr_projekt je zbytečná - v p_2_1_4 projekt se vybírá již při přihlašování - login a zde jsou zobrazeny všechny projekty)
+INSERT INTO `projektor_2`.`sys_acc_usr_kancelar` (`id_sys_users`, `id_c_kancelar`) VALUES ('1', '111???');
+INSERT INTO `projektor_2`.`sys_acc_usr_kancelar` (`id_sys_users`, `id_c_kancelar`) VALUES ('92???', '110???');
+
+přidat možnosti do
+- Projektor2_AppContext - AKTIVITY JSOU ZKOPÍROVÁNY Z SJLP - OPRAVIT
+- Projektor2_View_PDF_Common
+
+přidat složku View/HTML/NNN a do ní upravené view
+- Projektor2_View_HTML_NNN_.... -> upravit akce formulářů a href tlačítek
+- Projektor2_View_HTML_NNN_Export - upravit select ( dodelat pohledy v databazi pro NNN projekt ) - NEJSOU VIEWs
+
+přidat složku View/PDF/NNN a do ní upravené view
+Projektor2_View_PDF_NNN_....
+- nejdříve views, až se budou upravovat formuláře, bude IDE našeptávat
+
+upravit kotrolery
+Projektor2_Controller_ZobrazeniRegistraci (metoda getLeftMenuArrayNNN()
+Projektor2_Controller_Formular - switch
+
+přidat složku Projektor2_View_HTML_NNN
+
+Projektor2_Controller_Export_Excel - přidat case pro projekt NNN (volá Projektor2_View_HTML_NNN_Export)
+
+přidat složku
+Projektor2_Controller_Formular_NNN_.....
+- upravit controllers, až se budou upravovat routery, bude IDE našeptávat
+
+upravit
+Projektor2_Router_Akce
+Projektor2_Router_Form
+
+upravit
++ příslušně upravit model db tabulky Projektor2_Model_Db_SysUser a také mapper Projektor2_Model_Db_SysUserMapper - JEN DVĚ TLAČÍTKA
++ povolit userům tlačítka v databázi sys_user - POVOLENA JEN DVĚ
+
+přidat složku do _ExportProjektor - při exportu pdf se projektová složka nevytváří

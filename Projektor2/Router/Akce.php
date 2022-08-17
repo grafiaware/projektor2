@@ -39,6 +39,7 @@ class Projektor2_Router_Akce {
             case "VDTP":
             case "PDU":
             case "MB":
+            case "CJC":
                 switch($this->request->param('akce')) {
                     case "export":
                         return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response);
