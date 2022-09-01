@@ -57,6 +57,67 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
         $this->primaryKeyColumnName = Framework_Database_Cache::getPrimaryKeyName($this->dbh, $this->tableName);
     }
 
+    ########################
+    # public
+    ########################
+
+    /**
+     *
+     * @param mixed $id
+     * @return Framework_Model_ItemFlatTable
+     */
+    public function getItem($id) {
+        $this->hydrate();
+        return array_key_exists($id, $this->items) ? $this->items[$id] : null;
+    }
+
+    /**
+     *
+     * @param string $collectionKey
+     * @return Framework_Model_ItemFlatTable
+     */
+    public function addItem($collectionKey) {
+        $item = $this->createItem($this->mainObject);
+
+        $row = $this->selectOne([static::COLLECTION_KEY_ATTRIBUTE => $collectionKey]);
+        // hydratuje se i prázným polem dat - i neexistující položka musí být nastavena na isHydrated=true jinak by se ItemFlatTable pokoušel načítat data a hydratovat
+        // pozor - kdyby došlo k pokusu i hydrataci v ItemFlatTable jsou do collection item nastavena data prvního řádku resultsetu pro celou kolekci - chyba!
+        $item->hydrate($row);   // nastaví item->isHydrated, NENASTAVUJE ->isPersisted
+        $this->items[$collectionKey] = $item;
+
+        return $item;
+    }
+
+    /**
+     *
+     * @return \Framework_Model_ItemFlatTable
+     * @throws LogicException
+     * @throws UnexpectedValueException
+     */
+    public function save() {
+        if(!$this->mainObject->id){
+            $this->createNewMainObject();
+        }
+        foreach ($this->items as $key => $item) {
+            if (!$item->getMainObject()) {
+                $this->setMainObject($this->mainObject);
+            }
+            $item->save();
+        }
+        return $this;
+    }
+
+    /**
+     * Metoda vrací iterátor obsahující public vlastnosti objektu. Přetěžuje metodu rodiče.
+     * @return \ArrayIterator
+     */
+    public function getIterator() {
+        $this->hydrate();
+        return new ArrayIterator($this->items);
+    }
+
+    ########################
+
     private function initializeMainObject($mainObject) {
         $this->mainObject = $mainObject;
         $mainObjectClassName = get_class($mainObject);  //proměnná jen kvůli syntaxi $mainObjectClassName::TABLE
@@ -98,34 +159,6 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
                 $this->isHydrated = TRUE;
             }
         }
-    }
-
-    ########################
-    /**
-     *
-     * @param mixed $id
-     * @return Framework_Model_ItemFlatTable
-     */
-    public function getItem($id) {
-        $this->hydrate();
-        return array_key_exists($id, $this->items) ? $this->items[$id] : null;
-    }
-
-    /**
-     *
-     * @param string $collectionKey
-     * @return Framework_Model_ItemFlatTable
-     */
-    public function addItem($collectionKey) {
-        $item = $this->createItem($this->mainObject);
-
-        $row = $this->selectOne([static::COLLECTION_KEY_ATTRIBUTE => $collectionKey]);
-        // hydratuje se i prázným polem dat - i neexistující položka musí být nastavena na isHydrated=true jinak by se ItemFlatTable pokoušel načítat data a hydratovat
-        // pozor - kdyby došlo k pokusu i hydrataci v ItemFlatTable jsou do collection item nastavena data prvního řádku resultsetu pro celou kolekci - chyba!
-        $item->hydrate($row);   // nastaví item->isHydrated, NENASTAVUJE ->isPersisted
-        $this->items[$collectionKey] = $item;
-
-        return $item;
     }
 
     /**
@@ -202,31 +235,4 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
         $item->{$this->primaryKeyColumnName} = $row[$this->primaryKeyColumnName];
     }
 
-    /**
-     *
-     * @return \Framework_Model_ItemFlatTable
-     * @throws LogicException
-     * @throws UnexpectedValueException
-     */
-    public function save() {
-        if(!$this->mainObject->id){
-            $this->createNewMainObject();
-        }
-        foreach ($this->items as $key => $item) {
-            if (!$item->getMainObject()) {
-                $this->setMainObject($this->mainObject);
-            }
-            $item->save();
-        }
-        return $this;
-    }
-
-    /**
-     * Metoda vrací iterátor obsahující public vlastnosti objektu. Přetěžuje metodu rodiče.
-     * @return \ArrayIterator
-     */
-    public function getIterator() {
-        $this->hydrate();
-        return new ArrayIterator($this->items);
-    }
 }

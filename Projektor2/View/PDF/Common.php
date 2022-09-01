@@ -165,7 +165,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 self::completeFooter( $textPaticky . $texts['financovan'], $cislovani);
                 break;
             case 'CJC':
-                self::completeHeader( "./img/loga/cestina.gif", 0, 5, 165,26 );
+                self::completeHeader( "./img/loga/logo_CJC_BW.png", 0, 5, 165,26 );
                 self::completeFooter( $textPaticky , $cislovani);
                 break;
             default:

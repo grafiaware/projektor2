@@ -19,18 +19,19 @@ class Projektor2_View_HTML_Cjc_Export extends Framework_View_Abstract {
                                   Databázové tabulky: <br>
                                 <select ID="dbtabulka" size="1" name="dbtabulka">
                                 <option >------------</option>
-                                <option value=v_mb_zajemci>Monitoring - všichni zájemci v projektu</option>
-                                <option value=v_mb_kurzy>Monitoring - všechny kurzy v projektu</option>
-                                <option value=v_mi_vstoupily>Monitoring - vstoupili do zadaného data monitoringu</option>
-                                <option value=v_mi_vstoupily_souhrn_kancelare>Monitoring - vstoupili do zadaného data monitoringu souhrn za kanceláře</option>
-                                <option value=v_mi_vstoupily_souhrn_celkem>Monitoring - vstoupili do zadaného data monitoringu - souhrn celkem</option>
+                                <option value=za_flat_table>Zájemci</option>
+
                                 </select><br>
                                 <input type="submit" value="Export" name="E1">
                             </form>';
         $this->parts[] = '</div>';
         return $this;
     }
-
+//                                <option value=v_mb_zajemci>Monitoring - všichni zájemci v projektu</option>
+//                                <option value=v_mb_kurzy>Monitoring - všechny kurzy v projektu</option>
+//                                <option value=v_mi_vstoupily>Monitoring - vstoupili do zadaného data monitoringu</option>
+//                                <option value=v_mi_vstoupily_souhrn_kancelare>Monitoring - vstoupili do zadaného data monitoringu souhrn za kanceláře</option>
+//                                <option value=v_mi_vstoupily_souhrn_celkem>Monitoring - vstoupili do zadaného data monitoringu - souhrn celkem</option>
 }
 
 ?>

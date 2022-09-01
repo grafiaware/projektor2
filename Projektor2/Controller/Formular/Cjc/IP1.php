@@ -21,8 +21,8 @@ class Projektor2_Controller_Formular_Cjc_IP1 extends Projektor2_Controller_Formu
         $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));
-        $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA PROJEKTU Moje Budoucnost')
-            ->assign('formAction', 'mb_plan_uc')
+        $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA PROGRAMU Čeština pro cizince')
+            ->assign('formAction', 'cj_plan_uc')
             ->assign('aktivityKurz', $aktivityProjektuTypuKurz)
             ->assign('modelyKurzu', $modelyKurzu)   // Projektor2_Model_Db_SKurz[]
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))

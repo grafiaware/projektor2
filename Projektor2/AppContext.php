@@ -165,7 +165,7 @@ abstract class Projektor2_AppContext
                 break;
             case "CJC":
                 $context['nadpis'] = 'ČEŠTINA PRO CIZINCE';
-                $context['src'] = "cestina.gif";
+                $context['src'] = "logo_CJC.png";
                 $context['alt'] = "Logo Čeština pro cizince.";
                 break;
 
@@ -1351,7 +1351,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('cj_mb_dot', $modelTlacitko);
+                    $skupina->setMenuTlacitko('cj_cj_dot', $modelTlacitko);
                 }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
@@ -1366,7 +1366,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('cj_mb_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko('cj_cj_plan', $modelTlacitko);
                 }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
@@ -1389,7 +1389,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('cj_mb_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko('cj_cj_ukon', $modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
@@ -1409,7 +1409,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('cj_mb_zam', $modelTlacitko);
+                    $skupina->setMenuTlacitko('cj_cj_zam', $modelTlacitko);
                 }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
@@ -1616,7 +1616,7 @@ abstract class Projektor2_AppContext
             case 'VDTP':
             case 'PDU':
             case 'MB':
-            case 'MB':
+            case 'CJC':
                 // jedno pozadí - stejné jako originál (bez podpisu)
                 $filePath = self::getCertificateOriginalBackgroundImageFilepath($sessionStatus);
                 break;
@@ -1640,7 +1640,7 @@ abstract class Projektor2_AppContext
             case 'VDTP':
             case 'PDU':
             case 'MB':
-            case 'MB':
+            case 'CJC':
                 // jedno pozadí
                 $filePath = "img/pozadi/pozadi_osvedceni_pms.png";   // parte rámeček
                 break;

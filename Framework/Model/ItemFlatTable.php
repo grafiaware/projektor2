@@ -48,32 +48,13 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         $this->primaryKeyColumnName = Framework_Database_Cache::getPrimaryKeyName($this->dbh, $this->tableName);
     }
 
+    ########################
+    # public
+    ########################
+
     public function  setMainObject($mainObject) {
             $this->initializeMainObject($mainObject);
             $this->isCreatedNewMainObject = FALSE;
-    }
-
-    private function initializeMainObject($mainObject) {
-        $this->mainObject = $mainObject;
-        $mainObjectClassName = get_class($mainObject);  //proměnná jen kvůli syntaxi $mainObjectClassName::TABLE
-        $this->mainObjectClassName = $mainObjectClassName;
-        if ($this->idColumnName){
-            $this->mainObjectIdColumnName = $this->idColumnName;
-        } elseif ($mainObjectClassName::TABLE) {
-            $this->mainObjectIdColumnName = 'id_'.$mainObjectClassName::TABLE;
-        } else {
-            throw new LogicException("Nelze vytvořit default název primárního klíče flat table. Parametr konstruktoru \$idColumnName nebyl nastaven a hlavní objekt $this->mainObjectClassName nemá konstantu TABLE, ze které lze odvodit default hodnotu." );
-        }
-    }
-
-    private function createNewMainObject() {
-        $mapperClassName = $this->mainObjectMapperClassName;
-        $mainObject = $mapperClassName::create();
-        $this->initializeMainObject($mainObject);  // ukládá mainObject do $this->mainObject
-        if(!$this->mainObject->id){
-            throw new LogicException("Při pokusu o uložení flat table bez hlavního objektu se nepodařilo vytvořit nový hlavní objekt flat table nebo hlavní objekt $this->mainObjectClassName nemá id, nemohu ukládat podřízený objekt do ".$this->tableName);
-        }
-        $this->isCreatedNewMainObject = TRUE;
     }
 
     /**
@@ -139,6 +120,79 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         return $this;
     }
 
+    /**
+     *
+     * @return \Framework_Model_ItemFlatTable
+     * @throws LogicException
+     * @throws UnexpectedValueException
+     */
+    public function save() {
+        if($this->isHydrated) {  //isHydreted se mění na true při __get, __set, getIterator a insert - pokud item není hydrated, není třeba nic zapisovat
+            if(!$this->mainObject->id){
+                $this->createNewMainObject();
+                if (!array_key_exists($this->mainObjectIdColumnName, $this->attributes)) {
+                    throw new UnexpectedValueException("Nenalezen očekávaný sloupec pro id hlavního objektu s názvem '$this->mainObjectIdColumnName' v tabulce '$this->tableName'.");
+                }
+            }
+            if ($this->isPersisted) {
+                $this->update();
+            } else {
+                $this->insert();
+            }
+        }
+        return $this;
+    }
+
+    public function getMainObject() {
+        return $this->mainObject;
+    }
+
+    public function isCreatedNewMainObject() {
+        return $this->isCreatedNewMainObject;
+    }
+
+    public function getTableName() {
+        return $this->tableName;
+    }
+
+    public function getPrimaryKeyColumnName() {
+        return $this->primaryKeyColumnName;
+    }
+
+    /**
+     * Metoda vrací iterátor obsahující public vlastnosti objektu. Přetěžuje metodu rodiče.
+     * @return \ArrayIterator
+     */
+    public function getIterator() {
+        $this->hydrate();
+        return new ArrayIterator($this->attributes);
+    }
+
+    ########################
+
+    private function initializeMainObject($mainObject) {
+        $this->mainObject = $mainObject;
+        $mainObjectClassName = get_class($mainObject);  //proměnná jen kvůli syntaxi $mainObjectClassName::TABLE
+        $this->mainObjectClassName = $mainObjectClassName;
+        if ($this->idColumnName){
+            $this->mainObjectIdColumnName = $this->idColumnName;
+        } elseif ($mainObjectClassName::TABLE) {
+            $this->mainObjectIdColumnName = 'id_'.$mainObjectClassName::TABLE;
+        } else {
+            throw new LogicException("Nelze vytvořit default název primárního klíče flat table. Parametr konstruktoru \$idColumnName nebyl nastaven a hlavní objekt $this->mainObjectClassName nemá konstantu TABLE, ze které lze odvodit default hodnotu." );
+        }
+    }
+
+    private function createNewMainObject() {
+        $mapperClassName = $this->mainObjectMapperClassName;
+        $mainObject = $mapperClassName::create();
+        $this->initializeMainObject($mainObject);  // ukládá mainObject do $this->mainObject
+        if(!$this->mainObject->id){
+            throw new LogicException("Při pokusu o uložení flat table bez hlavního objektu se nepodařilo vytvořit nový hlavní objekt flat table nebo hlavní objekt $this->mainObjectClassName nemá id, nemohu ukládat podřízený objekt do ".$this->tableName);
+        }
+        $this->isCreatedNewMainObject = TRUE;
+    }
+
     private function setAttributes($data) {
         foreach ($data as $key => $value) {  // nastaví jen položky,m které nebyly již měněny
             if (!isset($this->changed[$key])) {
@@ -163,28 +217,6 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         return $data;
     }
 
-    /**
-     *
-     * @return \Framework_Model_ItemFlatTable
-     * @throws LogicException
-     * @throws UnexpectedValueException
-     */
-    public function save() {
-        if($this->isHydrated) {  //isHydreted se mění na true při __get, __set, getIterator a insert - pokud item není hydrated, není třeba nic zapisovat
-            if(!$this->mainObject->id){
-                $this->createNewMainObject();
-                if (!array_key_exists($this->mainObjectIdColumnName, $this->attributes)) {
-                    throw new UnexpectedValueException("Nenalezen očekávaný sloupec pro id hlavního objektu s názvem '$this->mainObjectIdColumnName' v tabulce '$this->tableName'.");
-                }
-            }
-            if ($this->isPersisted) {
-                $this->update();
-            } else {
-                $this->insert();
-            }
-        }
-        return $this;
-    }
 
     /**
      *
@@ -241,28 +273,4 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         return $expr;
     }
 
-    public function getMainObject() {
-        return $this->mainObject;
-    }
-
-    public function isCreatedNewMainObject() {
-        return $this->isCreatedNewMainObject;
-    }
-
-    public function getTableName() {
-        return $this->tableName;
-    }
-
-    public function getPrimaryKeyColumnName() {
-        return $this->primaryKeyColumnName;
-    }
-
-    /**
-     * Metoda vrací iterátor obsahující public vlastnosti objektu. Přetěžuje metodu rodiče.
-     * @return \ArrayIterator
-     */
-    public function getIterator() {
-        $this->hydrate();
-        return new ArrayIterator($this->attributes);
-    }
 }

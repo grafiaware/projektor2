@@ -23,9 +23,9 @@ class Projektor2_View_PDF_Cjc_IP1 extends Projektor2_View_PDF_Common {
         $signPlan = Projektor2_Controller_Formular_Base::PLAN_FT;
         $prefixPlan = $signPlan.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
 
-        $textPaticky = "Individuální plán účastníka v projektu „Čeština pro cizince“ - část 1 - plán aktivit  ".$this->context["file"];
+        $textPaticky = "Individuální plán účastníka v programu „Čeština pro cizince“ - část 1 - plán aktivit  ".$this->context["file"];
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1 - plán aktivit";
-        $textyNadpisu[] = 'Projekt „Čeština pro cizince“';
+        $textyNadpisu[] = 'Program „Čeština pro cizince“';
         $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
@@ -37,14 +37,14 @@ class Projektor2_View_PDF_Cjc_IP1 extends Projektor2_View_PDF_Common {
             $blok->Nadpis("Preambule");
 //$blok->PridejOdstavec("Druhá část IP obsahuje vyhodnocení účasti klienta v projektu členěné podle absolvovaných aktivit a v případě, že klient nezíská při účasti v projektu zaměstnání, také doporučení vysílajícímu KoP pro další práci s klientem.");
 
-            $blok->PridejOdstavec("Plán aktivit obsahuje plán konkrétních aktivit klienta v projektu členěný podle plánovaných aktivit."
+            $blok->PridejOdstavec("Plán aktivit obsahuje plán konkrétních aktivit klienta v programu členěný podle plánovaných aktivit."
                     );
             $blok->predsazeni(0);
             $blok->odsazeniZleva(0);
         $this->pdf->TiskniBlok($blok);
         //##################################################################################################
         $blok = new Projektor2_PDF_Blok;
-            $blok->Nadpis("Individuální plán projektu členěný podle absolvovaných aktivit");
+            $blok->Nadpis("Individuální plán programu členěný podle absolvovaných aktivit");
             $blok->predsazeni(0);
             $blok->odsazeniZleva(0);
         $this->pdf->TiskniBlok($blok);
@@ -55,7 +55,7 @@ class Projektor2_View_PDF_Cjc_IP1 extends Projektor2_View_PDF_Common {
         if ($count) {
             $counter = 0;
             foreach($this->context['aktivityPlan'] as $planKurz) {
-                // aktivityPlan obsahuje všechny aktivity projektu, 
+                // aktivityPlan obsahuje všechny aktivity projektu,
                 if (isset($planKurz->sKurz)) {
                     $counter++;
                     $yPositionBefore = $this->pdf->getY();
@@ -81,7 +81,7 @@ class Projektor2_View_PDF_Cjc_IP1 extends Projektor2_View_PDF_Common {
             }
         } else {
             $bezAktivit = new Projektor2_PDF_Blok();
-            $bezAktivit->Odstavec("Účastník nemá naplánovány žádné konkrétní aktivity projektu.");
+            $bezAktivit->Odstavec("Účastník nemá naplánovány žádné konkrétní aktivity programu.");
             $this->pdf->TiskniBlok($bezAktivit);
         }
 

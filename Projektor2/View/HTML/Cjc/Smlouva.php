@@ -43,7 +43,7 @@ class Projektor2_View_HTML_Cjc_Smlouva extends Projektor2_View_HTML_FormularPHP4
   <label for="mesto">Město:</label><input ID="mesto" type="text" name="<?=$prefixDotaznik.'mesto'?>" size="20" maxlength="50" value="<?=$pole[$prefixDotaznik.'mesto'];?>" required>
   <label for="ulice">Ulice:</label><input ID="ulice" type="text" name="<?=$prefixDotaznik.'ulice'?>" size="20" maxlength="50" value="<?=$pole[$prefixDotaznik.'ulice'];?>" required>
   <label for="psc">PSČ:</label><input ID="psc" type="text" pattern="[0-9]{5}" name="<?=$prefixDotaznik.'psc'?>" size="5" maxlength="5" value="<?=$pole[$prefixDotaznik.'psc'];?>" required>
-  <label for="pevny_telefon">Pevný telefon:</label><input ID="pevny_telefon" type="text" name="<?=$prefixDotaznik.'pevny_telefon'?>" size="15" maxlength="20" value="<?=$pole[$prefixDotaznik.'pevny_telefon'];?>">
+  <label for="pevny_telefon">Pevný telefon:</label><input ID="pevny_telefon" type="tel" name="<?=$prefixDotaznik.'pevny_telefon'?>" size="15" maxlength="20" value="<?=$pole[$prefixDotaznik.'pevny_telefon'];?>">
   </p>
   </FIELDSET><br>
   <FIELDSET>
@@ -52,7 +52,7 @@ class Projektor2_View_HTML_Cjc_Smlouva extends Projektor2_View_HTML_FormularPHP4
   <label for="mesto2">Město:</label><input ID="mesto2" type="text" name="<?=$prefixDotaznik.'mesto2'?>" size="20" maxlength="50" value="<?=$pole[$prefixDotaznik.'mesto2'];?>">
   <label for="ulice2">Ulice:</label><input ID="ulice2" type="text" name="<?=$prefixDotaznik.'ulice2'?>" size="20" maxlength="50" value="<?=$pole[$prefixDotaznik.'ulice2'];?>">
   <label for="psc2">PSČ:</label><input ID="psc2" type="text" pattern="[0-9]{5}" name="<?=$prefixDotaznik.'psc2'?>" size="5" maxlength="5" value="<?=$pole[$prefixDotaznik.'psc2'];?>">
-  <label for="pevny_telefon2">Pevný telefon:</label><input ID="pevny_telefon2" type="text" name="<?=$prefixDotaznik.'pevny_telefon2'?>" size="15" maxlength="20" value="<?=$pole[$prefixDotaznik.'pevny_telefon2'];?>">
+  <label for="pevny_telefon2">Pevný telefon:</label><input ID="pevny_telefon2" type="tel" name="<?=$prefixDotaznik.'pevny_telefon2'?>" size="15" maxlength="20" value="<?=$pole[$prefixDotaznik.'pevny_telefon2'];?>">
   </p>
   </FIELDSET>
   <p>
@@ -65,10 +65,16 @@ class Projektor2_View_HTML_Cjc_Smlouva extends Projektor2_View_HTML_FormularPHP4
   </p>
 </FIELDSET>
 
-
+<FIELDSET><LEGEND style="color:white;"><b>Údaje zájemce</b></LEGEND>
+    <label for="datum_reg">Datum registrace na ÚP:</label><input ID="datum_reg" type="date" name="<?=$prefixDotaznik.'datum_reg'?>" size="8" maxlength="10" value="<?php echo @$pole[$prefixDotaznik.'datum_reg'];?>">
+    <label for="z_up">Vysílající úřad práce:</label><input ID="z_up" type="text" name="<?=$prefixDotaznik.'z_up'?>" size="30" maxlength="30" value="<?php echo @$pole[$prefixDotaznik.'z_up'];?>">
+    <label for="prac_up">Pracoviště úřadu práce:</label><input ID="prac_up" type="text" name="<?=$prefixDotaznik.'prac_up'?>" size="30" maxlength="30" value="<?php echo @$pole[$prefixDotaznik.'prac_up'];?>">
+    <label for="datum_reg">Datum registrace na ÚP:</label><input ID="datum_reg" type="date" name="<?=$prefixDotaznik.'datum_reg'?>" size="8" maxlength="10" value="<?php echo @$pole[$prefixDotaznik.'datum_reg'];?>">
+    <label for="stav">Stav osoby:</label><input ID="stav" type="text" name="<?=$prefixDotaznik.'stav'?>" size="25" maxlength="25" value="<?php echo @$pole[$prefixDotaznik.'stav'];?>">
+    <label for="datum_poradenstvi_zacatek">Datum zahájení individuálního poradenství:</label><input ID="datum_poradenstvi_zacatek" type="date" name="<?=$prefixDotaznik.'datum_poradenstvi_zacatek'?>" size="8" maxlength="10" value="<?php echo @$pole[$prefixDotaznik.'datum_poradenstvi_zacatek'];?>"></p>
+</FIELDSET>
 <p>
-    <label for="datum_vytvor_smlouvy">Datum vytvoření:</label>
-<input ID="datum_vytvor_smlouvy" type="date" name="<?=$prefixDotaznik.'datum_vytvor_smlouvy'?>" size="8" maxlength="10" value="<?php
+    <label for="datum_vytvor_smlouvy">Datum vytvoření:</label><input ID="datum_vytvor_smlouvy" type="date" name="<?=$prefixDotaznik.'datum_vytvor_smlouvy'?>" size="8" maxlength="10" value="<?php
                                         if ($pole[$prefixDotaznik.'datum_vytvor_smlouvy']) {echo $pole[$prefixDotaznik.'datum_vytvor_smlouvy'];}
                                         else {echo date("d.m.Y"); }
                                         ?>" required>
