@@ -78,8 +78,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
 
     protected function celeJmeno() {
-        $signDotaznik = Projektor2_Controller_Formular_Base::DOTAZNIK_FT;
-        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
+        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
         $celeJmeno = $this->context[$signDotaznik][$prefixDotaznik."titul"]." ".  $this->context[$signDotaznik][$prefixDotaznik ."jmeno"]." ".  $this->context[$signDotaznik][$prefixDotaznik ."prijmeni"];
         if ($this->context[$signDotaznik][$prefixDotaznik ."titul_za"]) {
             $celeJmeno = $celeJmeno.", ". $this->context[$signDotaznik][$prefixDotaznik ."titul_za"];
@@ -165,7 +165,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 self::completeFooter( $textPaticky . $texts['financovan'], $cislovani);
                 break;
             case 'CJC':
-                self::completeHeader( "./img/loga/logo_CJC_BW.png", 0, 5, 165,26 );
+                // nez proj. loga - akreditované kurzy
+//                self::completeHeader( "./img/loga/logo_CJC_BW.png", 0, 5, 165,26 );
                 self::completeFooter( $textPaticky , $cislovani);
                 break;
             default:
@@ -233,8 +234,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 
 
     protected function tiskniOsobniUdaje() {
-        $signDotaznik = Projektor2_Controller_Formular_Base::DOTAZNIK_FT;
-        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
+        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
         $osobniUdaje = new Projektor2_PDF_Blok;
         $osobniUdaje->MezeraMeziOdstavci(1.5);
         $osobniUdaje->Radkovani(1);

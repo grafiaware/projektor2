@@ -363,10 +363,10 @@ class Projektor2_Router_Form {
                 /** CJC **/
                 switch($form) {
                     case "cj_novy_zajemce":
-                        return new Projektor2_Controller_Formular_Cjc_Smlouva($this->sessionStatus, $this->request, $this->response);
+                        return new Projektor2_Controller_Formular_Cjc_Cizinec($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "cj_reg_dot":
-                        return new Projektor2_Controller_Formular_Cjc_Dotaznik($this->sessionStatus, $this->request, $this->response);
+                    case "cj_cizinec":
+                        return new Projektor2_Controller_Formular_Cjc_Cizinec($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "cj_sml_uc":
                         return new Projektor2_Controller_Formular_Cjc_Smlouva($this->sessionStatus, $this->request, $this->response);

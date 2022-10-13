@@ -12,11 +12,11 @@ class Projektor2_Model_Db_Flat_ZaPlanFlatTable extends Framework_Model_ItemFlatT
      * @param string $indexAktivity
      * @return array
      */
-//    public static function getItemColumnsNames($indexAktivity) {
-//        return array('indexAktivity'=> $indexAktivity, 'idSKurzFK'=> 'id_s_kurz_'.$indexAktivity.'_FK',
-//            'pocAbsHodin'=>$indexAktivity.'_poc_abs_hodin', 'duvodAbsence'=>$indexAktivity.'_duvod_absence',
-//            'dokonceno'=>$indexAktivity.'_dokonceno', 'duvodNeukonceni'=> $indexAktivity.'_duvod_neukonceni',
-//            'datumCertif'=> $indexAktivity.'_datum_certif');
-//    }
+    public static function getItemColumnsNames($indexAktivity) {
+        return array('indexAktivity'=> $indexAktivity, 'idSKurzFK'=> 'id_s_kurz_'.$indexAktivity.'_FK',
+            'pocAbsHodin'=>$indexAktivity.'_poc_abs_hodin', 'duvodAbsence'=>$indexAktivity.'_duvod_absence',
+            'dokonceno'=>$indexAktivity.'_dokonceno', 'duvodNeukonceni'=> $indexAktivity.'_duvod_neukonceni',
+            'datumCertif'=> $indexAktivity.'_datum_certif');
+    }
 
 }

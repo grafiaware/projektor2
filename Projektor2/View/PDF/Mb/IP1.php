@@ -18,10 +18,10 @@ Obě části IP budou podepsány poradcem i klientem. Kopie IP budou předány s
 class Projektor2_View_PDF_Mb_IP1 extends Projektor2_View_PDF_Common {
 
     public function createPDFObject() {
-        $signDotaznik = Projektor2_Controller_Formular_Base::DOTAZNIK_FT;
-        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
-        $signPlan = Projektor2_Controller_Formular_Base::PLAN_FT;
-        $prefixPlan = $signPlan.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
+        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
+        $signPlan = Projektor2_Controller_Formular_FlatTable::PLAN_FT;
+        $prefixPlan = $signPlan.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
 
         $textPaticky = "Individuální plán účastníka v projektu „Moje budoucnost“ - část 1 - plán aktivit  ".$this->context["file"];
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1 - plán aktivit";

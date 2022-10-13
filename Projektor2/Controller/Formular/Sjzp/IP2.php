@@ -6,10 +6,10 @@
  */
 class Projektor2_Controller_Formular_Sjzp_IP2 extends Projektor2_Controller_Formular_IP {
 
-    protected function createFormModels($zajemce) {
-        $this->models['ukonceni'] = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce); 
-        $this->models['plan']= new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
-        $this->models['dotaznik']= new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+    protected function createFormModels() {
+        $this->models['ukonceni'] = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($this->sessionStatus->zajemce); 
+        $this->models['plan']= new Projektor2_Model_Db_Flat_ZaPlanFlatTable($this->sessionStatus->zajemce);
+        $this->models['dotaznik']= new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce);
     }
     
     protected function getResultFormular() {

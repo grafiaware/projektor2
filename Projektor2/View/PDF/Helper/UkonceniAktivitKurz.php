@@ -19,7 +19,7 @@ class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF
             $counter = 0;
             foreach($context['aktivityPlan'] as $aktivita) {
 //                    $kurzPlan = new Projektor2_Model_KurzPlan();
-                if (isset($aktivita->sKurz) AND $aktivita->sKurz->isNaplanovan()) {
+                if (isset($aktivita->sKurz) AND $aktivita->sKurz->isRealCourse()) {
                     $counter++;
                     $yPositionBefore = $pdf->getY(); 
                     $kurzSadaBunek = new Projektor2_PDF_SadaBunek();

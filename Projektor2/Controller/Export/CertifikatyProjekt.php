@@ -30,14 +30,14 @@ class Projektor2_Controller_Export_CertifikatyProjekt extends Projektor2_Control
                                             Projektor2_Model_Db_KancelarMapper::findById($zajemce->id_c_kancelar_FK),
                                             $zajemce, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
                         if (!$certifikat) {
-                            throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id);
+                            throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
                         }
                         $logger->log($certifikat->documentCertifikatProjekt->filePath);
                     }
                 }
             }
         }
-        $redirController = new Projektor2_Controller_ZobrazeniRegistraci($this->sessionStatus, $this->request, $this->response);
+        $redirController = new Projektor2_Controller_SeznamRegistraci($this->sessionStatus, $this->request, $this->response);
         return $redirController->getResult();
     }
 }

@@ -10,10 +10,10 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Formular_Sjlp_Zamestnani extends Projektor2_Controller_Formular_Base {
+class Projektor2_Controller_Formular_Sjlp_Zamestnani extends Projektor2_Controller_Formular_FlatTable {
     
-    protected function createFormModels($zajemce) {
-        $this->models['zamestnani'] = new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce); 
+    protected function createFormModels() {
+        $this->models['zamestnani'] = new Projektor2_Model_Db_Flat_ZaZamFlatTable($this->sessionStatus->zajemce); 
     }
     
     protected function getResultFormular() {

@@ -45,7 +45,7 @@ class Projektor2_Model_File_CertifikatKurzMapper extends Framework_Model_FileMap
      */
     public static function getRelativeFilePath(Projektor2_Model_Db_Projekt $projekt, Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, $certificateType) {
         // rozděluje soubory do podsložek s názvem rovným id kurzu
-        $dirName = Projektor2_AppContext::getCertificateTypeFolder($certificateType).$sKurz->id.'/';
+        $dirName = Projektor2_AppContext::getCertificateTypeFolder($certificateType).$sKurz->id_s_kurz.'/';
         $basename = $projekt->kod.'_IP_Osvedceni_'.$sKurz->kurz_druh.' '.$zajemce->identifikator.'.pdf';;
         return $dirName.$basename;
     }

@@ -12,6 +12,11 @@
  * @author pes2704
  */
 class Projektor2_Model_Db_ZaPlanKurzMapper {
+    /**
+     *
+     * @param int $id
+     * @return Projektor2_Model_Db_ZaPlanKurz
+     */
     public static function findById($id) {
         $dbh = Projektor2_AppContext::getDb();
         $query = "SELECT * FROM za_plan_kurz WHERE id_za_plan_kurz = :id_za_plan_kurz";
@@ -49,6 +54,12 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
         return $vypis;
     }
 
+    /**
+     *
+     * @param string $filter
+     * @param string $order
+     * @return Projektor2_Model_Db_ZaPlanKurz[]
+     */
     public static function findAll($filter = NULL, $order = NULL) {
         $dbh = Projektor2_AppContext::getDb();
         $query = "SELECT * FROM za_plan_kurz";

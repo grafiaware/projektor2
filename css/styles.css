@@ -1,4 +1,4 @@
-root { 
+root {
     display: block;
 }
 
@@ -36,17 +36,20 @@ margin:0;
 }*/
 
 div.left {
-    float:left;
-    width:170px;
+    grid-column: 1;
+/*    float:left;
+    width:170px;*/
+    background-color: whitesmoke;
     margin:0;
     padding: 0.4em;
 }
 
 div.content {
-    margin-left:190px;
+    grid-column: 2;
+/*    margin-left:190px;*/
     border-top:1px solid gray;
     border-left:1px solid gray;
-    padding:1em;
+    padding:.3em;
 }
 
 h1 {
@@ -70,7 +73,7 @@ h3 {
     border-radius: 5px;
     color: #FFFFFF;
     font-weight: bolder;
-    padding: 8px 16px;         
+    padding: 8px 16px;
 }
 h4 {
     font-family: Verdana, Arial, sans-serif;
@@ -81,7 +84,7 @@ h4 {
     border-radius: 5px;
     color: #375D81;
     font-weight: bolder;
-    padding: 4px 32px;        
+    padding: 4px 32px;
 }
 p {
     margin-top: 6px;
@@ -108,7 +111,7 @@ p {
     color: white;
     font-weight: bold;
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-    font-size: 1.2em; 
+    font-size: 1.2em;
 }
 
 /*KONEC NADPIS PROJEKTU A LOGO*/
@@ -146,7 +149,7 @@ p {
 #logout {
     clear: right;
     margin-left: auto;
-    margin-right: auto;    
+    margin-right: auto;
     background: cadetblue;
     text-align: center;
     /*vertical-align: middle;*/
@@ -189,4 +192,13 @@ ul#menu li a {
     border: solid white 1px;
 }
 /*KONEC MENU*/
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 8fr;
+    border: 2px solid #ff8080;
+    padding:.1em;
+}
 
+.bordered {
+    border: solid purple 2px;
+}

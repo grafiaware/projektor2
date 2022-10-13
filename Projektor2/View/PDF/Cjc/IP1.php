@@ -16,12 +16,38 @@ Obě části IP budou podepsány poradcem i klientem. Kopie IP budou předány s
 * @author pes2704
 */
 class Projektor2_View_PDF_Cjc_IP1 extends Projektor2_View_PDF_Common {
+    protected function tiskniOsobniUdaje() {
+        $signFlatTable = Projektor2_Controller_Formular_FlatTable::CIZINEC_FT;
+        $prefixDotaznik = $signFlatTable.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
+        $osobniUdaje = new Projektor2_PDF_Blok;
+        $osobniUdaje->MezeraMeziOdstavci(1.5);
+        $osobniUdaje->Radkovani(1);
+
+        $osobniUdaje->Odstavec("jméno, příjmení, titul: ".$this->celeJmeno());
+        $osobniUdaje->PridejOdstavec("obec pobytu v ČR: ".$this->context[$signFlatTable][$prefixDotaznik."mesto"]);
+
+        $osobniUdaje->PridejOdstavec("nar.: " . $this->context[$signFlatTable][$prefixDotaznik ."datum_narozeni"]);
+                $osobniUdaje->PridejOdstavec("identifikační číslo účastníka: ".$this->context["identifikator"]);
+                $osobniUdaje->PridejOdstavec("(dále jen „Účastník“)");
+
+        $this->pdf->TiskniBlok($osobniUdaje);
+    }
+
+    protected function celeJmeno() {
+        $signFlatTable = Projektor2_Controller_Formular_FlatTable::CIZINEC_FT;
+        $prefixDotaznik = $signFlatTable.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
+        $celeJmeno = $this->context[$signFlatTable][$prefixDotaznik."titul"]." ".  $this->context[$signFlatTable][$prefixDotaznik ."jmeno"]." ".  $this->context[$signFlatTable][$prefixDotaznik ."prijmeni"];
+        if ($this->context[$signFlatTable][$prefixDotaznik ."titul_za"]) {
+            $celeJmeno = $celeJmeno.", ". $this->context[$signFlatTable][$prefixDotaznik ."titul_za"];
+        }
+        return $celeJmeno;
+    }
 
     public function createPDFObject() {
-        $signDotaznik = Projektor2_Controller_Formular_Base::DOTAZNIK_FT;
-        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
-        $signPlan = Projektor2_Controller_Formular_Base::PLAN_FT;
-        $prefixPlan = $signPlan.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
+        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
+        $signPlan = Projektor2_Controller_Formular_FlatTable::PLAN_FT;
+        $prefixPlan = $signPlan.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
 
         $textPaticky = "Individuální plán účastníka v programu „Čeština pro cizince“ - část 1 - plán aktivit  ".$this->context["file"];
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1 - plán aktivit";

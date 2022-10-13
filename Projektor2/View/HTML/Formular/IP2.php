@@ -6,8 +6,8 @@
 class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
 
     public function render() {
-        $signUkonceni = Projektor2_Controller_Formular_Base::UKONC_FT;
-        $prefixUkonceni = $signUkonceni.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $signUkonceni = Projektor2_Controller_Formular_FlatTable::UKONC_FT;
+        $prefixUkonceni = $signUkonceni.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
 
         $requiredAttribute = ' required="required" ';
         $checkedAttribute = ' checked="checked" ';
@@ -96,7 +96,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                         $onClickDokoncenoAno = ' onClick="show(\'idBlokCertifikat\');show(\''.$idBlokHodnoceni.'\');">';
                         $onClickDokoncenoNe = ' onClick="hide(\'idBlokCertifikat\');show(\''.$idBlokHodnoceni.'\');">';
                         // certifikat
-                        $viewCertifikat = new Projektor2_View_HTML_Element_DatumATlacitkoCertifikat($this->sessionStatus);
+                        $viewCertifikat = new Projektor2_View_HTML_Element_Kurz_DatumATlacitkoCertifikat($this->sessionStatus);
                         if (isset($this->context['readonly'])) {
                             $viewCertifikat->assign('readonly', $this->context['readonly']);
                         }
@@ -143,10 +143,10 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     $kurzyPlan = $this->context['aktivityPlan'];
                     if (isset($this->context['modelyKurzu']) AND $this->context['modelyKurzu']) {
                         foreach (array_keys($this->context['aktivityKurz']) as $aktivita) {  // používám jen klíče - pole aktivit je v context
-                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);
+                            $view = new Projektor2_View_HTML_Element_Aktivita_HodnoceniFieldset($this->sessionStatus, $this->context);
                             $view
                                 ->assign('aktivita', $aktivita)
-                                ->assign('ukonceniPrefix', Projektor2_Controller_Formular_Base::UKONC_FT)
+                                ->assign('ukonceniPrefix', Projektor2_Controller_Formular_FlatTable::UKONC_FT)
                                 ->assign('readonly', FALSE);  // pro hodnocení, kurzy fieldset jsou readonly
                             $this->parts[] = $view;
                         }
@@ -166,9 +166,9 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
                     // hodnocení poradenství
                     if (isset($this->context['aktivityProjektuTypuPoradenstvi']) AND $this->context['aktivityProjektuTypuPoradenstvi']) {
                         foreach ($this->context['aktivityProjektuTypuPoradenstvi'] as $druhKurzu => $aktivita) {
-                            $view = new Projektor2_View_HTML_Element_HodnoceniFieldset($this->sessionStatus, $this->context);
-                            $view->assign('planPrefix', Projektor2_Controller_Formular_Base::PLAN_KURZ)
-                                ->assign('ukonceniPrefix', Projektor2_Controller_Formular_Base::UKONC_FT)
+                            $view = new Projektor2_View_HTML_Element_Aktivita_HodnoceniFieldset($this->sessionStatus, $this->context);
+                            $view->assign('planPrefix', Projektor2_Controller_Formular_FlatTable::PLAN_KURZ)
+                                ->assign('ukonceniPrefix', Projektor2_Controller_Formular_FlatTable::UKONC_FT)
                                 ->assign('druhKurzu', $druhKurzu)
                                 ->assign('modelsArray', $sKurzyJednohoDruhu)
                                 ->assign('returnedModelProperty', 'id')

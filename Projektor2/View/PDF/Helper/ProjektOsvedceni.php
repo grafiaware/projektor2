@@ -62,7 +62,7 @@ class Projektor2_View_PDF_Helper_ProjektOsvedceni extends Projektor2_View_PDF_He
         $pdf->TiskniBlok($blok);
 
         $blok = clone $blokCentered30_14;
-        if ($context[$caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'pohlavi'] == 'muž') {
+        if ($context[$caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR.'pohlavi'] == 'muž') {
             $abs = 'absolvoval';
         } else {
             $abs = 'absolvovala';            

@@ -2,7 +2,7 @@
 class Projektor2_Date
 {
     /**
-     * @var DateTime 
+     * @var DateTime
      */
     private $dateTime;
 
@@ -15,15 +15,16 @@ class Projektor2_Date
     }
 
     /**
-     * 
+     * Privátní konstriktor.
+     *
      * @return Projektor2_Date
      */
     public static function now() {
-        return new self(new \DateTime("now"));  
+        return new self(new \DateTime("now"));
     }
-    
+
     /**
-     * 
+     *
      * @param string $retezecDatum
      * @return Projektor2_Date
      */
@@ -34,14 +35,14 @@ class Projektor2_Date
         //preg_match()
         $regex_pattern="/^([1-9]|0[0-9]|1[0-9]|2[0-9]|3[0-1])\.( [1-9]|[1-9]|1[0-2]|0[1-9])\.( [1-2][0-9]{3}|[1-2][0-9]{3})/";
         if(preg_match($regex_pattern, $retezecDatum, $regs) && checkdate($regs[2],$regs[1],$regs[3]))
-        {        
-            $datum = DateTime::createFromFormat(self::SQL_FORMAT, trim($regs[3])."-".trim($regs[2])."-".trim($regs[1]));
+        {
+            $datum = DateTime::createFromFormat(self::SQL_FORMAT, trim($regs[3])."-".trim($regs[2])."-".trim($regs[1]));  // return DateTime|false
             return $datum ? new self($datum) : NULL;
         }
     }
 
     /**
-     * 
+     *
      * @param string $sqlDatum
      * @return Projektor2_Date
      */
@@ -51,18 +52,18 @@ class Projektor2_Date
     }
 
     /**
-     * 
+     *
      * @param array $pole
      * @return Projektor2_Date
      */
     public static function createFromQuickformArray($pole)
     {
-        $datum = DateTime::createFromFormat(self::SQL_FORMAT, $pole["Y"]."-".$pole["m"]."-".$pole["d"]);
+        $datum = DateTime::createFromFormat(self::SQL_FORMAT, $pole["Y"]."-".$pole["m"]."-".$pole["d"]);  // return DateTime|false
         return $datum ? new self($datum) : NULL;
     }
 
     /**
-     * 
+     *
      * @return \DateTime
      */
     public function getPhpDateTime() {
@@ -70,7 +71,7 @@ class Projektor2_Date
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getQuickformDate() {
@@ -78,7 +79,7 @@ class Projektor2_Date
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getSqlDate() {
@@ -86,18 +87,18 @@ class Projektor2_Date
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getCzechStringDate() {
         return $this->dateTime->format(self::STRING_FORMAT);
     }
-    
+
     /**
-     * 
+     *
      * @return string
      */
     public function getCzechStringYear() {
-        return $this->dateTime->format('Y');        
+        return $this->dateTime->format('Y');
     }
 }

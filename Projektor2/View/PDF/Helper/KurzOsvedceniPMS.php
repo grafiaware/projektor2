@@ -56,7 +56,7 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniPMS extends Projektor2_View_PDF_He
 
         $blok = clone $blokCentered20_11;
             $blok->Style('I');
-            if ($context[$caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.'pohlavi'] == 'muž') {
+            if ($context[$caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR.'pohlavi'] == 'muž') {
                 $abs = 'absolvoval';
             } else {
                 $abs = 'absolvovala';

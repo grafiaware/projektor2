@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-abstract class Projektor2_Controller_Formular_Agp_Menus extends Projektor2_Controller_Formular_Base {
+abstract class Projektor2_Controller_Formular_Agp_Menus extends Projektor2_Controller_Formular_FlatTable {
     
     protected function getLeftMenu() {
         $leftMenuController = new Projektor2_Controller_Agp_LeftMenu($this->sessionStatus, $this->request, $this->response);

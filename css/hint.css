@@ -1,0 +1,20 @@
+table.hint {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid black;
+}
+
+table.hint tr:nth-child(odd) {
+    background-color: #f3f3f3;
+}
+
+table.hint tr:nth-child(even) {
+    background-color: #c8c8c8;
+}
+
+table.hint th, td {
+    padding: 4px;
+    font-size: 0.8em;
+    color: black;
+    font-family: Arial,Helvetica,sans-serif;
+}

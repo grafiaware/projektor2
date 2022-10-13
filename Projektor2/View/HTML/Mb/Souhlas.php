@@ -12,8 +12,8 @@ class Projektor2_View_HTML_Mb_Souhlas extends Projektor2_View_HTML_FormularPHP4 
      * do paramentru $context metoda generuje přímo html výstup. Metoda nemá návratovou hodnotu.
      */
     public function display() {
-        $signDotaznik = Projektor2_Controller_Formular_Base::DOTAZNIK_FT;
-        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
+        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
 
         $pole = $this->context[$signDotaznik];
 

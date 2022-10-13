@@ -14,6 +14,10 @@ class Projektor2_View_HTML_Element_Select extends Framework_View_Abstract {
 
     /**
      * Metoda generuje html kód elementu select.
+     *
+     * Renderuje data poskytnutá viewmodelem. Viewmodel je typu Projektor2_Model_Element_Select a musí být obsahem položky 'viewModel' v poli context zadaného do konstruktoru.
+     *
+     * NEPLATNÝ STARÝ POPIS:
      * Parametry očekává jako prvky pole context.
      * 'selectId' string id atribut prvku select
      * 'selectName' string name atribut prvku select (jméno proměnné formuláře)
@@ -42,14 +46,14 @@ class Projektor2_View_HTML_Element_Select extends Framework_View_Abstract {
                 .$style
                 .$onChangeCode
                 . ' >';
-        foreach ($this->viewModel->getValues() as $value) {
-            $this->parts[] = $this->optionCode($value);
+        foreach ($this->viewModel->getValues() as $text=>$value) {
+            $this->parts[] = $this->optionCode($value, $text);
         }
         $this->parts[] = '</select>';
         return $this;
     }
 
-    private function optionCode($value) {
+    private function optionCode($value, $text="") {
         $option = '<option ';
         $contextValue = $this->viewModel->getActualValue();
         if (is_object($value)) {
@@ -63,11 +67,14 @@ class Projektor2_View_HTML_Element_Select extends Framework_View_Abstract {
             if (isset($contextValue) AND $contextValue == $value) {
                 $option .= 'selected="selected"';
             }
-            if ($this->viewModel->getInnerTextCallable())
-           {
+            if ($this->viewModel->getInnerTextCallable()) {
                 $option .= ' value='.$value.'>'.call_user_func($this->viewModel->getInnerTextCallable(), $value).'</option>';
             } else {
-                $option .= ' value="'.$value.'">'.$value.'</option>';
+                if (!is_numeric($text)) {
+                    $option .= ' value="'.$value.'">'.$text.'</option>';
+                } else {
+                    $option .= ' value="'.$value.'">'.$value.'</option>';
+                }
             }
         }
         return $option;

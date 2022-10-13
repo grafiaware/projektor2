@@ -26,7 +26,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
             }
             foreach ($zajemci as $zajemce) {
                 $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
-                pro všechny typy $certifikatTyp  !!
+//TODO:                pro všechny typy $certifikatTyp  !!
 
                 foreach ($kurzyColumnNames as $kurzColumnNames) {
                     if ($plan->$kurzColumnNames['idSKurzFK'] AND $plan->$kurzColumnNames['dokonceno'] AND $plan->$kurzColumnNames['datumCertif']) {
@@ -45,7 +45,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
                                                 Projektor2_Model_Db_KancelarMapper::findById($zajemce->id_c_kancelar_FK),
                                                 $zajemce, $sKurz, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
                             if (!$certifikat) {
-                                throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id);
+                                throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
                             }
                             $logger->log($certifikat->documentCertifikatKurz->filePath);
                         }
@@ -53,7 +53,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
                 }
             }
         }
-        $redirController = new Projektor2_Controller_ZobrazeniRegistraci($this->sessionStatus, $this->request, $this->response);
+        $redirController = new Projektor2_Controller_SeznamRegistraci($this->sessionStatus, $this->request, $this->response);
         return $redirController->getResult();
     }
 }

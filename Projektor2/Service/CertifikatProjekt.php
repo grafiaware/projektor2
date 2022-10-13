@@ -157,7 +157,7 @@ class Projektor2_Service_CertifikatProjekt {
         foreach ($models as $modelSign => $model) {
             $assoc = $model->getValuesAssoc();
             foreach ($assoc as $key => $value) {
-                $context[$modelSign.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$key] = $value;
+                $context[$modelSign.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR.$key] = $value;
             }
         }        
         return $context;

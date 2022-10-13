@@ -11,6 +11,6 @@
  *
  * @author pes2704
  */
-abstract class Projektor2_Controller_Formular_Dotaznik extends Projektor2_Controller_Formular_Base {
+abstract class Projektor2_Controller_Formular_Dotaznik extends Projektor2_Controller_Formular_FlatTable {
     const DOTAZNIK_FT = 'dotaznikFT';
 }

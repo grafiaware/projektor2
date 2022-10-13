@@ -53,7 +53,7 @@ class Projektor2_View_PDF_Vzp_IP1 extends Projektor2_View_PDF_Common {
             $counter = 0;
             foreach($this->context['aktivityPlan'] as $kurzPlan) {
 //                $kurzPlan = new Projektor2_Model_KurzPlan();
-                if ($kurzPlan->sKurz->isNaplanovan()) {
+                if ($kurzPlan->sKurz->isRealCourse()) {
                     $counter++;
                     $yPositionBefore = $this->pdf->getY();            
                     $kurzSadaBunek = new Projektor2_PDF_SadaBunek();

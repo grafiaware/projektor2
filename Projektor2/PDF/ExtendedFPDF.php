@@ -327,11 +327,11 @@ class Projektor2_PDF_ExtendedFPDF extends \FPDF
                     if($align=='R') {
                         $dx=$width-$w_txt-$this->cMargin;
                     } elseif($align=='C') {
-                            $dx=($width-$w_txt)/2;
-                        } else {
-                            $dx=$this->cMargin;
-                            if ($l>0) $dx = $dx + $hangingIndent;
-                        }
+                        $dx=($width-$w_txt)/2;
+                    } else {
+                        $dx=$this->cMargin;
+                        if ($l>0) $dx = $dx + $hangingIndent;
+                    }
 
                     $txt=str_replace(')','\\)',str_replace('(','\\(',str_replace('\\','\\\\',$txt)));
                     if($this->ColorFlag) $s.='q '.$this->TextColor.' ';

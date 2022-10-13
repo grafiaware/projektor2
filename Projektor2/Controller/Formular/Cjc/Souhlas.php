@@ -10,11 +10,11 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Formular_Cjc_Souhlas extends Projektor2_Controller_Formular_Base {
+class Projektor2_Controller_Formular_Cjc_Souhlas extends Projektor2_Controller_Formular_FlatTable {
 
 
-    protected function createFormModels($zajemce) {
-        $this->models[Projektor2_Controller_Formular_Base::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+    protected function createFormModels() {
+        $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce);
     }
 
     protected function getResultFormular() {

@@ -12,8 +12,8 @@ class Projektor2_View_HTML_Mb_Zamestnani extends Projektor2_View_HTML_FormularPH
      * do paramentru $context metoda generuje přímo html na výstup. Metoda nemá návratovou hodnotu.
      */
     public function display() {
-        $signZamestnani = Projektor2_Controller_Formular_Base::ZAM_FT;
-        $prefixZamestnani = $signZamestnani.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR;
+        $signZamestnani = Projektor2_Controller_Formular_FlatTable::ZAM_FT;
+        $prefixZamestnani = $signZamestnani.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
 
         $pole = $this->context[$signZamestnani];
         ?>

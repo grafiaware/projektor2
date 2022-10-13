@@ -23,7 +23,7 @@ class Projektor2_Controller_Certifikat_Kurz extends Projektor2_Controller_Certif
         $certifikat = $serviceCertifikat->create($certificateType, $this->sessionStatus, $this->sessionStatus->kancelar,
                                        $this->sessionStatus->zajemce, $sKurz, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
         if (!$certifikat) {
-            throw new LogicException('Nepodařilo se vytvořit certifikát typu: '.$certificateType.' pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id);
+            throw new LogicException('Nepodařilo se vytvořit certifikát typu: '.$certificateType.' pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
         } else {
             $viewPdf = new Projektor2_View_HTML_Script_NewWindowOpener($this->sessionStatus);
 //            $viewPdf->assign('fullFileName', 'http://'.$_SERVER['HTTP_HOST'].'/'.Projektor2_AppContext::getFileBaseFolder().$certifikat->dbCertifikatKurz->filename);

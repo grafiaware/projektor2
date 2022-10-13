@@ -1,35 +1,34 @@
-.zaznamy {
-    font-size: 14px;
+table.zaznamy {
     color: black;
-    border: solid gray 1px;
-    /*width: 1000px;*/
+    border: solid lightgray 1px;
     /*width: 100%;*/
     background-color: rgb(200, 200, 200);
-    line-height:150%;
+    font-size: 1em;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    /*line-height:150%;*/
 /*    padding:3px;
     margin: 5px;*/
-    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; 
-    font-size: 11px;
 }
 
-.zaznamy td {
+table.zaznamy th,td {
     padding-left: 1px;
-    padding-right: 1px;	
+    padding-right: 1px;
 }
+
 
 .zaznamy .identifikator {
     font-weight: bold;
     padding-left: 2px;
-    padding-right: 2px;        
+    padding-right: 2px;
 }
 
 .zaznamy .jmeno {
-    font-size: 120%;
+    font-size: 110%;
     color: #222222;
     padding-left: 8px;
     padding-right:8px;
 }
-        
+
 /*#zaznamy .editace td {
     background-color: #FFFF99;
 }
@@ -43,11 +42,12 @@
 }*/
 
 .zaznamy a {
+    font-weight: bold;
     text-decoration: none;
-    border: 3px;
-    border-style: outset;        
-    border-radius: 5px;    
-    padding: 2px;        
+    border: 5px;
+    border-style: outset;
+    border-radius: 3px;
+    padding: 2px;
 }
 
 .zaznamy .edit a {
@@ -55,7 +55,7 @@
     background-color: #99FFFF;
     border-color: #99FFFF;
 }
-	
+
 .zaznamy .edit a:hover {
     background-color: #77DDDD;
 }
@@ -91,19 +91,19 @@
 }
 
 .zaznamy a:active {
-    border-style: inset;        
+    border-style: inset;
 }
 
 .zaznamy .disabled a:active {
-    border-style: outset;        
+    border-style: outset;
 }
 
 .signal {
     text-decoration: none;
     text-align: center;
-    border: 2px;
-    border-style: solid;        
-    border-radius: 5px;    
+    border: 3px;
+    border-style: solid;
+    border-radius: 10px;
 }
 .signal-none {
     color: grey;
@@ -128,40 +128,40 @@
 .signal-uspesne {
     color: darkgreen;
     background-color: yellowgreen;
-    border-color: darkgreen;    
+    border-color: darkgreen;
 }
 .signal-neuspesne {
     color: darkred;
     background-color: orange;
-    border-color: red;      
+    border-color: red;
 }
 .signal-certifikat {
     color: darkgreen;
     background-color: lightgreen;
-    border-color: darkgreen;    
+    border-color: darkgreen;
 }
 .signal-nezamestnan {
     color: grey;
     background-color: lightgrey;
-    border-color: red;    
+    border-color: red;
 }
 .signal-zamestnan {
     color: darkgreen;
     background-color: lightgreen;
-    border-color: darkgreen;    
+    border-color: darkgreen;
 }
 .signal-navazujici {
     color: darkgreen;
     background-color: lightgreen;
-    border-color: darkgreen;    
+    border-color: darkgreen;
 }
 .signal-supm {
     color: darkgreen;
     background-color: lightgreen;
-    border-color: lightblue;    
+    border-color: lightblue;
 }
 .signal-novemisto {
     color: darkgreen;
     background-color: lightgreen;
-    border-color: lightyellow;    
+    border-color: lightyellow;
 }

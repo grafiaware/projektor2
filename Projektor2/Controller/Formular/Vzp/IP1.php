@@ -6,9 +6,9 @@
  */
 class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formular_IP {
 
-    protected function createFormModels($zajemce) {
-        $this->models['plan'] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
-        $this->models['dotaznik'] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+    protected function createFormModels() {
+        $this->models['plan'] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($this->sessionStatus->zajemce);
+        $this->models['dotaznik'] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce);
     }
 
     protected function getResultFormular() {
@@ -47,7 +47,7 @@ class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formu
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení Grafia') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení Grafia')));  // druh je řetězec za slovy Tiskni osvědčení Grafia
             $kurzPlan = Projektor2_Model_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
-            $params = array('idSKurzFK'=>$kurzPlan->sKurz->id, 'datumCertif' => $kurzPlan->datumCertif, 'certifikatTyp'=>1);
+            $params = array('idSKurzFK'=>$kurzPlan->sKurz->id_s_kurz, 'datumCertif' => $kurzPlan->datumCertif, 'certifikatTyp'=>1);
 
             $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
             $htmlResult = $ctrlIpCertifikat->getResult();
@@ -55,7 +55,7 @@ class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formu
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení pro monitoring') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení pro monitoring')));  // druh je řetězec za slovy Tiskni osvědčení pro monitoring
             $kurzPlan = Projektor2_Model_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
-            $params = array('idSKurzFK'=>$kurzPlan->sKurz->id, 'datumCertif' => $kurzPlan->datumCertif, 'certifikatTyp'=>3);
+            $params = array('idSKurzFK'=>$kurzPlan->sKurz->id_s_kurz, 'datumCertif' => $kurzPlan->datumCertif, 'certifikatTyp'=>3);
 
             $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
             $htmlResult = $ctrlIpCertifikat->getResult();

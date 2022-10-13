@@ -8,7 +8,7 @@ class Projektor2_Model_Menu_Signal_Plan extends Projektor2_Model_Menu_Signal {
     
     public function setByAktivitaPlan(Projektor2_Model_AktivitaPlan $aktivitaPlan) {
         $sKurz = $aktivitaPlan->sKurz;
-        if (isset($sKurz) AND $sKurz->isNaplanovan()){  //kurz je naplanovan
+        if (isset($sKurz) AND $sKurz->isRealCourse()){  //kurz je naplanovan
             $this->text = $aktivitaPlan->sKurz->kurz_druh;
             $this->kurzDruh = $aktivitaPlan->sKurz->kurz_druh;
             if ($aktivitaPlan->certifikatyKurz) {  //ma certifikat kurz

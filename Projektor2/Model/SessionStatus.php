@@ -23,65 +23,45 @@ class Projektor2_Model_SessionStatus {
     protected static $sessionStatus;
 
     /**
-     *
      * @var Projektor2_Auth_Cookie
      */
     public $authCookie;
+
     /**
-     *
      * @var Projektor2_Model_Db_Kancelar
      */
     public $kancelar;
+
     /**
-     *
      * @var Projektor2_Model_Db_Projekt
      */
     public $projekt;
+
     /**
-     *
      * @var Projektor2_Model_Db_Beh
      */
     public $beh;
+
     /**
-     *
      * @var Projektor2_Model_Db_SysUser
      */
     public $user;
+
     /**
-     *
-     * @var Projektor2_Model_Db_Ucastnik
-     */
-    public $ucastnik;
-    /**
-     *
      * @var Projektor2_Model_Db_Zajemce
      */
     public $zajemce;
 
     /**
-     *
+     * @var Projektor2_Model_Db_SKurz
+     */
+    public $sKurz;
+
+    /**
      * @var Framework_Logger_File
      */
     public $logger;
 
-    /**
-     * Privátní konstruktor
-     * @param type $kancelar
-     * @param type $projekt
-     * @param type $beh
-     * @param type $user
-     * @param type $zajemce
-     */
-    private function __construct(Projektor2_Model_Db_SysUser $user=NULL, Projektor2_Model_Db_Kancelar $kancelar=NULL,
-                        Projektor2_Model_Db_Projekt $projekt=NULL, Projektor2_Model_Db_Beh $beh=NULL,
-                        Projektor2_Model_Db_Zajemce $zajemce=NULL, Framework_Logger_File $logger=NULL) {
-        $this->kancelar = $kancelar;
-        $this->projekt = $projekt;
-        $this->beh = $beh;
-        $this->user = $user;
-        $this->zajemce = $zajemce;
-        $this->logger = $logger;
-    }
 
     public function __get($name) {
         return $this->$name;   //TODO: nekontroluje existenci vlastnosti
@@ -121,6 +101,11 @@ class Projektor2_Model_SessionStatus {
         return $this;
     }
 
+    public function setSKurz(Projektor2_Model_Db_SKurz $sKurz=NULL) {
+        $this->sKurz = $sKurz;
+        return $this;
+    }
+
     /**
      * Metoda vytvoří session status z cookies nastavených login procesem
      * @return Projektor2_Model_SessionStatus
@@ -150,6 +135,11 @@ class Projektor2_Model_SessionStatus {
                 // zajemce z cookie
                 $zajemce = Projektor2_Model_Db_ZajemceMapper::get($request->cookie('zajemceId'));
                 self::$sessionStatus->setZajemce($zajemce);
+
+                // sKurz z cookie
+                $sKurz = Projektor2_Model_Db_SKurzMapper::get($request->cookie('sKurzId'));
+                self::$sessionStatus->setSKurz($sKurz);
+
                 if (self::$sessionStatus->logger) {
                     $part[] = date('Y-m-d H:i:s');
                     $part[] = self::$sessionStatus->user->username;
@@ -158,6 +148,7 @@ class Projektor2_Model_SessionStatus {
                     $part[] = self::$sessionStatus->beh->beh_cislo;
                     $part[] = self::$sessionStatus->zajemce->id;
                     $part[] = self::$sessionStatus->zajemce->identifikator;
+                    $part[] = self::$sessionStatus->sKurz->id_s_kurz;
                     $part[] = preg_replace("/\s+/u", " : ", print_r($request->getArray(), true));
 //                    $part[] = preg_replace("/\s+/u", " : ", print_r($request->postArray(), true));
                     self::$sessionStatus->logger->log(implode(' | ', $part));
@@ -170,6 +161,7 @@ class Projektor2_Model_SessionStatus {
                 self::$sessionStatus->setBeh();
                 self::$sessionStatus->setUser();
                 self::$sessionStatus->setZajemce();
+                self::$sessionStatus->setSKurz();
             }
         }
         return self::$sessionStatus;
@@ -206,6 +198,11 @@ class Projektor2_Model_SessionStatus {
             $response->setCookie('zajemceId', $this->zajemce->id);
         } else {
             $response->setCookie('zajemceId', NULL);
+        }
+        if (isset($this->sKurz)) {
+            $response->setCookie('sKurzId', $this->sKurz->id_s_kurz);
+        } else {
+            $response->setCookie('sKurzId', NULL);
         }
     }
 

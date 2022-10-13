@@ -11,6 +11,8 @@ abstract class Framework_Model_FileMapper {
     /**
      * Metoda ukládá dokument do souboru v souborovém systému. Soubor vytvoří, již existující vždy přepíše. Do souboru vloží obsah
      * bez kontroly délky, pokud je obsah modelu prázdný, vytvoří soubor s nulovou délkou.
+     * Pokud neexistuje složka (adresář), do kterého se má soubor uložit, pokusí se složku vytvořit (s oprávněním 0777)
+     *
      * @param Projektor2_Model_File_ItemAbstract $model
      * @return \Projektor2_Model_File_ItemAbstract
      * @throws BadFunctionCallException

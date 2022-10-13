@@ -14,7 +14,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
         $row = $sth->fetch(PDO::FETCH_ASSOC);
-        return $this->createItem($row);
+        return static::createItem($row);
     }
 
     /**
@@ -32,7 +32,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
         }
         if ($sKurz) {
             $conditionTokens[] = 'id_s_kurz_FK = :id_s_kurz_FK';
-            $bindParams['id_s_kurz_FK'] = $sKurz->id;
+            $bindParams['id_s_kurz_FK'] = $sKurz->id_s_kurz;
         }
         if($certificateType) {
             $conditionTokens[] = 'typ = :typ';
@@ -91,7 +91,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
             $cisloCertifikatu = 1;
         }
         $now = new DateTime("now");
-        $modelCertifikatKurz = new Projektor2_Model_Db_CertifikatKurz($zajemce->id, $typRow['id_certifikat_kurz_typ'], $sKurz->id,
+        $modelCertifikatKurz = new Projektor2_Model_Db_CertifikatKurz($zajemce->id, $typRow['id_certifikat_kurz_typ'], $sKurz->id_s_kurz,
             $cisloCertifikatu, $rok, Projektor2_AppContext::getCertificateKurzIdentificator($certificateType, $rok, $cisloCertifikatu),
             $fileName, $date->getSqlDate(),
             $now->format("Y-m-d H:i:s"),
@@ -121,7 +121,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
 //        return self::findById($dbh->lastInsertId());
     }
 
-    private function createItem($row) {
+    private static function createItem($row) {
         if($row) {
             return new Projektor2_Model_Db_CertifikatKurz($row['id_zajemce_FK'], $row['id_certifikat_kurz_typ_FK'], $row['id_s_kurz_FK'],
                     $row['cislo'], $row['rok'], $row['identifikator'], $row['filename'], $row['date'],
@@ -129,7 +129,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
         }
     }
 
-    private function createCollection($data) {
+    private static function createCollection($data) {
         if(!$data) {
             $collection = [];
         } else {

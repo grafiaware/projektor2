@@ -18,67 +18,17 @@ class Projektor2_Router_Akce {
 
     public function getController() {
 
-        // Udělátko pro spuštění testů. Každý test musí být kontroler.
-        if ($this->request->get('akce') == 'test') {
-            $testClassName = $this->request->get('testclass');
-            return new $testClassName();
-        }
-
-        //Volba akce
-        switch ($this->sessionStatus->projekt->kod) {
-            case "AGP":
-            case "HELP":
-            case "SJZP":
-            case "VZP":
-            case "ZPM":
-            case "SPP":
-            case "RP":
-            case "SJPK":
-            case "SJPO":
-            case "SJLP":
-            case "VDTP":
-            case "PDU":
-            case "MB":
-            case "CJC":
-                switch($this->request->param('akce')) {
-                    case "export":
-                        return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "form":
-                        return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "zobraz_reg":
-                    default:
-                        return new Projektor2_Controller_ZobrazeniRegistraci($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    }
-                break;
-            case "AP":
-                switch($this->request->param('akce')) {
-                    case "export":
-                        return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "ap_ip_certifikaty_export":
-                        return new Projektor2_Controller_Export_CertifikatyKurz($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "ap_projekt_certifikaty_export":
-                        return new Projektor2_Controller_Export_CertifikatyProjekt($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "form":
-                        return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "zobraz_reg":
-                    default:
-                        return new Projektor2_Controller_ZobrazeniRegistraci($this->sessionStatus, $this->request, $this->response);
-                        break;
-                }
-            break;
-
-            default:
-                throw new UnexpectedValueException('neznámý kód projektu: '.$this->sessionStatus->projekt->kod);
-
-        }
+            switch ($this->request->get('akce')) {
+                case 'kurzy':
+                    $routerKurzy = new Projektor2_Router_Kurzy($this->sessionStatus, $this->request, $this->response);
+                    $ctrl = $routerKurzy->getController();
+                    break;
+                case 'osoby':
+                default:
+                    $routerOsoby = new Projektor2_Router_Osoby($this->sessionStatus, $this->request, $this->response);
+                    $ctrl = $routerOsoby->getController();
+                    break;
+            }
+            return $ctrl;
     }
 }
-
-?>

@@ -117,6 +117,26 @@ class Projektor2_Service_CertifikatKurz {
                     }
                     $nalezenyCertifikatKurz = new Projektor2_Model_CertifikatKurz($dbCertifikat, $modelDocumentCertifikatMonitoring);
                     break;
+                case 4:
+                    // vytvoř a ulož pdf certifikátu pro CJC
+                    $view = new Projektor2_View_PDF_KurzOsvedceniCjc($sessionStatus);
+                    $relativeDocumentPath = Projektor2_Model_File_CertifikatKurzMapper::getRelativeFilePath($sessionStatus->projekt, $zajemce, $sKurz, 3);
+
+                    $content = $this->createContent($view, $zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $relativeDocumentPath);
+                    $modelDocumentCertifikatMonitoring = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $content, $certificateType);
+                    $modelDocumentCertifikatMonitoring = Projektor2_Model_File_CertifikatKurzMapper::save($modelDocumentCertifikatMonitoring);
+                    // vytvořen file model certifikát i pseudokopie -> nastav název souboru certifikátu v db
+                    if ($modelDocumentCertifikatMonitoring) {
+                        $logger->log('File certifikat kurz s cestou '.$modelDocumentCertifikatOriginal->filePath.' vytvořen.', 1);
+                        $dbCertifikat->filename = $modelDocumentCertifikatMonitoring->relativeDocumentPath;
+                        Projektor2_Model_Db_CertifikatKurzMapper::update($dbCertifikat);
+                        $logger->log('Db certifikat updatován.', 1);
+                    } else {
+                        Projektor2_Model_Db_CertifikatKurzMapper::delete($dbCertifikat);  // nekontroluji smazání
+                        throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatMonitoring->filePath);
+                    }
+                    $nalezenyCertifikatKurz = new Projektor2_Model_CertifikatKurz($dbCertifikat, $modelDocumentCertifikatMonitoring);
+                    break;
                 default:
                     throw new UnexpectedValueException('Neznámý typ certifikátu: '.$certificateType);
                     break;
@@ -197,7 +217,7 @@ class Projektor2_Service_CertifikatKurz {
         foreach ($models as $modelSign => $model) {
             $assoc = $model->getValuesAssoc();
             foreach ($assoc as $key => $value) {
-                $context[$modelSign.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$key] = $value;
+                $context[$modelSign.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR.$key] = $value;
             }
         }
         return $context;

@@ -19,7 +19,7 @@ abstract class Projektor2_Controller_Certifikat_Abstract  extends Projektor2_Con
         foreach ($this->models as $modelSign => $model) {
             $assoc = $model->getValuesAssoc();
             foreach ($assoc as $key => $value) {
-                $context[$modelSign.Projektor2_Controller_Formular_Base::MODEL_SEPARATOR.$key] = $value;
+                $context[$modelSign.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR.$key] = $value;
             }
         }        
         return $context;

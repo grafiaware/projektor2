@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_Formular_Base {
+abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_Formular_FlatTable {
 
     /**
      * Metoda vrací pole objektů Projektor2_Model_SKurz pro aktuální projekt, běh, kancelář a zadaný druh kurzu.
@@ -25,8 +25,7 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
             $filter .= " OR kurz_zkratka='*'";
         }
         $filter = "(".$filter.")";
-        $mapper = new Projektor2_Model_Db_SKurzMapper();
-        return $mapper->findAll($filter, 'razeni');
+        return Projektor2_Model_Db_SKurzMapper::find($filter, 'razeni');
     }
 
     /**
@@ -41,7 +40,7 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
         foreach ($aktivityProjektu as $indexAktivity => $parametryAktivity) {
             foreach ( $this->getContextSelectedDbSKurzModels($parametryAktivity['kurz_druh']) as $sKurz) {
                 /** @var Projektor2_Model_Db_SKurz $sKurz */
-                $DbSKurzModels[$indexAktivity][$sKurz->id] = $sKurz;
+                $DbSKurzModels[$indexAktivity][$sKurz->id_s_kurz] = $sKurz;
             }
         }
         return $DbSKurzModels;

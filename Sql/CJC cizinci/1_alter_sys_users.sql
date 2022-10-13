@@ -1,0 +1,7 @@
+ALTER TABLE `projektor_2`.`sys_users`
+ADD COLUMN `tl_cj_sml` TINYINT(1) NOT NULL DEFAULT '0' ;
+ADD COLUMN `tl_cj_souhlas` TINYINT(1) NOT NULL DEFAULT '0' ;
+ADD COLUMN `tl_cj_cizinec` TINYINT(1) NOT NULL DEFAULT '0' ;
+ADD COLUMN `tl_cj_plan` TINYINT(1) NOT NULL DEFAULT '0' ;
+
+

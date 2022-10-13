@@ -6,11 +6,11 @@
  */
 class Projektor2_Controller_Formular_Mb_IP2 extends Projektor2_Controller_Formular_IP {
 
-    protected function createFormModels($zajemce) {
-        $this->models[Projektor2_Controller_Formular_Base::UKONC_FT] = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
-        $this->models[Projektor2_Controller_Formular_Base::PLAN_FT] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
-        $this->models[Projektor2_Controller_Formular_Base::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
-        $this->models[Projektor2_Controller_Formular_Base::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($zajemce);
+    protected function createFormModels() {
+        $this->models[Projektor2_Controller_Formular_FlatTable::UKONC_FT] = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($this->sessionStatus->zajemce);
+        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_FT] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($this->sessionStatus->zajemce);
+        $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce);
+        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($zajemce);
     }
 
     protected function getResultFormular() {

@@ -1,0 +1,28 @@
+{
+    "name": "grafiaware/projektor2",
+    "description": "projektor2",
+    "license": "MIT",
+    "keywords": [""],
+    "authors": [
+        {
+            "name": "Petr Svoboda",
+            "email": "svoboda@grafia.cz"
+        }
+    ],
+    "version": "0.1",
+    "require": {
+        "pes/pes": "@dev",
+        "google/apiclient":"^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Test\\": "tests",
+            "" : "src"
+        },
+        "psr-0": {
+            "Projektor2_": "",
+            "Framework_": "",
+            "FPDF": "C://xampp/php/pear/fpdf"
+        }
+    }
+}

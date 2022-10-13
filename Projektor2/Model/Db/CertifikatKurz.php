@@ -35,4 +35,4 @@ class Projektor2_Model_Db_CertifikatKurz {
     }
 
 }
-?>
+

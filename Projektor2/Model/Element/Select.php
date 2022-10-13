@@ -19,10 +19,10 @@ class Projektor2_Model_Element_Select {
      * 'valuesArray' array pole návratových hodnot, jde o pole skalárů nebo objektů, slouží také pro generování jednotlivých elementů option
      * 'returnedObjectProperty' string jméno vlastnosti objektu použité pro návratovou hodnotu, pokud valuesArray je pole objektů
      * 'actualValue' string současná hodnota proměnné formuláře - slouží pro výběr příslušné option jako selected
-     * 'innerTextCallable' callable je volán pro vygenerování zobrazovaných textů jednotlivých option vytvožených z položek valuesArray (např. array($this,'text_retezec_kurz'))
-     * 'onChangeJsCode' string javascriptový kód volaný při změně hodnoty selectu (např, 'submitForm(this);' provede submit formuláře po ksždé změně hodnoty
+     * 'innerTextCallable' callable je volán pro vygenerování zobrazovaných textů jednotlivých option vytvořených z položek valuesArray (např. array($this,'text_retezec_kurz'))
+     * 'onChangeJsCode' string javascriptový kód volaný při změně hodnoty selectu (např, 'submitForm(this);' provede submit formuláře po každé změně hodnoty)
      * 'readonly' mixed pokud je TRUE je select je pouze pro čtení
-     * 'required' mixed pokud je TRUE je select requird, toto je funkční je pokud hodnoty "nevybraného" slectu (tedy první option) je vyhodnocována jako FALSE (napž. prázdný řetězec)
+     * 'required' mixed pokud je TRUE je select required, toto je funkční je pokud hodnota "nevybraného" selectu (tedy první option) je vyhodnocována jako FALSE (napž. prázdný řetězec)
      */
     private $selectName;
     /**
@@ -44,7 +44,8 @@ class Projektor2_Model_Element_Select {
     /**
      *
      * @param string $selectName Atribut name prvku select (jméno proměnné formuláře)
-     * @param iterable $values Návratové hodnoty, položky jou typu skalár nebo objekt, slouží pro generování jednotlivých elementů option
+     * @param iterable $values Návratové hodnoty, položky jou typu skalár nebo objekt, slouží pro generování jednotlivých elementů option. Pokud je parametr asocitivní pole,
+     *          jsou klíče položek pole použity jako texty jednotlivých option. To neplatí, pokud je pomocí metody setInnerTextCallable() zadána callable pro generování textů option, ta má přednost.
      * @param mixed $actualValue Aktuální hodnota proměnné formuláře, tedy hodnota před provedením výběru položky elementu select uživatelem - slouží pro označení příslušné option jako selected.
      *          Přitom se řídí podle hodnot jednotlivých option, jako selected je vybrána option se stejnou hodnotou. To praktické řešení, ale vyžaduje unikátní hodnoty jednotlivých options.
      * @param string $returnedObjectProperty Pokud valuesArray obsahuje objekty, je toto jméno vlastnosti objektu, jejíž hodnota bude použita jako hodnota jednotlivých voleb (options).
