@@ -36,12 +36,6 @@ FROM `s_kurz`
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
         $row = $sth->fetch(PDO::FETCH_ASSOC);
-        if($row) {
-            $datetimeZacatek = Projektor2_Date::createFromSqlDate($radek['date_zacatek']);
-            $radek['date_zacatek'] = $datetimeZacatek ? $datetimeZacatek->getCzechStringDate() :  '';
-            $datetimeKonec = Projektor2_Date::createFromSqlDate($radek['date_konec']);
-            $radek['date_konec'] = $datetimeKonec ? $datetimeKonec->getCzechStringDate() : '';
-        }
         return static::createItem($row);
     }
 
@@ -87,12 +81,6 @@ FROM `s_kurz`
         $succ = $sth->execute();
         $data = $sth->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($data as $radek) {
-            $datetimeZacatek = Projektor2_Date::createFromSqlDate($radek['date_zacatek']);
-            $radek['date_zacatek'] = $datetimeZacatek ? $datetimeZacatek->getCzechStringDate() :  '';
-            $datetimeKonec = Projektor2_Date::createFromSqlDate($radek['date_konec']);
-            $radek['date_konec'] = $datetimeKonec ? $datetimeKonec->getCzechStringDate() : '';
-        }
         return self::createCollection($data);
     }
 
