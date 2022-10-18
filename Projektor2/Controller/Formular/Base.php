@@ -2,6 +2,8 @@
 
 use Pes\Utils\Directory;
 
+use Pes\Utils\Exception\CreateDirectoryFailedException;
+
 /**
  * Description of Projektor2_Controller_Formular_Base
  *
@@ -25,6 +27,21 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
      */
     abstract protected function createFormModels();
 
+
+    protected function createContextFromModels($transformValuesForHtml=FALSE) {
+        $context = [];
+        foreach ($this->models as $modelSign => $model) {
+            if ($model instanceof Framework_Model_CollectionFlatTable) {
+                $context[$modelSign] = $this->createContextFromCollectionFlatTable($modelSign, $model, $transformValuesForHtml);
+            } elseif ($model instanceof Framework_Model_ItemFlatTable) {
+                $context[$modelSign] = $this->createContextFromItemFlatTable($modelSign, $model, $transformValuesForHtml);
+            } elseif($model instanceof Framework_Model_AttributeModelInterface) {
+                $context[$modelSign] = $this->createContextFromAttributeModel($modelSign, $model, $transformValuesForHtml);
+            }
+        }
+        return $context;
+    }
+
     protected function createContextFromCollectionFlatTable($modelSign, Framework_Model_CollectionFlatTable $model, $transformValuesForHtml=FALSE) {
         foreach ($model as $collectionKey => $itemFT) {  // itemSign je primary key, itemModel je FT
             if ($itemFT instanceof Framework_Model_ItemFlatTable) {
@@ -42,7 +59,7 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
                             ] = $value;
                     }
             } else {
-                throw new \LogicException("Položka kolekce modelů ". get_class($model)." s indexem $collectionKey je typu ".get_class($itemFT).", není Framework_Model_ItemFlatTable.");
+                throw new LogicException("Položka kolekce modelů ". get_class($model)." s indexem $collectionKey je typu ".get_class($itemFT).", není Framework_Model_ItemFlatTable.");
             }
         }
         return $context;
@@ -110,47 +127,29 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
         }
     }
 
-    protected function saveModels() {
-        if ($this->sessionStatus->user->povolen_zapis) {
-            foreach ($this->models as $model) {
-                if ($model instanceof Framework_Model_CollectionFlatTable) {
-                    // zde se vytvoří hlavní objekt (např. zajemce) k flat table (např. za_flat_table), ktera nema hlavní objekt
-                    // v případě, že model flat table toto chování umožňuje - nastaveno pro ten formulář, který má mít funkci založení nového hlavního objektu
-                    // (to je nastaveno v konstruktoru konkrétní flat table)
-                    $model->save();
-                    if ($model->isCreatedNewMainObject()) {
-                        $zajemce = $model->getMainObject();
-                        $this->sessionStatus->setZajemce($zajemce);
-                    }
-                } elseif ($model instanceof Framework_Model_ItemFlatTable) {
-                    // zde se vytvoří hlavní objekt (např. zajemce) k flat table (např. za_flat_table), ktera nema hlavní objekt
-                    // v případě, že model flat table toto chování umožňuje - nastaveno pro ten formulář, který má mít funkci založení nového hlavního objektu
-                    // (to je nastaveno v konstruktoru konkrétní flat table)
-                    $model->save();
-                    if ($model->isCreatedNewMainObject()) {
-                        $zajemce = $model->getMainObject();
-                        $this->sessionStatus->setZajemce($zajemce);
-                    }
-                } elseif ($model instanceof Framework_Model_AttributeModelInterface) {
-
-                }
-            }
-        }
-    }
-
-    protected function saveUploaded($uploadedFolderPath) {
+    /**
+     *
+     * @param type $uploadedFolderPath
+     * @return bool
+     * @throws CreateDirectoryFailedException Pokud beexistuje složka pro uložení souborů a nepodaří se ani příslušné složky vytvořit
+     */
+    protected function saveUploadedFiles($uploadedFolderPath, $expandIntoSubfoldersByType=false) {
+        $normalizedPath = Directory::normalizePath($uploadedFolderPath);
         if ($_FILES) {
-            $normalizedPath = Directory::createDirectory($uploadedFolderPath);
-            foreach ($_FILES[self::UPLOADED_KEY]['name'] as $key => $name) {
-                $uploadfile = trim($uploadedFolderPath, '/')."/".basename($name);
-                if (move_uploaded_file($_FILES[self::UPLOADED_KEY]['tmp_name'][$key], $uploadfile)) {
-                    echo "File is valid, and was successfully uploaded.\n";
+         // odpovídá tvaru atributu name v inputu typu file tak, jak je v Projektor2_View_HTML_UploadFile - varianta multiple = false
+            // indexy jsou typ uploadu
+            foreach ($_FILES[self::UPLOADED_KEY]['name'] as $type => $name) {
+                if ($expandIntoSubfoldersByType) {
+                    $uploadfile = Directory::createDirectory($normalizedPath.$type.'/').basename($name);
                 } else {
-                    echo "Possible file upload attack!\n";
+                    $uploadfile = Directory::createDirectory($normalizedPath).basename($name);
                 }
-
+                if (move_uploaded_file($_FILES[self::UPLOADED_KEY]['tmp_name'][$type], $uploadfile)) {
+                    $saved[$type] = $uploadfile;
+                }
             }
         }
+        return $saved ?? [];
     }
 
 

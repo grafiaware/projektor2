@@ -3,5 +3,5 @@
  * Created: 1. 9. 2022
  */
 
-ALTER TABLE `projektor_2`.`c_projekt`
+ALTER TABLE `c_projekt`
 ADD INDEX `kod` (`kod` ASC);

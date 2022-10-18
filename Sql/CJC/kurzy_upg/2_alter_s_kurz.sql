@@ -3,7 +3,7 @@
  * Created: 1. 9. 2022
  */
 
-ALTER TABLE `projektor_2`.`s_kurz`
+ALTER TABLE `s_kurz`
 ADD INDEX `c_projekt_kod_idx` (`projekt_kod` ASC),
 ADD INDEX `c_kancelar_kod_idx` (`kancelar_kod` ASC);
 ALTER TABLE `projektor_2`.`s_kurz`
@@ -18,10 +18,10 @@ ADD CONSTRAINT `c_kancelar_kod`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-ALTER TABLE `projektor_2`.`s_kurz`
+ALTER TABLE `s_kurz`
 CHANGE COLUMN `kurz_obsah` `kurz_obsah` VARCHAR(3000) CHARACTER SET 'utf8' COLLATE 'utf8_czech_ci' NULL DEFAULT NULL ;
 
-ALTER TABLE `projektor_2`.`s_kurz`
+ALTER TABLE `s_kurz`
 ADD COLUMN `kurz_pracovni_cinnost` VARCHAR(120) NULL DEFAULT NULL AFTER `kurz_nazev`,
 ADD COLUMN `kurz_akreditace` VARCHAR(120) NULL DEFAULT NULL AFTER `kurz_pracovni_cinnost`,
 ADD COLUMN `pocet_hodin_distancne` INT(10) NULL DEFAULT NULL AFTER `pocet_hodin`,

@@ -16,7 +16,7 @@ class Projektor2_View_HTML_Help_Dotaznik extends Projektor2_View_HTML_FormularPH
     echo '<H3>INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1</H3>';
     echo '<H3>DOTAZNÍK ÚČASTNÍKA PROJEKTU</H3>';
 
-    echo '<form method="POST" action="index.php?akce=form&form=he_reg_dot" name="dotaznik->form_ukonc">';
+    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=he_reg_dot" name="dotaznik->form_ukonc">';
 
      //dále následuje původní kód 
 ?>

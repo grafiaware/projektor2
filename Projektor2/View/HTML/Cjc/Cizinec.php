@@ -21,9 +21,10 @@ class Projektor2_View_HTML_Cjc_Cizinec extends Projektor2_View_HTML_FormularPHP4
         $poleDotaznik = $this->context[$signDotaznik];
         $poleCizinec = $this->context[$signCizinec];
 
+
         $html[] = Html::tag("h3", [], "REGISTRACE V PROGRAMU ČEŠTINA PRO CIZINCE");
         $html[] =
-            Html::tag("form", ["method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?akce=form&form=cj_cizinec"],
+            Html::tag("form", ["method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?akce=osoby&osoby=form&form&form=cj_cizinec"],
                 $this->context['uk_hint_fieldset'],
                 Html::tag("fieldset", [],
                     Html::tag("legend", [], "Osobní údaje"),
@@ -79,31 +80,15 @@ class Projektor2_View_HTML_Cjc_Cizinec extends Projektor2_View_HTML_FormularPHP4
                     ),
                     Html::tag("fieldset", [],
                         Html::tag("legend", [], "Registrace ÚP"),
-                        Html::tag("div", ["class"=>"container"],
-                            Html::tag("div", [],
+                        Html::tag("div", ["class"=>"fieldsetcontainer 1_3"],
+                            Html::tag("div", ["class"=>"leftcolumn"],
                                 Html::radio(
                                     $prefixCizinec.'faze',
-                                    [
-                                        "Žádost na ÚP - registrace zájemce"=>"Žádost na ÚP - registrace zájemce",
-                                        "Zájemce o zaměstnání"=>"Zájemce o zaměstnání",
-                                        "Žádost na ÚP - registrace uchazeč"=>"Žádost na ÚP - registrace uchazeč",
-                                        "Uchazeč o zaměstnání"=>"Uchazeč o zaměstnání",
-                                    ],
+                                    $this->context['faze'],
                                     $poleCizinec
                                 )
                             ),
-                            Html::tag("div", [],
-                                Html::tag("div", [],
-                                    Html::input($prefixCizinec.'datum_reg_zadost_zajemce', "Datum žádost na ÚP - registrace zájemce", $poleCizinec, ["type"=>"date", "size"=>"8", "maxlength"=>"10"]),
-                                    $this->context['file_upload1']
-                                ),
-                                Html::tag("div", [], Html::input($prefixCizinec.'datum_reg_zajemce', "Datum registrace na ÚP - zájemce:", $poleCizinec, ["type"=>"date", "size"=>"8", "maxlength"=>"10"])),
-                                Html::tag("div", [],
-                                    Html::input($prefixCizinec.'datum_reg_zadost_uchazec', "Datum žádost na ÚP - registrace uchazeč", $poleCizinec, ["type"=>"date", "size"=>"8", "maxlength"=>"10"]),
-                                    $this->context['file_upload2']
-                                ),
-                                Html::tag("div", [], Html::input($prefixCizinec.'datum_reg_uchazec', "Datum registrace na ÚP - uchazeč:", $poleCizinec, ["type"=>"date", "size"=>"8", "maxlength"=>"10"]))
-                            )
+                            Html::tag("div", ["class"=>"rightcolumn"], $this->context['registrace_up'])
                         )
                     ),
                     Html::tag("fieldset", [],
@@ -117,10 +102,7 @@ class Projektor2_View_HTML_Cjc_Cizinec extends Projektor2_View_HTML_FormularPHP4
                                 $poleCizinec
                             )
                         ),
-                        Html::tag("div", [],
-                            Html::tag("div", [], Html::input($prefixCizinec.'datum_rk_zadost_1', "Datum zájem o zvolenou rekvalifikaci jako zákemce", $poleCizinec, ["type"=>"date", "size"=>"8", "maxlength"=>"10"])),
-                            Html::tag("div", [], Html::input($prefixCizinec.'datum_rk_zadost_2', "Datum zájem o zvolenou rekvalifikaci jako uchazeč", $poleCizinec, ["type"=>"date", "size"=>"8", "maxlength"=>"10"]))
-                        )
+                            Html::tag("div", ["class"=>"rightcolumn"], $this->context['rekvalifikace_up'])
                     )
                 ),
                 Html::tag("p", [],

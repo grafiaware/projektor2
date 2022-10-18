@@ -10,26 +10,38 @@ use Pes\Text\Html;
  */
 class Projektor2_View_HTML_UploadFile extends Framework_View_Abstract {
     public function render() {
-        $form = $this->getSelectForm();
-        return $form ?? '';
+        return $this->getInputFile();
     }
 
 
     /**
      *
-     * @param string $formAction url pro axtion atribut formuláře
+     * @param string $formAction url pro action atribut formuláře
      * @param string $accept default "", dialog akceptuje všechny přípony, retězec přípon oddělených čárkou
      * @param boolean $multiple default false, dialog uploaduje jeden soubor
      * @return type
      */
-    private function getSelectForm($accept="", $multiple=false) {
-        $name = Projektor2_Controller_Import_ImportController::UPLOADED_KEY."[]";
+    private function getInputFile($accept="", $multiple=false) {
+        if (isset($this->context['type']) AND $this->context['type']) {
+            // normální formát jména proměnné v input type='file' pro upload multiple files - jméné proměnné zakončené [] - PHP zjevně dělá přiřazení, t.j. jmeno[] = xxxx
+            // všechny položky pole $_FILES (name, type, tmp_name, error a size) budou číselná pole
+            // $name = Projektor2_Controller_Import_ImportController::UPLOADED_KEY."[]";
+            //
+            // tento tvar jména pro inputy typu 'file' způsobí, že všechny položky pole $_FILES (name, type, tmp_name, error a size) budou dvouúrovňová pole,
+            // v první úrovní bude jako index zadaný typ (context['type']) a teprve ve druhé úrovni položky pro jednotlivé uploadované soubory
+            if ($multiple) {
+                $name = Projektor2_Controller_Import_ImportController::UPLOADED_KEY."['{$this->context['type']}'][]";
+            } else {
+            // - varianta pro multipe=false (jen jeden soubor od každého typu v jednom formuláři)
+            // - tento tvar jména pro inputy typu 'file' způsobí, že všechny položky pole $_FILES (name, type, tmp_name, error a size) budou pole,
+            // ve všech těchto polích bude jako index zadaný typ (context['type'])
+                $name = Projektor2_Controller_Import_ImportController::UPLOADED_KEY."[{$this->context['type']}]";
+            }
 
-
-        $form =
-            Html::tag("input", ["type" => "file", "name" => $name, "accept" => $accept, "multiple" => $multiple])
-            .Html::tag("button", ["formenctype"=>"multipart/form-data", "formmethod"=>"post"], "Upload")    // bez "formenctype"=>"multipart/form-data" není onsah ve $_FILES
-        ;
-        return $form;
+            return
+                Html::tag("input", ["type" => "file", "name" => $name, "accept" => $accept, "multiple" => $multiple])
+    //            .Html::tag("button", ["formenctype"=>"multipart/form-data", "formmethod"=>"post"], "Upload")    // bez "formenctype"=>"multipart/form-data" není obsah ve $_FILES
+            ;
+        }
     }
 }

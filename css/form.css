@@ -5,9 +5,14 @@
 
 /*pozor, pozor - ve formularich jsou vsude rozesety in-line styly - muze se to hadat*/
 
-form{
+form {
     position:relative;
+    font-size: 1em;
+    color: black;
+    font-family: Arial,Helvetica,sans-serif;
+    line-height: 1.5em;
 }
+
 /* styl pro zamčení (readonly) formuláře - překryje formulář vrstvou s vyšším z-indexem a form není klikací (akce klávesnice jsou funkční!) */
 /* před tagem form musí být nějaký tag - třeba <br> */
 /* https://stackoverflow.com/questions/3507958/how-can-i-make-an-entire-html-form-readonly */
@@ -22,22 +27,14 @@ form.lock::before{
     bottom:0;
     left:0;
 }
+
 form p {
-    font-size: 16px;
-    /*color: #626364;*/
-    color: black;
-    font-family: Arial,Helvetica,sans-serif;
-    line-height: 27px;
     margin: 0;
     padding: 0 0 7px;
 }
+
 form textarea {
-    font-size: 16px;
     width: 100%;
-    /*color: #626364;*/
-    color: black;
-    font-family: Arial,Helvetica,sans-serif;
-    line-height: 27px;
     margin: 0;
     padding: 0 0 7px;
 }
@@ -71,6 +68,7 @@ fieldset fieldset fildset legend {
     font-weight: bold;
     background-color: #375D81;
 }
+
 fieldset p {
     font-size: 1em;
     color: #626364;
@@ -101,11 +99,25 @@ fieldset {
 
 }
 
+/*label {
+    float: left;
+}*/
+
+/*label + span {
+    display: block;
+    overflow: hidden;
+    padding: 0px 4px 0px 6px;
+}*/
+
 label {
     margin-right: 0.3em;
 }
 
 input + label {
+        margin-left: 0.6em;
+}
+
+label + input {
         margin-left: 0.6em;
 }
 
@@ -128,8 +140,20 @@ input:required[type=radio]{
     border-radius: 10px;
 }
 
-fieldset .container {
-    background-color: #DDDDFF;
+fieldset .container .1_1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.fieldsetcontainer .1_3 {
     display: grid;
     grid-template-columns: 1fr 3fr;
+}
+
+.fieldsetcontainer .leftcolumn {
+    grid-column: 1;
+}
+
+.fieldsetcontainer .rightcolumn {
+    grid-column: 2;
 }

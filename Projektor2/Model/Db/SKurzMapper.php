@@ -110,12 +110,12 @@ FROM `s_kurz`
      * Vytvoří nový záznam v databázi a vrací nový objekt Projektor2_Model_Certifikat.
      *
      * @param Projektor2_Model_Db_Zajemce $zajemce
-     * @param Projektor2_Model_Db_UploadType $uploadType
+     * @param Projektor2_Model_Db_ZaUploadType $uploadType
      * @param type $filename
      * @param type $creator
      * @param type $service
      * @param type $dbHost
-     * @return Projektor2_Model_Db_Upload
+     * @return Projektor2_Model_Db_SKurz
      */
     public static function create(
         Projektor2_Model_Db_Projekt $projekt,

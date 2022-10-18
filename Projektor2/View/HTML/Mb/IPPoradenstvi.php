@@ -15,7 +15,7 @@ class Projektor2_View_HTML_Mb_IPPoradenstvi extends Projektor2_View_HTML_Formula
         // nadpis je v původním kódu někde v inc - přesunout nadpisy vždy sem
         echo '<H3>INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA PROJEKTU Moje Budoucnost</H3>';
         echo '<H4>Plán poradenských aktivit</H4>';
-        echo '<form method="POST" action="index.php?akce=form&form=sjlp_porad_uc" name="form_porad">';
+        echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=sjlp_porad_uc" name="form_porad">';
 
         $aktivity = Projektor2_AppContext::getAktivityProjektu('SJLP');
         foreach ($aktivity as $druh=>$aktivita) {

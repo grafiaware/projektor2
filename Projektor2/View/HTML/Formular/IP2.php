@@ -34,7 +34,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
 
         $this->parts[] = '<div>';
         $this->parts[] = '<H3>'.$this->context['nadpis'].'</H3>';
-        $this->parts[] = '<form method="POST" action="index.php?akce=form&form='.$this->context['formAction'].'" name="form_ukonc">';
+        $this->parts[] = '<form method="POST" action="index.php?akce=osoby&osoby=form&form='.$this->context['formAction'].'" name="form_ukonc">';
 
             $this->parts[] = '<fieldset>';
             $this->parts[] = '<legend>Ukončení účasti v projektu</legend>';

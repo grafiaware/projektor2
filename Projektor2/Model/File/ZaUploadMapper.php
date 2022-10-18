@@ -4,7 +4,9 @@
  *
  * @author pes2704
  */
-class Projektor2_Model_File_CizinecZadostMapper extends Framework_Model_FileMapper {
+class Projektor2_Model_File_ZaUploadMapper extends Framework_Model_FileMapper {
+
+    const ZA_UPLOAD = 'za_upload/';
 
     public static function create(Projektor2_Model_Db_Projekt $projekt, Projektor2_Model_Db_Flat_ZaCizinecFlatTable $zaCizinecFlatTable, $relativePath, $content) {
         if (!is_string($content)) {
@@ -33,7 +35,7 @@ class Projektor2_Model_File_CizinecZadostMapper extends Framework_Model_FileMapp
     }
 
     private static function createFileItem($relativeDocumentPath, $content=NULL) {
-        return new Projektor2_Model_File_CizinecZadost($relativeDocumentPath, $content);
+        return new Projektor2_Model_File_ZaUpload($relativeDocumentPath, $content);
     }
 
     /**

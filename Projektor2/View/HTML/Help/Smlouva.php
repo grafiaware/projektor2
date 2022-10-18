@@ -15,7 +15,7 @@ class Projektor2_View_HTML_Help_Smlouva extends Projektor2_View_HTML_FormularPHP
     // nadpis je v původním kódu někde v inc - přesunout nadpisy vždy sem
     echo '<H3>SMLOUVA O ÚČASTI V PROJEKTU</H3>';
 
-    echo '<form method="POST" action="index.php?akce=form&form=he_sml_uc" name="smlouva->form_ukonc">';
+    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=he_sml_uc" name="smlouva->form_ukonc">';
 
      //dále následuje původní kód 
 ?>

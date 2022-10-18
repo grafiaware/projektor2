@@ -51,22 +51,20 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
         return $mapper->find($filter, 'razeni');
     }
 
-//    protected function getLeftMenuArray() {
-//        $menuArray[] = array('href'=>'index.php?akce=form&form=cj_novy_kurz&novy_zajemce&novy_kurz', 'text'=>'Nový kurz');
-////        if ( ($this->sessionStatus->user->username == "sys_admin" OR $this->sessionStatus->user->username == "cj_manager" OR $this->sessionStatus->user->username == "cj_monitor")) {
-//            $menuArray[] = array('href'=>'index.php?akce=export', 'text'=>'Exportuj přehled');
-//            $menuArray[] = array('href'=>'index.php?akce=cjc_ip_certifikaty_export', 'text'=>'Exportuj IP certifikáty');
-////        }
-//        return $menuArray;
-//    }
+    protected function getLeftMenuArray() {
+        if ( ($this->sessionStatus->user->username == "sys_admin")) {
+            $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=form&form=cj_novy_kurz&novy_kurz', 'text'=>'Nový kurz'];
+        }
+        return $menuArray;
+    }
 
     public function getResult() {
 //        $aktivityProjektuTypuKurz = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
 //        $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
         $viewmodelyKurzu = $this->findKurzViewmodels();
 
-//        $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, array('menuArray'=>$this->getLeftMenuArray()));
-//        $parts[] = $viewLeftMenu;
+        $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, array('menuArray'=>$this->getLeftMenuArray()));
+        $parts[] = $viewLeftMenu;
 
         if ($viewmodelyKurzu) {
             foreach ($viewmodelyKurzu as $viewmodelKurz) {

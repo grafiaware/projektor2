@@ -27,9 +27,9 @@ abstract class Projektor2_AppContext
             case 'projektor':
                 if(!isset(self::$db['projektor']) OR !isset(self::$db['projektor'])) {
                     if (self::isRunningOnProductionMachine()) {
-                        $dbh = new Projektor2_DB_Mysql_NeonProjektor2();
+                        $dbh = new Projektor2_DB_Mysql_NeonProjektor2cjc();
                     } else {
-                        $dbh = new Projektor2_DB_Mysql_Localhost();
+                        $dbh = new Projektor2_DB_Mysql_LocalhostCjc();
                     }
                     self::$db['projektor'] = $dbh;
                 }

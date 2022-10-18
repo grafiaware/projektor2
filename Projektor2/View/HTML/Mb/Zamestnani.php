@@ -18,7 +18,7 @@ class Projektor2_View_HTML_Mb_Zamestnani extends Projektor2_View_HTML_FormularPH
         $pole = $this->context[$signZamestnani];
         ?>
 '<H3>ZÁZNAM DO EVIDENCE ZAMĚSTNAVATELŮ</H3>
-<form method="POST" action="index.php?akce=form&form=mb_zamestnani_uc&save=1" name="<?=$prefixZamestnani.'form_zamestnani'?>">
+<form method="POST" action="index.php?akce=osoby&osoby=form&form=mb_zamestnani_uc&save=1" name="<?=$prefixZamestnani.'form_zamestnani'?>">
 
 <FIELDSET><LEGEND>Zaměstnání</LEGEND>
 <p>

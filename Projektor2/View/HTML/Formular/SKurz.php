@@ -39,7 +39,7 @@ class Projektor2_View_HTML_Formular_SKurz extends Projektor2_View_HTML_FormularP
                     Html::input($prefix.'kurz_nazev', "Název kurzu:", $pole, ["type"=>"text", "size"=>"120", "maxlength"=>"120"]),
                     Html::input($prefix.'kurz_pracovni_cinnost', "Pracovní činnost:", $pole, ["type"=>"text", "size"=>"120", "maxlength"=>"120"]),
                     Html::input($prefix.'kurz_akreditace', "Akreditace:", $pole, ["type"=>"text", "size"=>"120", "maxlength"=>"120"]),
-                    Html::textarea($prefix.'kurz_obsah', "Obsah kurzu:", $pole, ["type"=>"textarea", "size"=>"3000", "maxlength"=>"3000", "wrap"=>"soft", "readonly"=>true]),
+                    Html::textarea($prefix.'kurz_obsah', "Obsah kurzu:", $pole, ["type"=>"textarea", "size"=>"3000", "maxlength"=>"3000", "wrap"=>"soft"]),
                     Html::input($prefix.'pocet_hodin', "Počet hodin celkem:", $pole, ["type"=>"text", "size"=>"8", "maxlength"=>"10"]),
                     Html::input($prefix.'pocet_hodin_distancne', "Počet hodin distančně:", $pole, ["type"=>"text", "size"=>"8", "maxlength"=>"10"]),
                     Html::input($prefix.'pocet_hodin_praxe', "Počet hodin praxe:", $pole, ["type"=>"text", "size"=>"8", "maxlength"=>"10"])

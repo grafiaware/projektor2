@@ -10,7 +10,7 @@ class Projektor2_View_HTML_Formular_IP1 extends Framework_View_Abstract {
         $this->parts[] = '<H3>'.$this->context['nadpis'].'</H3>';
         $this->parts[] = '<span>'.$this->sessionStatus->zajemce->id.'</span>';
         $this->parts[] = '<H4>Plán aktivit</H4>';
-        $this->parts[] = '<form method="POST" action="index.php?akce=form&form='.$this->context['formAction'].'" name="form_plan">';
+        $this->parts[] = '<form method="POST" action="index.php?akce=osoby&osoby=form&form='.$this->context['formAction'].'" name="form_plan">';
 
 //        foreach ($this->context['kurzyModels'] as $druhKurzu=>$sKurzyJednohoDruhu) {
         foreach (array_keys($this->context['aktivityKurz']) as $aktivita) {  // používám jen klíče - pole aktivit je v context

@@ -1,10 +1,5 @@
 <?php
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
-
 /**
  * Description of SKurz
  *
@@ -27,7 +22,7 @@ class Projektor2_Controller_Formular_SKurz extends Projektor2_Controller_Formula
             // nový sKurz vytvořen v createFormModels() pomocí Projektor2_Model_Db_SKurzMapper::create => proběhl INSERT před první zobrazením formuláře a sKurz má vždy id
             Projektor2_Model_Db_SKurzMapper::update($this->models[self::S_KURZ]);
         }
-        $context[self::S_KURZ] = $this->createContextFromAttributeModel(self::S_KURZ, $this->models[self::S_KURZ], TRUE);
+        $context = $this->createContextFromModels(true);
         return (new Projektor2_View_HTML_Formular_SKurz($this->sessionStatus, $context))->render();
     }
 }
