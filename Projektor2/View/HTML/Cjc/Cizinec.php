@@ -36,8 +36,8 @@ class Projektor2_View_HTML_Cjc_Cizinec extends Projektor2_View_HTML_FormularPHP4
                         Html::select($prefixDotaznik.'pohlavi', "Pohlaví:", ["", "muž", "žena"], $poleDotaznik, ["id"=>"pohlavi", "required"=>true]),  // id pro javascript
                     ),
                     Html::tag("p", [],
-                        Html::input($prefixDotaznik.'datum_narozeni', "Datum narození:", $poleDotaznik, ["id"=>"datum_narozeni", "type"=>"date", "size"=>"8", "maxlength"=>"10", "required"=>true]),  // id pro javascript
-                        Html::input($prefixDotaznik.'rodne_cislo', "Rodné číslo v ČR:", $poleDotaznik, ["id"=>"rodne_cislo", "type"=>"text", "size"=>"20", "maxlength"=>"50", "readonly"=>true]),  // readonly - generuje javascript
+                        Html::input($prefixDotaznik.'datum_narozeni', "Datum narození:", $poleDotaznik, ["id"=>"datum_narozeni", "type"=>"date", "size"=>"8", "maxlength"=>"10"]),  //, "required"=>true]),  // id pro javascript
+                        Html::input($prefixDotaznik.'rodne_cislo', "Rodné číslo v ČR:", $poleDotaznik, ["id"=>"rodne_cislo", "type"=>"text", "size"=>"20", "maxlength"=>"50"]),  //, "readonly"=>true]),  // readonly - generuje javascript
                     )
                 ),
                 Html::tag("fieldset", [],
@@ -45,20 +45,20 @@ class Projektor2_View_HTML_Cjc_Cizinec extends Projektor2_View_HTML_FormularPHP4
                     Html::tag("fieldset", [],
                         Html::tag("legend", [], "Bydliště v ČR"),
                         Html::tag("p", [],
-                            Html::input($prefixCizinec.'obec_pobytu', "Obec pobytu v ČR:", $poleCizinec, ["type"=>"text", "size"=>"20", "maxlength"=>"50", "required"=>true])
+                            Html::input($prefixCizinec.'obec_pobytu', "Obec pobytu v ČR:", $poleCizinec, ["type"=>"text", "size"=>"20", "maxlength"=>"50"]),  //, "required"=>true])
                         )
                     ),
                     Html::tag("fieldset", [],
                         Html::tag("legend", [], "Vhodné místo konání kurzů"),
                         Html::tag("p", [],
-                            Html::select($prefixCizinec."obec_pro_kurz", "Město:", ["", "Plzeň", "Klatovy", "Karlovy Vary", "jiné"], $poleCizinec, ["required"=>true]),
+                            Html::select($prefixCizinec."obec_pro_kurz", "Město:", ["", "Plzeň", "Klatovy", "Karlovy Vary", "jiné"], $poleCizinec, []),  //"required"=>true]),
                             Html::input($prefixCizinec.'pozadavky_kurz', "Požadavky na konání kurzu:", $poleCizinec, ["type"=>"text", "size"=>"100", "maxlength"=>"200"])
                         )
                     ),
                     Html::tag("fieldset", [],
                         Html::tag("legend", [], "Telefon a email"),
                         Html::tag("p", [],
-                            Html::input($prefixDotaznik.'mobilni_telefon', "Mobilní telefon:", $poleDotaznik, ["type"=>"tel", "size"=>"15", "maxlength"=>"15", "required"=>true]),
+                            Html::input($prefixDotaznik.'mobilni_telefon', "Mobilní telefon:", $poleDotaznik, ["type"=>"tel", "size"=>"15", "maxlength"=>"15"]),  //, "required"=>true]),
                             Html::input($prefixDotaznik.'dalsi_telefon', "Další telefon:", $poleDotaznik, ["type"=>"tel", "size"=>"15", "maxlength"=>"15"]),
                             Html::input($prefixDotaznik.'popis_telefon', "Popis:", $poleDotaznik, ["type"=>"text", "size"=>"40", "maxlength"=>"100"])
                         ),

@@ -8,7 +8,6 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     protected $id;
     protected $mainObject;
     protected $mainObjectClassName;
-    protected $isCreatedNewMainObject;
     protected $idColumnName;
     protected $mainObjectMapperClassName;
 
@@ -21,8 +20,10 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     protected $isPersisted = false;
 
     /**
-     * Konstruktor přetěžuje rodičovský konstruktor. Musí být volán s parametrem $mainObject nebo (pro nově vytvářený main object)
-     * s parametrem $mainObject=NULL a s nastaveným parametrem $mainObjectMapperClassName
+     * Konstruktor přetěžuje rodičovský konstruktor. Může být volán s parametrem $mainObject.
+     * Pro první zapsání dat objektu flat table do databáze (insert) musí být main objekt nastaven. Lze ho dodatečně
+     * nastavit metodou setMainObject().
+     *
      * @param string $tableName Název db tabulky
      * @param string $mainObject
      * @param string $idColumnName Název sloupce s primárním klíčem db tabulky $table_name. Pokud parametr není zadán,
@@ -30,17 +31,11 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
      * @param string $mainObjectMapperClassName Název třídy mapperu, který vytvoří nový main object k pravě vytvářenímu objektu flat table
      * @throws UnexpectedValueException
      */
-    public function __construct($tableName, $mainObject=null, $idColumnName=NULL, $mainObjectMapperClassName=NULL) {
+    public function __construct($tableName, $mainObject=null, $idColumnName=NULL) {
         $this->tableName = $tableName;
         $this->idColumnName = $idColumnName;
-        if ($mainObject) {
-            $this->setMainObject($mainObject);
-        } else {
-            if (!$mainObjectMapperClassName) {
-                throw new UnexpectedValueException('Není zadán hlavní objekt a není zadán ani mapper pro jeho vytvoření.');
-            } else {
-                $this->mainObjectMapperClassName = $mainObjectMapperClassName;
-            }
+        if (isset($mainObject)) {
+            $this->initializeMainObject($mainObject);
         }
         $this->dbh = Projektor2_AppContext::getDb();
         // jedno načtení trvá cca 10ms, bez cache se jedna struktuta (struktura jedné tabulky) čte průměrně 5x
@@ -53,8 +48,7 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     ########################
 
     public function  setMainObject($mainObject) {
-            $this->initializeMainObject($mainObject);
-            $this->isCreatedNewMainObject = FALSE;
+        $this->initializeMainObject($mainObject);
     }
 
     /**
@@ -127,16 +121,16 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
      * @throws UnexpectedValueException
      */
     public function save() {
-        if($this->isHydrated) {  //isHydreted se mění na true při __get, __set, getIterator a insert - pokud item není hydrated, není třeba nic zapisovat
-            if(!$this->mainObject->id){
-                $this->createNewMainObject();
-                if (!array_key_exists($this->mainObjectIdColumnName, $this->attributes)) {
-                    throw new UnexpectedValueException("Nenalezen očekávaný sloupec pro id hlavního objektu s názvem '$this->mainObjectIdColumnName' v tabulce '$this->tableName'.");
-                }
-            }
+        if($this->isHydrated) {  //isHydrated se mění na true při __get, __set, getIterator a insert - pokud item není hydrated, není třeba nic zapisovat
             if ($this->isPersisted) {
                 $this->update();
             } else {
+                if (!isset($this->mainObject)) {
+                    throw new LogicException("Není nastaven main object v objektu ".get_class().". Nelze ukládat data potomkovského flat table objektu bez exitujícího main objektu.");
+                }
+                if (!array_key_exists($this->mainObjectIdColumnName, $this->attributes)) {
+                    throw new UnexpectedValueException("Nenalezen očekávaný atribut pro zapsání hodnoty id hlavního objektu s názvem '$this->mainObjectIdColumnName'. Pravděpodobně neexistuje takový sloupec v tabulce '$this->tableName'.");
+                }
                 $this->insert();
             }
         }
@@ -170,28 +164,23 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
 
     ########################
 
+    /**
+     * Připraví jméno sloupce pro zapsání hodnoty primárního klíče hlavního objektu do potomkovské objektu flat
+     * @param type $mainObject
+     * @throws LogicException
+     */
     private function initializeMainObject($mainObject) {
-        $this->mainObject = $mainObject;
         $mainObjectClassName = get_class($mainObject);  //proměnná jen kvůli syntaxi $mainObjectClassName::TABLE
-        $this->mainObjectClassName = $mainObjectClassName;
-        if ($this->idColumnName){
+        if (isset($this->idColumnName ) AND $this->idColumnName){
             $this->mainObjectIdColumnName = $this->idColumnName;
         } elseif ($mainObjectClassName::TABLE) {
             $this->mainObjectIdColumnName = 'id_'.$mainObjectClassName::TABLE;
         } else {
             throw new LogicException("Nelze vytvořit default název primárního klíče flat table. Parametr konstruktoru \$idColumnName nebyl nastaven a hlavní objekt $this->mainObjectClassName nemá konstantu TABLE, ze které lze odvodit default hodnotu." );
         }
+        $this->mainObject = $mainObject;
     }
 
-    private function createNewMainObject() {
-        $mapperClassName = $this->mainObjectMapperClassName;
-        $mainObject = $mapperClassName::create();
-        $this->initializeMainObject($mainObject);  // ukládá mainObject do $this->mainObject
-        if(!$this->mainObject->id){
-            throw new LogicException("Při pokusu o uložení flat table bez hlavního objektu se nepodařilo vytvořit nový hlavní objekt flat table nebo hlavní objekt $this->mainObjectClassName nemá id, nemohu ukládat podřízený objekt do ".$this->tableName);
-        }
-        $this->isCreatedNewMainObject = TRUE;
-    }
 
     private function setAttributes($data) {
         foreach ($data as $key => $value) {  // nastaví jen položky,m které nebyly již měněny

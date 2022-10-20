@@ -16,6 +16,17 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
     const ZAM_FT = 'zamFT';
     const CIZINEC_FT = 'cizinecFT';
 
+    private $mainObjectMapperClassName = Projektor2_Model_Db_ZajemceMapper::class;
+
+    private $statusMainObject;
+
+    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Request $request, Projektor2_Response $response, array $params = []) {
+        parent::__construct($sessionStatus, $request, $response, $params);
+        if(isset($this->sessionStatus->zajemce)) {
+            $this->setStatusMainObject($this->sessionStatus->zajemce);
+        }
+    }
+
     /**
      * Potomkovské třídy musí implementovat matodu getResultFormular, která vrací html kód vlastního formuláře
      */
@@ -51,8 +62,39 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
         return $htmlResult;
     }
 
+    protected function setStatusMainObject(Framework_Model_DbItemAbstract $mainObject) {
+        $this->statusMainObject = $mainObject;
+    }
+
+    /**
+     *
+     * @return Framework_Model_DbItemAbstract|null
+     */
+    protected function getStatusMainObject() {
+        return $this->statusMainObject;
+    }
+
+    protected function createStatusMainObject() {
+        $mapperClassName = $this->mainObjectMapperClassName;
+        $mainObject = $mapperClassName::create();
+        $this->setStatusMainObject($mainObject);
+        return $mainObject;
+    }
+
     protected function saveFlatTableModels() {
         if ($this->sessionStatus->user->povolen_zapis) {
+            if ($this->getStatusMainObject()===null) {
+                $mainObject = $this->createStatusMainObject();  // proběhne insert do databáze do tabulky hlavního objektu
+                $this->sessionStatus->zajemce = $mainObject;
+                foreach ($this->models as $model) {
+                    if ($model instanceof Framework_Model_CollectionFlatTable OR $model instanceof Framework_Model_ItemFlatTable) {
+                        // zde se nastaví hlavní objekt (např. zajemce) k flat table (např. za_flat_table), ktera nema hlavní objekt
+                        // v případě, že model flat table toto chování umožňuje - nastaveno pro ten formulář, který má mít funkci založení nového hlavního objektu
+                        // (to je nastaveno v konstruktoru konkrétní flat table)
+                        $model->setMainObject($mainObject);
+                    }
+                }
+            }
             foreach ($this->models as $model) {
                 if ($model instanceof Framework_Model_CollectionFlatTable) {
                     // zde se vytvoří hlavní objekt (např. zajemce) k flat table (např. za_flat_table), ktera nema hlavní objekt

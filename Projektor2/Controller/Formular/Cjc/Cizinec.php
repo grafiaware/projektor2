@@ -13,15 +13,16 @@
 class Projektor2_Controller_Formular_Cjc_Cizinec extends Projektor2_Controller_Formular_FlatTable {
 
     private $typeCollection;
-    private $upladCollection;
+    private $uploadCollection;
 
 
     const ZA_UPLOAD = 'za_upload';
     const ZA_UPLOAD_TYPE = 'za_upload_type';
 
     protected function createFormModels() {
-        $this->models[Projektor2_Controller_Formular_FlatTable::CIZINEC_FT] = new Projektor2_Model_Db_Flat_ZaCizinecFlatTable($this->sessionStatus->zajemce);
-        $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce);
+        $flatTablesMainObject = $this->getStatusMainObject();
+        $this->models[Projektor2_Controller_Formular_FlatTable::CIZINEC_FT] = new Projektor2_Model_Db_Flat_ZaCizinecFlatTable($flatTablesMainObject);
+        $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($flatTablesMainObject);
         $this->models[self::ZA_UPLOAD] = Projektor2_Model_Db_ZaUploadMapper::findByZajemce($this->sessionStatus->zajemce->id);
         $this->models[self::ZA_UPLOAD_TYPE] = Projektor2_Model_Db_ZaUploadTypeMapper::findAll();
 
@@ -29,7 +30,7 @@ class Projektor2_Controller_Formular_Cjc_Cizinec extends Projektor2_Controller_F
 
     public function getResult() {
         $htmlResult = '';
-
+        $idZajemce = $this->sessionStatus->zajemce->id;
         // modely
         $this->createFormModels();  // pokud není $this->sessionStatus->zajemce vytvoří při volání flat table->save() nový zájemce
         // kolekce
@@ -38,7 +39,7 @@ class Projektor2_Controller_Formular_Cjc_Cizinec extends Projektor2_Controller_F
             $this->typeCollection[$zaUploadType->type] = $zaUploadType;
         }
         foreach ($this->models[self::ZA_UPLOAD] as $zaUpload) {
-            $this->upladCollection[$zaUpload->id_upload_type_FK] = $zaUpload;
+            $this->uploadCollection[$idZajemce.'-'.$zaUpload->id_upload_type_FK] = $zaUpload;
         }
 
         // POST
@@ -61,7 +62,7 @@ class Projektor2_Controller_Formular_Cjc_Cizinec extends Projektor2_Controller_F
             // update & create
             foreach ($saved as $uploadType => $fileName) {
                 if (array_key_exists($uploadType, $this->typeCollection)) {
-                    $persistedUpload = $this->upladCollection[$uploadType];
+                    $persistedUpload = $this->uploadCollection[$idZajemce.'-'.$uploadType];
                     if (isset($persistedUpload)) {
                         $persistedUpload->filename = $fileName;
 //                                    ?? updated
@@ -69,7 +70,7 @@ class Projektor2_Controller_Formular_Cjc_Cizinec extends Projektor2_Controller_F
                         Projektor2_Model_Db_ZaUploadMapper::update($persistedUpload);
                     } else {
                         // nový model do kolekce (nep
-                        $this->upladCollection[$uploadType] = Projektor2_Model_Db_ZaUploadMapper::create(
+                        $this->uploadCollection[$uploadType] = Projektor2_Model_Db_ZaUploadMapper::create(
                                 $this->sessionStatus->zajemce->id, $uploadType,
                                 $fileName,
                                 $this->sessionStatus->user->name, __CLASS__, Projektor2_AppContext::getDb()->getDbHost()
@@ -100,28 +101,28 @@ class Projektor2_Controller_Formular_Cjc_Cizinec extends Projektor2_Controller_F
             ];
         $contextRegistrace = [
                 [
-                    'zaUploadType'=>$this->typeCollection['registrace zájemce'], 'zaUpload'=>$this->upladCollection['registrace zájemce'],
-                    'datum_reg_name'=>'datum_reg_zadost_zajemce', 'datum_reg_text'=>'Datum žádost registrace zájemce na ÚP'
+                    'zaUploadType'=>$this->typeCollection['registrace zájemce'], 'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'registrace zájemce'],
+                    'datum_reg_name'=>'datum_reg_zadost_zajemce', 'datum_reg_text'=>'Datum žádosti o registraci zájemce na ÚP'
                 ],
                 [
                     'datum_reg_name'=>'datum_reg_zajemce', 'datum_reg_text'=>'Datum registrace zájemce na ÚP'
                 ],
                 [
-                    'zaUploadType'=>$this->typeCollection['registrace uchazeč'], 'zaUpload'=>$this->upladCollection['registrace uchazeč'],
-                    'datum_reg_name'=>'datum_reg_zadost_uchazec', 'datum_reg_text'=>'Datum žádost registrace uchazeč na ÚP'
+                    'zaUploadType'=>$this->typeCollection['registrace uchazeč'], 'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'registrace uchazeč'],
+                    'datum_reg_name'=>'datum_reg_zadost_uchazec', 'datum_reg_text'=>'Datum žádosti o registraci uchazeče na ÚP'
                 ],
                 [
-                    'datum_reg_name'=>'datum_reg_uchazec', 'datum_reg_text'=>'Datum registrace uchazeč na ÚP'
+                    'datum_reg_name'=>'datum_reg_uchazec', 'datum_reg_text'=>'Datum registrace uchazeče na ÚP'
                 ]
             ];
         $contextRekvalifikace = [
                 [
-                    'zaUploadType'=>$this->typeCollection['rekvalifikace zájemce'], 'zaUpload'=>$this->upladCollection['rekvalifikace zájemce'],
-                    'datum_reg_name'=>'datum_rk_zadost_1', 'datum_reg_text'=>'Datum zájem o rekvalifikaci na ÚP'
+                    'zaUploadType'=>$this->typeCollection['rekvalifikace zájemce'], 'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'rekvalifikace zájemce'],
+                    'datum_reg_name'=>'datum_rk_zadost_1', 'datum_reg_text'=>'Datum zájmu o rekvalifikaci na ÚP'
                 ],
                 [
-                    'zaUploadType'=>$this->typeCollection['rekvalifikace uchazeč'], 'zaUpload'=>$this->upladCollection['rekvalifikace uchazeč'],
-                    'datum_reg_name'=>'datum_rk_zadost_2', 'datum_reg_text'=>'Datum zájem o rekvalifikaci na ÚP'
+                    'zaUploadType'=>$this->typeCollection['rekvalifikace uchazeč'], 'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'rekvalifikace uchazeč'],
+                    'datum_reg_name'=>'datum_rk_zadost_2', 'datum_reg_text'=>'Datum zájmu o rekvalifikaci na ÚP'
                 ],
             ];
 
@@ -129,9 +130,9 @@ class Projektor2_Controller_Formular_Cjc_Cizinec extends Projektor2_Controller_F
         $ukHintHtml = (new Projektor2_View_HTML_Cjc_HintView($this->sessionStatus, $context))->render();
         $view->assign("uk_hint_fieldset", $ukHintHtml);
         $viewRegistrace = new Projektor2_View_HTML_RegistraceUP($this->sessionStatus, $context);
-        $viewRegistrace->assign("data_registrace", $contextRegistrace);
+        $viewRegistrace->assign("registrace", $contextRegistrace);
         $view->assign("registrace_up", $viewRegistrace->render());
-        $viewRegistrace->assign("data_registrace", $contextRekvalifikace);
+        $viewRegistrace->assign("registrace", $contextRekvalifikace);
         $view->assign("rekvalifikace_up", $viewRegistrace->render());
 
         $htmlResult = $view->render();

@@ -15,6 +15,10 @@ abstract class Projektor2_AppContext
      */
     private static $db = array();
 
+    public static function version() {
+        return "projektor - verze cjc";
+    }
+
     /**
      * Metoda vrací objekt pro přístup k databázi. Metoda se podle označení databáze (nick) zadaném jako prametr rozhoduje,
      * který objekt pro přístup k databázi vytvoří. Ke každé databázi vytváří jednu instanci objektu.

@@ -17,11 +17,6 @@ class Projektor2_Model_Db_Flat_ZaCizinecFlatTable extends Framework_Model_ItemFl
      * @param Projektor2_Model_Db_Zajemce $zajemce
      */
     public function __construct(Projektor2_Model_Db_Zajemce $zajemce=NULL){
-        $mainObjectMapperClassName = 'Projektor2_Model_Db_ZajemceMapper';
-        if (class_exists($mainObjectMapperClassName)) {
-            parent::__construct("za_cizinec_flat_table",$zajemce, NULL, $mainObjectMapperClassName);
-        } else {
-            throw new LogicException('Ve třídě '.__CLASS__.'je nastaven neexistující mapper hlavního objektu.');
-        }
+        parent::__construct("za_cizinec_flat_table",$zajemce);
     }
 }

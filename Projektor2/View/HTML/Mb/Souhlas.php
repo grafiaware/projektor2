@@ -33,7 +33,7 @@ class Projektor2_View_HTML_Mb_Souhlas extends Projektor2_View_HTML_FormularPHP4 
   Titul za: <input ID="titul_za" type="text" name="<?=$prefixDotaznik.'titul_za'?>" size="3" maxlength="10" readonly value="<?=$pole[$prefixDotaznik.'titul_za'];?>">
   Pohlaví: <input ID="pohlavi" type="text" name="<?=$prefixDotaznik.'pohlavi'?>" size="5" maxlength="10" readonly value="<?=$pole[$prefixDotaznik.'pohlavi'];?>">
     </p>
-  <p>Datum narození: <input ID="datum_narozeni" type="text" name="<?=$prefixDotaznik.'datum_narozeni'?>" size="8" maxlength="10" readonly value="<?=$pole[$prefixDotaznik.'datum_narozeni'];?>">
+  <p>Datum narození: <input ID="datum_narozeni" type="date" name="<?=$prefixDotaznik.'datum_narozeni'?>" size="8" maxlength="10" readonly value="<?=$pole[$prefixDotaznik.'datum_narozeni'];?>">
     Rodné číslo: <input ID="rodne_cislo" type="text" name="<?=$prefixDotaznik.'rodne_cislo'?>" size="20" maxlength="50" readonly value="<?=$pole[$prefixDotaznik.'rodne_cislo'];?>"></p>
   <p></p>
 </FIELDSET>
@@ -65,7 +65,7 @@ class Projektor2_View_HTML_Mb_Souhlas extends Projektor2_View_HTML_FormularPHP4 
 
 
 <p>Datum vytvoření:
-<input ID="datum_vytvor_smlouvy" type="text" name="<?=$prefixDotaznik.'datum_vytvor_smlouvy'?>" size="8" maxlength="10"  readonly value="<?php
+<input ID="datum_vytvor_smlouvy" type="date" name="<?=$prefixDotaznik.'datum_vytvor_smlouvy'?>" size="8" maxlength="10"  readonly value="<?php
                                         if ($pole[$prefixDotaznik.'datum_vytvor_smlouvy']) {echo $pole[$prefixDotaznik.'datum_vytvor_smlouvy'];}
                                         else {echo date("d.m.Y"); }
                                         ?>">

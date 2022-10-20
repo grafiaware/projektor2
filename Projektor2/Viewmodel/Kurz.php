@@ -1,4 +1,5 @@
 <?php
+
 class Projektor2_Viewmodel_Kurz {
     public $id;
     public $kurz_text;
@@ -32,9 +33,15 @@ class Projektor2_Viewmodel_Kurz {
         if ($kurz->kurz_zkratka == '*') {
             $ret = $kurz->kurz_nazev;
         } else {
-            $ret = trim($kurz->projekt_kod). "_" .trim($kurz->kurz_druh). "_" . trim($kurz->kurz_cislo) . "_".
-                    trim($kurz->beh_cislo) . "T_" . trim($kurz->kurz_zkratka). " | ".
-                    trim($kurz->kurz_nazev)." | ".trim($kurz->date_zacatek)." - ".trim($kurz->date_konec). " | " . trim($kurz->kancelar_kod);
+            $ret = trim($kurz->projekt_kod). "_"
+                    .trim($kurz->kurz_druh). "_"
+                    .trim($kurz->kurz_cislo) . "_"
+                    .trim($kurz->beh_cislo) . "T_"
+                    .trim($kurz->kurz_zkratka). " | "
+                    .trim($kurz->kurz_nazev)." | "
+                    .DateTime::createFromFormat('Y-m-d', trim($kurz->date_zacatek))->format('j.n.Y')." - "
+                    .DateTime::createFromFormat('Y-m-d', trim($kurz->date_konec))->format('j.n.Y'). " | "
+                    .trim($kurz->kancelar_kod);
         }
         return $ret;
     }

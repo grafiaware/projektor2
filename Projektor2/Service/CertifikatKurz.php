@@ -60,7 +60,7 @@ class Projektor2_Service_CertifikatKurz {
         if (!$nalezenyCertifikatKurz) {
 
             // vytvoř db certifikát - zatím bez filename
-            $datetimeCertifikatu = Projektor2_Date::createFromCzechStringDate($datumCertifikatu);
+            $datetimeCertifikatu = Projektor2_Date::createFromSqlDate($datumCertifikatu);
             $dbCertifikat = Projektor2_Model_Db_CertifikatKurzMapper::create($certificateType, $zajemce, $sKurz, $datetimeCertifikatu, $creator, $service);  // bez filename
             $logger->log('Certificate. Db certifikat kurz s id '.$dbCertifikat->id.' vytvořen.');
             switch ($certificateType) {

@@ -212,15 +212,15 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
     }
 
     private function getNewValueForHtml($key, $value) {
-        if ($this->jeToProjektoroveDatum($key) AND $value) {
+        if ($this->jeToProjektoroveDatum($key) AND $value AND !$this->formatJeRfc($value)) {
             $value = $this->transformDatumToRfc($value);
         }
         return $value;
     }
 
     private function getNewValueForSql($modelValue, $key, $postValue) {
-        if ($this->jeToProjektoroveDatum($key) AND $postValue) {
-            $postValue = $this->transformDatumToCzech($postValue);
+        if ($this->jeToProjektoroveDatum($key) AND $postValue AND !$this->formatJeRfc($postValue)) {
+            $postValue = $this->transformDatumToRfc($postValue);
         }
         return $postValue;
     }
@@ -232,6 +232,10 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
      */
     private function jeToProjektoroveDatum($columnName) {
         return (strpos($columnName, 'datum_')!==FALSE) ? TRUE : FALSE;
+    }
+
+    private function formatJeRfc($value) {
+        return strpos($value, '-')!==false;
     }
 
     private function transformDatumToCzech($value) {

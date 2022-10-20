@@ -51,29 +51,27 @@ fieldset {
 
 fieldset legend {
     background-color: #375D81;
+    color: white;
     border-radius: 5px;
-    color: #FFFFFF;
     font-weight: bold;
     padding: 10px 20px;
 }
 
 fieldset fieldset legend {
-    color: black;
     font-weight: bold;
+    color: indigo;
     background-color: #DDDDFF;
 }
 
 fieldset fieldset fildset legend {
-    color: black;
     font-weight: bold;
+    color: black;
     background-color: #375D81;
 }
 
 fieldset p {
-    font-size: 1em;
     color: #626364;
     font-family: Arial,Helvetica,sans-serif;
-    line-height: 17px;
     margin: 0;
     padding: 0 0 5px;
 }
@@ -92,14 +90,11 @@ fieldset div {
 }
 /*ve formularichch jsou texty jen tak volne - nejsou v <p> ani nicem podobnem*/
 fieldset {
-    font-size: 14px;
     color: #424364;
     font-family: Arial,Helvetica,sans-serif;
-    line-height: 17px;
-
 }
 
-/*label {
+/*label:first-child {
     float: left;
 }*/
 
@@ -140,7 +135,7 @@ input:required[type=radio]{
     border-radius: 10px;
 }
 
-fieldset .container .1_1 {
+fieldsetcontainer .1_1 {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
