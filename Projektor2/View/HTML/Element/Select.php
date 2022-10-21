@@ -7,7 +7,7 @@
 class Projektor2_View_HTML_Element_Select extends Framework_View_Abstract {
 
     /**
-     * @var Projektor2_Model_Element_Select
+     * @var Projektor2_Viewmodel_Element_Select
      */
     private $viewModel;
 

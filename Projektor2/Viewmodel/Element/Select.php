@@ -11,7 +11,7 @@
  *
  * @author pes2704
  */
-class Projektor2_Model_Element_Select {
+class Projektor2_Viewmodel_Element_Select {
 
     /*
      *      * 'selectId' string id atribut prvku select

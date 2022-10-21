@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-class Projektor2_Model_Menu_Signal_Plan extends Projektor2_Model_Menu_Signal {
+class Projektor2_Viewmodel_Menu_Signal_Plan extends Projektor2_Viewmodel_Menu_Signal {
     
     public function setByAktivitaPlan(Projektor2_Model_AktivitaPlan $aktivitaPlan) {
         $sKurz = $aktivitaPlan->sKurz;

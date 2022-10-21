@@ -205,10 +205,10 @@ abstract class Projektor2_AppContext
 //                $zamestnani = new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce);
 
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_ap_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'ap_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -218,7 +218,7 @@ abstract class Projektor2_AppContext
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_ap_souhlas) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'ap_souhlas_uc';
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
@@ -227,7 +227,7 @@ abstract class Projektor2_AppContext
                 }
                 //dotazník
                 if ($user->tl_ap_dot) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'ap_reg_dot';
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
@@ -239,10 +239,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //IP1
                 if ($user->tl_ap_ip1) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'ap_ip1_uc';
                     $modelTlacitko->text = 'IP1';
                     $modelTlacitko->title = 'První část plánu kurzů a aktivit';
@@ -251,7 +251,7 @@ abstract class Projektor2_AppContext
                 }
                 //plán
                 if ($user->tl_ap_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'ap_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -264,7 +264,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -286,10 +286,10 @@ abstract class Projektor2_AppContext
 //                }
 
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_ap_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'ap_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -301,15 +301,15 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
                 // skupina zamestnani
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //zaměstnání
                 if ($user->tl_ap_zam) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'ap_zamestnani_uc';
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
@@ -319,7 +319,7 @@ abstract class Projektor2_AppContext
                 if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('zamestnani', $skupina);
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Zamestnani();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
                     $skupina->setMenuSignal('zamestnani', $modelSignal);
                 }
@@ -327,10 +327,10 @@ abstract class Projektor2_AppContext
                 break;
             case 'HELP':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_he_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'he_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -339,7 +339,7 @@ abstract class Projektor2_AppContext
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_he_souhlas) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'he_souhlas_uc';
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
@@ -348,7 +348,7 @@ abstract class Projektor2_AppContext
                 }
                 //dotazník
                 if ($user->tl_he_dot) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'he_reg_dot';
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
@@ -360,7 +360,7 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
 //                //IP1
 //                if ($user->tl_he_ip1) {
 //                    $modelTlacitko = new Projektor2_Model_Tlacitko();
@@ -372,7 +372,7 @@ abstract class Projektor2_AppContext
 //                }
                 //plán
                 if ($user->tl_he_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'he_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -385,7 +385,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -401,10 +401,10 @@ abstract class Projektor2_AppContext
 //                    $zajemceRegistrace->setTlacitko('tl_ap_porad', $modelTlacitko);
 //                }
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_he_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'he_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -416,7 +416,7 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
@@ -439,10 +439,10 @@ abstract class Projektor2_AppContext
                 break;
             case 'SJZP':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_sj_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjzp_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -451,7 +451,7 @@ abstract class Projektor2_AppContext
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_sj_souhlas) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjzp_souhlas_uc';
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
@@ -460,7 +460,7 @@ abstract class Projektor2_AppContext
                 }
                 //dotazník
                 if ($user->tl_sj_dot) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjzp_reg_dot';
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
@@ -472,10 +472,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_sj_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjzp_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -488,7 +488,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -505,10 +505,10 @@ abstract class Projektor2_AppContext
 //                    $zajemceRegistrace->setTlacitko('tl_ap_porad', $modelTlacitko);
 //                }
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_sj_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjzp_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -520,15 +520,15 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
                 // skupina zamestnani
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //zaměstnání
                 if ($user->tl_sj_zam) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjzp_zamestnani_uc';
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
@@ -542,10 +542,10 @@ abstract class Projektor2_AppContext
                 break;
             case 'VZP':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_vz_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'vzp_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -557,10 +557,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_vz_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'vzp_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -573,7 +573,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -581,10 +581,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_vz_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'vzp_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -596,7 +596,7 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
@@ -604,10 +604,10 @@ abstract class Projektor2_AppContext
                 break;
             case 'SJPK':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_sp_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpk_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -616,7 +616,7 @@ abstract class Projektor2_AppContext
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_sp_souhlas) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpk_souhlas_uc';
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
@@ -625,7 +625,7 @@ abstract class Projektor2_AppContext
                 }
                 //dotazník
                 if ($user->tl_sp_dot) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpk_reg_dot';
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
@@ -637,10 +637,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_sp_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpk_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -653,7 +653,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -670,10 +670,10 @@ abstract class Projektor2_AppContext
 //                    $zajemceRegistrace->setTlacitko('tl_ap_porad', $modelTlacitko);
 //                }
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_sp_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpk_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -685,15 +685,15 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
                 // skupina zamestnani
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //zaměstnání
                 if ($user->tl_sp_zam) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpk_zamestnani_uc';
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
@@ -702,7 +702,7 @@ abstract class Projektor2_AppContext
                 }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Zamestnani();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
                     $skupina->setMenuSignal('zamestnani', $modelSignal);
                 }
@@ -710,10 +710,10 @@ abstract class Projektor2_AppContext
 
             case 'ZPM':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_zpm_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'zpm_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -725,10 +725,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_zpm_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'zpm_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -741,7 +741,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -749,10 +749,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_zpm_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'zpm_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -764,7 +764,7 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
@@ -773,10 +773,10 @@ abstract class Projektor2_AppContext
 
             case 'SPP':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_spp_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'spp_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -788,10 +788,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_spp_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'spp_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -804,7 +804,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -812,10 +812,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_spp_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'spp_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -827,7 +827,7 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
@@ -836,10 +836,10 @@ abstract class Projektor2_AppContext
 
             case 'RP':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_rp_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'rp_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -851,10 +851,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_rp_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'rp_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -867,7 +867,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -875,10 +875,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_rp_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'rp_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -890,7 +890,7 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
@@ -899,10 +899,10 @@ abstract class Projektor2_AppContext
 
             case 'SJPO':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_so_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpo_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -911,7 +911,7 @@ abstract class Projektor2_AppContext
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_so_souhlas) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpo_souhlas_uc';
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
@@ -920,7 +920,7 @@ abstract class Projektor2_AppContext
                 }
                 //dotazník
                 if ($user->tl_so_dot) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpo_reg_dot';
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
@@ -932,10 +932,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_so_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpo_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -948,7 +948,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -965,10 +965,10 @@ abstract class Projektor2_AppContext
 //                    $zajemceRegistrace->setTlacitko('tl_ap_porad', $modelTlacitko);
 //                }
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_so_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpo_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -980,15 +980,15 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
                 // skupina zamestnani
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //zaměstnání
                 if ($user->tl_so_zam) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjpo_zamestnani_uc';
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
@@ -997,7 +997,7 @@ abstract class Projektor2_AppContext
                 }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Zamestnani();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
                     $skupina->setMenuSignal('zamestnani', $modelSignal);
                 }
@@ -1005,10 +1005,10 @@ abstract class Projektor2_AppContext
 
             case 'SJLP':
                  // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_sl_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjlp_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -1017,7 +1017,7 @@ abstract class Projektor2_AppContext
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_sl_souhlas) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjlp_souhlas_uc';
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
@@ -1026,7 +1026,7 @@ abstract class Projektor2_AppContext
                 }
                 //dotazník
                 if ($user->tl_sl_dot) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjlp_reg_dot';
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
@@ -1038,10 +1038,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_sl_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjlp_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -1054,7 +1054,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -1071,10 +1071,10 @@ abstract class Projektor2_AppContext
 //                    $zajemceRegistrace->setTlacitko('tl_ap_porad', $modelTlacitko);
 //                }
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_sl_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjlp_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -1086,15 +1086,15 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
                 // skupina zamestnani
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //zaměstnání
                 if ($user->tl_sl_zam) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'sjlp_zamestnani_uc';
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
@@ -1103,17 +1103,17 @@ abstract class Projektor2_AppContext
                 }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Zamestnani();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
                     $skupina->setMenuSignal('zamestnani', $modelSignal);
                 }
                 break;
             case 'VDTP':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_vdtp_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'vdtp_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -1125,10 +1125,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_vdtp_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'vdtp_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -1141,7 +1141,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -1149,10 +1149,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_vdtp_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'vdtp_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -1164,7 +1164,7 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
@@ -1172,10 +1172,10 @@ abstract class Projektor2_AppContext
                 break;
             case 'PDU':
                 // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_pdu_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'pdu_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -1187,10 +1187,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_pdu_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'pdu_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -1203,7 +1203,7 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
@@ -1211,10 +1211,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_pdu_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'pdu_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -1226,7 +1226,7 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
@@ -1234,10 +1234,10 @@ abstract class Projektor2_AppContext
                 break;
             case 'MB':
                  // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //smlouva
                 if ($user->tl_mb_sml) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'mb_sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
@@ -1246,7 +1246,7 @@ abstract class Projektor2_AppContext
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_mb_souhlas) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'mb_souhlas_uc';
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
@@ -1255,7 +1255,7 @@ abstract class Projektor2_AppContext
                 }
                 //dotazník
                 if ($user->tl_mb_dot) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'mb_reg_dot';
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
@@ -1267,10 +1267,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_mb_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'mb_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -1283,17 +1283,17 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
                     }
                 }
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_mb_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'mb_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -1305,15 +1305,15 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
                 // skupina zamestnani
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //zaměstnání
                 if ($user->tl_mb_zam) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'mb_zamestnani_uc';
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
@@ -1322,17 +1322,17 @@ abstract class Projektor2_AppContext
                 }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Zamestnani();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
                     $skupina->setMenuSignal('zamestnani', $modelSignal);
                 }
                 break;
             case 'CJC':
                  // skupina dotaznik
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //cizinec
                 if ($user->tl_cj_cizinec) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'cj_cizinec';
                     $modelTlacitko->text = 'Registrace';
                     $modelTlacitko->title = 'Registrace účastníka programu';
@@ -1363,10 +1363,10 @@ abstract class Projektor2_AppContext
                 }
 
                 // skupina plan
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //plán
                 if ($user->tl_cj_plan) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'cj_plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
@@ -1379,17 +1379,17 @@ abstract class Projektor2_AppContext
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
-                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
                         }
                     }
                 }
                 // skupina ukonceni
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //ukončení
                 if ($user->tl_cj_ukon) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'cj_ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
@@ -1401,15 +1401,15 @@ abstract class Projektor2_AppContext
 //                }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Ukonceni();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
                     $skupina->setMenuSignal('ukonceni', $modelSignal);
                 }
                 // skupina zamestnani
-                $skupina = new Projektor2_Model_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //zaměstnání
                 if ($user->tl_cj_zam) {
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoOsoba();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
                     $modelTlacitko->osoba = 'cj_zamestnani_uc';
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
@@ -1418,7 +1418,7 @@ abstract class Projektor2_AppContext
                 }
                 if (count($skupina->getMenuTlacitkaAssoc())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
-                    $modelSignal = new Projektor2_Model_Menu_Signal_Zamestnani();
+                    $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
                     $skupina->setMenuSignal('zamestnani', $modelSignal);
                 }
@@ -1445,8 +1445,8 @@ abstract class Projektor2_AppContext
         $user = $sessionStatus->user;
 
                 //kurz
-                $skupina = new Projektor2_Model_Menu_Skupina();
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoKurz();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoKurz();
                     $modelTlacitko->kurz = 'detail_kurzu';
                     $modelTlacitko->text = 'Detail kurzu';
                     $modelTlacitko->title = 'Úprava údajů kurzu';
@@ -1457,8 +1457,8 @@ abstract class Projektor2_AppContext
                     $viewmodelKurz->setSkupina('detail', $skupina);
                 }
                 //účastníci
-                $skupina = new Projektor2_Model_Menu_Skupina();
-                    $modelTlacitko = new Projektor2_Model_Menu_TlacitkoKurz();
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoKurz();
                     $modelTlacitko->kurz = 'ucastnici_kurzu';
                     $modelTlacitko->text = 'Účastníci';
                     $modelTlacitko->title = 'Seznam účastníků kurzu';

@@ -45,14 +45,14 @@ class Projektor2_Viewmodel_Kurz {
         }
         return $ret;
     }
-    public function setSkupina($name, Projektor2_Model_Menu_Skupina $skupina) {
+    public function setSkupina($name, Projektor2_Viewmodel_Menu_Skupina $skupina) {
         $this->skupiny[$name] = $skupina;
     }
 
     /**
      *
      * @param string $name
-     * @return Projektor2_Model_Menu_Skupina
+     * @return Projektor2_Viewmodel_Menu_Skupina
      */
     public function getSkupina($name) {
         return $this->skupiny[$name];

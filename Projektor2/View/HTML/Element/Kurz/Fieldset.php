@@ -83,7 +83,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         $displayBlokCertifikat = ($zadanoDokoncenoAno) ? 'block':'none';
 
 
-        $modelSelect = new Projektor2_Model_Element_Select($nameIdSKurz, $modelyKurzu, $idSKurz, $this->context['returnedModelProperty']);
+        $modelSelect = new Projektor2_Viewmodel_Element_Select($nameIdSKurz, $modelyKurzu, $idSKurz, $this->context['returnedModelProperty']);
         $modelSelect->setSelectId($idSelect);
         $modelSelect->setInnerTextCallable(array($this,'text_retezec_kurz'));
         // $this->context['readonly'] nastyví readonly pro všechny elementy fieldsetu
@@ -131,15 +131,15 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
                             . $disabledAttribute
                             . ' onChange="showWithRequiredInputsIfIn(\''.$nameDuvodAbsence.'\', this, 1, '.($planovanyPocetHodin-1).');'
                             . 'showWithRequiredInputsIfGt(\''.$nameDokonceno.'\', this, 0);">';
-                    $this->parts[] = '</p>';
-                    // prvek důvod absence
-                    $this->parts[] ='<p id="'.$nameDuvodAbsence.'" style="display:'.$displayBlokDuvodAbsence.'">';
+                $this->parts[] = '</p>';
+                // prvek důvod absence
+                $this->parts[] ='<p id="'.$nameDuvodAbsence.'" style="display:'.$displayBlokDuvodAbsence.'">';
                     $this->parts[] ='<label>V případě, že neabsolvoval plný počet hodin, uveďte důvod: </label>';
                     $this->parts[] ='<input type="text" name="'.$nameDuvodAbsence.'" size=120 maxlength=120 '
                                 . 'value="'.$planKurzArray[$nameDuvodAbsence].'" '
                                 . $disabledAttribute.' >'
                                 . '</input>';
-                    $this->parts[] ='</p>';
+                $this->parts[] ='</p>';
             $this->parts[] ='</span>';
             // konec span pro počet plánovaných hodin
 

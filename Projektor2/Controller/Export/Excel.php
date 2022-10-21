@@ -115,7 +115,7 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                     switch ($exportType) {
                         case 'ucastnici':
                             $exportSelectView = new Projektor2_View_HTML_ExportSelectView($this->sessionStatus);
-                            $selectModel = new Projektor2_Model_Element_Select(
+                            $selectModel = new Projektor2_Viewmodel_Element_Select(
                                     'export_template',
                                     ['------------', 'ucastnici']
                                     );
@@ -126,11 +126,11 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                             break;
                         case 'osoby':
                             $exportSelectView = new Projektor2_View_HTML_ExportSelectView($this->sessionStatus);
-                            $selectModel = new Projektor2_Model_Element_Select(
+                            $selectModel = new Projektor2_Viewmodel_Element_Select(
                                 'dbtabulka',
                                 ['------------', 'excel_cjc_zajemci', 'excel_cjc_kurzy', 'excel_cjc_certifikaty']
                                 );
-                            $selectModel2 = new Projektor2_Model_Element_Select(
+                            $selectModel2 = new Projektor2_Viewmodel_Element_Select(
                                 'export_template',
                                 ['------------', 'cizinci projekt']
                                 );

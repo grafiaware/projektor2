@@ -62,7 +62,7 @@ class Projektor2_View_HTML_Formular_IP2 extends Framework_View_Abstract {
 //                                    ->assign('disabled', $disabledDuvod)
 //                                    ->assign('required', TRUE);  //funkční jen pro prázdnou hodnotu v prvním option
 
-        $modelSelect = new Projektor2_Model_Element_Select($name, $this->context['duvodUkonceniValuesArray'], $this->context[$signUkonceni][$name]);
+        $modelSelect = new Projektor2_Viewmodel_Element_Select($name, $this->context['duvodUkonceniValuesArray'], $this->context[$signUkonceni][$name]);
         $modelSelect->setSelectId('ukonceni');
         $modelSelect->setDisabled(false);
         $modelSelect->setRequired(true);

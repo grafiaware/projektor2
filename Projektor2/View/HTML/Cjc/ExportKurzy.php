@@ -17,7 +17,7 @@ class Projektor2_View_HTML_Cjc_ExportKurzy extends Framework_View_Abstract {
             $this->parts[] = '<form method="POST" action="index.php?akce=osoby&osoby=export" name="vyber_tabulky">';
             $this->parts[] = '<h4>Databázové tabulky: </h4>';
 
-        $modelSelect = new Projektor2_Model_Element_Select(
+        $modelSelect = new Projektor2_Viewmodel_Element_Select(
                 'dbtabulka',
                 ['------------', 'excel_cjc_zajemci', 'excel_cjc_kurzy', 'excel_cjc_certifikaty']
                 );
