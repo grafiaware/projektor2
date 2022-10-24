@@ -9,7 +9,7 @@ class Projektor2_Model_AktivityPlanMapper {
     public static function findByIndexAktivity(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $indexAktivity) {
 //        $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
         $ukonceni = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
-        $aktivity = Projektor2_AppContext::getAktivityProjektu($sessionStatus->projekt->kod);
+        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->projekt->kod);
         $kurzPlan = NULL;
         if ($aktivity) {
             $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemce->id);
@@ -32,7 +32,7 @@ class Projektor2_Model_AktivityPlanMapper {
     public static function findAll(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
 //        $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
         $ukonceni = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
-        $aktivity = Projektor2_AppContext::getAktivityProjektu($sessionStatus->projekt->kod);
+        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->projekt->kod);
         $kolekce = array();
         if ($aktivity) {
             $id = 0;
@@ -64,7 +64,7 @@ class Projektor2_Model_AktivityPlanMapper {
     public static function findAllAssoc(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
 //        $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
         $ukonceni = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
-        $aktivity = Projektor2_AppContext::getAktivityProjektu($sessionStatus->projekt->kod);
+        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->projekt->kod);
         $kolekce = array();
         if ($aktivity) {
             $id = 0;

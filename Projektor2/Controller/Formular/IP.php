@@ -16,7 +16,7 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
      * @param type $default TRUE - metoda vrací i model z tabulky s_kurz se zkratkou kurzu '*', tento model pak může být defaulní hodnotou v selectu
      * @return Projektor2_Model_SKurz[] array of Projektor2_Model_SKurz
      */
-    protected function getContextSelectedDbSKurzModels($kurz_druh, $default=TRUE) { // TODO - přesunout do modelu
+    protected function findDbSKurzModelsInContext($kurz_druh, $default=TRUE) { // TODO - přesunout do modelu
         $filter = "(projekt_kod='".$this->sessionStatus->projekt->kod
                 ."' AND kancelar_kod='".$this->sessionStatus->kancelar->kod
                 ."' AND beh_cislo='".$this->sessionStatus->beh->beh_cislo
@@ -32,13 +32,13 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
      * Vytvoří asociativní pole polí Projektor2_Model_SKurz, první index je druh kurzu, druhý id SKurz.
      * Pole je použito ve formulářích IP
      *
-     * @param type $aktivityProjektu
+     * @param array $aktivityProjektu
      * @return array[Projektor2_Model_SKurz[]] array of arrays of Projektor2_Model_SKurz
      */
     protected function createDbSKurzModelsAssoc($aktivityProjektu) {
         $DbSKurzModels = array();
         foreach ($aktivityProjektu as $indexAktivity => $parametryAktivity) {
-            foreach ( $this->getContextSelectedDbSKurzModels($parametryAktivity['kurz_druh']) as $sKurz) {
+            foreach ( $this->findDbSKurzModelsInContext($parametryAktivity['kurz_druh']) as $sKurz) {
                 /** @var Projektor2_Model_Db_SKurz $sKurz */
                 $DbSKurzModels[$indexAktivity][$sKurz->id_s_kurz] = $sKurz;
             }

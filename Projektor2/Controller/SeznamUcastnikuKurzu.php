@@ -12,7 +12,7 @@ class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_A
 
     private function getLeftMenuArrayUcastnici() {
 //        if ( ($this->sessionStatus->user->username == "sys_admin" OR $this->sessionStatus->user->username == "cj_manager" OR $this->sessionStatus->user->username == "cj_monitor")) {
-            $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=kurz&kurz=export_ucastnici', 'text'=>'Exportuj přehled'];
+            $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=kurz&kurz=export_ucastnici', 'text'=>'Exporty dat'];
 //        }
         return $menuArray;
     }
@@ -39,8 +39,7 @@ class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_A
             $inPlaceholders = implode(", ", array_keys($inBinds));
             $ucastniciRegistrace = Projektor2_Viewmodel_ZajemceRegistraceMapper::findAll("zajemce.id_zajemce IN ($inPlaceholders)", $inBinds, "identifikator");
             foreach ($ucastniciRegistrace as $ucastnikRegistrace) {
-                $params = ['zajemceRegistrace' => $ucastnikRegistrace];
-                $tlacitkaController = new Projektor2_Controller_Element_MenuZajemce($this->sessionStatus, $this->request, $this->response, $params);
+                $tlacitkaController = new Projektor2_Controller_Element_MenuZajemce($this->sessionStatus, $this->request, $this->response, $ucastnikRegistrace);
                 $rowsUcastnici[] = $tlacitkaController->getResult();
             }
 

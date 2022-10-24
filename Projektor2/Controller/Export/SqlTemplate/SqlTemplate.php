@@ -26,6 +26,15 @@ class Projektor2_Controller_Export_SqlTemplate_SqlTemplate {
         $this->request = $request;
     }
 
+    /**
+     * Interpoluje sql template.
+     * Proměnné ze session generuje a interpoluje automaticky, ostatní proměnné je třeba zadat v asociativní poli params.
+     * Proměnné ze session jsou generovány se jmény: 'idProjekt', 'idKancelar', 'idBeh', 'idZajemce', 'idSKurz'
+     *
+     * @param string $sqlFilename Jméno souboru s SQL šablonou včetně přípony, soubor se musí nacháte v podsložce Templates složky, ve které je definována tato třída
+     * @param array $params
+     * @return string
+     */
     public function getTemplate($sqlFilename, array $params = []) {
 
         $template = file_get_contents(__DIR__."/Templates/$sqlFilename");

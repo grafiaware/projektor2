@@ -51,7 +51,7 @@ class Projektor2_Viewmodel_Element_Select {
      * @param string $returnedObjectProperty Pokud valuesArray obsahuje objekty, je toto jméno vlastnosti objektu, jejíž hodnota bude použita jako hodnota jednotlivých voleb (options).
      *          Předpokladem je. že příslušná vlastnost objektu je public.
      */
-    public function __construct($selectName, $values, $actualValue=null, $returnedObjectProperty=null) {
+    public function __construct($selectName, iterable $values, $actualValue=null, $returnedObjectProperty=null) {
         $this->selectName = $selectName;
         $this->values = $values;
         $this->actualValue = $actualValue;

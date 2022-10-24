@@ -6,58 +6,73 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
      */
     const VIEW_PREFIX = 'export_excel_';
 
+    private $templateParams =
+            [
+                'zajemci' => [
+                    'sqlFilename' => 'Zajemci.sql',
+                    'viewNamePostfix' => 'zajemci',
+                    'xlsSheetName' => 'zajemci'],
+                'cizinci projekt'=> [
+                    'sqlFilename' => 'Cizinci_projekt.sql',
+                    'viewNamePostfix' => 'cizinci_projekt',
+                    'xlsSheetName' => 'CJC osoby'],
+                'ucastnici'=> [
+                    'sqlFilename' => 'Ucastnici_kurzu.sql',
+                    'viewNamePostfix' => 'ucastnici',
+                    'xlsSheetName' => 'CJC ucastnici kurzu']
+            ];
 
     private function performPost() {
-        if($this->request->post('dbtabulka') AND substr($this->request->post('dbtabulka'),0,3)<>"---") {
-            $sqlView = $this->request->post('dbtabulka');
-            $modelExcel = Projektor2_Model_File_ExcelMapper::createFromView($sqlView);
-            if (Projektor2_Model_File_ExcelMapper::save($modelExcel, $this->sessionStatus)) {
-                $downloadController = new Projektor2_Controller_ForcedDownload();
-                // Projektor2_Controller_ForcedDownload->download končí příkazem exit, ukončí běh skriptu
-                $downloadController->download($modelExcel->documentFileName);
-            } else {;;
-                $parts[] = new Projektor2_View_HTML_ErrorExportExcel($this->sessionStatus);
-            }
-        }
-        if($this->request->post('export_template') AND substr($this->request->post('export_template'),0,3)<>"---") {
-            $templateObject = new Projektor2_Controller_Export_SqlTemplate_SqlTemplate($this->sessionStatus, $this->request);
-            $exportTemplateName = $this->request->post('export_template');
-            switch ($exportTemplateName) {
-                case 'zajemci':
-                    $sqlFilename = 'Zajemci.sql';
-                    $viewNamePostfix = 'zajemci';
-                    $xlsSheetName = 'zajemci';
-                    break;
-                case 'cizinci projekt':
-                    $sqlFilename = 'Cizinci_projekt.sql';
-                    $viewNamePostfix = 'cizinci_projekt';
-                    $xlsSheetName = 'CJC osoby celý projekt';
-                    break;
-                case 'ucastnici':
-                    $sqlFilename = 'Ucastnici_projekt.sql';
-                    $viewNamePostfix = 'ucastnici';
-                    $xlsSheetName = 'CJC ucastnici cely projekt';
-                    break;
-                default:
-                    throw new UnexpectedValueException("Neznámá hodnota parametru 'export_template' $exportTemplateName");
-            }
-
-            $sql = $templateObject->getTemplate($sqlFilename, $templateParams ?? []);
-            if ($sql) {
-                $sqlView = Projektor2_Model_File_ExcelMapper::createViewFromSql(self::VIEW_PREFIX.$viewNamePostfix, $sql);
-                $modelExcel = Projektor2_Model_File_ExcelMapper::createFromView($sqlView, $xlsSheetName, $templateObject->getUsedParams());
-                if (Projektor2_Model_File_ExcelMapper::save($modelExcel, $this->sessionStatus)) {
-                    $downloadController = new Projektor2_Controller_ForcedDownload();
-                    // Projektor2_Controller_ForcedDownload->download končí příkazem exit, ukončí běh skriptu
-                    $downloadController->download($modelExcel->documentFileName);
-                } else {;;
-                    $parts[] = new Projektor2_View_HTML_ErrorExportExcel($this->sessionStatus);
+        if($this->request->post('export')) {
+            list($type, $name) = explode('|', $this->request->post('export'));
+            if ($type) {
+                switch ($type) {
+                    case 'table':
+                        $parts[] = $this->exportFromView($name);
+                        break;
+                    case 'template':
+                        $parts[] = $this->exportByTemplate($name);
+                        break;
+                    default:
+                        throw new UnexpectedValueException("Neznámá hodnota typu exportu v post datech.");
                 }
             }
         }
 
         return $parts ?? [];
     }
+
+    private function exportFromView($sqlView) {
+        $modelExcel = Projektor2_Model_File_ExcelMapper::createFromView($sqlView);
+        if (Projektor2_Model_File_ExcelMapper::save($modelExcel, $this->sessionStatus)) {
+            $downloadController = new Projektor2_Controller_ForcedDownload();
+            // Projektor2_Controller_ForcedDownload->download končí příkazem exit, ukončí běh skriptu
+            $downloadController->download($modelExcel->documentFileName);
+        } else {
+            return new Projektor2_View_HTML_ErrorExportExcel($this->sessionStatus);
+        }
+    }
+
+    private function exportByTemplate($exportTemplateName) {
+        if (!array_key_exists($exportTemplateName, $this->templateParams)) {
+                throw new UnexpectedValueException("Neznámá hodnota parametru 'template' $exportTemplateName");
+        }
+        $templateObject = new Projektor2_Controller_Export_SqlTemplate_SqlTemplate($this->sessionStatus, $this->request);
+        $tpl = $this->templateParams[$exportTemplateName];
+        $sql = $templateObject->getTemplate($tpl['sqlFilename'], $tpl['params'] ?? []);
+        if ($sql) {
+            $sqlView = Projektor2_Model_File_ExcelMapper::createViewFromSql(self::VIEW_PREFIX.$tpl['viewNamePostfix'], $sql);
+            $modelExcel = Projektor2_Model_File_ExcelMapper::createFromView($sqlView, $tpl['xlsSheetName'], $templateObject->getUsedParams());
+            if (Projektor2_Model_File_ExcelMapper::save($modelExcel, $this->sessionStatus)) {
+                $downloadController = new Projektor2_Controller_ForcedDownload();
+                // Projektor2_Controller_ForcedDownload->download končí příkazem exit, ukončí běh skriptu
+                $downloadController->download($modelExcel->documentFileName);
+            } else {;;
+                return new Projektor2_View_HTML_ErrorExportExcel($this->sessionStatus);
+            }
+        }
+    }
+
 
     private function getLeftMenuArray() {
         $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=kurz&kurz=ucastnici_kurzu', 'text'=>'Zpět na seznam účastníků'];
@@ -113,13 +128,24 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                     break;
                 case 'CJC':
                     switch ($exportType) {
-                        case 'ucastnici':
+                        case 'kurzy':
                             $exportSelectView = new Projektor2_View_HTML_ExportSelectView($this->sessionStatus);
                             $selectModel = new Projektor2_Viewmodel_Element_Select(
-                                    'export_template',
-                                    ['------------', 'ucastnici']
+                                'export',
+                                [''=>'', 'přehled kurzů'=>'table|excel_cjc_kurzy', 'přehled certifikátů'=>'table|excel_cjc_certifikaty']
+                                );
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODEL, $selectModel);
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::HREF_ZPET, "index.php?akce=kurzy&kurzy=seznam");
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=kurzy&kurzy=kurz&kurz=export_ucastnici");
+                            $parts[] = $exportSelectView;
+                            break;
+                        case 'kurz':
+                            $exportSelectView = new Projektor2_View_HTML_ExportSelectView($this->sessionStatus);
+                            $selectModel = new Projektor2_Viewmodel_Element_Select(
+                                    'export',
+                                    [''=>'', 'účastníci kurzu'=>'template|ucastnici']
                                     );
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODELS, [$selectModel]);
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODEL, $selectModel);
                             $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::HREF_ZPET, "index.php?akce=kurzy&kurzy=seznam");
                             $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=kurzy&kurzy=kurz&kurz=export_ucastnici");
                             $parts[] = $exportSelectView;
@@ -127,14 +153,10 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                         case 'osoby':
                             $exportSelectView = new Projektor2_View_HTML_ExportSelectView($this->sessionStatus);
                             $selectModel = new Projektor2_Viewmodel_Element_Select(
-                                'dbtabulka',
-                                ['------------', 'excel_cjc_zajemci', 'excel_cjc_kurzy', 'excel_cjc_certifikaty']
+                                'export',
+                                [''=>'', 'přehled osob'=>'table|excel_cjc_zajemci', 'přehled cizinci za projekt'=>'template|cizinci projekt']
                                 );
-                            $selectModel2 = new Projektor2_Viewmodel_Element_Select(
-                                'export_template',
-                                ['------------', 'cizinci projekt']
-                                );
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODELS, [$selectModel, $selectModel2]);
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODEL, $selectModel);
                             $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::HREF_ZPET, "index.php?akce=osoby&osoby=seznam");
                             $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=osoby&osoby=export");
                             $parts[] = $exportSelectView;

@@ -18,7 +18,7 @@ class Projektor2_View_HTML_Mb_Smlouva extends Projektor2_View_HTML_FormularPHP4 
 ?>
 <H3>SMLOUVA O ÚČASTI V PROJEKTU Moje budoucnost</H3>
 
-<form method="POST" action="index.php?akce=osoby&osoby=form&form=mb_sml_uc" name="<?=$prefixDotaznik.'form_sml'?>">
+<form method="POST" action="index.php?akce=osoby&osoby=form&form=sml_uc" name="<?=$prefixDotaznik.'form_sml'?>">
 <FIELDSET><LEGEND><b>Osobní údaje</b></LEGEND>
 
     <p>

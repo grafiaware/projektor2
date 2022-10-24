@@ -11,9 +11,9 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         $itemSeparator = Projektor2_Controller_Formular_FlatTable::ITEM_SEPARATOR;
         $planKurzSign = Projektor2_Controller_Formular_FlatTable::PLAN_KURZ;
 
-        $aktivita = $this->context['aktivita'];
-        $parametryAktivity = $this->context['aktivityKurz'][$aktivita];
-        $modelyKurzu = $this->context['modelyKurzu'][$aktivita];
+        $aktivita = $this->context['aktivita'];  // index aktivity
+        $parametryAktivity = $this->context['aktivityTypuKurz'][$aktivita];
+        $modelySKurz = $this->context['modelySKurz'][$aktivita];
         $planKurzArray = $this->context[$planKurzSign][$aktivita];
 
         // hodnoty proměnných pro vytváření atributů při skládání tagů
@@ -49,7 +49,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         // hodnoty z contextu
         $idSKurz = $planKurzArray[$nameIdSKurz];
         /** @var Projektor2_Model_Db_SKurz $modelSKurz */
-        $modelSKurz = $modelyKurzu[$idSKurz];
+        $modelSKurz = $modelySKurz[$idSKurz];
         if ($idSKurz>3) {
             $planovanyPocetHodin = $modelSKurz->pocet_hodin;
             $naplanovanKurz = true;
@@ -83,7 +83,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         $displayBlokCertifikat = ($zadanoDokoncenoAno) ? 'block':'none';
 
 
-        $modelSelect = new Projektor2_Viewmodel_Element_Select($nameIdSKurz, $modelyKurzu, $idSKurz, $this->context['returnedModelProperty']);
+        $modelSelect = new Projektor2_Viewmodel_Element_Select($nameIdSKurz, $modelySKurz, $idSKurz, $this->context['returnedModelProperty']);
         $modelSelect->setSelectId($idSelect);
         $modelSelect->setInnerTextCallable(array($this,'text_retezec_kurz'));
         // $this->context['readonly'] nastyví readonly pro všechny elementy fieldsetu

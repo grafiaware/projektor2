@@ -20,6 +20,7 @@
             "" : "src"
         },
         "psr-0": {
+            "Config_": "",
             "Projektor2_": "",
             "Framework_": "",
             "FPDF": "C://xampp/php/pear/fpdf"

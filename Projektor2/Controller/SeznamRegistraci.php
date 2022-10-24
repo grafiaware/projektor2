@@ -77,7 +77,7 @@ class Projektor2_Controller_SeznamRegistraci extends Projektor2_Controller_Abstr
         $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=form&form=ap_novy_zajemce&novy_zajemce', 'text'=>'Nová osoba'];
         if ( ($this->sessionStatus->user->username == "sys_admin" OR $this->sessionStatus->user->username == "ap_manager")) {
             $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=export', 'text'=>'Exportuj přehled'];
-            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=ap_ip_certifikaty_export', 'text'=>'Exportuj IP certifikáty'];
+            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=certifikaty_export', 'text'=>'Exportuj IP certifikáty'];
             $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=ap_projekt_certifikaty_export', 'text'=>'Exportuj projektové certifikáty'];
         }
         return $menuArray;
@@ -177,10 +177,10 @@ class Projektor2_Controller_SeznamRegistraci extends Projektor2_Controller_Abstr
     }
 
     protected function getLeftMenuArrayCjc() {
-        $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=form&form=cj_novy_zajemce&novy_zajemce', 'text'=>'Nová osoba'];
+        $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=form&form=novy_zajemce&novy_zajemce', 'text'=>'Nová osoba'];
 //        if ( ($this->sessionStatus->user->username == "sys_admin" OR $this->sessionStatus->user->username == "cj_manager" OR $this->sessionStatus->user->username == "cj_monitor")) {
-            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=export', 'text'=>'Exportuj přehled'];
-            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=cjc_ip_certifikaty_export', 'text'=>'Exportuj IP certifikáty'];
+            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=export', 'text'=>'Exporty dat'];
+            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=certifikaty_export', 'text'=>'Exportuj IP certifikáty'];
 //        }
         return $menuArray;
     }
@@ -192,8 +192,7 @@ class Projektor2_Controller_SeznamRegistraci extends Projektor2_Controller_Abstr
         $zajemciRegistrace = Projektor2_Viewmodel_ZajemceRegistraceMapper::findAll(NULL, NULL, "identifikator");
         if ($zajemciRegistrace) {
             foreach ($zajemciRegistrace as $zajemceRegistrace) {
-                $params = ['zajemceRegistrace' => $zajemceRegistrace];
-                $tlacitkaController = new Projektor2_Controller_Element_MenuZajemce($this->sessionStatus, $this->request, $this->response, $params);
+                $tlacitkaController = new Projektor2_Controller_Element_MenuZajemce($this->sessionStatus, $this->request, $this->response, $zajemceRegistrace);
                 $rows[] = $tlacitkaController->getResult();
             }
             $viewZaznamy = new Projektor2_View_HTML_Element_Table($this->sessionStatus, ['rows'=>$rows, 'class'=>'zaznamy']);

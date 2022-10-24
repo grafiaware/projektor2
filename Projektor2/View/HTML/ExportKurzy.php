@@ -3,7 +3,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Cjc_ExportKurzy extends Framework_View_Abstract {
+class Projektor2_View_HTML_ExportKurzy extends Framework_View_Abstract {
 
     public function render() {
         $this->parts[] = '<h3>Export tabulkových přehledů</h3>';

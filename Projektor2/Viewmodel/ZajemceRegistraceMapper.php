@@ -10,8 +10,8 @@ class Projektor2_Viewmodel_ZajemceRegistraceMapper {
         return self::create($zajemce);
     }
 
-    public static function findAll($filter = NULL, $order = NULL) {
-        $zajemci = Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper::findAll($filter, $order);
+    public static function findAll($filter = NULL, $filterBindParams=array(), $order = NULL) {
+        $zajemci = Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper::findAll($filter, $filterBindParams, $order);
         if ($zajemci) {
             foreach ($zajemci as $zajemce) {
                 $zajemciRegistrace[] = self::create($zajemce);

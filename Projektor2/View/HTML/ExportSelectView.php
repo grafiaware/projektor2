@@ -7,7 +7,7 @@ class Projektor2_View_HTML_ExportSelectView extends Framework_View_Abstract {
 
     const HREF_ZPET = 'href_zpet';
     const FORM_ACTION = 'form_action';
-    const SELECT_MODELS = 'select_model';
+    const SELECT_MODEL = 'select_model';
 
     public function render() {
         $this->parts[] = '<h3>Export tabulkových přehledů</h3>';
@@ -21,11 +21,9 @@ class Projektor2_View_HTML_ExportSelectView extends Framework_View_Abstract {
             $this->parts[] = '<div class="content">';
                 $this->parts[] = '<form method="POST" action="'.$this->context[self::FORM_ACTION].'" name="vyber_tabulky">';
                 $this->parts[] = '<h4>Výběr typu exportu: </h4>';
-                foreach ($this->context[self::SELECT_MODELS] as $selectModel) {
                     $viewSelect = new Projektor2_View_HTML_Element_Select($this->sessionStatus);
-                    $viewSelect->assign('viewModel', $selectModel); ;
+                    $viewSelect->assign('viewModel', $this->context[self::SELECT_MODEL]); ;
                     $this->parts[] = $viewSelect->render();
-                }
                 $this->parts[] = '<input type="submit" value="Export">';
                 $this->parts[] = '</form>';
             $this->parts[] = '</div>';

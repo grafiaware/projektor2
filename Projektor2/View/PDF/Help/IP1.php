@@ -33,7 +33,7 @@ class Projektor2_View_PDF_Help_IP1 extends Projektor2_View_PDF_Common {
         $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
         $kurzSadaBunek->SpustSadu(true);
         
-        $aktivity = Projektor2_AppContext::getAktivityProjektu('HELP');    //'HELP'
+        $aktivity = Config_Aktivity::getAktivityProjektu('HELP');    //'HELP'
         foreach ($aktivity as $druh=>$aktivita) {
             if ($aktivita['typ']!='kurz') {
                 $nabidkaNekurzovychAktivit .= $nabidkaNekurzovychAktivit ? ', '.$aktivita['nadpis'] : $aktivita['nadpis'];

@@ -6,19 +6,19 @@
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_Mb_IP2 extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_IP2 extends Projektor2_View_PDF_Common {
     const MODEL_UKONCENI = "ukonceni->";
     const MODEL_DOTAZNIK = "dotaznik->";
     const MODEL_PLAN = 'plan->';
 
     public function createPDFObject() {
 
-        $textPaticky = "Individuální plán účastníka v projektu „Moje budoucnost“ - část 2 - vyhodnocení aktivit  ".$this->context["file"];
+        $textPaticky = "Individuální plán účastníka v projektu „{$this->sessionStatus->projekt->text}“ - část 2 - vyhodnocení aktivit  ".$this->context["file"];
         $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 2 - vyhodnocení aktivit";
-        $textyNadpisu[] = 'Projekt „Moje budoucnost“';
+        $textyNadpisu[] = "Projekt „{$this->sessionStatus->projekt->text}“";
         $this->tiskniTitul($textyNadpisu);
         //*****************************************************
         $this->tiskniOsobniUdaje(self::MODEL_DOTAZNIK);
@@ -30,7 +30,7 @@ class Projektor2_View_PDF_Mb_IP2 extends Projektor2_View_PDF_Common {
             $blok->odsazeniZleva(0);
         $this->pdf->TiskniBlok($blok);
         //##################################################################################################
-        $aktivity = Projektor2_AppContext::getAktivityProjektu('SJZP');
+        $aktivity = Config_Aktivity::getAktivityProjektu('SJZP');
             $blok = new Projektor2_PDF_Blok;
                 $blok->Nadpis("Individuální plán projektu členěný podle absolvovaných aktivit");
                 $blok->predsazeni(0);

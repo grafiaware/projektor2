@@ -334,25 +334,25 @@ class Projektor2_Router_Form {
             case 'MB':
                 /** MB **/
                 switch($form) {
-                    case "mb_novy_zajemce":
+                    case "novy_zajemce":
                         return new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "mb_reg_dot":
+                    case "reg_dot":
                         return new Projektor2_Controller_Formular_Mb_Dotaznik($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "mb_sml_uc":
+                    case "sml_uc":
                         return new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "mb_souhlas_uc":
+                    case "souhlas_uc":
                         return new Projektor2_Controller_Formular_Mb_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "mb_plan_uc":
-                        return new Projektor2_Controller_Formular_Mb_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan_uc":
+                        return new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "mb_ukonceni_uc":
-                        return new Projektor2_Controller_Formular_Mb_IP2($this->sessionStatus, $this->request, $this->response);
+                    case "ukonceni_uc":
+                        return new Projektor2_Controller_Formular_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "mb_zamestnani_uc":
+                    case "zamestnani_uc":
                         return new Projektor2_Controller_Formular_Mb_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
@@ -362,25 +362,25 @@ class Projektor2_Router_Form {
             case 'CJC':
                 /** CJC **/
                 switch($form) {
-                    case "cj_novy_zajemce":
+                    case "novy_zajemce":
                         return new Projektor2_Controller_Formular_Cjc_Cizinec($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "cj_cizinec":
+                    case "cizinec":
                         return new Projektor2_Controller_Formular_Cjc_Cizinec($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "cj_sml_uc":
+                    case "sml_uc":
                         return new Projektor2_Controller_Formular_Cjc_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "cj_souhlas_uc":
+                    case "souhlas_uc":
                         return new Projektor2_Controller_Formular_Cjc_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "cj_plan_uc":
-                        return new Projektor2_Controller_Formular_Cjc_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan_uc":
+                        return new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "cj_ukonceni_uc":
-                        return new Projektor2_Controller_Formular_Cjc_IP2($this->sessionStatus, $this->request, $this->response);
+                    case "ukonceni_uc":
+                        return new Projektor2_Controller_Formular_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "cj_zamestnani_uc":
+                    case "zamestnani_uc":
                         return new Projektor2_Controller_Formular_Cjc_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
@@ -393,94 +393,7 @@ class Projektor2_Router_Form {
                 throw new UnexpectedValueException('Neznámý kód projektu: '.$this->sessionStatus->projekt->kod);
         }
 
-    /** STARÉ PROJEKTY **/
-    //        case "zobraz_reg":
-    //            include INC_PATH."ind_zobraz_reg.inc";
-    //            break;
-    //        case "zobraz_uc":
-    //            setcookie("id_ucastnik",$_GET['id_ucastnik']);
-    //            if ($_GET['save']) include INC_PATH.'ind_save_form';
-    //            include INC_PATH."ind_reg_dot.inc";
-    //            break;
-    //        case "reg_dot":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_form.inc';
-    //            include INC_PATH."ind_reg_dot.inc";
-    //            break;
-    //        case "sml_uc":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_form.inc';
-    //            include INC_PATH."ind_sml_uc.inc";
-    //            break;
-    //        case "ind_plan_uc":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_plan_uc.inc';
-    //            include INC_PATH."ind_plan_uc.inc";
-    //            //include INC_PATH."ind_kolize_kterenejsouveskriptuvolane_uc.inc"; //tady nelze, protoze nejde ulozit sloupecky revidovano
-    //            break;
-    //        case "testpc_uc":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) {
-    //                    include INC_PATH.'ind_save_testpc_uc.inc';
-    //                    include INC_PATH."ind_zobraz_reg.inc";
-    //            } else {
-    //                    include INC_PATH."ind_testpc_uc.inc";
-    //            }
-    //            break;
-    //        case "doprk_uc":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_doprk_uc.inc';
-    //            include INC_PATH."ind_doprk_uc.inc";
-    //            break;
-    //        case "doprk_dopl1":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_doprk_uc.inc';
-    //            include INC_PATH."ind_doprk_uc_dopl1.inc";
-    //            break;
-    //        case "doprk_dopl2":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_doprk_uc.inc';
-    //            include INC_PATH."ind_doprk_uc_dopl2.inc";
-    //            break;
-    //        case "doprk_dopl3":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_doprk_uc.inc';
-    //            include INC_PATH."ind_doprk_uc_dopl3.inc";
-    //            break;
-    //        case "doprk_vyraz":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_doprk_uc.inc';
-    //            include INC_PATH."ind_doprk_uc_vyraz.inc";
-    //            break;
-    //        case "ukonceni_uc":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_ukonc_uc.inc';
-    //            include INC_PATH."ind_ukonc_uc.inc";
-    //            break;
-    //        case "zam_uc":
-    //            setcookie("id_ucastnik");
-    //            if ($_GET['save']) include INC_PATH.'ind_save_zam_uc.inc';
-    //            include INC_PATH."ind_zam_uc.inc";
-    //            break;
-    //        case "zobraz_reg_export":
-    //            include INC_PATH."ind_zobraz_reg.inc";  //v ind_zobraz_reg.inc na konci proběhne export do excelu
-    //            break;
-    //        case "zobraz_reg_vahy":
-    //            include INC_PATH."ind_zobraz_reg.inc";  //v ind_zobraz_reg.inc na konci proběhne vypocet a zapis do db
-    //            break;
-    //        case "zobraz_stat":
-    //            include INC_PATH."ind_zobraz_stat.inc";
-    //            break;
-    //        case "uloz_vyplnil_stat":
-    //            include INC_PATH."set_stat_form_fill.inc";
-    //            include INC_PATH."ind_zobraz_stat.inc";
-    //            break;
-    //        case "zarad_agp_uc":
-    //            setcookie("id_ucastnik");
-    //            include INC_PATH."ind_zarad_do_agp.inc";
-    //            include INC_PATH."ind_zobraz_reg.inc";
-    //            break;
-    //
+
     }
 }
 

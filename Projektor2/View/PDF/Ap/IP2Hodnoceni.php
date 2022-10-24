@@ -31,7 +31,7 @@ class Projektor2_View_PDF_Ap_IP2Hodnoceni extends Projektor2_View_PDF_Common {
             $blok->odsazeniZleva(0);
         $this->pdf->TiskniBlok($blok);        
         //##################################################################################################
-        $aktivity = Projektor2_AppContext::getAktivityProjektu('AP'); 
+        $aktivity = Config_Aktivity::getAktivityProjektu('AP'); 
             $blok = new Projektor2_PDF_Blok;
                 $blok->Nadpis("Vyhodnocení a doporučení");            
                 $blok->predsazeni(0);

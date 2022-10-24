@@ -5,7 +5,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Cjc_Zamestnani extends Projektor2_View_HTML_FormularPHP4 {
+class Projektor2_View_HTML_Zamestnani extends Projektor2_View_HTML_FormularPHP4 {
 
     /**
      * Metoda obsahuje php kod (ve stylu PHP4) kombinovaný s HTML, který užívá PHP jako šablonovací jazyk. Na základě dat zadaných v konstruktoru
@@ -18,7 +18,7 @@ class Projektor2_View_HTML_Cjc_Zamestnani extends Projektor2_View_HTML_FormularP
         $pole = $this->context[$signZamestnani];
         ?>
 '<H3>ZÁZNAM DO EVIDENCE ZAMĚSTNAVATELŮ</H3>
-<form method="POST" action="index.php?akce=osoby&osoby=form&form=cj_zamestnani_uc&save=1" name="<?=$prefixZamestnani.'form_zamestnani'?>">
+<form method="POST" action="index.php?akce=osoby&osoby=form&form=mb_zamestnani_uc&save=1" name="<?=$prefixZamestnani.'form_zamestnani'?>">
 
 <FIELDSET><LEGEND>Zaměstnání</LEGEND>
 <p>

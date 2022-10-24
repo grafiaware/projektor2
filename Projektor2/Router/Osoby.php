@@ -39,9 +39,13 @@ class Projektor2_Router_Osoby {
             case "VDTP":
             case "PDU":
             case "MB":
+            case "CJC":
                 switch($this->request->param('osoby')) {
                     case "export":
-                        return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response);
+                        return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response, ['export_type'=>'osoby']);
+                        break;
+                    case "certifikaty_export":
+                        return new Projektor2_Controller_Export_CertifikatyKurz($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "form":
                         return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
@@ -57,7 +61,7 @@ class Projektor2_Router_Osoby {
                     case "export":
                         return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "ap_ip_certifikaty_export":
+                    case "certifikaty_export":
                         return new Projektor2_Controller_Export_CertifikatyKurz($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "ap_projekt_certifikaty_export":
@@ -72,23 +76,7 @@ class Projektor2_Router_Osoby {
                         break;
                 }
             break;
-            case "CJC":
-                switch($this->request->param('osoby')) {
-                    case "export":
-                        return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response, ['export_type'=>'osoby']);
-                        break;
-                    case "cjc_ip_certifikaty_export":
-                        return new Projektor2_Controller_Export_CertifikatyKurz($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "form":
-                        return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "zobraz_reg":
-                    default:
-                        return new Projektor2_Controller_SeznamRegistraci($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    }
-                break;
+
             default:
                 throw new UnexpectedValueException('neznámý kód projektu: '.$this->sessionStatus->projekt->kod);
 

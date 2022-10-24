@@ -30,7 +30,7 @@ class Projektor2_View_PDF_Spp_IP2 extends Projektor2_View_PDF_Common {
             $blok->odsazeniZleva(0);
         $this->pdf->TiskniBlok($blok);        
         //##################################################################################################
-        $aktivity = Projektor2_AppContext::getAktivityProjektu('SPP'); 
+        $aktivity = Config_Aktivity::getAktivityProjektu('SPP'); 
             $blok = new Projektor2_PDF_Blok;
                 $blok->Nadpis("Individuální plán projektu členěný podle absolvovaných aktivit");            
                 $blok->predsazeni(0);

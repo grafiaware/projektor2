@@ -18,7 +18,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
         if ($zajemci) {
             ini_set('max_execution_time', Projektor2_AppContext::getExportCertifMaxExucutionTime());
             $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->projekt->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
-            $aktivity = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
+            $aktivity = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
             foreach ($aktivity as $indexAktivity => $aktivita) {
                 if (isset($aktivita['tiskni_certifikat']) AND $aktivita['tiskni_certifikat']) {
                     $kurzyColumnNames[] = Projektor2_Model_Db_Flat_ZaPlanFlatTable::getItemColumnsNames($indexAktivity);

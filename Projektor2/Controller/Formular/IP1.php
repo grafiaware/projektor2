@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Formular_Cjc_IP1 extends Projektor2_Controller_Formular_IP {
+class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_IP {
 
     protected function createFormModels() {
         // Položky kontextu, které budou použity v elementech formuláře pro zadání (výběr) hodnot uživatelem,
@@ -17,14 +17,14 @@ class Projektor2_Controller_Formular_Cjc_IP1 extends Projektor2_Controller_Formu
     }
 
     protected function getResultFormular() {
-        $aktivityProjektuTypuKurz = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
-        $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
+        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
+        $modelySKurz = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));
-        $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA PROGRAMU Čeština pro cizince')
-            ->assign('formAction', 'cj_plan_uc')
-            ->assign('aktivityKurz', $aktivityProjektuTypuKurz)
-            ->assign('modelyKurzu', $modelyKurzu)   // Projektor2_Model_Db_SKurz[]
+        $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA '.$this->sessionStatus->projekt->text)
+            ->assign('formAction', 'plan_uc')
+            ->assign('aktivityTypuKurz', $aktivityProjektuTypuKurz)
+            ->assign('modelySKurz', $modelySKurz)   // Projektor2_Model_Db_SKurz[]
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))
             ->assign('submitTiskIP1', array('name'=>'pdf', 'value'=>'Tiskni IP 1.část'));
         return $view;

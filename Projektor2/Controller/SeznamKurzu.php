@@ -54,14 +54,14 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
     protected function getLeftMenuArray() {
         if ( ($this->sessionStatus->user->username == "sys_admin")) {
             $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=form&form=cj_novy_kurz&novy_kurz', 'text'=>'Nový kurz'];
-        } else {
-            $menuArray = [];
         }
+        $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=export', 'text'=>'Exporty dat'];
+
         return $menuArray;
     }
 
     public function getResult() {
-//        $aktivityProjektuTypuKurz = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
+//        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
 //        $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
         $viewmodelyKurzu = $this->findKurzViewmodels();
 

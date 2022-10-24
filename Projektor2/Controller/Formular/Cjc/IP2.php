@@ -14,7 +14,7 @@ class Projektor2_Controller_Formular_Cjc_IP2 extends Projektor2_Controller_Formu
     }
 
     protected function getResultFormular() {
-        $aktivityProjektuTypuKurz = Projektor2_AppContext::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
+        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
         $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 
         $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->projekt->kod);
@@ -36,7 +36,7 @@ class Projektor2_Controller_Formular_Cjc_IP2 extends Projektor2_Controller_Formu
          // TODO Všechny getResultPdf() - přesunout do service+mapper pro ukládání, v kontroleru zůstane jen $view->getNewWindowOpenerCode() - pak vše doe getResult()
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
             $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
-            $view = new Projektor2_View_PDF_Cjc_IP2($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_IP2($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
                 ->assign('user_name', $this->sessionStatus->user->name)

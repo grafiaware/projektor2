@@ -8,7 +8,7 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
 
     /**
      * Unikátní název instancí objektů zděděných z této třídy
-     * @var type
+     * @var string
      */
     protected $viewUniqueName;
 
@@ -17,8 +17,10 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
      */
     static $instance = 0;
 
+    /**
+     * @var Projektor2_Model_SessionStatus
+     */
     protected $sessionStatus;
-
 
     protected $context = array();
 

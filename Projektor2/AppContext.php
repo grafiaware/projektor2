@@ -214,7 +214,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
 
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_ap_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_ap_souhlas) {
@@ -223,7 +223,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
                     $modelTlacitko->status = 'print';
-                    $skupina->setMenuTlacitko('tl_ap_souhlas', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //dotazník
                 if ($user->tl_ap_dot) {
@@ -232,9 +232,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_ap_dot', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -247,7 +247,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'IP1';
                     $modelTlacitko->title = 'První část plánu kurzů a aktivit';
                     $modelTlacitko->status = 'print';
-                    $skupina->setMenuTlacitko('tl_ap_ip1', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //plán
                 if ($user->tl_ap_plan) {
@@ -256,9 +256,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_ap_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -266,7 +266,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -282,7 +282,7 @@ abstract class Projektor2_AppContext
 //                    $modelTlacitko->text = 'Plán poradenství';
 //                    $modelTlacitko->title = 'Úprava údajů plánu poradenských aktivit';
 //                    $modelTlacitko->status = 'edit';
-//                    $skupina->setMenuTlacitko('tl_ap_porad', $modelTlacitko);
+//                    $skupina->setMenuTlacitko($modelTlacitko);
 //                }
 
                 // skupina ukonceni
@@ -294,16 +294,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_ap_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
@@ -314,14 +314,14 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_ap_zam', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
 //                    $zajemceRegistrace->setSkupina('zamestnani', $skupina);
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
-                    $skupina->setMenuSignal('zamestnani', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
 
                 break;
@@ -335,7 +335,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_he_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_he_souhlas) {
@@ -344,7 +344,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
                     $modelTlacitko->status = 'print';
-                    $skupina->setMenuTlacitko('tl_he_souhlas', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //dotazník
                 if ($user->tl_he_dot) {
@@ -353,9 +353,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_ap_dot', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -368,7 +368,7 @@ abstract class Projektor2_AppContext
 //                    $modelTlacitko->text = 'IP1';
 //                    $modelTlacitko->title = 'První část plánu kurzů a aktivit';
 //                    $modelTlacitko->status = 'print';
-//                    $zajemceRegistrace->setTlacitko('tl_he_ip1', $modelTlacitko);
+//                    $zajemceRegistrace->setTlacitko($modelTlacitko);
 //                }
                 //plán
                 if ($user->tl_he_plan) {
@@ -377,9 +377,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_he_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -387,7 +387,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -409,16 +409,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_he_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
 //                $skupina = new Projektor2_Model_MenuSkupina();
@@ -429,7 +429,7 @@ abstract class Projektor2_AppContext
 //                    $modelTlacitko->text = 'Zaměstnání';
 //                    $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
 //                    $modelTlacitko->status = 'edit';
-//                    $zajemceRegistrace->setTlacitko('tl_he_zam', $modelTlacitko);
+//                    $zajemceRegistrace->setTlacitko($modelTlacitko);
 //                }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('zamestnani', $skupina);
@@ -447,7 +447,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sj_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_sj_souhlas) {
@@ -456,7 +456,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
                     $modelTlacitko->status = 'print';
-                    $skupina->setMenuTlacitko('tl_sj_souhlas', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //dotazník
                 if ($user->tl_sj_dot) {
@@ -465,9 +465,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sj_dot', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -480,9 +480,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sj_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -490,7 +490,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -502,7 +502,7 @@ abstract class Projektor2_AppContext
 //                    $modelTlacitko->text = 'Plán poradenství';
 //                    $modelTlacitko->title = 'Úprava údajů plánu poradenských aktivit';
 //                    $modelTlacitko->status = 'edit';
-//                    $zajemceRegistrace->setTlacitko('tl_ap_porad', $modelTlacitko);
+//                    $zajemceRegistrace->setTlacitko($modelTlacitko);
 //                }
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
@@ -513,16 +513,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sj_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
@@ -533,9 +533,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sj_zam', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
                 }
 
@@ -550,9 +550,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_vz_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -565,9 +565,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_vz_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -575,7 +575,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -589,16 +589,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_vz_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
 
                 break;
@@ -612,7 +612,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sp_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_sp_souhlas) {
@@ -621,7 +621,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
                     $modelTlacitko->status = 'print';
-                    $skupina->setMenuTlacitko('tl_sp_souhlas', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //dotazník
                 if ($user->tl_sp_dot) {
@@ -630,9 +630,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sp_dot', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -645,9 +645,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sp_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -655,7 +655,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -678,16 +678,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sp_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
@@ -698,13 +698,13 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sp_zam', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
-                    $skupina->setMenuSignal('zamestnani', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 break;
 
@@ -718,9 +718,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_zpm_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -733,9 +733,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_zpm_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -743,7 +743,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -757,16 +757,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_zpm_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
 
                 break;
@@ -781,9 +781,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_spp_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -796,9 +796,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_spp_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -806,7 +806,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -820,16 +820,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_spp_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
 
                 break;
@@ -844,9 +844,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_rp_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -859,9 +859,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_rp_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -869,7 +869,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -883,16 +883,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_rp_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
 
                 break;
@@ -907,7 +907,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_so_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_so_souhlas) {
@@ -916,7 +916,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
                     $modelTlacitko->status = 'print';
-                    $skupina->setMenuTlacitko('tl_so_souhlas', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //dotazník
                 if ($user->tl_so_dot) {
@@ -925,9 +925,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_so_dot', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -940,9 +940,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_so_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -950,7 +950,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -962,7 +962,7 @@ abstract class Projektor2_AppContext
 //                    $modelTlacitko->text = 'Plán poradenství';
 //                    $modelTlacitko->title = 'Úprava údajů plánu poradenských aktivit';
 //                    $modelTlacitko->status = 'edit';
-//                    $zajemceRegistrace->setTlacitko('tl_ap_porad', $modelTlacitko);
+//                    $zajemceRegistrace->setTlacitko($modelTlacitko);
 //                }
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
@@ -973,16 +973,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_so_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
@@ -993,13 +993,13 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_so_zam', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
-                    $skupina->setMenuSignal('zamestnani', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 break;
 
@@ -1013,7 +1013,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sl_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_sl_souhlas) {
@@ -1022,7 +1022,7 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
                     $modelTlacitko->status = 'print';
-                    $skupina->setMenuTlacitko('tl_sl_souhlas', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //dotazník
                 if ($user->tl_sl_dot) {
@@ -1031,9 +1031,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sl_dot', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -1046,9 +1046,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sl_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -1056,7 +1056,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -1068,7 +1068,7 @@ abstract class Projektor2_AppContext
 //                    $modelTlacitko->text = 'Plán poradenství';
 //                    $modelTlacitko->title = 'Úprava údajů plánu poradenských aktivit';
 //                    $modelTlacitko->status = 'edit';
-//                    $zajemceRegistrace->setTlacitko('tl_ap_porad', $modelTlacitko);
+//                    $zajemceRegistrace->setTlacitko($modelTlacitko);
 //                }
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
@@ -1079,16 +1079,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sl_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
@@ -1099,13 +1099,13 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_sl_zam', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
-                    $skupina->setMenuSignal('zamestnani', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 break;
             case 'VDTP':
@@ -1118,9 +1118,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_vdtp_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -1133,9 +1133,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_vdtp_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -1143,7 +1143,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -1157,16 +1157,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_vdtp_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
 
                 break;
@@ -1180,9 +1180,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_pdu_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -1195,9 +1195,9 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_pdu_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -1205,7 +1205,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -1219,16 +1219,16 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_pdu_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
 
                 break;
@@ -1238,31 +1238,31 @@ abstract class Projektor2_AppContext
                 //smlouva
                 if ($user->tl_mb_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'mb_sml_uc';
+                    $modelTlacitko->osoba = 'sml_uc';
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_mb_sml', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //souhlas se zpracováním osobních údajů
                 if ($user->tl_mb_souhlas) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'mb_souhlas_uc';
+                    $modelTlacitko->osoba = 'souhlas_uc';
                     $modelTlacitko->text = 'Souhlas';
                     $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
                     $modelTlacitko->status = 'print';
-                    $skupina->setMenuTlacitko('tl_mb_souhlas', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
                 //dotazník
                 if ($user->tl_mb_dot) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'mb_reg_dot';
+                    $modelTlacitko->osoba = 'reg_dot';
                     $modelTlacitko->text = 'Dotazník';
                     $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_mb_dot', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -1271,13 +1271,13 @@ abstract class Projektor2_AppContext
                 //plán
                 if ($user->tl_mb_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'mb_plan_uc';
+                    $modelTlacitko->osoba = 'plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_mb_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
@@ -1285,7 +1285,7 @@ abstract class Projektor2_AppContext
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -1294,37 +1294,37 @@ abstract class Projektor2_AppContext
                 //ukončení
                 if ($user->tl_mb_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'mb_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_mb_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //zaměstnání
                 if ($user->tl_mb_zam) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'mb_zamestnani_uc';
+                    $modelTlacitko->osoba = 'zamestnani_uc';
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_mb_zam', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
-                    $skupina->setMenuSignal('zamestnani', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 break;
             case 'CJC':
@@ -1333,11 +1333,11 @@ abstract class Projektor2_AppContext
                 //cizinec
                 if ($user->tl_cj_cizinec) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'cj_cizinec';
+                    $modelTlacitko->osoba = 'cizinec';
                     $modelTlacitko->text = 'Registrace';
                     $modelTlacitko->title = 'Registrace účastníka programu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('tl_cj_cizinec', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                //smlouva
 //                if ($user->tl_cj_sml) {
@@ -1346,7 +1346,7 @@ abstract class Projektor2_AppContext
 //                    $modelTlacitko->text = 'Smlouva';
 //                    $modelTlacitko->title = 'Úprava údajů smlouvy';
 //                    $modelTlacitko->status = 'edit';
-//                    $skupina->setMenuTlacitko('tl_cj_sml', $modelTlacitko);
+//                    $skupina->setMenuTlacitko($modelTlacitko);
 //                }
 //                //souhlas se zpracováním osobních údajů
 //                if ($user->tl_cj_souhlas) {
@@ -1355,10 +1355,10 @@ abstract class Projektor2_AppContext
 //                    $modelTlacitko->text = 'Souhlas';
 //                    $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
 //                    $modelTlacitko->status = 'print';
-//                    $skupina->setMenuTlacitko('tl_cj_souhlas', $modelTlacitko);
+//                    $skupina->setMenuTlacitko($modelTlacitko);
 //                }
 
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('dotaznik', $skupina);
                 }
 
@@ -1367,21 +1367,21 @@ abstract class Projektor2_AppContext
                 //plán
                 if ($user->tl_cj_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'cj_plan_uc';
+                    $modelTlacitko->osoba = 'plan_uc';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('cj_cj_plan', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
                     $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
-//                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
+                            /** @var Projektor2_Model_AktivitaPlan $aktivitaPlan */
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
-                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+                            $skupina->setMenuSignal($modelSignal);
                         }
                     }
                 }
@@ -1390,37 +1390,37 @@ abstract class Projektor2_AppContext
                 //ukončení
                 if ($user->tl_cj_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'cj_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni_uc';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('cj_cj_ukon', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
 //                if (count($skupina->getMenuTlacitkaAssoc())) {
 //                    $zajemceRegistrace->setSkupina('ukonceni', $skupina);
 //                }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
                     $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
-                    $skupina->setMenuSignal('ukonceni', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();
                 //zaměstnání
                 if ($user->tl_cj_zam) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'cj_zamestnani_uc';
+                    $modelTlacitko->osoba = 'zamestnani_uc';
                     $modelTlacitko->text = 'Zaměstnání';
                     $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
                     $modelTlacitko->status = 'edit';
-                    $skupina->setMenuTlacitko('cj_cj_zam', $modelTlacitko);
+                    $skupina->setMenuTlacitko($modelTlacitko);
                 }
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('zamestnani', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
                     $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
-                    $skupina->setMenuSignal('zamestnani', $modelSignal);
+                    $skupina->setMenuSignal($modelSignal);
                 }
                 break;
 
@@ -1452,8 +1452,8 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->title = 'Úprava údajů kurzu';
 
                     $modelTlacitko->status = 'edit';
-                $skupina->setMenuTlacitko('detail_kurzu', $modelTlacitko);
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                $skupina->setMenuTlacitko($modelTlacitko);
+                if (count($skupina->getMenuTlacitka())) {
                     $viewmodelKurz->setSkupina('detail', $skupina);
                 }
                 //účastníci
@@ -1463,10 +1463,10 @@ abstract class Projektor2_AppContext
                     $modelTlacitko->text = 'Účastníci';
                     $modelTlacitko->title = 'Seznam účastníků kurzu';
                     $modelTlacitko->status = 'print';
-                $skupina->setMenuTlacitko('ucastnici_kurzu', $modelTlacitko);
+                $skupina->setMenuTlacitko($modelTlacitko);
 
 
-                if (count($skupina->getMenuTlacitkaAssoc())) {
+                if (count($skupina->getMenuTlacitka())) {
                     $viewmodelKurz->setSkupina('ucastnici', $skupina);
 //                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
 //                    if ($kolekceAktivityPlan) {
@@ -1474,7 +1474,7 @@ abstract class Projektor2_AppContext
 ////                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
 //                            $modelSignal = new Projektor2_Model_Menu_Signal_Plan();
 //                            $modelSignal->setByAktivitaPlan($aktivitaPlan);
-//                            $skupina->setMenuSignal($aktivitaPlan->indexAktivity, $modelSignal);
+//                            $skupina->setMenuSignal($modelSignal);
 //                        }
 //                    }
                 }
@@ -2196,1168 +2196,5 @@ abstract class Projektor2_AppContext
             default:
                 throw new UnexpectedValueException('Není definováno pole s hodnotami pro ukončení projektu '.$kod);
         }
-    }
-
-    public static function getAktivityProjektuTypu($kod=NULL, $typ=NULL) {
-        $kurzyProjektu = array();
-        foreach (self::getAktivityProjektu($kod) as $druhAktivity => $aktivita) {
-            if ($aktivita['typ']==$typ) {
-                $kurzyProjektu[$druhAktivity] = $aktivita;
-            }
-        }
-        return $kurzyProjektu;
-    }
-
-############# AKTIVITY PROJEKTU #############
-    /**
-     * Vrací pole pro formuláře IP projektu
-     * @param string $kod Kód projektu
-     * @return array
-     * @throws UnexpectedValueException
-     */
-    public static function getAktivityProjektu($kod=NULL) {
-        switch ($kod) {
-        ######## AP #################
-            case 'AP':
-    $aktivity = array(
-            'zztp'=>array(
-                'typ'=>'kurz',
-                'kurz_druh'=>'ZZTP',
-                'vyberovy'=> 0,
-                'nadpis'=>'Kurz základních znalostí trhu práce',
-                's_hodnocenim' => FALSE,
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurz základních znalostí trhu práce<br>
-    1 = Účastník absolvoval kurz v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurz, jeho docházka byla postačující.<br>
-    3 = Kurz účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-                ),
-            'fg'=>array(
-                'typ'=>'kurz',
-                'kurz_druh'=>'FG',
-                'vyberovy'=> 0,
-                'nadpis'=>'Kurz finanční gramotnosti',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurz finanční gramotnosti<br>
-    1 = Účastník absolvoval kurz v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurz, jeho docházka byla postačující.<br>
-    3 = Kurz účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-                ),
-            'pc1'=>array(
-                'typ'=>'kurz',
-                'kurz_druh'=>'PC',
-                'vyberovy'=> 0,
-                'nadpis'=>'Kurz komunikace včetně obsluhy PC',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurz komunikace včetně obsluhy PC<br>
-    1 = Účastník Kurz komunikace včetně obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br>
-    3 = Účastník úspěšně absolvoval a Kurz komunikace včetně obsluhy PC.<br>
-    5 = Kurz komunikace včetně obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
-                ),
-            'im'=>array(
-                'typ'=>'kurz',
-                'kurz_druh'=>'IM',
-                'vyberovy'=> 1,
-                'nadpis'=>'Image poradna',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Image poradna'
-                ),
-            'spp'=>array(
-                'typ'=>'kurz',
-                'kurz_druh'=>'SPP',
-                'vyberovy'=> 1,
-                'nadpis'=>'Motivační setkání pro podnikavé',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Motivační setkání pro podnikavé'
-                ),
-            'sebas'=>array(
-                'typ'=>'kurz',
-                'kurz_druh'=>'SEBAS',
-                'vyberovy'=> 1,
-                'nadpis'=>'Podpora sebevědomí a asertivita',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Podpora sebevědomí a asertivita'
-                ),
-            'forpr'=>array(
-                'typ'=>'kurz',
-                'kurz_druh'=>'FORPR',
-                'vyberovy'=> 1,
-                'nadpis'=>'Moderní formy práce',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Moderní formy práce'
-                ),
-            'prdi'=>array(
-                'typ'=>'kurz',
-                'kurz_druh'=>'PD',
-                'vyberovy'=> 1,
-                'nadpis'=>'Pracovní diagnostika',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Help Pracovní diagnostika'
-                ),
-            'porad'=>array(
-                'typ'=>'poradenstvi',
-                'vyberovy'=> 0,
-                'nadpis'=>'Individuální poradenství a zprostředkování zaměstnání',
-                's_hodnocenim' => FALSE,
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení spolupráce s poradcem<br>
-    1 = Klient se projektu zúčastnil úspěšně a aktivně spolupracoval s okresním koordinátorem projektu. Společně s ním se snažil najít uplatnění na trhu práce, docházel na všechny smluvené konzultace, zúčastňoval se klubových setkání. Sám aktivně vyhledával volné pracovní pozice ve svém regionu.<br>
-    3 = Projektu se klient zúčastnil s ohledem na jeho možnosti (rodinné poměry, zdravotní problémy atd.) úspěšně. Vyvíjel snahu ve spolupráci s okresním koordinátorem, docházel na klubová setkání. Aktivně vyhledával za pomoci koordinátora projektu volné pracovní pozice ve svém regionu.<br>
-    5 = Aktivity projektu klient absolvoval s nedostatečnou účastí. S okresním poradcem projektu spolupracoval na základě opakovaných výzev, klubových setkání se neúčastnil.<br>'
-                ),
-            'klub'=>array(
-                'typ'=>'poradenstvi',
-                'vyberovy'=> 1,
-                'nadpis'=>'Klubová setkání',
-                's_hodnocenim' => FALSE,
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Klubová setkání'
-                ),
-            'vyhodnoceni'=>array(
-                'typ'=>'poradenstvi',
-                'vyberovy'=> 0,
-                'nadpis'=>'Vyhodnovení účasti při ukončení účasti',
-                's_hodnocenim' => TRUE,
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'
-Vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a provedených kontaktů se zaměstnavateli).<br>'
-                ),
-            'doporuceni'=>array(
-                'typ'=>'poradenstvi',
-                'vyberovy'=> 0,
-                'nadpis'=>'Doporučení vysílajícímu KoP ÚP při ukončení účasti',
-                's_hodnocenim' => TRUE,
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'
- V případě, že klient nezíská při účasti v projektu zaměstnání, doporučení vysílajícímu KoP pro další práci s klientem)<br>
- Příklady známek a slovního zhodnocení<br>
-    1 = Účastník vyvíjí maximální snahu ve zdokonalování svých znalostí a dovedností a také v hledání zaměstnání. S pomocí konzultanta z Úřadu práce by měl najít vhodné zaměstnání.<br>
-    2 = Účastník se zúčastnil projektu aktivně, jeho uplatnění na trhu práce je velmi pravděpodobné. S pomocí konzultanta z Úřadu práce by mohl najít vhodné zaměstnání.<br>
-    3 = Účast Účastníka na aktivitách projektu byla uspokojivá, jmenovaný vyvíjel průměrné úsilí v hledání zaměstnání. Konzultantům na Úřadu práce doporučujeme, aby pokračovali ve snaze motivovat jmenovaného při uplatnění se na trhu práce.<br>
-    4 = S přihlédnutím na pasivní účast účastníka v aktivitách projektu je možné konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Tedy jeho uplatnění na trhu práce  podle nás závisí na podpoře a pomoci konzultantů Úřadu práce.<br>
-    5 = Vzhledem ke zkušenostem z jednání a konzultací s účastníkem lze konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Možnost uplatnění účastníka je tedy na trhu práce poněkud omezená, zřejmě by potřeboval intenzivní pomoc konzultantů Úřadu práce.<br>'),
-                );
-
-                break;
-        ######## HELP #################
-            case 'HELP':
-
-    $aktivity = array(
-            'mot'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Motivační kurz',
-                'kurz_druh'=>'MOT',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Motivačního programu<br>
-    1 = Účastník absolvoval kurzy Motivačního programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurzy Motivačního programu, jeho docházka byla postačující.<br>
-    3 = Kurzy Motivačního programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-                ),
-            'pc1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'PC kurz',
-                'kurz_druh'=>'PC',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurzu obsluhy PC<br>
-    1 = Účastník Kurz obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br>
-    3 = Účastník úspěšně absolvoval a Kurz obsluhy PC.<br>
-    5 = Kurz obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
-                ),
-            'prof1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 1',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof2'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 2',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof3'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 3',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'im'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Image poradna',
-                'kurz_druh'=>'IM',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Help Image poradna'
-                ),
-            'spp'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Setkání pro podnikavé',
-                'kurz_druh'=>'SPP',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Help Setkání pro podnikavé'),
-            'prdi'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Pracovní diagnostika',
-                'kurz_druh'=>'PD',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Help Pracovní diagnostika'),
-            'porad'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Individuální poradenství a zprostředkování zaměstnání',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení spolupráce s poradcem<br>
-    1 = Klient se projektu zúčastnil úspěšně a aktivně spolupracoval s okresním koordinátorem projektu. Společně s ním se snažil najít uplatnění na trhu práce, docházel na všechny smluvené konzultace, zúčastňoval se klubových setkání. Sám aktivně vyhledával volné pracovní pozice ve svém regionu.<br>
-    3 = Projektu se klient zúčastnil s ohledem na jeho možnosti (rodinné poměry, zdravotní problémy atd.) úspěšně. Vyvíjel snahu ve spolupráci s okresním koordinátorem, docházel na klubová setkání. Aktivně vyhledával za pomoci koordinátora projektu volné pracovní pozice ve svém regionu.<br>
-    5 = Aktivity projektu klient absolvoval s nedostatečnou účastí. S okresním poradcem projektu spolupracoval na základě opakovaných výzev, klubových setkání se neúčastnil.<br>'),
-            'doporuceni'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Doporučení',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení<br>
-    1 = Účastník vyvíjí maximální snahu ve zdokonalování svých znalostí a dovedností a také v hledání zaměstnání. S pomocí konzultanta z Úřadu práce by měl najít vhodné zaměstnání.<br>
-    2 = Účastník se zúčastnil projektu aktivně, jeho uplatnění na trhu práce je velmi pravděpodobné. S pomocí konzultanta z Úřadu práce by mohl najít vhodné zaměstnání.<br>
-    3 = Účast Účastníka na aktivitách projektu byla uspokojivá, jmenovaný vyvíjel průměrné úsilí v hledání zaměstnání. Konzultantům na Úřadu práce doporučujeme, aby pokračovali ve snaze motivovat jmenovaného při uplatnění se na trhu práce.<br>
-    4 = S přihlédnutím na pasivní účast účastníka v aktivitách projektu je možné konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Tedy jeho uplatnění na trhu práce  podle nás závisí na podpoře a pomoci konzultantů Úřadu práce.<br>
-    5 = Vzhledem ke zkušenostem z jednání a konzultací s účastníkem lze konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Možnost uplatnění účastníka je tedy na trhu práce poněkud omezená, zřejmě by potřeboval intenzivní pomoc konzultantů Úřadu práce.<br>'),
-            );
-                break;
-        ######## SJZP #################
-            case 'SJZP':
-
-    $aktivity = array(
-            'mot'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Motivační kurz',
-                'kurz_druh'=>'MOT',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení Motivačního programu<br>
-    1 = Účastník absolvoval kurzy Motivačního programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurzy Motivačního programu, jeho docházka byla postačující.<br>
-    3 = Kurzy Motivačního programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-                ),
-            'pc1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'PC kurz',
-                'kurz_druh'=>'PC',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurzu obsluhy PC<br>
-    1 = Účastník Kurz obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br>
-    3 = Účastník úspěšně absolvoval a Kurz obsluhy PC.<br>
-    5 = Kurz obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
-                ),
-            'prof1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 1',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-        // prof3 je v SJZP použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof3
-        // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
-            'prof3'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Kurz odborného jazyka',
-                'kurz_druh'=>'JAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení jazykového kurzu<br>
-    Jazykové kurzy <br>
-    1 = Účastník měl jasnou představu o svém dalším odborném jazykovém vzdělání. Jazykový kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o své další odborné jazykové vzdělávání.
-    Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru.
-    Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit.
-    Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného kurzu odborného jazyka. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-//            'im'=>array(
-//                'typ'=>'kurz',
-//                'nadpis'=>'Image poradna',
-//                'kurz_druh'=>'IM',
-//                's_certifikatem' => FALSE,
-//                'tiskni_certifikat' => FALSE,
-//                'help'=>'SJZP Image poradna'
-//                ),
-//            'spp'=>array(
-//                'typ'=>'kurz',
-//                'nadpis'=>'Setkání pro podnikavé',
-//                'kurz_druh'=>'SPP',
-//                's_certifikatem' => FALSE,
-//                'tiskni_certifikat' => FALSE,
-//                'help'=>'SJZP Setkání pro podnikavé'),
-            'prdi'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Pracovní diagnostika',
-                'kurz_druh'=>'PD',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'SJZP Pracovní diagnostika'),
-            'bidi'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Bilanční diagnostika',
-                'kurz_druh'=>'BD',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'SJZP Bilanční diagnostika'),
-            'porad'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Individuální poradenství a zprostředkování zaměstnání',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení spolupráce s poradcem<br>
-    1 = Klient se projektu zúčastnil úspěšně a aktivně spolupracoval s okresním koordinátorem projektu. Společně s ním se snažil najít uplatnění na trhu práce, docházel na všechny smluvené konzultace, zúčastňoval se klubových setkání. Sám aktivně vyhledával volné pracovní pozice ve svém regionu.<br>
-    3 = Projektu se klient zúčastnil s ohledem na jeho možnosti (rodinné poměry, zdravotní problémy atd.) úspěšně. Vyvíjel snahu ve spolupráci s okresním koordinátorem, docházel na klubová setkání. Aktivně vyhledával za pomoci koordinátora projektu volné pracovní pozice ve svém regionu.<br>
-    5 = Aktivity projektu klient absolvoval s nedostatečnou účastí. S okresním poradcem projektu spolupracoval na základě opakovaných výzev, klubových setkání se neúčastnil.<br>'),
-            'doporuceni'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Doporučení',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení<br>
-    1 = Účastník vyvíjí maximální snahu ve zdokonalování svých znalostí a dovedností a také v hledání zaměstnání. S pomocí konzultanta z Úřadu práce by měl najít vhodné zaměstnání.<br>
-    2 = Účastník se zúčastnil projektu aktivně, jeho uplatnění na trhu práce je velmi pravděpodobné. S pomocí konzultanta z Úřadu práce by mohl najít vhodné zaměstnání.<br>
-    3 = Účast Účastníka na aktivitách projektu byla uspokojivá, jmenovaný vyvíjel průměrné úsilí v hledání zaměstnání. Konzultantům na Úřadu práce doporučujeme, aby pokračovali ve snaze motivovat jmenovaného při uplatnění se na trhu práce.<br>
-    4 = S přihlédnutím na pasivní účast účastníka v aktivitách projektu je možné konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Tedy jeho uplatnění na trhu práce  podle nás závisí na podpoře a pomoci konzultantů Úřadu práce.<br>
-    5 = Vzhledem ke zkušenostem z jednání a konzultací s účastníkem lze konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Možnost uplatnění účastníka je tedy na trhu práce poněkud omezená, zřejmě by potřeboval intenzivní pomoc konzultantů Úřadu práce.<br>'),
-            );
-                break;
-        ######## VZP #################
-            case 'VZP':
-
-    $aktivity = array(
-            'mot'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Poradenský program',
-                'kurz_druh'=>'MOT',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení poradenského programu<br>
-    1 = Účastník absolvoval kurz poradenského programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurz poradenského programu, jeho docházka byla postačující.<br>
-    3 = Kurz poranského programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla nedostačující.<br>'
-                )
-            );
-                break;
-        ######## SJZP PK KK #################
-            case 'SJPK':
-
-    $aktivity = array(
-            'zztp'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Kurz dovedností pro pracovní trh',
-                'kurz_druh'=>'ZZTP',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Motivačního programu<br>
-    1 = Účastník absolvoval kurzy Motivačního programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurzy Motivačního programu, jeho docházka byla postačující.<br>
-    3 = Kurzy Motivačního programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-                ),
-            'pc1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'PC kurz',
-                'kurz_druh'=>'PC',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurzu obsluhy PC<br>
-    1 = Účastník Kurz obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br>
-    3 = Účastník úspěšně absolvoval a Kurz obsluhy PC.<br>
-    5 = Kurz obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
-                ),
-            'prof1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz s jazykem',
-                'kurz_druh'=>'RKJAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-        // prof2 je v SJZP použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof3
-        // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
-            'prof2'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Kurz odborného jazyka',
-                'kurz_druh'=>'JAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení jazykového kurzu<br>
-    Jazykové kurzy <br>
-    1 = Účastník měl jasnou představu o svém dalším odborném jazykovém vzdělání. Jazykový kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o své další odborné jazykové vzdělávání.
-    Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru.
-    Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit.
-    Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného kurzu odborného jazyka. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof3'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 1',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof4'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 2',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-                'prdi'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Pracovní diagnostika',
-                'kurz_druh'=>'PD',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'SJPK Pracovní diagnostika'),
-            'porad'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Zprostředkování práce/Umisťování na pracovní místa',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení spolupráce s poradcem<br>
-    1 = Klient se projektu zúčastnil úspěšně a aktivně spolupracoval s okresním koordinátorem projektu. Společně s ním se snažil najít uplatnění na trhu práce, docházel na všechny smluvené konzultace, zúčastňoval se klubových setkání. Sám aktivně vyhledával volné pracovní pozice ve svém regionu.<br>
-    3 = Projektu se klient zúčastnil s ohledem na jeho možnosti (rodinné poměry, zdravotní problémy atd.) úspěšně. Vyvíjel snahu ve spolupráci s okresním koordinátorem, docházel na klubová setkání. Aktivně vyhledával za pomoci koordinátora projektu volné pracovní pozice ve svém regionu.<br>
-    5 = Aktivity projektu klient absolvoval s nedostatečnou účastí. S okresním poradcem projektu spolupracoval na základě opakovaných výzev, klubových setkání se neúčastnil.<br>'),
-            'doporuceni'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Doporučení',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení<br>
-    1 = Účastník vyvíjí maximální snahu ve zdokonalování svých znalostí a dovedností a také v hledání zaměstnání. S pomocí konzultanta z Úřadu práce by měl najít vhodné zaměstnání.<br>
-    2 = Účastník se zúčastnil projektu aktivně, jeho uplatnění na trhu práce je velmi pravděpodobné. S pomocí konzultanta z Úřadu práce by mohl najít vhodné zaměstnání.<br>
-    3 = Účast Účastníka na aktivitách projektu byla uspokojivá, jmenovaný vyvíjel průměrné úsilí v hledání zaměstnání. Konzultantům na Úřadu práce doporučujeme, aby pokračovali ve snaze motivovat jmenovaného při uplatnění se na trhu práce.<br>
-    4 = S přihlédnutím na pasivní účast účastníka v aktivitách projektu je možné konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Tedy jeho uplatnění na trhu práce  podle nás závisí na podpoře a pomoci konzultantů Úřadu práce.<br>
-    5 = Vzhledem ke zkušenostem z jednání a konzultací s účastníkem lze konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Možnost uplatnění účastníka je tedy na trhu práce poněkud omezená, zřejmě by potřeboval intenzivní pomoc konzultantů Úřadu práce.<br>'),
-            );
-                break;
-        ######## ZPM #################
-            case 'ZPM':
-
-    $aktivity = array(
-            'mot'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Poradenský program',
-                'kurz_druh'=>'MOT',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'tiskni_certifikat_monitoring' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení poradenského programu<br>
-    1 = Účastník absolvoval kurz poradenského programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurz poradenského programu, jeho docházka byla postačující.<br>
-    3 = Kurz poranského programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla nedostačující.<br>'
-                )
-            );
-                break;
-     ######## SPP #################
-            case 'SPP':
-
-    $aktivity = array(
-            'mot'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Poradenský program',
-                'kurz_druh'=>'MOT',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'tiskni_certifikat_monitoring' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení poradenského programu<br>
-    1 = Účastník absolvoval kurz poradenského programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurz poradenského programu, jeho docházka byla postačující.<br>
-    3 = Kurz poranského programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla nedostačující.<br>'
-                )
-            );
-                break;
-     ######## VDTP #################
-            case 'VDTP':
-
-    $aktivity = array(
-            'mot'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Poradenský program',
-                'kurz_druh'=>'MOT',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'tiskni_certifikat_monitoring' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení poradenského programu<br>
-    1 = Účastník absolvoval kurz poradenského programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurz poradenského programu, jeho docházka byla postačující.<br>
-    3 = Kurz poranského programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla nedostačující.<br>'
-                )
-            );
-                break;
-     ######## PDU #################
-            case 'PDU':
-
-    $aktivity = array(
-            'mot'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Poradenský program',
-                'kurz_druh'=>'MOT',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'tiskni_certifikat_monitoring' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení poradenského programu<br>
-    1 = Účastník absolvoval kurz poradenského programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurz poradenského programu, jeho docházka byla postačující.<br>
-    3 = Kurz poranského programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla nedostačující.<br>'
-                )
-            );
-                break;
-
-
-
-    ######## RP #################
-            case 'RP':
-
-    $aktivity = array(
-            'mot'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Poradenský program',
-                'kurz_druh'=>'MOT',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'tiskni_certifikat_monitoring' => TRUE,
-                'help'=>'Příklady známek a slovního zhodnocení poradenského programu<br>
-    1 = Účastník absolvoval kurz poradenského programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurz poradenského programu, jeho docházka byla postačující.<br>
-    3 = Kurz poranského programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla nedostačující.<br>'
-                ),
-        // prof1 je použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof1
-        // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
-            'prof1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Jazykový lurz - jazyk anglickýa',
-                'kurz_druh'=>'JAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení jazykového kurzu<br>
-    Jazykové kurzy <br>
-    1 = Účastník měl jasnou představu o svém dalším odborném jazykovém vzdělání. Jazykový kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o své další odborné jazykové vzdělávání.
-    Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru.
-    Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit.
-    Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného kurzu odborného jazyka. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                )
-            );
-                break;
-        ######## SJPO V PLZNI A OKOLÍ #################
-            case 'SJPO':
-
-    $aktivity = array(
-            'zztp'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Kurz dovedností pro pracovní trh',
-                'kurz_druh'=>'ZZTP',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Motivačního programu<br>
-    1 = Účastník absolvoval kurzy Motivačního programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurzy Motivačního programu, jeho docházka byla postačující.<br>
-    3 = Kurzy Motivačního programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-                ),
-            'pc1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'PC kurz',
-                'kurz_druh'=>'PC',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurzu obsluhy PC<br>
-    1 = Účastník Kurz obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br>
-    3 = Účastník úspěšně absolvoval a Kurz obsluhy PC.<br>
-    5 = Kurz obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
-                ),
-            'prof1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz s jazykem',
-                'kurz_druh'=>'RKJAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-        // prof2 je v SJZP použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof3
-        // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
-            'prof2'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Kurz odborného jazyka',
-                'kurz_druh'=>'JAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení jazykového kurzu<br>
-    Jazykové kurzy <br>
-    1 = Účastník měl jasnou představu o svém dalším odborném jazykovém vzdělání. Jazykový kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o své další odborné jazykové vzdělávání.
-    Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru.
-    Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit.
-    Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného kurzu odborného jazyka. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof3'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 1',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof4'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 2',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'odb1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Odborný kurz 1',
-                'kurz_druh'=>'ODB',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prdi'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Pracovní diagnostika',
-                'kurz_druh'=>'PD',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'SJPK Pracovní diagnostika'),
-            'porad'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Zprostředkování práce/Umisťování na pracovní místa',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení spolupráce s poradcem<br>
-    1 = Klient se projektu zúčastnil úspěšně a aktivně spolupracoval s okresním koordinátorem projektu. Společně s ním se snažil najít uplatnění na trhu práce, docházel na všechny smluvené konzultace, zúčastňoval se klubových setkání. Sám aktivně vyhledával volné pracovní pozice ve svém regionu.<br>
-    3 = Projektu se klient zúčastnil s ohledem na jeho možnosti (rodinné poměry, zdravotní problémy atd.) úspěšně. Vyvíjel snahu ve spolupráci s okresním koordinátorem, docházel na klubová setkání. Aktivně vyhledával za pomoci koordinátora projektu volné pracovní pozice ve svém regionu.<br>
-    5 = Aktivity projektu klient absolvoval s nedostatečnou účastí. S okresním poradcem projektu spolupracoval na základě opakovaných výzev, klubových setkání se neúčastnil.<br>'),
-            'doporuceni'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Doporučení',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení<br>
-    1 = Účastník vyvíjí maximální snahu ve zdokonalování svých znalostí a dovedností a také v hledání zaměstnání. S pomocí konzultanta z Úřadu práce by měl najít vhodné zaměstnání.<br>
-    2 = Účastník se zúčastnil projektu aktivně, jeho uplatnění na trhu práce je velmi pravděpodobné. S pomocí konzultanta z Úřadu práce by mohl najít vhodné zaměstnání.<br>
-    3 = Účast Účastníka na aktivitách projektu byla uspokojivá, jmenovaný vyvíjel průměrné úsilí v hledání zaměstnání. Konzultantům na Úřadu práce doporučujeme, aby pokračovali ve snaze motivovat jmenovaného při uplatnění se na trhu práce.<br>
-    4 = S přihlédnutím na pasivní účast účastníka v aktivitách projektu je možné konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Tedy jeho uplatnění na trhu práce  podle nás závisí na podpoře a pomoci konzultantů Úřadu práce.<br>
-    5 = Vzhledem ke zkušenostem z jednání a konzultací s účastníkem lze konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Možnost uplatnění účastníka je tedy na trhu práce poněkud omezená, zřejmě by potřeboval intenzivní pomoc konzultantů Úřadu práce.<br>'),
-            );
-                break;
-        ######## SJLP Pro LEPŠÍ PRÁCI #################
-            case 'SJLP':
-
-    $aktivity = array(
-            'zztp'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Kurz dovedností pro pracovní trh',
-                'kurz_druh'=>'ZZTP',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Motivačního programu<br>
-    1 = Účastník absolvoval kurzy Motivačního programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurzy Motivačního programu, jeho docházka byla postačující.<br>
-    3 = Kurzy Motivačního programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-                ),
-            'pc1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'PC kurz',
-                'kurz_druh'=>'PC',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurzu obsluhy PC<br>
-    1 = Účastník Kurz obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br>
-    3 = Účastník úspěšně absolvoval a Kurz obsluhy PC.<br>
-    5 = Kurz obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
-                ),
-            'prof1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz s jazykem',
-                'kurz_druh'=>'RKJAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-        // prof2 je v SJZP použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof3
-        // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
-            'prof2'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Kurz odborného jazyka',
-                'kurz_druh'=>'JAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení jazykového kurzu<br>
-    Jazykové kurzy <br>
-    1 = Účastník měl jasnou představu o svém dalším odborném jazykovém vzdělání. Jazykový kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o své další odborné jazykové vzdělávání.
-    Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru.
-    Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit.
-    Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného kurzu odborného jazyka. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof3'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 1',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof4'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 2',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'odb1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Odborný kurz 1',
-                'kurz_druh'=>'ODB',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-                'prdi'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Pracovní diagnostika',
-                'kurz_druh'=>'PD',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'SJPK Pracovní diagnostika'),
-            'porad'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Zprostředkování práce/Umisťování na pracovní místa',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení spolupráce s poradcem<br>
-    1 = Klient se projektu zúčastnil úspěšně a aktivně spolupracoval s okresním koordinátorem projektu. Společně s ním se snažil najít uplatnění na trhu práce, docházel na všechny smluvené konzultace, zúčastňoval se klubových setkání. Sám aktivně vyhledával volné pracovní pozice ve svém regionu.<br>
-    3 = Projektu se klient zúčastnil s ohledem na jeho možnosti (rodinné poměry, zdravotní problémy atd.) úspěšně. Vyvíjel snahu ve spolupráci s okresním koordinátorem, docházel na klubová setkání. Aktivně vyhledával za pomoci koordinátora projektu volné pracovní pozice ve svém regionu.<br>
-    5 = Aktivity projektu klient absolvoval s nedostatečnou účastí. S okresním poradcem projektu spolupracoval na základě opakovaných výzev, klubových setkání se neúčastnil.<br>'),
-            'doporuceni'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Doporučení',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení<br>
-    1 = Účastník vyvíjí maximální snahu ve zdokonalování svých znalostí a dovedností a také v hledání zaměstnání. S pomocí konzultanta z Úřadu práce by měl najít vhodné zaměstnání.<br>
-    2 = Účastník se zúčastnil projektu aktivně, jeho uplatnění na trhu práce je velmi pravděpodobné. S pomocí konzultanta z Úřadu práce by mohl najít vhodné zaměstnání.<br>
-    3 = Účast Účastníka na aktivitách projektu byla uspokojivá, jmenovaný vyvíjel průměrné úsilí v hledání zaměstnání. Konzultantům na Úřadu práce doporučujeme, aby pokračovali ve snaze motivovat jmenovaného při uplatnění se na trhu práce.<br>
-    4 = S přihlédnutím na pasivní účast účastníka v aktivitách projektu je možné konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Tedy jeho uplatnění na trhu práce  podle nás závisí na podpoře a pomoci konzultantů Úřadu práce.<br>
-    5 = Vzhledem ke zkušenostem z jednání a konzultací s účastníkem lze konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Možnost uplatnění účastníka je tedy na trhu práce poněkud omezená, zřejmě by potřeboval intenzivní pomoc konzultantů Úřadu práce.<br>'),
-            );
-                break;
-        ######## MOJE BUDOUCNOST #################
-            case 'MB':
-
-    $aktivity = array(
-            'zztp'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Kurz dovedností pro trh práce a motivační aktivity',
-                'kurz_druh'=>'ZZTP',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Motivačního programu<br>
-    1 = Účastník absolvoval kurzy Motivačního programu v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurzy Motivačního programu, jeho docházka byla postačující.<br>
-    3 = Kurzy Motivačního programu účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-                ),
-            'fg'=>array(
-                'typ'=>'kurz',
-                'kurz_druh'=>'FG',
-                'vyberovy'=> 0,
-                'nadpis'=>'Kurz finanční gramotnosti',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurz finanční gramotnosti<br>
-    1 = Účastník absolvoval kurz v plném rozsahu a se stoprocentní docházkou.<br>
-    2 = Účastník úspěšně absolvoval kurz, jeho docházka byla postačující.<br>
-    3 = Kurz účastník neabsolvoval v plném rozsahu, jeho účast na kurzu byla minimální.<br>'
-                ),
-            'pc1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'PC kurz',
-                'kurz_druh'=>'PC',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurzu obsluhy PC<br>
-    1 = Účastník Kurz obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br>
-    3 = Účastník úspěšně absolvoval a Kurz obsluhy PC.<br>
-    5 = Kurz obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
-                ),
-            'pc2'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'PC kurz doplňkový',
-                'kurz_druh'=>'PC',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Kurzu obsluhy PC<br>
-    1 = Účastník Kurz obsluhy PC absolvoval s maximální úspěšností a stoprocentní docházkou.<br>
-    3 = Účastník úspěšně absolvoval a Kurz obsluhy PC.<br>
-    5 = Kurz obsluhy PC neabsolvoval účastník v plném rozsahu. Jeho docházka nebyla dostačující.<br>'
-                ),
-        'prof1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz s jazykem',
-                'kurz_druh'=>'RKJAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-        // prof2 je v MB použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof2
-        // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
-            'prof2'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Intenzivní kurz odborného jazyka',
-                'kurz_druh'=>'JAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení jazykového kurzu<br>
-    Jazykové kurzy <br>
-    1 = Účastník měl jasnou představu o svém dalším odborném jazykovém vzdělání. Jazykový kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o své další odborné jazykové vzdělávání.
-    Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru.
-    Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit.
-    Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného kurzu odborného jazyka. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof3'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 1',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'prof4'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Rekvalifikační kurz 2',
-                'kurz_druh'=>'RK',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'odb1'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Odborný kurz 1',
-                'kurz_druh'=>'ODB',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'odb2'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Odborný kurz 2',
-                'kurz_druh'=>'ODB',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'odb3'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Odborný kurz 3',
-                'kurz_druh'=>'ODB',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-            'odb4'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Odborný kurz 4',
-                'kurz_druh'=>'ODB',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ),
-
-
-        'prdi'=>array(
-                'typ'=>'kurz',
-                'nadpis'=>'Pracovní diagnostika',
-                'kurz_druh'=>'PD',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'SJPK Pracovní diagnostika'),
-            'porad'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Zprostředkování práce/Umisťování na pracovní místa',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení spolupráce s poradcem<br>
-    1 = Klient se projektu zúčastnil úspěšně a aktivně spolupracoval s okresním koordinátorem projektu. Společně s ním se snažil najít uplatnění na trhu práce, docházel na všechny smluvené konzultace, zúčastňoval se klubových setkání. Sám aktivně vyhledával volné pracovní pozice ve svém regionu.<br>
-    3 = Projektu se klient zúčastnil s ohledem na jeho možnosti (rodinné poměry, zdravotní problémy atd.) úspěšně. Vyvíjel snahu ve spolupráci s okresním koordinátorem, docházel na klubová setkání. Aktivně vyhledával za pomoci koordinátora projektu volné pracovní pozice ve svém regionu.<br>
-    5 = Aktivity projektu klient absolvoval s nedostatečnou účastí. S okresním poradcem projektu spolupracoval na základě opakovaných výzev, klubových setkání se neúčastnil.<br>'),
-            'doporuceni'=>array(
-                'typ'=>'poradenství',
-                'nadpis'=>'Doporučení',
-                's_certifikatem' => FALSE,
-                'tiskni_certifikat' => FALSE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení<br>
-    1 = Účastník vyvíjí maximální snahu ve zdokonalování svých znalostí a dovedností a také v hledání zaměstnání. S pomocí konzultanta z Úřadu práce by měl najít vhodné zaměstnání.<br>
-    2 = Účastník se zúčastnil projektu aktivně, jeho uplatnění na trhu práce je velmi pravděpodobné. S pomocí konzultanta z Úřadu práce by mohl najít vhodné zaměstnání.<br>
-    3 = Účast Účastníka na aktivitách projektu byla uspokojivá, jmenovaný vyvíjel průměrné úsilí v hledání zaměstnání. Konzultantům na Úřadu práce doporučujeme, aby pokračovali ve snaze motivovat jmenovaného při uplatnění se na trhu práce.<br>
-    4 = S přihlédnutím na pasivní účast účastníka v aktivitách projektu je možné konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Tedy jeho uplatnění na trhu práce  podle nás závisí na podpoře a pomoci konzultantů Úřadu práce.<br>
-    5 = Vzhledem ke zkušenostem z jednání a konzultací s účastníkem lze konstatovat, že jmenovaný nevyvíjí optimální snahu ve zdokonalování svých znalostí a dovedností a rovněž v hledání zaměstnání. Možnost uplatnění účastníka je tedy na trhu práce poněkud omezená, zřejmě by potřeboval intenzivní pomoc konzultantů Úřadu práce.<br>'),
-            );
-                break;
-        ######## ČEŠTINA PRO CIZINCE #################
-            case 'CJC':
-
-    $aktivity = [
-
-        'prof1'=> [
-                'typ'=>'kurz',
-                'nadpis'=>'Český jazyk pro cizince A1',
-                'kurz_druh'=>'RKJAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ],
-            'prof2'=>[
-                'typ'=>'kurz',
-                'nadpis'=>'Český jazyk pro cizince A1',
-                'kurz_druh'=>'RKJAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ],
-            'prof3'=>[
-                'typ'=>'kurz',
-                'nadpis'=>'Český jazyk pro cizince A2',
-                'kurz_druh'=>'RKJAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ],
-            'prof4'=>[
-                'typ'=>'kurz',
-                'nadpis'=>'Český jazyk pro cizince A2',
-                'kurz_druh'=>'RKJAZ',
-                's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                's_hodnocenim' => FALSE,
-                'help'=>'Příklady známek a slovního zhodnocení Rekvalifikačního kurzu<br>
-    Rekvalifikační kurzy (známku 3 a 5  je možné použít i jako doporučení pro ÚP)<br>
-    1 = Účastník měl jasnou představu o dalším doplňujícím vzdělání. Rekvalifikační kurz, který si zvolil, úspěšně absolvoval, a pomohl mu najít odpovídající zaměstnání.<br>
-    2 = Účastník projevoval během účasti v projektu aktivní zájem o možnosti svého dalšího vzdělávání. Vybral si proto odpovídající kurz podle svých dosavadních znalostí a vědomostí. Bohužel díky osobním problémům (nebo zdravotním komplikací nebo rodinným problémům) nemohl vybraný kurz dokončit. Bylo by zřejmě rozumné umožnit Účastníkovi absolvovat tento kurz znovu, pokud bude naplánován.<br>
-    3 = Účastník si vzhledem ke svému dosavadnímu vzdělání a dosavadní činnosti vybral odpovídající kurz s cílem zaměstnání v požadovaném oboru. Bohužel nebyl tento kurz do harmonogramu kurzů zařazen. Proto doporučujeme konzultantům Úřadu práce, aby jmenovanému umožnili tento kurz, pokud bude plánován, absolvovat. Jmenovanému se zatím, přes zřejmou snahu, nepodařilo najít zaměstnání.<br>
-    5 = Účastník pasivně přistupoval k výběru vhodného rekvalifikačního kurzu. Doporučení okresního koordinátora projektu ignoroval  a nejevil zájem o další vzdělávání.<br>'
-                ],
-        ];
-                break;
-            default:
-        throw new UnexpectedValueException('Neexistuje konfigurace pro daný kód projektu: ', $kod);
-        };
-    return $aktivity;
     }
 }

@@ -32,7 +32,7 @@ class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
         //*****************************************************
         $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
         $kurzSadaBunek->SpustSadu(true);
-        $aktivity = Projektor2_AppContext::getAktivityProjektu('AP');   
+        $aktivity = Config_Aktivity::getAktivityProjektu('AP');   
         foreach ($aktivity as $druh=>$aktivita) {
             if ($aktivita['typ']=='poradenstvi' AND $aktivita['vyberovy']==0) {
                 $nabidkaPovinnychPoradenskychAktivit .= $nabidkaPovinnychPoradenskychAktivit ? ', '.$aktivita['nadpis'] : $aktivita['nadpis'];

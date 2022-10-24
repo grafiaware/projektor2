@@ -44,7 +44,7 @@ class Projektor2_View_PDF_Help_IP2 extends Projektor2_View_PDF_Help_HeaderFooter
             $blok->predsazeni(0);
             $blok->odsazeniZleva(0);
         $this->pdf->TiskniBlok($blok);
-        $aktivity = Projektor2_AppContext::getAktivityProjektu(); 
+        $aktivity = Config_Aktivity::getAktivityProjektu(); 
         $count = 1;
         foreach ($aktivity as $druh=>$aktivita) {
             if ($aktivita['typ']=='kurz') {

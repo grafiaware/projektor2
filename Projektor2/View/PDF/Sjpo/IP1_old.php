@@ -40,7 +40,7 @@ class Projektor2_View_PDF_Sjzp_IP1 extends Projektor2_View_PDF_Sjzp_IP {
             $blok->odsazeniZleva(0);
         $this->pdf->TiskniBlok($blok);        
         //##################################################################################################
-        $aktivity = Projektor2_AppContext::getAktivityProjektu('AP'); 
+        $aktivity = Config_Aktivity::getAktivityProjektu('AP'); 
         $blok = new Projektor2_PDF_Blok;
             $blok->Nadpis("Individuální plán projektu členěný podle absolvovaných aktivit");            
             $blok->predsazeni(0);

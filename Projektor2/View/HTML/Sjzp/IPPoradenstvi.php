@@ -17,7 +17,7 @@ class Projektor2_View_HTML_Sjzp_IPPoradenstvi extends Projektor2_View_HTML_Formu
         echo '<H4>Plán poradenských aktivit</H4>';
         echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=sjzp_porad_uc" name="form_porad">';
         
-        $aktivity = Projektor2_AppContext::getAktivityProjektu('AP');   
+        $aktivity = Config_Aktivity::getAktivityProjektu('AP');   
         foreach ($aktivity as $druh=>$aktivita) {
             if ($aktivita['typ']=='poradenstvi') {
                 $name = 'poranenstvi->'.$druh;

@@ -24,7 +24,7 @@ class Projektor2_View_PDF_Help_IPOsvedceni extends Projektor2_View_PDF_Common {
         $this->setHeaderFooter($projekt, $textPaticky, FALSE);
         $this->initialize();
         //*****************************************************
-        $aktivity = Projektor2_AppContext::getAktivityProjektu('HELP');
+        $aktivity = Config_Aktivity::getAktivityProjektu('HELP');
         $druh = $this->context['druh'];
         $aktivita = $aktivity[$druh];
 
