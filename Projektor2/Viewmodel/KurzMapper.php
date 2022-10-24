@@ -32,7 +32,7 @@ class Projektor2_Viewmodel_KurzMapper {
     private static function create(Projektor2_Model_Db_SKurz $sKurz) {
         $viewmodelKurz =  new Projektor2_Viewmodel_Kurz($sKurz);
         // nastaví skupiny objeku zajemceRegistrace
-        return Projektor2_AppContext::setSkupinyKurz($viewmodelKurz, $sKurz);
+        return Config_MenuKurz::setSkupinyKurz($viewmodelKurz, $sKurz);
     }
 
     ######### PRIVATE #######################

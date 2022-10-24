@@ -6,8 +6,6 @@
  */
 class Projektor2_View_HTML_Element_Kurz_TdSignal extends Projektor2_View_HTML_Element_TdSignalAbstract {
 
-    const VIEWMODEL_SIGNAL = 'viewmodel_signal';
-
     public function render() {
         $model = $this->context['model'];
         switch ($model->status) {
@@ -40,26 +38,9 @@ class Projektor2_View_HTML_Element_Kurz_TdSignal extends Projektor2_View_HTML_El
                 $title = 'dokončen úspěšně, vydán certifikát';
                 break;
 
-            case 'zamestnanNoveMisto':
-                $class = 'signal signal-novemisto';
-                $title = 'zaměstnán na nově zřízené místo';
-                break;
-            case 'zamestnanSUPM':
-                $class = 'signal signal-supm';
-                $title = 'zaměstnán na SÚPM';
-                break;
-
-            case 'zamestnan':
-                $class = 'signal signal-zamestnan';
-                $title = 'zaměstnán';
-                break;
-            case 'zamestnanNavazujici':
-                $class = 'signal signal-navazujici';
-                $title = 'zaměstnán na navazující místo';
-                break;
-            case 'nezamestnan':
-                $class = 'signal signal-nezamestnan';
-                $title = 'nezaměstnán';
+            case 'planovaniUcastnici':
+                $class = 'signal signal-plan';
+                $title = 'počet účastníků plán';
                 break;
             default:
                 $class = '';

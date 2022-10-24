@@ -10,7 +10,7 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Formular_Cjc_Cizinec extends Projektor2_Controller_Formular_FlatTable {
+class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formular_FlatTable {
 
     private $typeCollection;
     private $uploadCollection;

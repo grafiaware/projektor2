@@ -85,7 +85,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
 
         $modelSelect = new Projektor2_Viewmodel_Element_Select($nameIdSKurz, $modelySKurz, $idSKurz, $this->context['returnedModelProperty']);
         $modelSelect->setSelectId($idSelect);
-        $modelSelect->setInnerTextCallable(array($this,'text_retezec_kurz'));
+        $modelSelect->setInnerTextCallable(array($this,'textRetezecKurz'));
         // $this->context['readonly'] nastyví readonly pro všechny elementy fieldsetu
         if (($this->context['readonly'] ?? false)OR $zadanyAbsolvovaneHodiny OR $zadanoUspesneNeuspesne) {
             $modelSelect->setReadonly(true);
@@ -198,17 +198,29 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
 
     /**
      * Callback funkce pro view  Projektor2_View_HTML_Element_Select.
+     *
+     * !! Identická metoda použita v Projektor2_Viewmodel_Kurz
+     *
      * @param Projektor2_Model_Db_SKurz $kurz
      * @return string
      */
-    public function text_retezec_kurz(Projektor2_Model_Db_SKurz $kurz) {
-        if ($kurz->kurz_zkratka == '*') {
-            $ret = $kurz->kurz_nazev;
-        } else {
-            $ret = trim($kurz->projekt_kod). "_" .trim($kurz->kurz_druh). "_" . trim($kurz->kurz_cislo) . "_".
-                    trim($kurz->beh_cislo) . "T_" . trim($kurz->kurz_zkratka). " | ".
-                    trim($kurz->kurz_nazev)." | ".trim($kurz->date_zacatek)." - ".trim($kurz->date_konec). " | " . trim($kurz->kancelar_kod);
-        }
-        return $ret;
+    public function textRetezecKurz(Projektor2_Viewmodel_Kurz $kurz) {  // musí být public pro použití jako callback
+    // Projektor2_Viewmodel_Kurz
+    return $kurz->kurz_text;
+//    public function textRetezecKurz(Projektor2_Model_Db_SKurz $kurz) {  // musí být public pro použití jako callback
+//        if ($kurz->kurz_zkratka == '*') {
+//            $ret = $kurz->kurz_nazev;
+//        } else {
+//            $ret = trim($kurz->projekt_kod). "_"
+//                    .trim($kurz->kurz_druh). "_"
+//                    .trim($kurz->kurz_cislo) . "_"
+//                    .trim($kurz->beh_cislo) . "T_"
+//                    .trim($kurz->kurz_zkratka). " | "
+//                    .trim($kurz->kurz_nazev)." | "
+//                    .DateTime::createFromFormat('Y-m-d', trim($kurz->date_zacatek))->format('j.n.Y')." - "
+//                    .DateTime::createFromFormat('Y-m-d', trim($kurz->date_konec))->format('j.n.Y'). " | "
+//                    .trim($kurz->kancelar_kod);
+//        }
+//        return $ret;
     }
 }

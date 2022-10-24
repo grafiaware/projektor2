@@ -24,7 +24,7 @@ class Projektor2_Controller_Element_MenuKurzy_Skupina extends Projektor2_Control
             }
             foreach ($skupina->getMenuSignaly() as $signal) {
                 $view = new Projektor2_View_HTML_Element_Kurz_TdSignal($this->sessionStatus);
-                $view->appendContext(array(Projektor2_View_HTML_Element_Kurz_TdSignal::VIEWMODEL_SIGNAL=>$signal));
+                $view->appendContext(array('model'=>$signal));
                 $html .= $view->render();
             }
         }

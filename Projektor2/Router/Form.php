@@ -337,22 +337,22 @@ class Projektor2_Router_Form {
                     case "novy_zajemce":
                         return new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "reg_dot":
+                    case "dotaznik":
                         return new Projektor2_Controller_Formular_Mb_Dotaznik($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "sml_uc":
+                    case "smlouva":
                         return new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "souhlas_uc":
+                    case "souhlas":
                         return new Projektor2_Controller_Formular_Mb_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "plan_uc":
+                    case "plan":
                         return new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "ukonceni_uc":
+                    case "ukonceni":
                         return new Projektor2_Controller_Formular_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "zamestnani_uc":
+                    case "zamestnani":
                         return new Projektor2_Controller_Formular_Mb_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
@@ -363,24 +363,24 @@ class Projektor2_Router_Form {
                 /** CJC **/
                 switch($form) {
                     case "novy_zajemce":
-                        return new Projektor2_Controller_Formular_Cjc_Cizinec($this->sessionStatus, $this->request, $this->response);
+                        return new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "cizinec":
-                        return new Projektor2_Controller_Formular_Cjc_Cizinec($this->sessionStatus, $this->request, $this->response);
+                        return new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "sml_uc":
+                    case "smlouva":
                         return new Projektor2_Controller_Formular_Cjc_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "souhlas_uc":
+                    case "souhlas":
                         return new Projektor2_Controller_Formular_Cjc_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "plan_uc":
+                    case "plan":
                         return new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "ukonceni_uc":
+                    case "ukonceni":
                         return new Projektor2_Controller_Formular_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "zamestnani_uc":
+                    case "zamestnani":
                         return new Projektor2_Controller_Formular_Cjc_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:

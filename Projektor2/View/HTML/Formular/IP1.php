@@ -18,7 +18,9 @@ class Projektor2_View_HTML_Formular_IP1 extends Framework_View_Abstract {
                 $view
                     ->assign('aktivita', $aktivita)
                     ->assign('readonly', FALSE)
-                    ->assign('returnedModelProperty', 'id_s_kurz')
+                        // Projektor2_Viewmodel_Kurz
+                    ->assign('returnedModelProperty', 'id')
+//                    ->assign('returnedModelProperty', 'id_s_kurz')
                         ;
                 $this->parts[] = $view;
         }

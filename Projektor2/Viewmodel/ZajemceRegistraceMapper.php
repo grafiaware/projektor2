@@ -25,7 +25,7 @@ class Projektor2_Viewmodel_ZajemceRegistraceMapper {
     public static function create(Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
         $zajemceRegistrace =  new Projektor2_Viewmodel_ZajemceRegistrace($zajemceDbReadOsobniUdaje);
         // nastaví skupiny objeku zajemceRegistrace
-        return Projektor2_AppContext::setSkupinyZajemce($zajemceRegistrace, $zajemceDbReadOsobniUdaje->zajemce);
+        return Config_MenuOsoba::setSkupinyZajemce($zajemceRegistrace, $zajemceDbReadOsobniUdaje->zajemce);
     }
 
     ######### PRIVATE #######################

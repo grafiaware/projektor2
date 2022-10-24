@@ -25,7 +25,9 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
             $filter .= " OR kurz_zkratka='*'";
         }
         $filter = "(".$filter.")";
-        return Projektor2_Model_Db_SKurzMapper::find($filter, 'razeni');
+//        return Projektor2_Model_Db_SKurzMapper::find($filter, 'razeni');
+        // Projektor2_Viewmodel_Kurz
+        return Projektor2_Viewmodel_KurzMapper::find($filter, 'razeni');
     }
 
     /**
@@ -40,7 +42,10 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
         foreach ($aktivityProjektu as $indexAktivity => $parametryAktivity) {
             foreach ( $this->findDbSKurzModelsInContext($parametryAktivity['kurz_druh']) as $sKurz) {
                 /** @var Projektor2_Model_Db_SKurz $sKurz */
-                $DbSKurzModels[$indexAktivity][$sKurz->id_s_kurz] = $sKurz;
+//                $DbSKurzModels[$indexAktivity][$sKurz->id_s_kurz] = $sKurz;
+                // Projektor2_Viewmodel_Kurz
+                $DbSKurzModels[$indexAktivity][$sKurz->id] = $sKurz;
+
             }
         }
         return $DbSKurzModels;

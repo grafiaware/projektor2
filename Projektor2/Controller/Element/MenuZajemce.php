@@ -21,7 +21,7 @@ class Projektor2_Controller_Element_MenuZajemce extends Projektor2_Controller_Ab
             // sada td tlačítka
             $skupinaController = new Projektor2_Controller_Element_MenuFormulare_Skupina($this->sessionStatus, $this->request, $this->response, $zajemceRegistrace);
             $htmlSkupiny = $skupinaController->getResult();
-            // tr - registrační údajr + sada tlačítek + sada signálů
+            // tr - registrační údaje + sada tlačítek + sada signálů
             $viewRegistrace = new Projektor2_View_HTML_Element_Zajemce_Registrace($this->sessionStatus,
                                                                  array('zajemceRegistrace'=>$zajemceRegistrace, 'htmlSkupiny'=>$htmlSkupiny));
             $htmlParts[] = $viewRegistrace;
