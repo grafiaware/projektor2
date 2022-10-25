@@ -7,7 +7,8 @@
 class Projektor2_Viewmodel_Menu_SignalKurz_Ucastnici extends Projektor2_Viewmodel_Menu_Signal {
 
     public function setByPlanKurzArray(array $zaPlanKurzArray) {
-        if (count($zaPlanKurzArray)){  //kurz má účastníky
+        $c = count($zaPlanKurzArray);
+        if ($c){  //kurz má účastníky
             $this->text = (string) $c;
 //                    $sKurz->kurz_druh;
             $this->status = 'planovaniUcastnici';
