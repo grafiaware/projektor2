@@ -22,6 +22,7 @@
         "psr-0": {
             "Config_": "",
             "Projektor2_": "",
+            "Gogo": "",
             "Framework_": "",
             "FPDF": "C://xampp/php/pear/fpdf"
         }

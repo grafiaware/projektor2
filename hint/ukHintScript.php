@@ -1,11 +1,6 @@
 <?php
 
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
- */
-
-/*
  * komplexní řešení
  * https://stackoverflow.com/questions/42592978/how-to-make-datalist-match-result-from-beginning-only
  */
@@ -14,15 +9,15 @@
 ?>
 
 <script>
-function showHint(str) {
+function showHint(datalistId, type, str) {
     if (str.length == 0) {
-        document.getElementById("txtHint").innerHTML = "";
+        document.getElementById("txtHint").innerHTML = "";   // txtHint ??
         return;
     } else {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                let dataList = document.getElementById("hints_list");
+                let dataList = document.getElementById(datalistId);
                 dataList.innerHTML = "";
                 const hintsArray = this.responseText.split(",");
                 hintsArray.forEach(function(item) {
@@ -33,20 +28,32 @@ function showHint(str) {
                 });
             }
         };
-        xmlhttp.open("GET", "hint/getUkHint.php?q=" + str, true);
+        xmlhttp.open("GET", "hint/getUkHint.php?type=" + type + "&q=" + str, true);
         xmlhttp.send();
     }
 }
 
-function showPerson() {
+function showPersonByPhone() {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onload = function() {
         document.getElementById("person_json").value = this.responseText;
         document.getElementById("person").innerHTML = createTable(this.responseText);
     }
-    let $phoneInputElement = document.getElementById("phone_input");
-    let phone = $phoneInputElement.value
+    let phoneInputElement = document.getElementById("phone_input");
+    let phone = phoneInputElement.value
     xmlhttp.open("GET", "hint/getPerson.php?phone=" + phone);
+    xmlhttp.send();
+}
+
+function showPersonByName() {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function() {
+        document.getElementById("person_json").value = this.responseText;
+        document.getElementById("person").innerHTML = createTable(this.responseText);
+    }
+    let nameInputElement = document.getElementById("name_input");
+    let name = nameInputElement.value
+    xmlhttp.open("GET", "hint/getPerson.php?name=" + name);
     xmlhttp.send();
 }
 

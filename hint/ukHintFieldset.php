@@ -23,11 +23,21 @@ include "ukHintScript.php";
 <div>
 
 <!--autocomplete="off" vypne zobrazování historie vstupních hodnot (jsou vidět nad seznamem z datalist-->
-<fieldset><legend>Vyhledání osoby podle telefonu</legend>
-<label for="phone_input">Začněte psát telefonní číslo:</label><input id="phone_input" list="hints_list" type="text" onkeyup="showHint(this.value)" name="<?=$prefixCizinec?>searched_phone" value="<?=$poleCizinec[$prefixCizinec.'searched_phone']?>" autocomplete="off">
-<datalist id="hints_list"></datalist>
+<fieldset><legend>Vyhledání osoby v údajích Google form</legend>
+
+    <label for="phone_input">Začněte psát telefonní číslo:</label>
+    <input id="phone_input" list="phone_hints_list" type="text" onkeyup="showHint('phone_hints_list', 'phone', this.value)" name="<?=$prefixCizinec?>searched_phone" value="<?=$poleCizinec[$prefixCizinec.'searched_phone']?>" autocomplete="off">
+    <datalist id="phone_hints_list"></datalist>
+    <!--type="button" neodesílá form-->
+    <button type="button" onclick="showPersonByPhone()">Najdi osobu z Google formuláře podle telefonu</button>
+<br/>
+    <label for="name_input">Začněte psát příjmení:</label>
+    <input id="name_input" list="name_hints_list" type="text" onkeyup="showHint('name_hints_list', 'name', this.value)" name="<?=$prefixCizinec?>searched_phone" value="<?=$poleCizinec[$prefixCizinec.'searched_phone']?>" autocomplete="off">
+    <datalist id="name_hints_list"></datalist>
+    <!--type="button" neodesílá form-->
+    <button type="button" onclick="showPersonByName()">Najdi osobu z Google formuláře podle příjmení</button>
+
 <input id="person_json" type="hidden" name="<?=$prefixCizinec?>person_json" value="<?=$poleCizinec[$prefixCizinec.'person_json']?>"/>
-<button onclick="showPerson()" formaction="javascript:void(0);">Najdi osobu z Google formuláře</button>
 <p id="person">
 
 </p>
