@@ -44,9 +44,19 @@ try {
     $requestedPhone = isset($_REQUEST["phone"]) ? $_REQUEST["phone"] : '';
     $requestedName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
     if ($requestedPhone) {
+        $transform = function(&$phone) {  // musí předávat referencí
+            $phone = trim($phone, "+");
+            $phone = trim($phone, "0");
+            $phone = trim($phone, " \n\r\t\v\x00");
+        };
+        $googlesheetHelper = new GoogleSheetsHelper(new Googlesheets($path), $transform);
         $range = 'Odpovědi formuláře 2!M:M'; // sloupec telefon
         $arrayPerson = findPersons($googlesheetHelper, $requestedPhone, $spreadsheetId, $range);
     } elseif ($requestedName) {
+        $transform = function(&$name) {  // musí předávat referencí
+            $name = trim($name, " \n\r\t\v\x00");
+        };
+        $googlesheetHelper = new GoogleSheetsHelper(new Googlesheets($path), $transform);
         $range = 'Odpovědi formuláře 2!J:J'; // sloupec příjmení
         $arrayPerson = findPersons($googlesheetHelper, $requestedName, $spreadsheetId, $range);
     } else {

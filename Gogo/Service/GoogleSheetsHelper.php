@@ -3,6 +3,7 @@ namespace Gogo\Service;
 
 use Gogo\Service\Googlesheets;
 
+
 /**
  * Description of GoogleSheetHelper
  *
@@ -12,8 +13,22 @@ class GoogleSheetsHelper {
 
     private $googlesheetsService;
 
-    public function __construct(Googlesheets $googlesheetsService) {
+    private $valueTransform;
+
+    public function __construct(Googlesheets $googlesheetsService, \Closure $valueTransform=null) {
         $this->googlesheetsService = $googlesheetsService;
+        $this->valueTransform = $valueTransform;
+    }
+
+    /**
+     *
+     * @param array $values Předává referencí
+     */
+    private function transformValues(array $values) {
+        if (isset($this->valueTransform)) {
+            array_walk_recursive($values, $this->valueTransform);
+        }
+        return $values;
     }
 
     /**
@@ -26,7 +41,7 @@ class GoogleSheetsHelper {
         $sheets = $this->googlesheetsService->getSheets();
         $response =
                 $sheets->spreadsheets_values->get($spreadsheetId, $range);
-        return $response->getValues(); // array of arrays - dvourozměrné
+        return $this->transformValues($response->getValues()); // array of arrays - dvourozměrné
     }
 
     /**
@@ -40,6 +55,6 @@ class GoogleSheetsHelper {
         $response =
                 $sheets->spreadsheets_values->get($spreadsheetId, $range);
         // $response->getValues() vrací array of arrays - dvourozměrné, první prvek je první řádek
-        return $response->getValues()[0];
+        return $this->transformValues($response->getValues()[0]);
     }
 }

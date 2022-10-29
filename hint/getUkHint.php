@@ -18,10 +18,7 @@ function hintPhone(string $q, $haystackColumnValues) {
         $cnt = 0;
         foreach($haystackColumnValues as $rowArray) {
             if (isset($rowArray[0])) {  // není prázdná buňka
-                $phone = $rowArray[0];
-                $phone = trim($phone, "\n\r\t\v\x00");
-                $phone = trim($phone, "+");
-                $phone = trim($phone, "0");
+                 $phone = $rowArray[0];
                 // chování datalist:
                 // zdá se, že Firefox napovídá hodnoty, které substring obsahují, zatímco Chrome, Opera, a další zobrazují jen hodnoty, které substringem začínají
                 // - pokud použiji variantu "začíná" - datalist se aktualizuje a i Firefox pak zobrazuje jen položky, kde začíná
@@ -57,7 +54,7 @@ function hintName(string $q, $haystackColumnValues) {
             if (isset($rowArray[0])) {  // není prázdná buňka
                 // porovnává převedené na malá písmena
                 $name = strtolower($rowArray[0]);
-                $name = trim($name, "\n\r\t\v\x00");
+
 
                 // chování datalist:
                 // zdá se, že Firefox napovídá hodnoty, které substring obsahují, zatímco Chrome, Opera, a další zobrazují jen hodnoty, které substringem začínají
@@ -91,7 +88,6 @@ try {
     //https://docs.google.com/spreadsheets/d/1MdLN_bZz3Loa5vMsq7NqkzBlbfxFbrSuEzmK39yh99s/edit?usp=sharing
     $spreadsheetId = '1MdLN_bZz3Loa5vMsq7NqkzBlbfxFbrSuEzmK39yh99s';
 
-    $googlesheetHelper = new GoogleSheetsHelper(new Googlesheets($path));
 
     // get
     $type = $_REQUEST["type"];
@@ -102,11 +98,21 @@ try {
     // lookup all hints from array if $q is different from ""
     switch ($type) {
         case "phone":
+            $transform = function(&$phone) {  // musí předávat referencí
+                $phone = trim($phone, "+");
+                $phone = trim($phone, "0");
+                $phone = trim($phone, " \n\r\t\v\x00");
+            };
+            $googlesheetHelper = new GoogleSheetsHelper(new Googlesheets($path), $transform);
             $range = 'Odpovědi formuláře 2!M:M'; // sloupec telefon
             $haystackColumnValues = $googlesheetHelper->getRangeValues($spreadsheetId, $range);
             $hint = hintPhone($q, $haystackColumnValues);
             break;
         case "name":
+            $transform = function(&$name) {  // musí předávat referencí
+                $name = trim($name, " \n\r\t\v\x00");
+            };
+            $googlesheetHelper = new GoogleSheetsHelper(new Googlesheets($path), $transform);
             $range = 'Odpovědi formuláře 2!J:J'; // sloupec příjmení
             $haystackColumnValues = $googlesheetHelper->getRangeValues($spreadsheetId, $range);
             $hint = hintName($q, $haystackColumnValues);

@@ -43,7 +43,7 @@ class Googlesheets {
      *
      * @return Sheets
      */
-    private function createGoogleSheetsService() {
+    private function createGoogleSheetsService(): Sheets {
 
         // configure the Google Client
         $client = new Client();
