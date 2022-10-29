@@ -86,8 +86,54 @@ try {
 
     // Google disk Jana Nováková - Přihlášky na kurzy/Ukrajinci - Zájem o práci - v ukrajinštině (Odpovědi)
     //https://docs.google.com/spreadsheets/d/1MdLN_bZz3Loa5vMsq7NqkzBlbfxFbrSuEzmK39yh99s/edit?usp=sharing
-    $spreadsheetId = '1MdLN_bZz3Loa5vMsq7NqkzBlbfxFbrSuEzmK39yh99s';
+//    $config = [
+//        'phone' => [
+//            'path' => 'credentials.json',
+//            'spreadsheetId' => '1MdLN_bZz3Loa5vMsq7NqkzBlbfxFbrSuEzmK39yh99s',
+//            'range' => 'Odpovědi formuláře 2!M:M', // sloupec telefon
+//            'transform' => function(&$phone) {  // musí předávat referencí
+//                    $phone = trim($phone, "+");
+//                    $phone = trim($phone, "0");
+//                    $phone = trim($phone, " \n\r\t\v\x00");
+//                }
+//            ],
+//        'name' => [
+//            'path' => 'credentials.json',
+//            'spreadsheetId' => '1MdLN_bZz3Loa5vMsq7NqkzBlbfxFbrSuEzmK39yh99s',
+//            'range' => 'Odpovědi formuláře 2!J:J', // sloupec příjmení
+//            'transform' => function(&$name) {  // musí předávat referencí
+//                    $name = trim($name, " \n\r\t\v\x00");
+//                }
+//            ],
+//        ];
 
+    // varianta:
+    //
+    // Ukrajinci - kurzy/ukrajinci registrace k veletrhu - s importem
+    // https://docs.google.com/spreadsheets/d/1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w/edit#gid=1708155836&range=J1
+//    $config = [
+//        'range' => 'Odpovědi formuláře 2!M:M', // sloupec telefon
+//    ];
+    $config = [
+        'phone' => [
+            'path' => 'credentials.json',
+            'spreadsheetId' => '1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w',
+            'range' => 'import odpovědí!M:M', // sloupec telefon
+            'transform' => function(&$phone) {  // musí předávat referencí
+                    $phone = trim($phone, "+");
+                    $phone = trim($phone, "0");
+                    $phone = trim($phone, " \n\r\t\v\x00");
+                }
+            ],
+        'name' => [
+            'path' => 'credentials.json',
+            'spreadsheetId' => '1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w',
+            'range' => 'import odpovědí!J:J', // sloupec příjmení
+            'transform' => function(&$name) {  // musí předávat referencí
+                    $name = trim($name, " \n\r\t\v\x00");
+                }
+            ],
+        ];
 
     // get
     $type = $_REQUEST["type"];
@@ -96,30 +142,9 @@ try {
     $hint = "";
 
     // lookup all hints from array if $q is different from ""
-    switch ($type) {
-        case "phone":
-            $transform = function(&$phone) {  // musí předávat referencí
-                $phone = trim($phone, "+");
-                $phone = trim($phone, "0");
-                $phone = trim($phone, " \n\r\t\v\x00");
-            };
-            $googlesheetHelper = new GoogleSheetsHelper(new Googlesheets($path), $transform);
-            $range = 'Odpovědi formuláře 2!M:M'; // sloupec telefon
-            $haystackColumnValues = $googlesheetHelper->getRangeValues($spreadsheetId, $range);
-            $hint = hintPhone($q, $haystackColumnValues);
-            break;
-        case "name":
-            $transform = function(&$name) {  // musí předávat referencí
-                $name = trim($name, " \n\r\t\v\x00");
-            };
-            $googlesheetHelper = new GoogleSheetsHelper(new Googlesheets($path), $transform);
-            $range = 'Odpovědi formuláře 2!J:J'; // sloupec příjmení
-            $haystackColumnValues = $googlesheetHelper->getRangeValues($spreadsheetId, $range);
-            $hint = hintName($q, $haystackColumnValues);
-            break;
-        default:
-            break;
-    }
+    $googlesheetHelper = new GoogleSheetsHelper(new Googlesheets($config[$type]['path']), $config[$type]['transform']);
+    $haystackColumnValues = $googlesheetHelper->getRangeValues($config[$type]['spreadsheetId'], $config[$type]['range']);
+    $hint = hintPhone($q, $haystackColumnValues);
 
     // Output "no suggestion" if no hint was found or output correct values
     echo $hint === "" ? "no suggestion" : $hint;
