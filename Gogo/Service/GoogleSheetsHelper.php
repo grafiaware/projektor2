@@ -13,35 +13,21 @@ class GoogleSheetsHelper {
 
     private $googlesheetsService;
 
-    private $valueTransform;
-
-    public function __construct(Googlesheets $googlesheetsService, \Closure $valueTransform=null) {
+    public function __construct(Googlesheets $googlesheetsService) {
         $this->googlesheetsService = $googlesheetsService;
-        $this->valueTransform = $valueTransform;
-    }
-
-    /**
-     *
-     * @param array $values Předává referencí
-     */
-    private function transformValues(array $values) {
-        if (isset($this->valueTransform)) {
-            array_walk_recursive($values, $this->valueTransform);
-        }
-        return $values;
     }
 
     /**
      *
      * @param type $spreadsheetId
-     * @param type $range
+     * @param type $sheetName
+     * @param type $cellRange
      * @return array - array of arrays - dvourozměrné číselné pole, první index řádky, druhý index sloupce
      */
-    public function getRangeValues($spreadsheetId, $range) {
+    public function getRangeValues($spreadsheetId, $sheetName, $cellRange) {
         $sheets = $this->googlesheetsService->getSheets();
-        $response =
-                $sheets->spreadsheets_values->get($spreadsheetId, $range);
-        return $this->transformValues($response->getValues()); // array of arrays - dvourozměrné
+        $response = $sheets->spreadsheets_values->get($spreadsheetId, $this->range($sheetName, $cellRange));
+        return $response->getValues(); // array of arrays - dvourozměrné
     }
 
     /**
@@ -50,11 +36,29 @@ class GoogleSheetsHelper {
      * @param type $range
      * @return array číselné pole hodnot prvního řádku rozsahu
      */
-    public function getRangeFirstRowValues($spreadsheetId, $range) {
+    public function getRangeFirstRowValues($spreadsheetId, $sheetName, $cellRange) {
         $sheets = $this->googlesheetsService->getSheets();
-        $response =
-                $sheets->spreadsheets_values->get($spreadsheetId, $range);
+        $response = $sheets->spreadsheets_values->get($spreadsheetId, $this->range($sheetName, $cellRange));
         // $response->getValues() vrací array of arrays - dvourozměrné, první prvek je první řádek
-        return $this->transformValues($response->getValues()[0]);
+        return $response->getValues()[0];
+    }
+
+    public function getRangeFirstColumnValues($spreadsheetId, $sheetName, $cellRange) {
+        $sheets = $this->googlesheetsService->getSheets();
+        $response = $sheets->spreadsheets_values->get($spreadsheetId, $this->range($sheetName, $cellRange));
+        // $response->getValues() vrací array of arrays - dvourozměrné, první index je řádek
+        foreach ($response->getValues() as $row) {
+            $ret[] = $row[0];
+        }
+        return $ret;
+    }
+
+    public function findNeedleRowIndexInColumn($spreadsheetId, $sheetName, $cellRange, $needle) {
+        $haystackColumnValues = $this->getRangeFirstColumnValues($spreadsheetId, $sheetName, $cellRange);
+        return array_search($needle, $haystackColumnValues)+1;
+    }
+
+    private function range($sheetName, $cellRange) {
+        return $sheetName.'!'.$cellRange;
     }
 }
