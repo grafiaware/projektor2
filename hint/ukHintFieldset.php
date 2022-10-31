@@ -20,7 +20,6 @@
 include "ukHintScript.php";
 ?>
 
-<div>
 
 <!--autocomplete="off" vypne zobrazování historie vstupních hodnot (jsou vidět nad seznamem z datalist-->
 <fieldset><legend>Vyhledání osoby v údajích Google form</legend>
