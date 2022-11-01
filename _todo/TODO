@@ -1,3 +1,6 @@
+vyber kontext
+- odeslat request vždy po změně kontextu v selectech (kancelář, běh)
+
 s_kurz
 - přidat sloupce cas_konani a lektor
 

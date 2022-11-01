@@ -65,16 +65,19 @@ try {
     $headers = $googlesheetHelper->getRangeFirstRowValues($config[$type]['spreadsheetId'], $config[$type]['sheetName'], $config[$type]['headersRowRange']);  // první řádek rozsahu - řádek titulků
 
     $row = $googlesheetHelper->findNeedleRowIndexInColumn($config[$type]['spreadsheetId'], $config[$type]['sheetName'], $config[$type]['range'], $needle);
-    $targetRowRange = "A$row:U$row";
-    $rowValues = $googlesheetHelper->getRangeFirstRowValues($config[$type]['spreadsheetId'], $config[$type]['sheetName'], $targetRowRange); // první řádek rozsahu - řádek s
+    if($row!==false) {
+        $targetRowRange = "A$row:U$row";
+        $rowValues = $googlesheetHelper->getRangeFirstRowValues($config[$type]['spreadsheetId'], $config[$type]['sheetName'], $targetRowRange); // první řádek rozsahu - řádek s
 
-    $personHydrator = new PersonHydrator();
-    $personViewmodel = new Person($personHydrator);
-    $personViewmodel->setHeaders($headers);
-    $personViewmodel->setResponseValues($rowValues);
-    $jsonPerson = $personViewmodel->getPersonJson();
-
-    echo $jsonPerson;
+        $personHydrator = new PersonHydrator();
+        $personViewmodel = new Person($personHydrator);
+        $personViewmodel->setHeaders($headers);
+        $personViewmodel->setResponseValues($rowValues);
+        $json = $personViewmodel->getPersonJson();
+    } else {
+        $json = json_encode([["header"=>"No result", "value"=>"Nenalezena hodnota $needle v Google Sheet."]], JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);  // JSON_UNESCAPED_UNICODE pro zobrazení v html;
+    }
+    echo $json;
 } catch (\Exception $e) {
     $json = json_encode([["header"=>"ERROR", "value"=> $e->getMessage()]], JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);  // JSON_UNESCAPED_UNICODE pro zobrazení v html;
     echo $json;
