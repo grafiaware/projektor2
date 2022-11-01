@@ -32,17 +32,15 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                         break;
                 }
             }
-            return (isset($selectedKancelar) AND $selectedKancelar) AND (isset($selectedBeh) AND $selectedBeh);
+            if ($this->request->post('akce')) {
+                $this->sessionStatus->akce = $this->request->post('akce');
+            }
         }
     }
 
     public function getResult() {
         if ($this->request->isPost()) {  // proměnná z query v form action
-            $performContinue = $this->performPostActions();
-            // dočasné udělátko
-//            if ($this->sessionStatus->user->monitor) {
-//                $performContinue = TRUE;
-//            }
+            $this->performPostActions();
         } else {
             // odkaz z tlačítka Formular menu nové id_zajemce -> změna zájemce v session
             if ($this->request->get('id_zajemce')) {
@@ -63,20 +61,16 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                 $this->sessionStatus->setSKurz();
             }
         }
-
-        if (isset($this->sessionStatus->kancelar) AND isset($this->sessionStatus->beh)) {
-            $performContinue = TRUE;
-        } else {
-            $performContinue = FALSE;
-        }
-
+        // obsah zobrazený vždy
         $idKancelari = Projektor2_Model_Db_SysAccUsrKancelarMapper::getIndexArray('id_c_kancelar', 'id_sys_users='.$this->sessionStatus->user->id);
         if (isset($idKancelari)) {
-            $kancelare = Projektor2_Model_Db_KancelarMapper::findAll('id_c_projekt_FK='.$this->sessionStatus->projekt->id.' AND id_c_kancelar IN ('.implode(', ', $idKancelari).')');
+            $kancelare = Projektor2_Model_Db_KancelarMapper::find(
+                    'id_c_projekt_FK='.$this->sessionStatus->projekt->id.' AND id_c_kancelar IN ('.implode(', ', $idKancelari).')', 'razeni ASC'
+                    );
         } else {
             $kancelare = array();
         }
-        $behy = Projektor2_Model_Db_BehMapper::findAll('id_c_projekt='.$this->sessionStatus->projekt->id);
+        $behy = Projektor2_Model_Db_BehMapper::find('id_c_projekt='.$this->sessionStatus->projekt->id, 'beh_cislo ASC');
 
         $parts[] = new Projektor2_View_HTML_VyberKontext($this->sessionStatus,
                 array('kancelare'=>$kancelare,
@@ -84,10 +78,12 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                     'behy'=>$behy,
                     'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
                 );
-        // podmínka pro pokračování
-        if ($performContinue===TRUE) {
-            $parts[] = (new Projektor2_Controller_VyberAkci($this->sessionStatus, $this->request, $this->response))->getResult();
+
+        // podmínka pro pokračování - obsah zobrazený při úplném kontextu
+        if (isset($this->sessionStatus->kancelar) AND isset($this->sessionStatus->beh) AND $this->sessionStatus->akce) {
+            $parts[] = (new Projektor2_Router_Akce($this->sessionStatus, $this->request, $this->response))->getController()->getResult();
         }
+
         $viewVybery = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         return $viewVybery;
     }

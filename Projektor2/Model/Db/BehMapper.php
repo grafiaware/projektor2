@@ -35,7 +35,7 @@ class Projektor2_Model_Db_BehMapper {
         return new Projektor2_Model_Db_Beh($radek['id_s_beh_projektu'],$radek['beh_cislo'],$radek['oznaceni_turnusu'],$radek['text'],$zacatek,$konec,$radek['closed']);
     }
 
-    public static function findAll($filter = NULL, $order = NULL) {
+    public static function find($filter = NULL, $order = NULL) {
         $dbh = Projektor2_AppContext::getDb(); 
         $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();    
         // vždy vybírá běhy jen pro aktuální projekt        

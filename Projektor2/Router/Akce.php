@@ -18,7 +18,7 @@ class Projektor2_Router_Akce {
 
     public function getController() {
 
-            switch ($this->request->get('akce')) {
+            switch ($this->sessionStatus->akce) {
                 case 'kurzy':
                     $routerKurzy = new Projektor2_Router_Kurzy($this->sessionStatus, $this->request, $this->response);
                     $ctrl = $routerKurzy->getController();

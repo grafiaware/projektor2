@@ -43,6 +43,11 @@ class Projektor2_Model_SessionStatus {
     public $beh;
 
     /**
+     * @var string
+     */
+    public $akce;
+
+    /**
      * @var Projektor2_Model_Db_SysUser
      */
     public $user;
@@ -96,6 +101,11 @@ class Projektor2_Model_SessionStatus {
         return $this;
     }
 
+    public function setAkce($akce=NULL) {
+        $this->akce = $akce;
+        return $this;
+    }
+
     public function setZajemce(Projektor2_Model_Db_Zajemce $zajemce=NULL) {
         $this->zajemce = $zajemce;
         return $this;
@@ -131,7 +141,8 @@ class Projektor2_Model_SessionStatus {
                 self::$sessionStatus->setKancelar(Projektor2_Model_Db_KancelarMapper::findById($request->cookie('kancelarId')));
                 // beh z cookie
                 self::$sessionStatus->setBeh(Projektor2_Model_Db_BehMapper::findById($request->cookie('behId')));
-
+                // akce z cookie
+                self::$sessionStatus->setAkce($request->cookie('akce'));
                 // zajemce z cookie
                 $zajemce = Projektor2_Model_Db_ZajemceMapper::get($request->cookie('zajemceId'));
                 self::$sessionStatus->setZajemce($zajemce);
@@ -193,6 +204,11 @@ class Projektor2_Model_SessionStatus {
             $response->setCookie('behId', $this->beh->id);
         } else {
             $response->setCookie('behId', NULL);
+        }
+        if (isset($this->akce)) {
+            $response->setCookie('akce', $this->akce);
+        } else {
+            $response->setCookie('akce', NULL);
         }
         if (isset($this->zajemce)) {
             $response->setCookie('zajemceId', $this->zajemce->id);

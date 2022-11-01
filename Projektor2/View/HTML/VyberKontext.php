@@ -9,9 +9,9 @@ class Projektor2_View_HTML_VyberKontext extends Framework_View_Abstract {
         $this->parts[] = '<div id="vyberkontext" class="bordered">';
         $this->parts[] = '<form name="Kancelar" id="Kancelar" action="index.php?kontext" method="post">';
             $this->parts[] = '<fieldset id="vyber_context">';
-                $this->parts[] = '<legend>Výběr kanceláře a běhu</legend>';
+                $this->parts[] = '<legend>Výběr kanceláře, běhu a akce</legend>';
                 $this->parts[] = '<label for="kancelar" >Vyberte kancelář:</label>';
-                $this->parts[] = '<select id="kancelar" size="1" name="id_kancelar">';
+                $this->parts[] = '<select id="kancelar" size="1" name="id_kancelar" onchange="submitForm(this);">';
                     $this->parts[] = "<option value=\"ß\"> </option>\n";
                     foreach ($kancelare as $kancelar) {
                         $option = "<option ";
@@ -24,7 +24,7 @@ class Projektor2_View_HTML_VyberKontext extends Framework_View_Abstract {
                 $this->parts[] = '</select>';
 
                 $this->parts[] = '<label for="beh" >Vyberte běh:</label>';
-                $this->parts[] = '<select id="beh" size="1" name="id_beh">';
+                $this->parts[] = '<select id="beh" size="1" name="id_beh"  onchange="submitForm(this);">';
                     $this->parts[] = "<option value=\"ß\"> </option>\n";
                     foreach ($behy as $beh) {
                         $option = "<option ";
@@ -35,7 +35,10 @@ class Projektor2_View_HTML_VyberKontext extends Framework_View_Abstract {
                         $this->parts[] = $option;
                     }
                 $this->parts[] = '</select>';
-                $this->parts[] = '<input type="submit" value="Vyber">';
+                $this->parts[] = '<span >Vyberte akci:</span>';
+                $this->parts[] = '<button type="submit" class="" formaction="index.php?kontext" name="akce" value="osoby" >OSOBY</button>';
+                $this->parts[] = '<button type="submit" class="" formaction="index.php?kontext" name="akce" value="kurzy" >KURZY</button>';
+//                $this->parts[] = '<input type="submit" value="Vyber">';
             $this->parts[] = '</fieldset>';
         $this->parts[] = '</form>';
         $this->parts[] = '</div>';
