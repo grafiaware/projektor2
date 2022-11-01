@@ -15,7 +15,7 @@ class Projektor2_View_HTML_Agp_Smlouva extends Projektor2_View_HTML_FormularPHP4
     // nadpis je v původním kódu někde v inc - přesunout nadpisy vždy sem
     echo '<H3>DOHODA O ZPROSTŘEDKOVÁNÍ ZAMĚSTNÁNÍ</H3>';
 
-    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=agp_sml_uc" name="smlouva->form">';
+    echo '<form method="POST" action="index.php?osoby=form&form=agp_sml_uc" name="smlouva->form">';
 
      //dále následuje původní kód    
     ?>

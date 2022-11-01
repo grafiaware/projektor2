@@ -16,7 +16,7 @@ class Projektor2_View_HTML_Sjzp_Zamestnani extends Projektor2_View_HTML_Formular
     // nadpis je v původním kódu někde v inc - přesunout nadpisy vždy sem
     echo '<H3>ZÁZNAM DO EVIDENCE ZAMĚSTNAVATELŮ</H3>';
     //form
-    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=sjzp_zamestnani_uc&save=1" name="zamestnani->form_zamestnani">';
+    echo '<form method="POST" action="index.php?osoby=form&form=sjzp_zamestnani_uc&save=1" name="zamestnani->form_zamestnani">';
      //dále následuje původní kód 
     ?>
 <FIELDSET><LEGEND>Zaměstnání</LEGEND>  

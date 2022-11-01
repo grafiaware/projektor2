@@ -7,43 +7,7 @@
 class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
 
     protected function getLeftMenuArray() {
-
-        switch ($this->sessionStatus->projekt->kod) {
-            case "NSP":
-
-                break;
-            case "PNP":
-
-                break;
-            case "SPZP":
-
-                break;
-            case "RNH":
-
-                break;
-            case "AGP":
-
-                break;
-            case "HELP":
-            case "AP":
-            case "SJZP":
-            case "VZP":
-            case "ZPM":
-            case "RP":
-            case "SPP":
-            case "SJPK":
-            case "SJPO":
-            case "SJLP":
-            case "VDTP":
-            case "PDU":
-            case "MB":
-            case "CJC":
-                $menuArray = $this->getLeftMenuArrayUni();
-                break;
-            default:
-                break;
-        }
-        return $menuArray;
+        return $this->getLeftMenuArrayUni();
     }
 
     private function getLeftMenuArrayUni() {

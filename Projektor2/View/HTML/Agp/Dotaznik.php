@@ -15,7 +15,7 @@ class Projektor2_View_HTML_Agp_Dotaznik extends Projektor2_View_HTML_FormularPHP
     // nadpis je v původním kódu někde v inc - přesunout nadpisy vždy sem
     echo '<H3>REGISTRAČNÍ DOTAZNÍK</H3>';
 
-    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=agp_reg_dot" name="dotaznik->form_dotaznik">';
+    echo '<form method="POST" action="index.php?osoby=form&form=agp_reg_dot" name="dotaznik->form_dotaznik">';
 
      //dále následuje původní kód 
 ?>

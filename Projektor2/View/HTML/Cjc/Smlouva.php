@@ -21,7 +21,7 @@ class Projektor2_View_HTML_Cjc_Smlouva extends Projektor2_View_HTML_FormularPHP4
 <div>
     <?= $this->context['ukHint'] ?>
 </div>
-<form method="POST" action="index.php?akce=osoby&osoby=form&form=cj_sml_uc" name="<?=$prefixDotaznik.'form_sml'?>">
+<form method="POST" action="index.php?osoby=form&form=cj_sml_uc" name="<?=$prefixDotaznik.'form_sml'?>">
 <FIELDSET><LEGEND><b>Osobní údaje</b></LEGEND>
 
     <p>

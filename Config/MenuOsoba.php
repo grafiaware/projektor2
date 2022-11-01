@@ -1245,6 +1245,92 @@ class Config_MenuOsoba {
                     $skupina->setMenuSignal($modelSignal);
                 }
                 break;
+##############
+            case 'CKP':
+                 // skupina dotaznik
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
+                //cizinec
+                if ($user->tl_ckp_sml) {
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+                    $modelTlacitko->osoba = 'smlouva';
+                    $modelTlacitko->text = 'Registrace';
+                    $modelTlacitko->title = 'Registrace účastníka programu';
+                    $modelTlacitko->status = 'edit';
+                    $skupina->setMenuTlacitko($modelTlacitko);
+                }
+
+                if (count($skupina->getMenuTlacitka())) {
+                    $zajemceRegistrace->setSkupina('dotaznik', $skupina);
+                }
+
+                // skupina plan
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
+                //plán
+                if ($user->tl_ckp_plan) {
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+                    $modelTlacitko->osoba = 'plan';
+                    $modelTlacitko->text = 'Plán kurzů';
+                    $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
+                    $modelTlacitko->status = 'edit';
+                    $skupina->setMenuTlacitko($modelTlacitko);
+                }
+                if (count($skupina->getMenuTlacitka())) {
+                    $zajemceRegistrace->setSkupina('plan', $skupina);
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    if ($kolekceAktivityPlan) {
+                        foreach ($kolekceAktivityPlan as $aktivitaPlan) {
+                            /** @var Projektor2_Model_AktivitaPlan $aktivitaPlan */
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
+                            $modelSignal->setByAktivitaPlan($aktivitaPlan);
+                            $skupina->setMenuSignal($modelSignal);
+                        }
+                    }
+                }
+
+                break;
+############
+            case 'PKP':
+                 // skupina dotaznik
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
+                //cizinec
+                if ($user->tl_pkp_sml) {
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+                    $modelTlacitko->osoba = 'smlouva';
+                    $modelTlacitko->text = 'Registrace';
+                    $modelTlacitko->title = 'Registrace účastníka programu';
+                    $modelTlacitko->status = 'edit';
+                    $skupina->setMenuTlacitko($modelTlacitko);
+                }
+
+                if (count($skupina->getMenuTlacitka())) {
+                    $zajemceRegistrace->setSkupina('dotaznik', $skupina);
+                }
+
+                // skupina plan
+                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
+                //plán
+                if ($user->tl_pkp_plan) {
+                    $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+                    $modelTlacitko->osoba = 'plan';
+                    $modelTlacitko->text = 'Plán kurzů';
+                    $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
+                    $modelTlacitko->status = 'edit';
+                    $skupina->setMenuTlacitko($modelTlacitko);
+                }
+                if (count($skupina->getMenuTlacitka())) {
+                    $zajemceRegistrace->setSkupina('plan', $skupina);
+                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    if ($kolekceAktivityPlan) {
+                        foreach ($kolekceAktivityPlan as $aktivitaPlan) {
+                            /** @var Projektor2_Model_AktivitaPlan $aktivitaPlan */
+                            $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
+                            $modelSignal->setByAktivitaPlan($aktivitaPlan);
+                            $skupina->setMenuSignal($modelSignal);
+                        }
+                    }
+                }
+
+                break;
 
             default:
                     throw new UnexpectedValueException('Nelze nastavit tlačítka. Neznámý kód projektu '.$kod);

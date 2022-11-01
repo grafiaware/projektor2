@@ -16,7 +16,7 @@ class Projektor2_View_HTML_Help_Souhlas extends Projektor2_View_HTML_FormularPHP
     // nadpis je v původním kódu někde v inc - přesunout nadpisy vždy sem
     echo '<H3>SOUHLAS SE ZPRACOVÁNÍM OSOBNICH UDAJŮ V PROJEKTU</H3>';
 
-    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=he_souhlas_uc" name="smlouva->form_ukonc">';
+    echo '<form method="POST" action="index.php?osoby=form&form=he_souhlas_uc" name="smlouva->form_ukonc">';
 
      //dále následuje původní kód     
     ?>

@@ -14,7 +14,7 @@ class Projektor2_View_HTML_ExportKurzy extends Framework_View_Abstract {
         $this->parts[] = '        </ul>
                         </div>';
         $this->parts[] = '<div class="content">';
-            $this->parts[] = '<form method="POST" action="index.php?akce=osoby&osoby=export" name="vyber_tabulky">';
+            $this->parts[] = '<form method="POST" action="index.php?osoby=export" name="vyber_tabulky">';
             $this->parts[] = '<h4>Databázové tabulky: </h4>';
 
         $modelSelect = new Projektor2_Viewmodel_Element_Select(

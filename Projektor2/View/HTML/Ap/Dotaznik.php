@@ -16,7 +16,7 @@ class Projektor2_View_HTML_Ap_Dotaznik extends Projektor2_View_HTML_FormularPHP4
     echo '<H3>Příloha IP 1. část</H3>';
     echo '<H3>DOTAZNÍK</H3>';
 
-    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=ap_reg_dot" name="dotaznik->form_dotaznik">';
+    echo '<form method="POST" action="index.php?osoby=form&form=ap_reg_dot" name="dotaznik->form_dotaznik">';
 
      //dále následuje původní kód 
 ?>

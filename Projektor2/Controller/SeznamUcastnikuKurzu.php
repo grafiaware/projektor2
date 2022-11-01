@@ -12,7 +12,7 @@ class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_A
 
     private function getLeftMenuArrayUcastnici() {
 //        if ( ($this->sessionStatus->user->username == "sys_admin" OR $this->sessionStatus->user->username == "cj_manager" OR $this->sessionStatus->user->username == "cj_monitor")) {
-            $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=kurz&kurz=export_ucastnici', 'text'=>'Exporty dat'];
+            $menuArray[] = ['href'=>'index.php?kurzy=kurz&kurz=export_ucastnici', 'text'=>'Exporty dat'];
 //        }
         return $menuArray;
     }

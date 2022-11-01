@@ -107,6 +107,10 @@ class Projektor2_Model_Db_SysUser {
     public $tl_cj_souhlas;
     public $tl_cj_cizinec;
     public $tl_cj_plan;
+    public $tl_ckp_sml;
+    public $tl_ckp_plan;
+    public $tl_pkp_sml;
+    public $tl_pkp_plan;
 
     public function __construct(
             $id = null,
@@ -218,8 +222,15 @@ class Projektor2_Model_Db_SysUser {
             $tl_cj_sml= null,
             $tl_cj_souhlas= null,
             $tl_cj_cizinec = null,
-            $tl_cj_plan = null
-           )
+            $tl_cj_plan = null,
+
+            $tl_ckp_sml = null,
+            $tl_ckp_plan= null,
+
+            $tl_pkp_sml = null,
+            $tl_pkp_plan= null
+
+            )
        {
 
         $this->id = $id;
@@ -335,6 +346,11 @@ class Projektor2_Model_Db_SysUser {
         $this->tl_cj_souhlas = $tl_cj_souhlas;
         $this->tl_cj_cizinec = $tl_cj_cizinec;
         $this->tl_cj_plan = $tl_cj_plan;
-        }
 
+        $this->tl_ckp_sml = $tl_ckp_sml;
+        $this->tl_ckp_plan = $tl_ckp_plan;
+
+        $this->tl_pkp_sml = $tl_pkp_sml;
+        $this->tl_pkp_plan = $tl_pkp_plan;
+        }
 }

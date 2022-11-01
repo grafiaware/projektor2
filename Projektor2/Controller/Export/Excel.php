@@ -75,7 +75,7 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
 
 
     private function getLeftMenuArray() {
-        $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=kurz&kurz=ucastnici_kurzu', 'text'=>'Zpět na seznam účastníků'];
+        $menuArray[] = ['href'=>'index.php?kurzy=kurz&kurz=ucastnici_kurzu', 'text'=>'Zpět na seznam účastníků'];
         return $menuArray;
     }
 
@@ -135,8 +135,8 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                                 [''=>'', 'přehled kurzů'=>'table|excel_cjc_kurzy', 'přehled certifikátů'=>'table|excel_cjc_certifikaty']
                                 );
                             $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODEL, $selectModel);
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::HREF_ZPET, "index.php?akce=kurzy&kurzy=seznam");
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=kurzy&kurzy=kurz&kurz=export_ucastnici");
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::HREF_ZPET, "index.php?kurzy=seznam");
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?kurzy=kurz&kurz=export_ucastnici");
                             $parts[] = $exportSelectView;
                             break;
                         case 'kurz':
@@ -146,8 +146,8 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                                     [''=>'', 'účastníci kurzu'=>'template|ucastnici']
                                     );
                             $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODEL, $selectModel);
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::HREF_ZPET, "index.php?akce=kurzy&kurzy=seznam");
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=kurzy&kurzy=kurz&kurz=export_ucastnici");
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::HREF_ZPET, "index.php?kurzy=seznam");
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?kurzy=kurz&kurz=export_ucastnici");
                             $parts[] = $exportSelectView;
                             break;
                         case 'osoby':
@@ -157,8 +157,8 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                                 [''=>'', 'přehled osob'=>'table|excel_cjc_zajemci', 'přehled cizinci za projekt'=>'template|cizinci projekt']
                                 );
                             $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODEL, $selectModel);
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::HREF_ZPET, "index.php?akce=osoby&osoby=seznam");
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=osoby&osoby=export");
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::HREF_ZPET, "index.php?osoby=seznam");
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?osoby=export");
                             $parts[] = $exportSelectView;
                             break;
                         default:

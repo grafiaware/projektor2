@@ -16,7 +16,7 @@ class Projektor2_View_HTML_Formular_SKurz extends Projektor2_View_HTML_FormularP
         $html[] =
             Html::tag("form", [
 //                "class"=>"lock",
-                "method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?akce=kurzy&kurzy=kurz&kurz=detail_kurzu"],
+                "method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?kurzy=kurz&kurz=detail_kurzu"],
                 $this->context['uk_hint_fieldset'],
                 Html::tag("fieldset", [],
                     Html::tag("legend", [], "Údaje pro plánování kurzu"),

@@ -174,7 +174,7 @@ abstract class Projektor2_AppContext
                 break;
 
             default:
-                $context['nadpis'] = 'PROJEKT DOSUD NEBYL PLNĚ NASTAVEN';
+                $context['nadpis'] = $sessionStatus->projekt->kod.'  PROJEKT DOSUD NEBYL PLNĚ NASTAVEN';
                 $context['src'] = "logo_Projektu.png";
                 $context['alt'] = "Logo projektu dosud nebylo zadáno.";
                 break;
@@ -312,7 +312,22 @@ abstract class Projektor2_AppContext
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu „Čeština pro cizince“ ";
                 $texts['financovan'] = "\n";    // DOPLNIT
                 break;
-
+           ######## CKP #################
+            case 'CKP':
+                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerPosition'] = 'pracovník sekce vzdělávání';
+                $texts['v_projektu'] = 'v programu „Cesta k práci“';
+                $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu „Cesta k práci“ ";
+                $texts['financovan'] = "\n";
+                break;
+           ######## PKP #################
+            case 'PKP':
+                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerPosition'] = 'pracovník sekce vzdělávání';
+                $texts['v_projektu'] = 'v programu „Cesta k práci“';
+                $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu „Cesta k práci“ ";
+                $texts['financovan'] = "\n";
+                break;
             default:
                 throw new UnexpectedValueException('Nejsou definovány texty pro certifikát v projektu '.$kod.'.');
         }
@@ -341,6 +356,8 @@ abstract class Projektor2_AppContext
             case 'RP':
             case 'VDTP':
             case 'PDU':
+            case 'CKP':
+            case 'PKP':
                 $filePath = "img/pozadi/pozadi_osvedceni.png";   // pozadi.jpg je bez log, zobrazuje se niže na stránce, loga jsou v hlavičce
                 break;
 
@@ -371,6 +388,8 @@ abstract class Projektor2_AppContext
             case 'PDU':
             case 'MB':
             case 'CJC':
+            case 'CKP':
+            case 'PKP':
                 // jedno pozadí - stejné jako originál (bez podpisu)
                 $filePath = self::getCertificateOriginalBackgroundImageFilepath($sessionStatus);
                 break;
@@ -395,6 +414,8 @@ abstract class Projektor2_AppContext
             case 'PDU':
             case 'MB':
             case 'CJC':
+            case 'CKP':
+            case 'PKP':
                 // jedno pozadí
                 $filePath = "img/pozadi/pozadi_osvedceni_pms.png";   // parte rámeček
                 break;
@@ -550,6 +571,14 @@ abstract class Projektor2_AppContext
        ######## CJC #################
             case 'CJC':
                 return 'CJC/';
+                break;
+       ######## CKP #################
+            case 'CKP':
+                return 'CKP/';
+                break;
+       ######## PKP #################
+            case 'PKP':
+                return 'PKP/';
                 break;
             default:
                 throw new UnexpectedValueException('Není definována cesta pro dokumenty projektu '.$kod);
@@ -872,6 +901,30 @@ abstract class Projektor2_AppContext
                     );
                 break;
             case 'CJC':
+                return array(
+                    'duvod'=>array(
+                        '',     //první položka prázdná - select je required
+                        '1 | Řádné absolvování programu',
+                        '2a | Nástupem do pracovního poměru',
+                        '2b | Výpovědí nebo jiným ukončení programu ze strany účastníka',
+                        '3a | Pro porušování podmínek účasti v programu',
+                        '3b | Na základě podnětu ÚP'
+                        ),
+                    'duvodHelp' => array(
+                        '1. řádné absolvování vzdělávacího programu',
+                        '2. předčasným ukončením účasti ze strany účastníka',
+                                '&nbsp;&nbsp;a.      dnem předcházejícím nástupu účastníka do pracovního poměru (ve výjimečných případech může být dohodnuto jinak)',
+                                '&nbsp;&nbsp;b.      výpovědí dohody o účasti v projektu účastníkem nebo ukončením dohody z jiného důvodu než nástupu do zaměstnání (ukončení bude dnem, kdy byla výpověď doručena zástupci dodavatele)',
+                                '3. předčasným ukončením účasti ze strany dodavatele',
+                                '&nbsp;&nbsp;a.       pokud účastník porušuje podmínky účasti v projektu, neplní své povinnosti při účasti na aktivitách projektu (zejména na rekvalifikaci) nebo jiným závažným způsobem maří účel účasti v projektu',
+                                '&nbsp;&nbsp;b.       ve výjimečných případech na základě podnětu vysílajícího ÚP, např. při sankčním vyřazení z evidence ÚP (ukončení bude v pracovní den předcházející dni vzniku důvodu ukončení)'
+                        ),
+                    's_certifikatem'=>FALSE
+                    );
+                break;
+        ######## CKP PKP #################
+            case 'CKP':
+            case 'PKP':
                 return array(
                     'duvod'=>array(
                         '',     //první položka prázdná - select je required

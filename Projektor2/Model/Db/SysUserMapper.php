@@ -134,7 +134,11 @@ class Projektor2_Model_Db_SysUserMapper {
             $data['tl_cj_sml'],
             $data['tl_cj_souhlas'],
             $data['tl_cj_cizinec'],
-            $data['tl_cj_plan']
+            $data['tl_cj_plan'],
+            $data['tl_ckp_sml'],
+            $data['tl_ckp_plan'],
+            $data['tl_pkp_sml'],
+            $data['tl_pkp_plan']
 
         );
     }

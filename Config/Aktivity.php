@@ -856,8 +856,37 @@ class Config_Aktivity {
                 ],
         ];
                 break;
+            case 'CKP':
+
+    $aktivity = array(
+            'mot'=>array(
+                'typ'=>'kurz',
+                'nadpis'=>'Poradenský program',
+                'kurz_druh'=>'MOT',
+                's_certifikatem' => TRUE,
+                'tiskni_certifikat' => TRUE,
+                'tiskni_certifikat_monitoring' => TRUE,
+                'help'=>self::getHelp('mot')
+                )
+            );
+                break;
+            case 'PKP':
+
+    $aktivity = array(
+            'mot'=>array(
+                'typ'=>'kurz',
+                'nadpis'=>'Poradenský program',
+                'kurz_druh'=>'MOT',
+                's_certifikatem' => TRUE,
+                'tiskni_certifikat' => TRUE,
+                'tiskni_certifikat_monitoring' => TRUE,
+                'help'=>self::getHelp('mot')
+                )
+            );
+                break;
+
             default:
-        throw new UnexpectedValueException('Neexistuje konfigurace pro daný kód projektu: ', $kod);
+        throw new UnexpectedValueException("Neexistuje konfigurace pro daný kód projektu: $kod");
         };
     return $aktivity;
     }

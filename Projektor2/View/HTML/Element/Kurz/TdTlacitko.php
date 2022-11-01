@@ -15,7 +15,7 @@ class Projektor2_View_HTML_Element_Kurz_TdTlacitko extends Framework_View_Abstra
      */
     public function render() {
         $model = $this->context[self::VIEWMODEL_TLACITKO];
-        $href = 'index.php?akce=kurzy&kurzy=kurz&kurz='.urlencode($model->kurz).'&id_s_kurz='.urlencode($this->context[self::ID_KURZ]);
+        $href = 'index.php?kurzy=kurz&kurz='.urlencode($model->kurz).'&id_s_kurz='.urlencode($this->context[self::ID_KURZ]);
         switch ($model->status) {
             case 'edit':
                 $class = 'edit';

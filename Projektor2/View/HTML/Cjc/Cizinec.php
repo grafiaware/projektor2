@@ -24,7 +24,7 @@ class Projektor2_View_HTML_Cjc_Cizinec extends Projektor2_View_HTML_FormularPHP4
 
         $html[] = Html::tag("h3", [], "REGISTRACE V PROGRAMU ČEŠTINA PRO CIZINCE");
         $html[] =
-            Html::tag("form", ["method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?akce=osoby&osoby=form&form&form=cizinec"],
+            Html::tag("form", ["method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?osoby=form&form&form=cizinec"],
                 $this->context['uk_hint_fieldset'],
                 Html::tag("fieldset", [],
                     Html::tag("legend", [], "Osobní údaje"),

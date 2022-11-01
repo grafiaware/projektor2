@@ -40,6 +40,8 @@ class Projektor2_Router_Osoby {
             case "PDU":
             case "MB":
             case "CJC":
+            case 'CKP':
+            case 'PKP':
                 switch($this->request->param('osoby')) {
                     case "export":
                         return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response, ['export_type'=>'osoby']);
