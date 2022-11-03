@@ -44,8 +44,9 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
     protected function findKurzViewmodels() {
         $filter = "(projekt_kod='{$this->sessionStatus->projekt->kod}'
                  AND kancelar_kod='{$this->sessionStatus->kancelar->kod}'
-                 AND beh_cislo='{$this->sessionStatus->beh->beh_cislo}'
-                     )";
+                                          )";
+
+//                 AND beh_cislo='{$this->sessionStatus->beh->beh_cislo}'
         //                 AND kurz_druh='$kurz_druh'
         $mapper = new Projektor2_Viewmodel_KurzMapper();
         return $mapper->find($filter, 'razeni');
@@ -61,8 +62,6 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
     }
 
     public function getResult() {
-//        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
-//        $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
         $viewmodelyKurzu = $this->findKurzViewmodels();
 
         $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, array('menuArray'=>$this->getLeftMenuArray()));

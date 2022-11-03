@@ -7,7 +7,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Cjc_Cizinec extends Projektor2_View_HTML_FormularPHP4 {
+class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_FormularPHP4 {
     /**
      * Metoda obsahuje php kod (ve stylu PHP4), který užívá PHP jako šablonovací jazyk. Na základě dat zadaných v konstruktoru
      * do paramentru $context metoda generuje přímo html výstup. Metoda nemá návratovou hodnotu.
@@ -21,8 +21,9 @@ class Projektor2_View_HTML_Cjc_Cizinec extends Projektor2_View_HTML_FormularPHP4
         $poleDotaznik = $this->context[$signDotaznik];
         $poleCizinec = $this->context[$signCizinec];
 
+        $projektTitulek = strtoupper($this->sessionStatus->projekt->text);
 
-        $html[] = Html::tag("h3", [], "REGISTRACE V PROGRAMU ČEŠTINA PRO CIZINCE");
+        $html[] = Html::tag("h3", [], "REGISTRACE V PROGRAMU $projektTitulek");
         $html[] =
             Html::tag("form", ["method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?osoby=form&form&form=cizinec"],
                 $this->context['uk_hint_fieldset'],

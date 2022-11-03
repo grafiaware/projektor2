@@ -14,19 +14,17 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
      *
      * @param string $kurz_druh Parametr musí obsahovat hodnotu ze sloupce kurz_druh db tabulky s_kurz
      * @param type $default TRUE - metoda vrací i model z tabulky s_kurz se zkratkou kurzu '*', tento model pak může být defaulní hodnotou v selectu
-     * @return Projektor2_Model_SKurz[] array of Projektor2_Model_SKurz
+     * @return Projektor2_Viewmodel_Kurz[]
      */
     protected function findDbSKurzModelsInContext($kurz_druh, $default=TRUE) { // TODO - přesunout do modelu
         $filter = "(projekt_kod='".$this->sessionStatus->projekt->kod
                 ."' AND kancelar_kod='".$this->sessionStatus->kancelar->kod
-                ."' AND beh_cislo='".$this->sessionStatus->beh->beh_cislo
+//                ."' AND beh_cislo='".$this->sessionStatus->beh->beh_cislo
                 ."' AND kurz_druh='".$kurz_druh."')";
         if ($default) {
             $filter .= " OR kurz_zkratka='*'";
         }
         $filter = "(".$filter.")";
-//        return Projektor2_Model_Db_SKurzMapper::find($filter, 'razeni');
-        // Projektor2_Viewmodel_Kurz
         return Projektor2_Viewmodel_KurzMapper::find($filter, 'razeni');
     }
 
@@ -40,11 +38,9 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
     protected function createDbSKurzModelsAssoc($aktivityProjektu) {
         $DbSKurzModels = array();
         foreach ($aktivityProjektu as $indexAktivity => $parametryAktivity) {
-            foreach ( $this->findDbSKurzModelsInContext($parametryAktivity['kurz_druh']) as $sKurz) {
-                /** @var Projektor2_Model_Db_SKurz $sKurz */
-//                $DbSKurzModels[$indexAktivity][$sKurz->id_s_kurz] = $sKurz;
-                // Projektor2_Viewmodel_Kurz
-                $DbSKurzModels[$indexAktivity][$sKurz->id] = $sKurz;
+            foreach ( $this->findDbSKurzModelsInContext($parametryAktivity['kurz_druh']) as $viewmodelKurz) {
+                /** @var Projektor2_Viewmodel_Kurz $viewmodelKurz */
+                $DbSKurzModels[$indexAktivity][$viewmodelKurz->id] = $viewmodelKurz;
 
             }
         }

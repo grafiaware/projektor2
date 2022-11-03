@@ -126,7 +126,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
                 ],
             ];
 
-        $view = new Projektor2_View_HTML_Cjc_Cizinec($this->sessionStatus, $context);
+        $view = new Projektor2_View_HTML_Formular_Cizinec($this->sessionStatus, $context);
         $ukHintHtml = (new Projektor2_View_HTML_Cjc_HintView($this->sessionStatus, $context))->render();
         $view->assign("uk_hint_fieldset", $ukHintHtml);
         $viewRegistrace = new Projektor2_View_HTML_RegistraceUP($this->sessionStatus, $context);

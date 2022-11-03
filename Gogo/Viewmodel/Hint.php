@@ -40,7 +40,7 @@ class Hint extends ViewmodelAbstract {
                     // začíná
 //                    if (stristr($q, substr($value, 0, $len))) {
                     //obsahuje
-                    if (strpos($value, $q) != false) {
+                    if (strpos($value, $q) !== false) {
                         $hintValue = "";
                         $this->viewHydrator->hydrate($hintValue, $value);
                         $hint .= ",$hintValue";
