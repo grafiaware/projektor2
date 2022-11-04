@@ -8,7 +8,7 @@ class Projektor2_View_HTML_KontextKancelarAkce extends Framework_View_Abstract {
         $this->parts[] = '<div id="vyberkontext" class="bordered">';
         $this->parts[] = '<form name="Kancelar" id="Kancelar" action="index.php?kontext" method="post">';
             $this->parts[] = '<fieldset id="vyber_context">';
-                $this->parts[] = '<legend>Výběr kanceláře, akce a běhu</legend>';
+                $this->parts[] = '<legend>Výběr kanceláře a akce</legend>';
                 $this->parts[] = '<label for="kancelar" >Vyberte kancelář:</label>';
                 $this->parts[] = '<select id="kancelar" size="1" name="id_kancelar" onchange="submitForm(this);">';
                     $this->parts[] = "<option value=\"ß\"> </option>\n";
