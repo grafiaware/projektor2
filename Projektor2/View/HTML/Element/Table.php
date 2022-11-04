@@ -14,7 +14,7 @@ class Projektor2_View_HTML_Element_Table extends Framework_View_Abstract {
         } else {
             $this->parts[] = '<table>';
         }
-        foreach ($this->context['rows'] as $row) {
+        foreach ($this->context['rows'] ?? [] as $row) {
             $this->parts[] = $row;
         }
         $this->parts[] = '</table>';

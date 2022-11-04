@@ -46,8 +46,8 @@ class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_A
             $subgridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArrayUcastnici()]);
             $seznam[] =  new Projektor2_View_HTML_Element_Table($this->sessionStatus, ['rows'=>$rowsUcastnici, 'class'=>'zaznamy']);
             $subgridColumn[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$seznam, 'class'=>'content']);
+            $contentParts[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$subgridColumn, 'class'=>'grid-container']);
         }
-        $contentParts[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$subgridColumn, 'class'=>'grid-container']);
         $gridColumn[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$contentParts, 'class'=>'content']);
 
         $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$gridColumn, 'class'=>'grid-container']);

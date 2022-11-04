@@ -72,17 +72,25 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
         }
         $behy = Projektor2_Model_Db_BehMapper::find('id_c_projekt='.$this->sessionStatus->projekt->id, 'beh_cislo ASC');
 
-        $parts[] = new Projektor2_View_HTML_VyberKontext($this->sessionStatus,
+        $parts[] = new Projektor2_View_HTML_KontextKancelarAkce($this->sessionStatus,
                 array('kancelare'=>$kancelare,
                     'id_kancelar'=>isset($this->sessionStatus->kancelar->id) ? $this->sessionStatus->kancelar->id : NULL,
-                    'behy'=>$behy,
                     'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
                 );
-
-        // podmínka pro pokračování - obsah zobrazený při úplném kontextu
-        if (isset($this->sessionStatus->kancelar) AND isset($this->sessionStatus->beh) AND $this->sessionStatus->akce) {
-            $parts[] = (new Projektor2_Router_Akce($this->sessionStatus, $this->request, $this->response))->getController()->getResult();
+        If ($this->sessionStatus->akce == 'osoby') {
+            $parts[] = new Projektor2_View_HTML_KontextBeh($this->sessionStatus,
+                array('behy'=>$behy,
+                    'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
+                );
         }
+        // podmínka pro pokračování - obsah zobrazený při úplném kontextu
+        if (isset($this->sessionStatus->kancelar) AND $this->sessionStatus->akce) {
+            if ($this->sessionStatus->akce!='osoby' OR isset($this->sessionStatus->beh)) {
+                $parts[] = (new Projektor2_Router_Akce($this->sessionStatus, $this->request, $this->response))->getController()->getResult();
+            }
+
+        }
+
 
         $viewVybery = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts));
         return $viewVybery;
