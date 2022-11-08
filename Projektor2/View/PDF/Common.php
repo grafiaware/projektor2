@@ -153,6 +153,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'RP':
             case 'VDTP':
             case 'PDU':
+            case 'CKP':
+            case 'PKP':
                 self::completeHeader("./img/loga/loga_OP_Z&UP_PMS_BW.jpg", 0, 5, 110, 16, 'L');
                 self::completeFooter( $textPaticky, $cislovani);
                 break;
@@ -183,6 +185,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'RP':
             case 'VDTP':
             case 'PDU':
+            case 'CKP':
+            case 'PKP':
                 self::completeHeader("./img/loga/loga_OP_Z&UP_PMS_BW.jpg", 5, 15, 110, 16, 'L');
                 self::completeFooter( $textPaticky, $cislovani);
                 break;
@@ -212,6 +216,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'RP':
             case 'VDTP':
             case 'PDU':
+            case 'CKP':
+            case 'PKP':
             case 'CJC':
                 $grafia->PridejOdstavec("jako dodavatel (dále jen „Dodavatel“)");
                 break;
@@ -270,6 +276,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'PDU':
             case 'MB':
             case 'CJC':
+            case 'CKP':
+            case 'PKP':
                 $osobniUdaje->PridejOdstavec("identifikační číslo účastníka: ".$this->context["identifikator"]);
                 $osobniUdaje->PridejOdstavec("(dále jen „Účastník“)");
                 break;
@@ -292,6 +300,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'VDTP':
             case 'PDU':
             case 'CJC':
+            case 'CKP':
+            case 'PKP':
                 $podpisy->PridejBunku("Účastník:", '', FALSE, 100);
                 $podpisy->PridejBunku("Dodavatel:","",TRUE);
                 break;
@@ -335,6 +345,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'RP':
             case 'VDTP':
             case 'PDU':
+            case 'CKP':
+            case 'PKP':
                 $podpisy->PridejBunku("administrátor programu","",TRUE);
                 break;
             case 'SJPK':
@@ -392,6 +404,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'PDU':
             case 'MB':
             case 'CJC':
+            case 'CKP':
+            case 'PKP':
                 $podpisy = new Projektor2_PDF_SadaBunek();
                 $podpisy->PridejBunku('', '', FALSE, 110);
                 $podpisy->PridejBunku("Účastník:", '',TRUE);
@@ -443,6 +457,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'RP':
             case 'VDTP':
             case 'PDU':
+            case 'CKP':
+            case 'PKP':
                 $mistoDatum = new Projektor2_PDF_SadaBunek();
                 $mistoDatum->MezeraPredSadouBunek(8);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);  //odsazeni zleva
@@ -484,6 +500,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'RP':
             case 'VDTP':
             case 'PDU':
+            case 'CKP':
+            case 'PKP':
                 $mistoDatum = new Projektor2_PDF_SadaBunek();
                 $mistoDatum->MezeraPredSadouBunek(8);
 //                $mistoDatum->PridejBunku('', '', FALSE, 0);  //odsazeni zleva

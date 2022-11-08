@@ -41,9 +41,11 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
                         if (!$certifikat) {
                             $datumCertifikatu = $plan->$kurzColumnNames['datumCertif'];
                             $certicateType = 2;   // typ certifikátu = pseudokopie -> bude automaticky expotorván i originál
-                            $certifikat = $serviceCertifikat->create($this->sessionStatus,
-                                                Projektor2_Model_Db_KancelarMapper::findById($zajemce->id_c_kancelar_FK),
-                                                $zajemce, $sKurz, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
+                            $certifikat = $serviceCertifikat->create(
+                                $certicateType,
+                                $this->sessionStatus,
+                                Projektor2_Model_Db_KancelarMapper::findById($zajemce->id_c_kancelar_FK),
+                                $zajemce, $sKurz, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
                             if (!$certifikat) {
                                 throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
                             }

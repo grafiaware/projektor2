@@ -51,7 +51,7 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení Grafia')));  // druh je řetězec za slovy Tiskni osvědčení Grafia
             /** @var Projektor2_Model_AktivitaPlan $aktivitaPlan */
             $aktivitaPlan = Projektor2_Model_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
-            $params = array('idSKurzFK'=>$aktivitaPlan->sKurz->id_s_kurz, 'datumCertif' => $aktivitaPlan->datumCertif, 'certifikatTyp'=>4);
+            $params = array('idSKurzFK'=>$aktivitaPlan->sKurz->id_s_kurz, 'datumCertif' => $aktivitaPlan->datumCertif, 'certifikatTyp'=>1);
 
             $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
             $htmlResult = $ctrlIpCertifikat->getResult();

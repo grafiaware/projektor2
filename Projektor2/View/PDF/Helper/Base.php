@@ -6,15 +6,15 @@
  */
 class Projektor2_View_PDF_Helper_Base {
 
-    
+
     protected static function celeJmeno(Projektor2_Model_Db_Flat_ZaFlatTable $modelSmlouva) {   //--vs
         $celeJmeno = $modelSmlouva->titul." ".$modelSmlouva->jmeno." ".$modelSmlouva->prijmeni;
         if ($modelSmlouva->titul_za) {
             $celeJmeno = $celeJmeno.", ".$modelSmlouva->titul_za;
-        }       
-        return $celeJmeno;        
+        }
+        return $celeJmeno;
     }
-    
+
     protected static function celaAdresa($ulice='', $mesto='', $psc='') {
         if ($ulice) {
             $celaAdresa .= $ulice;
@@ -35,17 +35,17 @@ class Projektor2_View_PDF_Helper_Base {
                     $celaAdresa .= $psc;
                 }
             }
-        }  
-        return $celaAdresa;
-    }    
-    
-    protected static function datumBezNul($datum) {
-        $tokens = explode('.', $datum);
-        foreach ($tokens as $key=>$value) {
-            $tokens[$key] = (int) $value;
         }
-        return \implode('.', $tokens);
-    }    
-    
-    
+        return $celaAdresa;
+    }
+
+    protected static function datumBezNul($datum) {
+        $tokens = explode('-', $datum);
+            $d[] = (int) $tokens[2];
+            $d[] = (int) $tokens[1];
+            $d[] = (int) $tokens[0];
+        return \implode('. ', $d);
+    }
+
+
 }
