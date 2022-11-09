@@ -1,7 +1,19 @@
-vyber kontext
-- odeslat request vždy po změně kontextu v selectech (kancelář, běh)
 
 s_kurz
-- přidat sloupce cas_konani a lektor
+- přidat sloupce cas_konani a lektor (varchar) a harmonogram
+
+typ certifikátu - do config
 
 
+Projektor2_Controller_SeznamRegistraci
+    => Projektor2_Viewmodel_ZajemceRegistraceMapper::findAll(NULL, NULL, "identifikator")
+        => Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper::findAll($filter, $filterBindParams, $order); [FROM zajemce left join za_flat_table]
+foreach
+    => Config_MenuOsoba::setSkupinyZajemce($zajemceRegistrace, $zajemceDbReadOsobniUdaje->zajemce);
+        v config pro tlačítko plan => Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+
+            1) new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
+            2) Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemce->id)
+                - pro každou aktivitu (Config_Aktivity::getAktivityProjektu($sessionStatus->projekt->kod);)
+                => self::createAktivitaPlan($planKurz, $ukonceni, $aktivita, $indexAktivity, $id, $zajemce);
+                    pro typ kurz => Projektor2_Model_Db_CertifikatKurzMapper::find($zajemce, $sKurz, FALSE);
