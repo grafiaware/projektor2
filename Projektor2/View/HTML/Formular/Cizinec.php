@@ -81,7 +81,7 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                     ),
                     Html::tag("fieldset", [],
                         Html::tag("legend", [], "Registrace ÚP"),
-                        Html::tag("div", ["class"=>"fieldsetcontainer 1_3"],
+                        Html::tag("div", ["class"=>"fieldsetcontainer c1c3"],
                             Html::tag("div", ["class"=>"leftcolumn"],
                                 Html::radio(
                                     $prefixCizinec.'faze',

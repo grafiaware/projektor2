@@ -178,8 +178,9 @@ class Projektor2_Controller_SeznamRegistraci extends Projektor2_Controller_Abstr
     public function getResult() {
         $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArray()]);
         $parts[] = $viewLeftMenu;
-
+        $startTime = microtime(true);
         $zajemciRegistrace = Projektor2_Viewmodel_ZajemceRegistraceMapper::findAll(NULL, NULL, "identifikator");
+        $timeDb = (microtime(true)-$startTime) * 1000;
         if ($zajemciRegistrace) {
             foreach ($zajemciRegistrace as $zajemceRegistrace) {
                 $tlacitkaController = new Projektor2_Controller_Element_MenuZajemce($this->sessionStatus, $this->request, $this->response, $zajemceRegistrace);
@@ -189,8 +190,14 @@ class Projektor2_Controller_SeznamRegistraci extends Projektor2_Controller_Abstr
             $viewContent = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$viewZaznamy, 'class'=>'content']);
             $parts[] = $viewContent;
         }
+        $timeControllers = (microtime(true)-$startTime) * 1000;
 
         $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$parts, 'class'=>'grid-container']);
+        $html = (string) $viewZobrazeniRegistraci;
+        $timeRender = (microtime(true)-$startTime) * 1000;
+        header('X-Projektor-TimeDb:' . sprintf('%2.3fms', $timeDb));
+        header('X-Projektor-TimeCtrl:' . sprintf('%2.3fms', $timeControllers));
+        header('X-Projektor-TimeRender:' . sprintf('%2.3fms', $timeRender));
         return $viewZobrazeniRegistraci;
     }
 }
