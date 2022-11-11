@@ -36,7 +36,7 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
     public function save($relativeFilePath) {
         //TODO: Exception !! neexistuje $context["identifikator"]
         $this->relativeDocumentFilePath = $relativeFilePath;
-        $this->fullFileName = $_SERVER['DOCUMENT_ROOT'].'/'.Projektor2_AppContext::getFileBaseFolder().$relativeFilePath;
+        $this->fullFileName = Projektor2_AppContext::getHttpFileBasePath().$relativeFilePath;
         define('FPDF_FONTPATH', self::FPDF_FONTPATH);  //běhová konstanta potřebná pro fpdf
         $this->createPDFObject();
         if (file_exists($this->fullFileName))  	{
@@ -69,7 +69,7 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
     public function getNewWindowOpenerCode() {
 // TODO opener code - upravit tak, aby opener code volal kontroler (přidat kontroler) pro download souboru -pak přesunou úložiště souborů mimo kořen webu
         $code =  '<script type ="text/javascript">
-                    FullFileName="' . 'http://'.$_SERVER['HTTP_HOST'].'/'.Projektor2_AppContext::getFileBaseFolder().$this->relativeDocumentFilePath. '";
+                    FullFileName="'.Projektor2_AppContext::getHttpFileBasePath().$this->relativeDocumentFilePath.'";
                   </script>';
         return $code;
     }

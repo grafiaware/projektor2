@@ -12,23 +12,25 @@ class Projektor2_Controller_Certifikat_Kurz extends Projektor2_Controller_Certif
      * @throws LogicException
      */
     public function getResult() {
-        $sKurz = Projektor2_Model_Db_SKurzMapper::get($this->params['idSKurzFK']);
-        if (!$sKurz) {
-            throw new LogicException('Nekonzistence dat. Nelze vytvářet dokument certifikátu. Nenalezen kurz s id '.$this->params['idSKurzFK']
-                    .', které bylo přečteno z tabulky plan.');
-        }
-        $serviceCertifikat = new Projektor2_Service_CertifikatKurz();
-        $datumCertifikatu = $this->params['datumCertif'];
-        $certificateType = $this->params['certifikatTyp'];
-        $certifikat = $serviceCertifikat->create($certificateType, $this->sessionStatus, $this->sessionStatus->kancelar,
-                                       $this->sessionStatus->zajemce, $sKurz, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
+        /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
+        $aktivitaPlan = $this->params['aktivitaPlan'];
+        $certifikatVerze = $this->params['certifikatVerze'];
+        // projekt ze session, kancelar a zajemce - zde pro individuální certifikát právě editovaného zájemce (plán) -
+        $certifikat = (new Projektor2_Service_CertifikatKurz())->create(
+                $certifikatVerze,
+                $this->sessionStatus,
+                $this->sessionStatus->kancelar,
+                $this->sessionStatus->zajemce,
+                $aktivitaPlan->sKurz,
+                $aktivitaPlan->datumCertif,
+                $this->sessionStatus->user->name,
+                __CLASS__
+                );
         if (!$certifikat) {
-            throw new LogicException('Nepodařilo se vytvořit certifikát typu: '.$certificateType.' pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
+            throw new LogicException('Nepodařilo se vytvořit verzi certifikátu: '.$certifikatVerze.' pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
         } else {
             $viewPdf = new Projektor2_View_HTML_Script_NewWindowOpener($this->sessionStatus);
-//            $viewPdf->assign('fullFileName', 'http://'.$_SERVER['HTTP_HOST'].'/'.Projektor2_AppContext::getFileBaseFolder().$certifikat->dbCertifikatKurz->filename);
-            $viewPdf->assign('fullFileName', 'http://'.$_SERVER['HTTP_HOST'].'/'.Projektor2_AppContext::getFileBaseFolder().$certifikat->documentCertifikatKurz->relativeDocumentPath);
-
+            $viewPdf->assign('fullFileName', Projektor2_AppContext::getHttpFileBasePath().$certifikat->documentCertifikatKurz->relativeDocumentPath);
             return $viewPdf->render();
         }
     }

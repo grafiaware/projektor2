@@ -15,7 +15,7 @@ class Projektor2_Controller_Formular_Sjpk_IP2 extends Projektor2_Controller_Form
     protected function getResultFormular() {
         $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
         $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
-        $kurzyPlanAssoc = Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
+        $kurzyPlanAssoc = Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
         
         $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->projekt->kod);
                                            
@@ -36,7 +36,7 @@ class Projektor2_Controller_Formular_Sjpk_IP2 extends Projektor2_Controller_Form
      protected function getResultPdf() {
          // TODO Všechny getResultPdf() - přesunout do service+mapper pro ukládání, v kontroleru zůstane jen $view->getNewWindowOpenerCode() - pak vše doe getResult()
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
-            $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
+            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
             $view = new Projektor2_View_PDF_Sjpk_IP2($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)

@@ -4,17 +4,22 @@
  *
  * @author pes2704
  */
-class Projektor2_Model_AktivitaPlan  extends Framework_Model_DbItemAbstract {
+class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract {
     public $id;
     public $indexAktivity;
     public $nadpisAktivity;
     public $aktivitaSCertifikatem;
-    public $tiskniCertifikat;
-    public $tiskniCertifikatMonitoring;
+
+    /**
+     * @var Projektor2_Viewmodel_AktivitaPlanCertifikatParams
+     */
+    public $certifikat;
+
     /**
      * @var Projektor2_Model_Db_SKurz
      */
     public $sKurz;
+    
     public $pocAbsHodin;
     public $duvodAbsence;
     public $dokoncenoUspesne;
@@ -26,18 +31,19 @@ class Projektor2_Model_AktivitaPlan  extends Framework_Model_DbItemAbstract {
     public $certifikatyKurz;
     public $hodnoceni;
 
-    public function __construct($id = NULL,$indexAktivity = NULL, $nadpisAktivity = NULL, $aktivitaSCertifikatem = NULL, $tiskniCertifikat = NULL, $tiskniCertifikatMonitoring = NULL,
-            Projektor2_Model_Db_SKurz $sKurz = NULL,
-            $pocAbsHodin = NULL, $duvodAbsence = NULL, $dokoncenoUspesne = NULL, $duvodNeuspechu = NULL, $datumCertif = NULL,
-            $certifikatyKurz = NULL,
-
-            $hodnoceni = NULL) {
+    public function __construct(
+            $id = null, $indexAktivity = null, $nadpisAktivity = null,
+            $aktivitaSCertifikatem = null,
+            Projektor2_Viewmodel_AktivitaPlanCertifikatParams $certifikat = null,
+            Projektor2_Model_Db_SKurz $sKurz = null,
+            $pocAbsHodin = null, $duvodAbsence = null, $dokoncenoUspesne = null, $duvodNeuspechu = null, $datumCertif = null,
+            $certifikatyKurz = null,
+            $hodnoceni = null) {
         $this->id = $id;
         $this->indexAktivity = $indexAktivity;
         $this->nadpisAktivity = $nadpisAktivity;
         $this->aktivitaSCertifikatem = $aktivitaSCertifikatem;
-        $this->tiskniCertifikat = $tiskniCertifikat;
-        $this->tiskniCertifikatMonitoring = $tiskniCertifikatMonitoring;
+        $this->certifikat = $certifikat;
         $this->sKurz = $sKurz;
         $this->pocAbsHodin = $pocAbsHodin;
         $this->duvodAbsence = $duvodAbsence;

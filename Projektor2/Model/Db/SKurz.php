@@ -17,16 +17,26 @@ class Projektor2_Model_Db_SKurz implements Framework_Model_AttributeModelInterfa
     public $pocet_hodin;
     public $pocet_hodin_distancne;
     public $pocet_hodin_praxe;
+    public $certifikat_kurz_rada_FK;
     public $date_zacatek;
     public $date_konec;
     public $dodavatel;
+    public $info_cas_konani;
+    public $info_misto_konani;
+    public $info_lektor;
+    public $harmonogram_filename;
     public $valid;
 
-    public function __construct($id_s_kurz=null, $razeni=null, $projekt_kod=null, $kancelar_kod=null,
-                                $kurz_druh=null, $kurz_cislo=null, $beh_cislo=null, $kurz_lokace=null, $kurz_zkratka=null,
-                                $kurz_nazev=null, $kurz_pracovni_cinnost=null, $kurz_akreditace=null, $kurz_obsah=null,
-                                $pocet_hodin=null, $pocet_hodin_distancne=null, $pocet_hodin_praxe=null, $date_zacatek=null, $date_konec=null,
-                                $dodavatel=null, $valid=null) {
+    public function __construct(
+            $id_s_kurz=null, $razeni=null, $projekt_kod=null, $kancelar_kod=null,
+            $kurz_druh=null, $kurz_cislo=null, $beh_cislo=null, $kurz_lokace=null, $kurz_zkratka=null,
+            $kurz_nazev=null, $kurz_pracovni_cinnost=null, $kurz_akreditace=null, $kurz_obsah=null,
+            $pocet_hodin=null, $pocet_hodin_distancne=null, $pocet_hodin_praxe=null, $certifikat_kurz_rada_FK=null,
+            $date_zacatek=null, $date_konec=null, $dodavatel=null,
+            $info_cas_konani=null, $info_misto_konani=null, $info_lektor=null, $harmonogram_filename=null,
+            $valid=null
+        ) {
+
         $this->id_s_kurz = $id_s_kurz;
         $this->razeni = $razeni;
         $this->projekt_kod = $projekt_kod;
@@ -43,9 +53,14 @@ class Projektor2_Model_Db_SKurz implements Framework_Model_AttributeModelInterfa
         $this->pocet_hodin_distancne = $pocet_hodin_distancne;
         $this->pocet_hodin_praxe = $pocet_hodin_praxe;
         $this->pocet_hodin = $pocet_hodin;
+        $this->certifikat_kurz_rada_FK = $certifikat_kurz_rada_FK;
         $this->date_zacatek = $date_zacatek;
         $this->date_konec = $date_konec;
         $this->dodavatel = $dodavatel;
+        $this->info_cas_konani = $info_cas_konani;
+        $this->info_misto_konani = $info_misto_konani;
+        $this->info_lektor = $info_lektor;
+        $this->harmonogram_filename = $harmonogram_filename;
         $this->valid = $valid;
     }
 

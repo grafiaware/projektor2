@@ -12,7 +12,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         $planKurzSign = Projektor2_Controller_Formular_FlatTable::PLAN_KURZ;
 
         $aktivita = $this->context['aktivita'];  // index aktivity
-        $parametryAktivity = $this->context['aktivityTypuKurz'][$aktivita];
+        $konfiguraceAktivity = $this->context['aktivityTypuKurz'][$aktivita];
         $modelySKurz = $this->context['modelySKurz'][$aktivita];
         $planKurzArray = $this->context[$planKurzSign][$aktivita];
 
@@ -62,9 +62,9 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         $zadanoUspesneNeuspesne = ($planKurzArray[$nameDokonceno] ?? null) ? TRUE : FALSE;  // hodnota je "Ano" nebo "Ne", tedy zadaná hodnote -> TRUE
         $zadanoDokoncenoAno = (($planKurzArray[$nameDokonceno] ?? null) == 'Ano') ? TRUE:FALSE;
         $zadanoDokoncenoNe = (($planKurzArray[$nameDokonceno] ?? null) == 'Ne') ? TRUE : FALSE;
-        $zobrazBlokCertifikat = ($parametryAktivity['s_certifikatem'] ?? null) ? TRUE : FALSE;
-        $zobrazTiskniCertifikat = ($parametryAktivity['tiskni_certifikat'] ?? null) ? TRUE : FALSE;
-        $zobrazTiskniCertifikatMonitoring = ($parametryAktivity['tiskni_certifikat_monitoring'] ?? null) ? TRUE : FALSE;
+        $zobrazBlokCertifikat = ($konfiguraceAktivity['s_certifikatem'] ?? null) ? TRUE : FALSE;
+        $zobrazTiskniCertifikat = ($konfiguraceAktivity['certifikat']['original'] ?? null) ? TRUE : FALSE;
+        $zobrazTiskniCertifikatMonitoring = ($konfiguraceAktivity['certifikat']['monitoring'] ?? null) ? TRUE : FALSE;
 
         $uniqueFieldsetSign = $aktivita;
         $idSelect = $uniqueFieldsetSign.'_select';
@@ -98,11 +98,11 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
 
         ####### html ############
         $this->parts[] ='<fieldset class="'.$fieldsetClass.'">';
-        $this->parts[] ='<legend>'.$parametryAktivity['nadpis'].'</legend>';
+        $this->parts[] ='<legend>'.$konfiguraceAktivity['nadpis'].'</legend>';
         $this->parts[] ='<p>';
-            $this->parts[] ='<label>'.$parametryAktivity['nadpis'].': </label>';
+            $this->parts[] ='<label>'.$konfiguraceAktivity['nadpis'].': </label>';
             $this->parts[] = $viewSelect;
-            $this->parts[] ='<input type="hidden" name="'.$nameKurzDruh.'" size=120 maxlength=120 value="'.$parametryAktivity['kurz_druh'].'" >'
+            $this->parts[] ='<input type="hidden" name="'.$nameKurzDruh.'" size=120 maxlength=120 value="'.$konfiguraceAktivity['kurz_druh'].'" >'
                         . '</input>';
             $this->parts[] ='<input type="hidden" name="'.$nameAktivita.'" size=120 maxlength=120 value="'.$aktivita.'" >'
                         . '</input>';

@@ -823,7 +823,7 @@ class Config_Aktivity {
                 'nadpis'=>'Český jazyk pro cizince A1',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
                 ],
@@ -832,7 +832,7 @@ class Config_Aktivity {
                 'nadpis'=>'Český jazyk pro cizince A1',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
                 ],
@@ -841,7 +841,7 @@ class Config_Aktivity {
                 'nadpis'=>'Český jazyk pro cizince A2',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
                 ],
@@ -850,7 +850,7 @@ class Config_Aktivity {
                 'nadpis'=>'Český jazyk pro cizince A2',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
                 ],
@@ -864,8 +864,7 @@ class Config_Aktivity {
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'tiskni_certifikat_monitoring' => TRUE,
+                'certifikat' => self::getCertifikatParams('o+m'),
                 'help'=>self::getHelp('mot')
                 )
             );
@@ -878,8 +877,7 @@ class Config_Aktivity {
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
-                'tiskni_certifikat' => TRUE,
-                'tiskni_certifikat_monitoring' => TRUE,
+                'certifikat' => self::getCertifikatParams('o+m'),
                 'help'=>self::getHelp('mot')
                 )
             );
@@ -889,6 +887,35 @@ class Config_Aktivity {
         throw new UnexpectedValueException("Neexistuje konfigurace pro daný kód projektu: $kod");
         };
     return $aktivity;
+    }
+
+    private static function getCertifikatParams($certType) {
+        switch ($certType) {
+            case 'o':
+                $params = [
+                    'original' => true,
+                    'pseudokopie' => false,
+                    'monitoring' => false,
+                ];
+                break;
+            case 'o+p':
+                $params = [
+                    'original' => true,
+                    'pseudokopie' => true,
+                    'monitoring' => false,
+                ];
+                break;
+            case 'o+m':
+                $params = [
+                    'original' => true,
+                    'pseudokopie' => false,
+                    'monitoring' => true,
+                ];
+                break;
+            default:
+                $params = [];
+        }
+        return $params;
     }
 
     protected static function getHelp($druh) {

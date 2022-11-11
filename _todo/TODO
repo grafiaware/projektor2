@@ -17,3 +17,19 @@ foreach
                 - pro každou aktivitu (Config_Aktivity::getAktivityProjektu($sessionStatus->projekt->kod);)
                 => self::createAktivitaPlan($planKurz, $ukonceni, $aktivita, $indexAktivity, $id, $zajemce);
                     pro typ kurz => Projektor2_Model_Db_CertifikatKurzMapper::find($zajemce, $sKurz, FALSE);
+
+
+####
+typ certifikátu:
+- db tabulka -> cizí klíč v s_kurz a v certifikat
+- Projektor2_AppContext::getCertificateTypeFolder() - volí se adresář podle typu
+- Projektor2_Service_CertifikatKurz->create() - generuje certifikát(y)
+    - tady změnit:
+    podle konfigurace aktivita:
+        - generovat jen originál
+        - generovat současně originál a pseudokopii
+        - generovat současně originál a certif pro monitoring (tlačítka pro tisk certifikátu uchovej dvě, jen se vždy při prvním zvolení tisku cert vegenerují oba)
+    podle typu certifikátu v s_kurz:
+        - generovat správný certifikát podle typu:
+            - neakreditovaný kurz
+            - akreditovaný kurz

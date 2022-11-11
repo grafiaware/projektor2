@@ -14,7 +14,7 @@ class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formu
     protected function getResultFormular() {
         $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
         $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
-        $kurzyPlanAssoc = Projektor2_Model_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
+        $kurzyPlanAssoc = Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN účastníka programu Vykroč za prací projektu „Vzdělávání a dovednosti pro trh práce II“ ')
@@ -29,7 +29,7 @@ class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formu
 
      protected function getResultPdf() {
         if ($this->request->post('pdf') == "Tiskni IP 1.část") {
-            $kurzyPlan = Projektor2_Model_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
+            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
             $view = new Projektor2_View_PDF_Vzp_IP1($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast1_aktivity';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
@@ -46,7 +46,7 @@ class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formu
         }
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení Grafia') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení Grafia')));  // druh je řetězec za slovy Tiskni osvědčení Grafia
-            $kurzPlan = Projektor2_Model_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
+            $kurzPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
             $params = array('idSKurzFK'=>$kurzPlan->sKurz->id_s_kurz, 'datumCertif' => $kurzPlan->datumCertif, 'certifikatTyp'=>1);
 
             $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
@@ -54,7 +54,7 @@ class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formu
         }
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení pro monitoring') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení pro monitoring')));  // druh je řetězec za slovy Tiskni osvědčení pro monitoring
-            $kurzPlan = Projektor2_Model_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
+            $kurzPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
             $params = array('idSKurzFK'=>$kurzPlan->sKurz->id_s_kurz, 'datumCertif' => $kurzPlan->datumCertif, 'certifikatTyp'=>3);
 
             $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);

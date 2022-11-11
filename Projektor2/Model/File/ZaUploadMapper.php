@@ -25,7 +25,7 @@ class Projektor2_Model_File_ZaUploadMapper extends Framework_Model_FileMapper {
     public static function findByRelativeFilepath($relativeFilePath) {
         $model = static::createFileItem($relativeFilePath);
         try {
-            $model = self::hydrate($model);
+            self::hydrate($model);
         } catch (RuntimeException $exc) {
             throw new RuntimeException('Nepodařilo se načíst obsah souboru certifikátu s cestou "'.$relativeFilePath.'". Metoda hydrate hlásí: '.$exc->getMessage());
             return NULL;
@@ -47,7 +47,7 @@ class Projektor2_Model_File_ZaUploadMapper extends Framework_Model_FileMapper {
      */
     public static function getRelativeFilePath(Projektor2_Model_Db_Projekt $projekt, Projektor2_Model_Db_Flat_ZaCizinecFlatTable $zaCizinecFlatTable, $relativePath) {
         // rozděluje soubory do podsložek s názvem rovným id kurzu
-        $dirName = Projektor2_AppContext::getCertificateTypeFolder($certificateType).$sKurz->id_s_kurz.'/';
+        $dirName = Projektor2_AppContext::getCertificateVersionFolder($certificateType).$sKurz->id_s_kurz.'/';
         $basename = $projekt->kod.'_IP_Osvedceni_'.$sKurz->kurz_druh.' '.$zajemce->identifikator.'.pdf';;
         return $dirName.$basename;
     }

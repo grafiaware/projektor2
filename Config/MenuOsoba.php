@@ -82,7 +82,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -203,7 +203,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -306,7 +306,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -391,7 +391,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -471,7 +471,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -559,7 +559,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -622,7 +622,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -685,7 +685,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -766,7 +766,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -872,7 +872,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -959,7 +959,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -1021,7 +1021,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -1101,7 +1101,7 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
 //                            $aktivitaPlan = new Projektor2_Model_AktivitaPlan();  // jen pro našeptávání
@@ -1197,10 +1197,10 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
-                            /** @var Projektor2_Model_AktivitaPlan $aktivitaPlan */
+                            /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($modelSignal);
@@ -1276,10 +1276,10 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
-                            /** @var Projektor2_Model_AktivitaPlan $aktivitaPlan */
+                            /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($modelSignal);
@@ -1319,10 +1319,10 @@ class Config_MenuOsoba {
                 }
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('plan', $skupina);
-                    $kolekceAktivityPlan = Projektor2_Model_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+                    $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
                     if ($kolekceAktivityPlan) {
                         foreach ($kolekceAktivityPlan as $aktivitaPlan) {
-                            /** @var Projektor2_Model_AktivitaPlan $aktivitaPlan */
+                            /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
                             $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
                             $modelSignal->setByAktivitaPlan($aktivitaPlan);
                             $skupina->setMenuSignal($modelSignal);

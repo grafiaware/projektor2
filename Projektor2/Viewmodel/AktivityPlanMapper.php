@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-class Projektor2_Model_AktivityPlanMapper {
+class Projektor2_Viewmodel_AktivityPlanMapper {
 
     public static function findByIndexAktivity(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $indexAktivity) {
 //        $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
@@ -27,7 +27,7 @@ class Projektor2_Model_AktivityPlanMapper {
      * @param Projektor2_Model_SessionStatus $sessionStatus
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param type $typAktivity
-     * @return \Projektor2_Model_AktivitaPlan array
+     * @return \Projektor2_Viewmodel_AktivitaPlan array
      */
     public static function findAll(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
 //        $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
@@ -58,7 +58,7 @@ class Projektor2_Model_AktivityPlanMapper {
      * @param Projektor2_Model_SessionStatus $sessionStatus
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param type $typAktivity
-     * @return \Projektor2_Model_AktivitaPlan array
+     * @return \Projektor2_Viewmodel_AktivitaPlan array
 
      */
     public static function findAllAssoc(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
@@ -104,8 +104,15 @@ class Projektor2_Model_AktivityPlanMapper {
             } else {
                 $certifikatyKurz = [];
             }
-            return new Projektor2_Model_AktivitaPlan($id, $indexAktivity, $aktivita['nadpis'], $aktivita['s_certifikatem'],
-                    $aktivita['tiskni_certifikat'], $aktivita['tiskni_certifikat_monitoring'],
+            return new Projektor2_Viewmodel_AktivitaPlan(
+                    $id,
+                    $indexAktivity,
+                    $aktivita['nadpis'], $aktivita['s_certifikatem'],
+                    new Projektor2_Viewmodel_AktivitaPlanCertifikatParams(
+                            $aktivita['certifikat']['original'] ?? false,
+                            $aktivita['certifikat']['pseudokopie'] ?? false,
+                            $aktivita['certifikat']['monitoring'] ?? false
+                            ),
                     $sKurz,
                     $planKurz->poc_abs_hodin, $planKurz->duvod_absence, $planKurz->dokonceno,
                     $planKurz->duvod_neukonceni, $planKurz->datum_certif,

@@ -145,7 +145,7 @@ class Projektor2_Model_File_ExcelMapper {
      * @return type
      */
     private static function getAbsoluteFilePath(Projektor2_Model_SessionStatus $sessionStatus, $tabulka) {
-        $dirName = $_SERVER['DOCUMENT_ROOT'].'/'.Projektor2_AppContext::getFileBaseFolder()
+        $dirName = Projektor2_AppContext::getFileBaseFolder()
                 .Projektor2_AppContext::getRelativeFilePath($sessionStatus->projekt->kod)
                 .static::PATH_PREFIX;
         $basename = self::getBaseName($sessionStatus, $tabulka);

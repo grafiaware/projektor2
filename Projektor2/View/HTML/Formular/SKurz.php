@@ -11,13 +11,13 @@ class Projektor2_View_HTML_Formular_SKurz extends Projektor2_View_HTML_FormularP
 
 
         $html[] = Html::tag("h3", [], "KURZ");
-        // form je readonly pomocí css - class lock
+        $html[] = Html::p($pole[$prefix.'id_s_kurz']);
         $html[] = Html::tagNopair("br");
+        // form je readonly pomocí css - class lock
         $html[] =
             Html::tag("form", [
-//                "class"=>"lock",
+                "class"=>"lock",
                 "method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?kurzy=kurz&kurz=detail_kurzu"],
-                $this->context['uk_hint_fieldset'],
                 Html::tag("fieldset", [],
                     Html::tag("legend", [], "Údaje pro plánování kurzu"),
                     Html::input($prefix.'projekt_kod', "Kód projektu:", $pole, ["type"=>"text", "size"=>"8", "maxlength"=>"20", "required"=>true]),
@@ -42,9 +42,16 @@ class Projektor2_View_HTML_Formular_SKurz extends Projektor2_View_HTML_FormularP
                     Html::textarea($prefix.'kurz_obsah', "Obsah kurzu:", $pole, ["type"=>"textarea", "size"=>"3000", "maxlength"=>"3000", "wrap"=>"soft"]),
                     Html::input($prefix.'pocet_hodin', "Počet hodin celkem:", $pole, ["type"=>"text", "size"=>"8", "maxlength"=>"10"]),
                     Html::input($prefix.'pocet_hodin_distancne', "Počet hodin distančně:", $pole, ["type"=>"text", "size"=>"8", "maxlength"=>"10"]),
-                    Html::input($prefix.'pocet_hodin_praxe', "Počet hodin praxe:", $pole, ["type"=>"text", "size"=>"8", "maxlength"=>"10"])
+                    Html::input($prefix.'pocet_hodin_praxe', "Počet hodin praxe:", $pole, ["type"=>"text", "size"=>"8", "maxlength"=>"10"]),
+                    Html::input($prefix.'id_certifikat_kurz_typ_FK', "Typ certifikátu:", $pole, ["type"=>"text", "size"=>"2", "maxlength"=>"3"])
                 ),
-
+                Html::tag("fieldset", [],
+                    Html::tag("legend", [], "Realizační informace kurzu"),
+                    Html::input($prefix.'info_cas_konani', "Info k času konání:", $pole, ["type"=>"text", "size"=>"100", "maxlength"=>"100"]),
+                    Html::input($prefix.'info_misto_konani', "Info k místu konání:", $pole, ["type"=>"text", "size"=>"100", "maxlength"=>"100"]),
+                    Html::input($prefix.'info_lektor', "Info lektor:", $pole, ["type"=>"text", "size"=>"100", "maxlength"=>"100"]),
+                    Html::input($prefix.'harmonogram_filename', "Soubor s harmonogramem:", $pole, ["type"=>"text", "size"=>"120", "maxlength"=>"256", "readonly"=>true])
+                ),
                 Html::tag("p", [],
                     Html::input("save", "", ["save"=>"Uložit"], ["type"=>"submit", "size"=>"8", "maxlength"=>"10"])
                 )

@@ -49,8 +49,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
             $this->saveFlatTableModels();
             // ukládání uploadu
             $uploadedFolderPath =
-                    $_SERVER['DOCUMENT_ROOT']
-                    .'/'.Projektor2_AppContext::getFileBaseFolder()
+                    Projektor2_AppContext::getFileBaseFolder()
                     .Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod)
                     .'upload/';
             $osobaFolder =

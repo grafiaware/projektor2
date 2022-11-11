@@ -6,7 +6,7 @@
  */
 class Projektor2_Viewmodel_Menu_Signal_Plan extends Projektor2_Viewmodel_Menu_Signal {
     
-    public function setByAktivitaPlan(Projektor2_Model_AktivitaPlan $aktivitaPlan) {
+    public function setByAktivitaPlan(Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan) {
         $sKurz = $aktivitaPlan->sKurz;
         if (isset($sKurz) AND $sKurz->isRealCourse()){  //kurz je naplanovan
             $this->text = $aktivitaPlan->sKurz->kurz_druh;

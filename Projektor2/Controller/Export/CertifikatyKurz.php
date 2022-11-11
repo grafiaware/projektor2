@@ -37,7 +37,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
                                     .$plan->getTableName().' pod id '.$plan->id.'.');
                         }
                         $serviceCertifikat = new Projektor2_Service_CertifikatKurz();
-                        $certifikat = $serviceCertifikat->find($zajemce, $sKurz, $certifikatTyp);
+                        $certifikat = $serviceCertifikat->findCertifikat($zajemce, $sKurz, $certifikatTyp);
                         if (!$certifikat) {
                             $datumCertifikatu = $plan->$kurzColumnNames['datumCertif'];
                             $certicateType = 2;   // typ certifikátu = pseudokopie -> bude automaticky expotorván i originál

@@ -8,27 +8,33 @@ class Projektor2_Model_Db_SKurzMapper {
     public static function get($id) {
         $dbh = Projektor2_AppContext::getDb();
         $query = "
-SELECT `s_kurz`.`id_s_kurz`,
-    `s_kurz`.`razeni`,
-    `s_kurz`.`projekt_kod`,
-    `s_kurz`.`kancelar_kod`,
-    `s_kurz`.`kurz_druh`,
-    `s_kurz`.`kurz_cislo`,
-    `s_kurz`.`beh_cislo`,
-    `s_kurz`.`kurz_lokace`,
-    `s_kurz`.`kurz_zkratka`,
-    `s_kurz`.`kurz_nazev`,
-    `s_kurz`.`kurz_pracovni_cinnost`,
-    `s_kurz`.`kurz_akreditace`,
-    `s_kurz`.`kurz_obsah`,
-    `s_kurz`.`pocet_hodin`,
-    `s_kurz`.`pocet_hodin_distancne`,
-    `s_kurz`.`pocet_hodin_praxe`,
-    `s_kurz`.`date_zacatek`,
-    `s_kurz`.`date_konec`,
-    `s_kurz`.`dodavatel`,
-    `s_kurz`.`valid`
-FROM `s_kurz`
+    SELECT
+        `s_kurz`.`id_s_kurz`,
+        `s_kurz`.`razeni`,
+        `s_kurz`.`projekt_kod`,
+        `s_kurz`.`kancelar_kod`,
+        `s_kurz`.`kurz_druh`,
+        `s_kurz`.`kurz_cislo`,
+        `s_kurz`.`beh_cislo`,
+        `s_kurz`.`kurz_lokace`,
+        `s_kurz`.`kurz_zkratka`,
+        `s_kurz`.`kurz_nazev`,
+        `s_kurz`.`kurz_pracovni_cinnost`,
+        `s_kurz`.`kurz_akreditace`,
+        `s_kurz`.`kurz_obsah`,
+        `s_kurz`.`pocet_hodin`,
+        `s_kurz`.`pocet_hodin_distancne`,
+        `s_kurz`.`certifikat_kurz_rada_FK`,
+        `s_kurz`.`pocet_hodin_praxe`,
+        `s_kurz`.`date_zacatek`,
+        `s_kurz`.`date_konec`,
+        `s_kurz`.`dodavatel`,
+        `s_kurz`.`info_cas_konani`,
+        `s_kurz`.`info_misto_konani`,
+        `s_kurz`.`info_lektor`,
+        `s_kurz`.`harmonogram_filename`,
+        `s_kurz`.`valid`
+    FROM `s_kurz`
             WHERE id_s_kurz = :id_s_kurz AND valid = 1
             ";
         $bindParams = array('id_s_kurz'=>$id);
@@ -48,27 +54,33 @@ FROM `s_kurz`
     public static function find($filter = NULL, $order = NULL) {
         $dbh = Projektor2_AppContext::getDb();
         $query = "
-SELECT `s_kurz`.`id_s_kurz`,
-    `s_kurz`.`razeni`,
-    `s_kurz`.`projekt_kod`,
-    `s_kurz`.`kancelar_kod`,
-    `s_kurz`.`kurz_druh`,
-    `s_kurz`.`kurz_cislo`,
-    `s_kurz`.`beh_cislo`,
-    `s_kurz`.`kurz_lokace`,
-    `s_kurz`.`kurz_zkratka`,
-    `s_kurz`.`kurz_nazev`,
-    `s_kurz`.`kurz_pracovni_cinnost`,
-    `s_kurz`.`kurz_akreditace`,
-    `s_kurz`.`kurz_obsah`,
-    `s_kurz`.`pocet_hodin`,
-    `s_kurz`.`pocet_hodin_distancne`,
-    `s_kurz`.`pocet_hodin_praxe`,
-    `s_kurz`.`date_zacatek`,
-    `s_kurz`.`date_konec`,
-    `s_kurz`.`dodavatel`,
-    `s_kurz`.`valid`
-FROM `s_kurz`
+    SELECT
+        `s_kurz`.`id_s_kurz`,
+        `s_kurz`.`razeni`,
+        `s_kurz`.`projekt_kod`,
+        `s_kurz`.`kancelar_kod`,
+        `s_kurz`.`kurz_druh`,
+        `s_kurz`.`kurz_cislo`,
+        `s_kurz`.`beh_cislo`,
+        `s_kurz`.`kurz_lokace`,
+        `s_kurz`.`kurz_zkratka`,
+        `s_kurz`.`kurz_nazev`,
+        `s_kurz`.`kurz_pracovni_cinnost`,
+        `s_kurz`.`kurz_akreditace`,
+        `s_kurz`.`kurz_obsah`,
+        `s_kurz`.`pocet_hodin`,
+        `s_kurz`.`pocet_hodin_distancne`,
+        `s_kurz`.`certifikat_kurz_rada_FK`,
+        `s_kurz`.`pocet_hodin_praxe`,
+        `s_kurz`.`date_zacatek`,
+        `s_kurz`.`date_konec`,
+        `s_kurz`.`dodavatel`,
+        `s_kurz`.`info_cas_konani`,
+        `s_kurz`.`info_misto_konani`,
+        `s_kurz`.`info_lektor`,
+        `s_kurz`.`harmonogram_filename`,
+        `s_kurz`.`valid`
+    FROM `s_kurz`
             WHERE valid = 1
             ";
         if ($filter AND is_string($filter)) {
@@ -89,8 +101,10 @@ FROM `s_kurz`
             $model = new Projektor2_Model_Db_SKurz($row['id_s_kurz'],$row['razeni'],$row['projekt_kod'],$row['kancelar_kod'],
                 $row['kurz_druh'],$row['kurz_cislo'],$row['beh_cislo'],$row['kurz_lokace'],$row['kurz_zkratka'],
                 $row['kurz_nazev'], $row['kurz_pracovni_cinnost'], $row['kurz_akreditace'], $row['kurz_obsah'],
-                $row['pocet_hodin'], $row['pocet_hodin_distancne'], $row['pocet_hodin_praxe'],
-                $row['date_zacatek'], $row['date_konec'], $row['dodavatel'], $row['valid']);
+                $row['pocet_hodin'], $row['pocet_hodin_distancne'], $row['pocet_hodin_praxe'], $row['certifikat_kurz_rada_FK'],
+                $row['date_zacatek'], $row['date_konec'], $row['dodavatel'],
+                    $row['info_cas_konani'], $row['info_misto_konani'], $row['info_lektor'], $row['harmonogram_filename'],
+                    $row['valid']);
             }
             return $model ?? null;
     }
@@ -123,12 +137,21 @@ FROM `s_kurz`
         $razeni=null,
         $kurz_druh=null, $kurz_cislo=null, $beh_cislo=null, $kurz_lokace=null, $kurz_zkratka=null,
         $kurz_nazev=null, $kurz_pracovni_cinnost=null, $kurz_akreditace=null, $kurz_obsah=null,
-        $pocet_hodin=null, $pocet_hodin_distancne=null, $pocet_hodin_praxe=null, $date_zacatek=null, $date_konec=null,
-        $dodavatel=null, $valid=null
+        $pocet_hodin=null, $pocet_hodin_distancne=null, $pocet_hodin_praxe=null, $id_certifikat_kurz_typ_FK=null,
+        $date_zacatek=null, $date_konec=null, $dodavatel=null,
+        $info_cas_konani=null, $info_misto_konani=null, $info_lektor=null, $harmonogram_filename=null,
+        $valid=null
             ) {
         $dbh = Projektor2_AppContext::getDb();
 
-        $sKurz = new Projektor2_Model_Db_SKurz($razeni, $projekt->kod, $kancelar->kod, $kurz_druh, $kurz_cislo, $beh_cislo, $kurz_lokace, $kurz_zkratka, $kurz_nazev, $kurz_pracovni_cinnost, $kurz_akreditace, $kurz_obsah, $pocet_hodin, $pocet_hodin_distancne, $pocet_hodin_praxe, $date_zacatek, $date_konec, $dodavatel, $valid);
+        $sKurz = new Projektor2_Model_Db_SKurz(
+                $razeni, $projekt->kod, $kancelar->kod,
+                $kurz_druh, $kurz_cislo, $beh_cislo, $kurz_lokace, $kurz_zkratka,
+                $kurz_nazev, $kurz_pracovni_cinnost, $kurz_akreditace, $kurz_obsah,
+                $pocet_hodin, $pocet_hodin_distancne, $pocet_hodin_praxe, $certifikat_kurz_rada_FK,
+                $date_zacatek, $date_konec, $dodavatel,
+                $info_cas_konani, $info_misto_konani, $info_lektor, $harmonogram_filename,
+                $valid);
 
         foreach ($sKurz as $key => $value) {
             if (isset($value)) {

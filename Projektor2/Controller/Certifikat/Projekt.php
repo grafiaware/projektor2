@@ -8,21 +8,21 @@ class Projektor2_Controller_Certifikat_Projekt extends Projektor2_Controller_Cer
 
     /**
      * Metoda ověří existenci certifikátu, pokud neexistuje vytvoří ho a jako html obsah vrací js kód pro otevření pdf v novém okně prohlížeče.
-     * @return string 
+     * @return string
      * @throws LogicException
      */
     public function getResult() {
         $serviceCertifikat = new Projektor2_Service_CertifikatProjekt();
         $datumCertifikatu = $this->params['datumCertif'];
         $certifikat = $serviceCertifikat->create(
-                $this->sessionStatus, $this->sessionStatus->kancelar, 
+                $this->sessionStatus, $this->sessionStatus->kancelar,
                 $this->sessionStatus->zajemce, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
         if (!$certifikat) {
             throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. '.');
         }
         $viewPdf = new Projektor2_View_HTML_Script_NewWindowOpener($this->sessionStatus);
-        $viewPdf->assign('fullFileName', 'http://'.$_SERVER['HTTP_HOST'].'/'.Projektor2_AppContext::getFileBaseFolder().$certifikat->dbCertifikatProjekt->filename);
-        
-        return $viewPdf->render();          
+        $viewPdf->assign('fullFileName', Projektor2_AppContext::getHttpFileBasePath().$certifikat->dbCertifikatProjekt->filename);
+
+        return $viewPdf->render();
     }
 }

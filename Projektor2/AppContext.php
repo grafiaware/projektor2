@@ -425,27 +425,30 @@ abstract class Projektor2_AppContext
         return $filePath;
     }
 
-    public static function getCertificateTypeFolder($certificateType) {
+    /**
+     * Volá se v Projektor2_Model_File_CertifikatKurzMapper
+     *
+     * @param type $certificateVersion
+     * @return string
+     * @throws UnexpectedValueException
+     */
+    public static function getCertificateVersionFolder($certificateVersion) {
 //        switch ($sessionStatus->projekt->kod) {
-        switch ($certificateType) {
-            case 1:
+        switch ($certificateVersion) {
+            case 'original':
                 // jedno pozadí
                 $filePath = "certifikaty_kurz/";   // pro Grafii original
                 break;
-            case 2:
+            case 'pseudokopie':
                 // jedno pozadí
                 $filePath = "certifikaty_kurz_pseudokopie/";   // pro Grafii pseudokopie
                 break;
-            case 3:
+            case 'monitoring':
                 // jedno pozadí
                 $filePath = "certifikaty_kurz_pro_monitoring/";   // pro up
                 break;
-            case 4:
-                // jedno pozadí
-                $filePath = "certifikaty_kurz_akreditovany/";   // pro akreditované kurzy
-                break;
             default:
-                throw new UnexpectedValueException('neznámý typ certifikátu. Typ: '.$certificateType);
+                throw new UnexpectedValueException('neznámá verze certifikátu. Verze: '.$certificateVersion);
         }
         return $filePath;
     }
@@ -456,22 +459,25 @@ abstract class Projektor2_AppContext
      * @param type $cislo
      * @return type
      */
-    public static function getCertificateKurzIdentificator($certificateType, $rok, $cislo) {
+    public static function getCertificateKurzIdentificator($certifikatRada, $rok, $cislo) {
         if (trim($rok)<="2014") {
             return $rok.'/'.$cislo;            // v roce 2014 byla první várka očíslována takto, dodržuji tedy číslování 2014
         } else {
-            switch ($certificateType) {
-                case 1:
+            switch ($certifikatRada) {
+                case 'PR':
                     $certIdentifikator = sprintf("PR/%04d/%04d", $rok, $cislo);     // projektový certifikát
                     break;
-                case 3:
+                case 'MO':
                     $certIdentifikator = sprintf("MO/%04d/%04d", $rok, $cislo);     // certifikát pro monitoring
                     break;
-                case 4:
-                    $certIdentifikator = sprintf("AKP/%04d/%04d", $rok, $cislo);     // certifikát pro akreditovaný kurz
+                case 'RK':
+                    $certIdentifikator = sprintf("RKP/%04d/%04d", $rok, $cislo);     // certifikát pro čistou rekvalifikaci
+                    break;
+                case 'PrK':
+                    $certIdentifikator = sprintf("PRKP/%04d/%04d", $rok, $cislo);     // potvrzení účasti pro profesní kvalifikaci
                     break;
                 default:
-                    throw new UnexpectedValueException('Neznámý typ certifikátu pro generování identifikátoru. Typ: '.$certificateType);
+                    throw new UnexpectedValueException('Neznámá řada certifikátu pro generování identifikátoru. Řada: '.$certifikatRada);
                     break;
             }
             return $certIdentifikator;
@@ -505,9 +511,21 @@ abstract class Projektor2_AppContext
      * @throws UnexpectedValueException
      */
     public static function getFileBaseFolder() {
-        $fileBaseFolder = '_ExportProjektor/';
-        return $fileBaseFolder;
+        return $_SERVER['DOCUMENT_ROOT'].'/'.self::getFileSubfolder();
     }
+
+    public static function getHttpFileBasePath() {
+        return 'http://'.$_SERVER['HTTP_HOST'].'/'.self::getFileSubfolder();
+    }
+
+    /**
+     * Relativní cesta ke složce pro ukládání (a download pomocí http) souborů.
+     * @return string
+     */
+    private static function getFileSubfolder() {
+        return '_ExportProjektor/';
+    }
+
     /**
      * Vrací cestu ke kořenovému adresáři pro ukládání souborů (zejména pro file mappery)
      * @param type $kod
@@ -516,69 +534,23 @@ abstract class Projektor2_AppContext
      */
     public static function getRelativeFilePath($kod=NULL) {
                 switch ($kod) {
-        ######## AP ###################
             case 'AP':
-                return 'AP/';
-                break;
-        ######## HELP #################
             case 'HELP':
-                return 'HELP/';
-                break;
-        ######## SJZP #################
             case 'SJZP':
-                return 'SJZP/';
-                break;
-        ######## VZP #################
             case 'VZP':
-                return 'VZP/';
-                break;
-        ######## SJZP #################
             case 'SJPK':
-                return 'SJPK/';
-                break;
-        ######## ZPM #################
             case 'ZPM':
-                return 'ZPM/';
-                break;
-       ######## SPP #################
             case 'SPP':
-                return 'SPP/';
-                break;
-       ######## RP #################
             case 'RP':
-                return 'RP/';
-                break;
-       ######## SJPO #################
             case 'SJPO':
-                return 'SJPO/';
-                break;
-       ######## SJLP #################
             case 'SJLP':
-                return 'SJLP/';
-                break;
-       ######## VDTP #################
             case 'VDTP':
-                return 'VDTP/';
-                break;
-       ######## PDU #################
             case 'PDU':
-                return 'PDU/';
-                break;
-       ######## MB #################
             case 'MB':
-                return 'MB/';
-                break;
-       ######## CJC #################
             case 'CJC':
-                return 'CJC/';
-                break;
-       ######## CKP #################
             case 'CKP':
-                return 'CKP/';
-                break;
-       ######## PKP #################
             case 'PKP':
-                return 'PKP/';
+                return "$kod/";
                 break;
             default:
                 throw new UnexpectedValueException('Není definována cesta pro dokumenty projektu '.$kod);

@@ -6,13 +6,24 @@
  */
 class Projektor2_Model_File_CertifikatKurzMapper extends Framework_Model_FileMapper {
 
-    public static function create(Projektor2_Model_Db_Projekt $projekt, Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, $content, $certificateType) {
-        if (!is_string($content)) {
-            throw new UnexpectedValueException('Obsah dokumentu musí být řetězec.');
-        }
-        return static::createFileItem(
-                Projektor2_AppContext::getRelativeFilePath($projekt->kod)
-                .self::getRelativeFilePath($projekt, $zajemce, $sKurz, $certificateType), $content);
+    /**
+     *
+     * @param Projektor2_Model_Db_Projekt $projekt
+     * @param Projektor2_Model_Db_Zajemce $zajemce
+     * @param Projektor2_Model_Db_SKurz $sKurz
+     * @param string $certifikatVerze
+     * @param string|null $content
+     * @return type
+     */
+    public static function create(
+            Projektor2_Model_Db_Projekt $projekt,
+            Projektor2_Model_Db_Zajemce $zajemce,
+            Projektor2_Model_Db_SKurz $sKurz,
+            $certifikatVerze,
+            $content = null
+        ) {
+        $filePath = Projektor2_AppContext::getRelativeFilePath($projekt->kod).self::getRelativeFilePath($projekt, $zajemce, $sKurz, $certifikatVerze);
+        return static::createFileItem($filePath, $content);
     }
 
     /**
@@ -23,29 +34,41 @@ class Projektor2_Model_File_CertifikatKurzMapper extends Framework_Model_FileMap
     public static function findByRelativeFilepath($relativeFilePath) {
         $model = static::createFileItem($relativeFilePath);
         try {
-            $model = self::hydrate($model);
-        } catch (RuntimeException $exc) {
-            throw new RuntimeException('Nepodařilo se načíst obsah souboru certifikátu s cestou "'.$relativeFilePath.'". Metoda hydrate hlásí: '.$exc->getMessage());
+            self::hydrate($model);
+        } catch (\RuntimeException $exc) {
+            throw new \RuntimeException("Nepodařilo se načíst obsah souboru certifikátu s cestou '$relativeFilePath'. Metoda hydrate hlásí: {$exc->getMessage()}.", 0, $exc);
             return NULL;
         }
 
         return $model;
     }
 
+    /**
+     *
+     * @param type $relativeDocumentPath
+     * @param type $content
+     * @return \Projektor2_Model_File_CertifikatKurz
+     */
     private static function createFileItem($relativeDocumentPath, $content=NULL) {
         return new Projektor2_Model_File_CertifikatKurz($relativeDocumentPath, $content);
     }
 
     /**
      * Generuje relativní cestu k souboru certifikátu. Jméno souboru (base name) skládá s použitím kódu projektu, druhu kurzu a identifikátoru zájemce.
+     *
      * @param Projektor2_Model_Db_Projekt $projekt
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param Projektor2_Model_Db_SKurz $sKurz
-     * @return type
+     * @return string
      */
-    public static function getRelativeFilePath(Projektor2_Model_Db_Projekt $projekt, Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, $certificateType) {
+    public static function getRelativeFilePath(
+            Projektor2_Model_Db_Projekt $projekt,
+            Projektor2_Model_Db_Zajemce $zajemce,
+            Projektor2_Model_Db_SKurz $sKurz,
+            $certificatVersion
+        ) {
         // rozděluje soubory do podsložek s názvem rovným id kurzu
-        $dirName = Projektor2_AppContext::getCertificateTypeFolder($certificateType).$sKurz->id_s_kurz.'/';
+        $dirName = Projektor2_AppContext::getCertificateVersionFolder($certificatVersion).$sKurz->id_s_kurz.'/';
         $basename = $projekt->kod.'_IP_Osvedceni_'.$sKurz->kurz_druh.' '.$zajemce->identifikator.'.pdf';;
         return $dirName.$basename;
     }

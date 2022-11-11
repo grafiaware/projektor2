@@ -12,7 +12,7 @@ class Projektor2_View_HTML_Element_Aktivita_HodnoceniFieldset extends Framework_
         $planKurzSign = Projektor2_Controller_Formular_FlatTable::PLAN_KURZ;
 
         $aktivita = $this->context['aktivita'];
-        $parametryAktivity = $this->context['aktivityKurz'][$aktivita];
+        $konfiguraceAktivity = $this->context['aktivityKurz'][$aktivita];
         $modelyKurzu = $this->context['modelyKurzu'][$aktivita];
         $planKurzArray = $this->context[$planKurzSign][$aktivita];
 
@@ -27,16 +27,16 @@ class Projektor2_View_HTML_Element_Aktivita_HodnoceniFieldset extends Framework_
             $disabledAttribute = ' ';
         }
         $this->parts[] = '<fieldset>';
-        $this->parts[] ='<legend>'.$parametryAktivity['nadpis'].' - hodnocení</legend>';
+        $this->parts[] ='<legend>'.$konfiguraceAktivity['nadpis'].' - hodnocení</legend>';
         // kurz fieldset je readonly
-        if ($parametryAktivity['typ']=='kurz') {
+        if ($konfiguraceAktivity['typ']=='kurz') {
             $view = new Projektor2_View_HTML_Element_Kurz_Fieldset($this->sessionStatus, $this->context);
             $view->assign('returnedModelProperty', 'id');
             $view->assign('readonly', TRUE);
             $this->parts[] = $view;
         }
 
-        if (isset($parametryAktivity['s_hodnocenim']) AND $parametryAktivity['s_hodnocenim']) {
+        if (isset($konfiguraceAktivity['s_hodnocenim']) AND $konfiguraceAktivity['s_hodnocenim']) {
             $this->parts[] = '<p>';
                 $nameZnamka = $prefixUkonceni.$aktivita.'_znamka';
                 //default value je 0

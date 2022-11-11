@@ -14,7 +14,7 @@ abstract class Framework_Model_FileMapper {
      * Pokud neexistuje složka (adresář), do kterého se má soubor uložit, pokusí se složku vytvořit (s oprávněním 0777)
      *
      * @param Projektor2_Model_File_ItemAbstract $model
-     * @return \Projektor2_Model_File_ItemAbstract
+     *
      * @throws BadFunctionCallException
      * @throws UnexpectedValueException
      * @throws RuntimeException
@@ -37,10 +37,13 @@ abstract class Framework_Model_FileMapper {
         if (self::isSaved($model)) {
             $model->isPersisted = TRUE;
             $model->changed = FALSE;
-            return $model;
         } else {
             throw new RuntimeException('Neznámá chyba! Soubor '.$model->filePath.' se nepodařilo uložit.');
         }
+    }
+
+    public static function delete(Projektor2_Model_File_ItemAbstract $model) {
+
     }
 
     /**
