@@ -7,7 +7,7 @@
 class Projektor2_Model_File_CertifikatKurzMapper extends Framework_Model_FileMapper {
 
     /**
-     *
+     * Vyytvoří file model certifikátu, vytvoří soubor a zapíše do něj zadaný obsah. Pokud obsah není zadán, soubor bude prázdný.
      * @param Projektor2_Model_Db_Projekt $projekt
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param Projektor2_Model_Db_SKurz $sKurz
@@ -23,7 +23,9 @@ class Projektor2_Model_File_CertifikatKurzMapper extends Framework_Model_FileMap
             $content = null
         ) {
         $filePath = Projektor2_AppContext::getRelativeFilePath($projekt->kod).self::getRelativeFilePath($projekt, $zajemce, $sKurz, $certifikatVerze);
-        return static::createFileItem($filePath, $content);
+        $fileModel = static::createFileItem($filePath, $content);
+        self::save($fileModel);
+        return $fileModel;
     }
 
     /**
@@ -61,7 +63,7 @@ class Projektor2_Model_File_CertifikatKurzMapper extends Framework_Model_FileMap
      * @param Projektor2_Model_Db_SKurz $sKurz
      * @return string
      */
-    public static function getRelativeFilePath(
+    private static function getRelativeFilePath(
             Projektor2_Model_Db_Projekt $projekt,
             Projektor2_Model_Db_Zajemce $zajemce,
             Projektor2_Model_Db_SKurz $sKurz,

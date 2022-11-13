@@ -4,8 +4,9 @@ class Projektor2_Model_Db_CertifikatKurz {
     CONST TABLE = "certifikat_kurz";
     public $id;
     public $id_zajemce_FK;
-    public $certifikat_kurz_rada_FK;
     public $id_s_kurz_FK;
+    public $certifikat_kurz_rada_FK;
+    public $certifikat_kurz_verze_FK;
     public $cislo;
     public $rok;
     public $identifikator;
@@ -18,11 +19,12 @@ class Projektor2_Model_Db_CertifikatKurz {
 
 
 
-    public function __construct($id_zajemce_FK, $certifikat_kurz_rada_FK, $id_s_kurz_FK, $cislo, $rok, $identifikator, $filename, $date, $creating_time, $creator, $service, $db_host, $id=false) {
+    public function __construct($id_zajemce_FK, $id_s_kurz_FK, $certifikat_kurz_rada_FK, $certifikat_kurz_verze_FK, $cislo, $rok, $identifikator, $filename, $date, $creating_time, $creator, $service, $db_host, $id=false) {
         $this->id = $id;
         $this->id_zajemce_FK = $id_zajemce_FK;
-        $this->certifikat_kurz_rada_FK = $certifikat_kurz_rada_FK;
         $this->id_s_kurz_FK = $id_s_kurz_FK;
+        $this->certifikat_kurz_rada_FK = $certifikat_kurz_rada_FK;
+        $this->certifikat_kurz_verze_FK = $certifikat_kurz_verze_FK;
         $this->cislo = $cislo;
         $this->rok = $rok;
         $this->identifikator = $identifikator;

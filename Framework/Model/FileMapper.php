@@ -10,7 +10,7 @@ abstract class Framework_Model_FileMapper {
 
     /**
      * Metoda ukládá dokument do souboru v souborovém systému. Soubor vytvoří, již existující vždy přepíše. Do souboru vloží obsah
-     * bez kontroly délky, pokud je obsah modelu prázdný, vytvoří soubor s nulovou délkou.
+     * bez kontroly délky, pokud je obsah modelu prázdný nebo null, vytvoří soubor s nulovou délkou.
      * Pokud neexistuje složka (adresář), do kterého se má soubor uložit, pokusí se složku vytvořit (s oprávněním 0777)
      *
      * @param Projektor2_Model_File_ItemAbstract $model
@@ -33,7 +33,7 @@ abstract class Framework_Model_FileMapper {
         if (!$fileResource) {   // fopen -> FALSE on error a E_WARNING
             throw new Exception('Nepodařilo se otevřít soubor "'.$model->filePath.'". Chyba: '.error_get_last()['message']);
         }
-        $model->filelength = fwrite($fileResource, $model->content);
+        $model->filelength = fwrite($fileResource, $model->content ?? '');
         if (self::isSaved($model)) {
             $model->isPersisted = TRUE;
             $model->changed = FALSE;
@@ -42,8 +42,33 @@ abstract class Framework_Model_FileMapper {
         }
     }
 
+    /**
+     * Smaže soubor uvedený v modelu, pokud uspěje, smaže vlastnosti modelu filePath a relativeDocumentPath
+     *
+     * @param Projektor2_Model_File_ItemAbstract $model
+     * @throws BadFunctionCallException
+     * @throws UnexpectedValueException
+     * @throws Exception
+     * @throws RuntimeException
+     */
     public static function delete(Projektor2_Model_File_ItemAbstract $model) {
-
+        $path_parts = pathinfo($model->filePath);
+        if (!is_dir($path_parts['dirname'])) {  //pokud není složka, vytvoří ji
+            throw new BadFunctionCallException('Nepodařilo se nalézt složku: '.$path_parts['dirname']);
+        }
+        if ($model->filePath != $path_parts['dirname'].'/'.$path_parts['basename']) {
+            throw new UnexpectedValueException('Chybná syntaxe názvu souboru ve vlastnosti modelu '.get_class($model).'. Chybný název souboru: '.$model->filePath);
+        }
+        $fileResource = fopen($model->filePath, 'r+'); //otevře pro čtení i zápis - jen ověřuji
+        if (!$fileResource) {   // fopen -> FALSE on error a E_WARNING
+            throw new Exception('Nepodařilo se ověřit soubor "'.$model->filePath.'". Chyba: '.error_get_last()['message']);
+        }
+        fclose($fileResource);
+        if (!unlink($fileResource)) {
+            throw new RuntimeException('Neznámá chyba! Soubor '.$model->filePath.' se nepodařilo uložit.');
+        }
+        $model->filePath = '';
+        $model->relativeDocumentPath = '';
     }
 
     /**
@@ -70,12 +95,17 @@ abstract class Framework_Model_FileMapper {
         $fileResource = fopen($model->filePath, 'r'); //jen ke čtení
         if (!$fileResource) {
             throw new RuntimeException('Při pokusu o načtení obsahu ze souboru '.$model->filePath.
-                    ' se nepodařilo načíst soubor: '.$model->filePath);
+                    ' se nepodařilo načíst soubor.');
         }
-        $ret = fread($fileResource, filesize($model->filePath));
+        $length = filesize($model->filePath);
+        if ($length == 0) {
+            throw new RuntimeException('Při pokusu o načtení obsahu ze souboru '.$model->filePath
+                    .'nebyl načten žádný obsah ze souboru, soubor má nulovou délku.');
+        }
+        $ret = fread($fileResource, $length);
         if ($ret === FALSE) {
             throw new RuntimeException('Při pokusu o načtení obsahu ze souboru '.$model->filePath
-                    .'nebyl načten žádný obsah ze souboru '.$model->filePath);
+                    .'nebyl z neznámého důvodu načten žádný obsah ze souboru. Možná soubor není čitelný nebo nemáte oprávnění.');
         } else {
             $model->content = $ret;
             $model->filelength = strlen($ret);

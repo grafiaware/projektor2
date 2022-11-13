@@ -41,7 +41,7 @@ form textarea {
 
 fieldset {
     background-color: #F3F3F3;
-    border: 1px solid #C0C0C0;
+    /*border: 1px solid #C0C0C0;*/
     display: block;
     line-height: 17px;
     margin-bottom: 15px;

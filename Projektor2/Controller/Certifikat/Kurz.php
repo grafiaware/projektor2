@@ -16,12 +16,12 @@ class Projektor2_Controller_Certifikat_Kurz extends Projektor2_Controller_Certif
         $aktivitaPlan = $this->params['aktivitaPlan'];
         $certifikatVerze = $this->params['certifikatVerze'];
         // projekt ze session, kancelar a zajemce - zde pro individuální certifikát právě editovaného zájemce (plán) -
-        $certifikat = (new Projektor2_Service_CertifikatKurz())->create(
-                $certifikatVerze,
+        $certifikat = (new Projektor2_Service_CertifikatKurz())->get(
                 $this->sessionStatus,
                 $this->sessionStatus->kancelar,
                 $this->sessionStatus->zajemce,
                 $aktivitaPlan->sKurz,
+                $certifikatVerze,
                 $aktivitaPlan->datumCertif,
                 $this->sessionStatus->user->name,
                 __CLASS__

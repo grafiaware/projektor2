@@ -14,9 +14,11 @@ abstract class Framework_Model_FileItemAbstract {
      * @param string $filePath Absolutní cesta k souboru
      * @param string $content
      */
-    public function __construct($filePath, $content=NULL) {
+    public function __construct($filePath, $content=null) {
         $this->filePath = $filePath;
-        $this->setContent($content);
+        if (isset($content)) {
+            $this->setContent($content);
+        }
     }
 
     public function setContent(string $content) {

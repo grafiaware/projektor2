@@ -13,7 +13,6 @@ div.container {
     width:100%;
     margin:0px;
     border:1px solid gray;
-    /*line-height:1250%;*/
 }
 
 div.header,div.footer {
@@ -195,10 +194,10 @@ ul#menu li a {
 .grid-container {
     display: grid;
     grid-template-columns: 1fr 8fr;
-    border: 2px solid #ff8080;
+    /*border: 2px solid #ff8080;*/
     padding:.1em;
 }
 
 .bordered {
-    border: solid purple 2px;
+    border: solid #336699 1px;
 }

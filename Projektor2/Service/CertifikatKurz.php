@@ -21,194 +21,162 @@ class Projektor2_Service_CertifikatKurz {
      * @throws RuntimeException
      * @throws UnexpectedValueException
      */
-    public function create(
-            $certifikatVerze,
+    public function get(
             Projektor2_Model_SessionStatus $sessionStatus,
             Projektor2_Model_Db_Kancelar $kancelar,
             Projektor2_Model_Db_Zajemce $zajemce,
             Projektor2_Model_Db_SKurz $sKurz,
+            $certifikatVerze,
             $datumCertifikatu, $creator, $service
         ) {
 
-        $certifikatRada = $sKurz->certifikat_kurz_rada_FK;
-        if (!isset($certifikatRada) OR !$certifikatRada) {
-            throw new UnexpectedValueException("Kurz nemá nastavenu číselnou řadu certifikátů. Nelze vytvořit certifikát pro kurz id: {$sKurz->id_s_kurz} a názvem: {$sKurz->kurz_nazev}.");
-        }
+        $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
+
+        $fullCertifikatKurz = $this->readCertifikat($zajemce, $sKurz, $certifikatRada, $certifikatVerze);
 
         $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath(), 'Certificates/'.date('Ymd').' CertificateCreation.log');  // denní logy - jméno začíná "číslem" dne
-        $fullCertifikatKurz = $this->getCertifikat($zajemce, $sKurz, $certifikatRada);
 
-        if (!$fullCertifikatKurz) {
-            $logger->log('Certificate. Db CertifikatKurz s id '.$dbCertifikat->id.' vytvořen.');
-        } else {
+        if ($fullCertifikatKurz) {
             $logger->log('Nalezen certifikát. Db id: '.$fullCertifikatKurz->dbCertifikatKurz->id.'. File path: '.$fullCertifikatKurz->documentCertifikatKurz->filePath);
+        } else {
+            $fullCertifikatKurz = $this->createCertifikat($sessionStatus, $kancelar, $zajemce, $sKurz, $certifikatVerze, $datumCertifikatu, $creator, $service);
+            $logger->log('Vytvořen certifikát. Db id: '.$fullCertifikatKurz->dbCertifikatKurz->id.'. File path: '.$fullCertifikatKurz->documentCertifikatKurz->filePath);
         }
-        switch ($certifikatVerze) {
-                case 'original':  // originál
-                case 'pseudokopie': // pseudokopie
-                    // vytvoř a ulož pdf certifikátu
-                    switch ($certifikatRada) {
-                        case 'PR':
-
-                            $view = new Projektor2_View_PDF_KurzOsvedceniOriginal($sessionStatus);
-                            break;
-                        case 'MO':
-                            $view = new Projektor2_View_PDF_KurzOsvedceniPms($sessionStatus);
-                            break;
-                        case 'RK':
-                            $view = new Projektor2_View_PDF_KurzOsvedceniAkreditovany($sessionStatus);
-                            break;
-                        case 'PrK':
-                            assert(false, 'Není implementováno PDF view pro profesní kvalifikaci.');
-
-                            break;
-                        default:
-                            break;
-                    }
-
-
-                    // tato hodnota cesty k souboru se vkládá jen do contentu (metoda CertifikatKurzMapper::create si vždy vygeneruje cestu podle verze certifikátu )
-                    $relativeDocumentPathForContent = Projektor2_Model_File_CertifikatKurzMapper::getRelativeFilePath($sessionStatus->projekt, $zajemce, $sKurz, $certifikatVerze);
-
-                    $content = $this->createContent($view, $zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $relativeDocumentPathForContent);
-                    $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $content, $certifikatVerze);
-                    Projektor2_Model_File_CertifikatKurzMapper::save($modelDocumentCertifikatOriginal);
-
-                    // vytvoř a ulož pdf pseudokopie
-                    $view = new Projektor2_View_PDF_KurzOsvedceniPseudokopie($sessionStatus);
-                    // do obsahu pseudokopie se vkládá stejná cesta k souboru .pdf jako do originálu - reálně se ukládá do složky pro pseudokopie
-                    $content = $this->createContent($view, $zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $relativeDocumentPathForContent);
-                    $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $content, $certifikatVerze);
-                    Projektor2_Model_File_CertifikatKurzMapper::save($modelDocumentCertifikatPseudokopie);
-                    // vytvořen file model certifikát i pseudokopie -> nastav název souboru certifikátu v db
-                    if ($modelDocumentCertifikatOriginal AND $modelDocumentCertifikatPseudokopie) {
-                        $logger->log('File certifikat kurz s cestou '.$modelDocumentCertifikatOriginal->filePath.' vytvořen.', 1);
-                        $dbCertifikat->filename = $modelDocumentCertifikatOriginal->relativeDocumentPath;
-                        Projektor2_Model_Db_CertifikatKurzMapper::update($dbCertifikat);
-                        $logger->log('Db certifikat updatován.', 1);
-                    } else {
-                        Projektor2_Model_Db_CertifikatKurzMapper::delete($dbCertifikat);  // nekontroluji smazání
-                        if (!$modelDocumentCertifikatOriginal) {
-                            throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatOriginal->filePath);
-                        }
-                        if (!$modelDocumentCertifikatPseudokopie) {
-                            throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatPseudokopie->filePath);
-                        }
-                    }
-                    $fullCertifikatKurz = new Projektor2_Model_CertifikatKurz($dbCertifikat, $modelDocumentCertifikatOriginal);
-                    break;
-                case 'monitoring': // monitoring
-                    // vytvoř a ulož pdf certifikátu pro ÚP
-                    $view = new Projektor2_View_PDF_KurzOsvedceniPms($sessionStatus);
-                    $relativeDocumentPathForContent = Projektor2_Model_File_CertifikatKurzMapper::getRelativeFilePath($sessionStatus->projekt, $zajemce, $sKurz, $certifikatRada);
-
-                    $content = $this->createContent($view, $zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $relativeDocumentPathForContent);
-                    $modelDocumentCertifikatMonitoring = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $content, $certifikatRada);
-                    Projektor2_Model_File_CertifikatKurzMapper::save($modelDocumentCertifikatMonitoring);
-                    // vytvořen file model certifikát i pseudokopie -> nastav název souboru certifikátu v db
-                    if ($modelDocumentCertifikatMonitoring) {
-                        $logger->log('File certifikat kurz s cestou '.$modelDocumentCertifikatOriginal->filePath.' vytvořen.', 1);
-                        $dbCertifikat->filename = $modelDocumentCertifikatMonitoring->relativeDocumentPath;
-                        Projektor2_Model_Db_CertifikatKurzMapper::update($dbCertifikat);
-                        $logger->log('Db certifikat updatován.', 1);
-                    } else {
-                        Projektor2_Model_Db_CertifikatKurzMapper::delete($dbCertifikat);  // nekontroluji smazání
-                        throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatMonitoring->filePath);
-                    }
-                    $fullCertifikatKurz = new Projektor2_Model_CertifikatKurz($dbCertifikat, $modelDocumentCertifikatMonitoring);
-                    break;
-                case 4: // akreditovaný kurz
-                    // vytvoř a ulož pdf certifikátu pro akreditovaný kurz
-                    $view = new Projektor2_View_PDF_KurzOsvedceniAkreditovany($sessionStatus);
-                    $relativeDocumentPathForContent = Projektor2_Model_File_CertifikatKurzMapper::getRelativeFilePath($sessionStatus->projekt, $zajemce, $sKurz, $certifikatRada);
-
-                    $content = $this->createContent($view, $zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $relativeDocumentPathForContent);
-                    $modelDocumentCertifikatMonitoring = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $content, $certifikatRada);
-                    Projektor2_Model_File_CertifikatKurzMapper::save($modelDocumentCertifikatMonitoring);
-                    // vytvořen file model certifikát i pseudokopie -> nastav název souboru certifikátu v db
-                    if ($modelDocumentCertifikatMonitoring) {
-                        $logger->log('File certifikat kurz s cestou '.$modelDocumentCertifikatOriginal->filePath.' vytvořen.', 1);
-                        $dbCertifikat->filename = $modelDocumentCertifikatMonitoring->relativeDocumentPath;
-                        Projektor2_Model_Db_CertifikatKurzMapper::update($dbCertifikat);
-                        $logger->log('Db certifikat updatován.', 1);
-                    } else {
-                        Projektor2_Model_Db_CertifikatKurzMapper::delete($dbCertifikat);  // nekontroluji smazání
-                        throw new RuntimeException('Nepodařilo se uložit pdf certifikátu do souboru: '.$modelDocumentCertifikatMonitoring->filePath);
-                    }
-                    $fullCertifikatKurz = new Projektor2_Model_CertifikatKurz($dbCertifikat, $modelDocumentCertifikatMonitoring);
-                    break;
-                default:
-                    throw new UnexpectedValueException('Neznámý typ certifikátu: '.$certifikatRada);
-                    break;
-            }
-
-
         return $fullCertifikatKurz;
     }
 
-    private function createCertifikat() {
-            // tato hodnota cesty k souboru se vkládá jen do contentu (metoda CertifikatKurzMapper::create si vždy vygeneruje cestu podle verze certifikátu )
-
-            $fileCertifikat = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $certifikatVerze);  // bez content
-            $relativeDocumentPathForContent = Projektor2_Model_File_CertifikatKurzMapper::getRelativeFilePath($sessionStatus->projekt, $zajemce, $sKurz, $certifikatVerze);
-            $content = $this->createContent($view, $zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $relativeDocumentPathForContent);
-            $fileCertifikat->setContent($content);
-            Projektor2_Model_File_CertifikatKurzMapper::save($fileCertifikat);  // vytvoření a zápis do souboru
-
-            // vytvoř db certifikát - zatím bez filename
-            $datetimeCertifikatu = Projektor2_Date::createFromSqlDate($datumCertifikatu);
-            $dbCertifikat = Projektor2_Model_Db_CertifikatKurzMapper::create(
-                    $certifikatRada,
-                    $zajemce,
-                    $sKurz,
-                    $datetimeCertifikatu,
-                    $creator,
-                    $service,
-                    $fileCertifikat->filePath
-                );
-            if (is_null($dbCertifikat)) {
-
-            }
-    }
     /**
-     * Přečte objekt cerifikat, přečte db cerifikát a podle v něm obsažené cesty k souboru přečte file certifikát.
+     * Vytvoří model certifikátu v zadané verzi.
      *
+     * Vytvoří záznam v db, podle řady certifikátů v kurzu (s_kurz) vytvoří PDF obsah certifikátu,
+     * file model certifikátu a uloží obsah (pdf) do složky dané identifikátorem kurzu a verzí certifikátu.
+     * Výsledný model certifikátu obsahuje vzniklý db model a file model.
+     *
+     * @param string $certifikatVerze
+     * @param Projektor2_Model_SessionStatus $sessionStatus
+     * @param Projektor2_Model_Db_Kancelar $kancelar
+     * @param Projektor2_Model_Db_Zajemce $zajemce
+     * @param Projektor2_Model_Db_SKurz $sKurz
+     * @param string $datumCertifikatu
+     * @param string $creator
+     * @param string $service
+     * @return Projektor2_Model_CertifikatKurz
+     */
+    private function createCertifikat(
+            Projektor2_Model_SessionStatus $sessionStatus,
+            Projektor2_Model_Db_Kancelar $kancelar,
+            Projektor2_Model_Db_Zajemce $zajemce,
+            Projektor2_Model_Db_SKurz $sKurz,
+            $certifikatVerze,
+            $datumCertifikatu, $creator, $service
+    ) {
+
+
+        // file certifikat model - bez content, ale filepath již vznikne
+        $fileCertifikat = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $certifikatVerze);  // bez content
+
+        $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
+
+        // vytvoř db certifikát - jednu verzi
+        $datetimeCertifikatu = Projektor2_Date::createFromSqlDate($datumCertifikatu);
+        $dbCertifikat = Projektor2_Model_Db_CertifikatKurzMapper::create(
+                $zajemce, $sKurz, $certifikatRada, $certifikatVerze,
+                $datetimeCertifikatu, $creator, $service, $fileCertifikat->relativeDocumentPath
+            );
+        if (is_null($dbCertifikat)) {
+            Projektor2_Model_File_CertifikatKurzMapper::delete($fileCertifikat);
+        }
+
+       // content - potřebuje filepath a db certifikat
+        switch ($certifikatRada) {
+            case 'PR':
+                $view = new Projektor2_View_PDF_KurzOsvedceniOriginal($sessionStatus);
+                break;
+            case 'MO':
+                $view = new Projektor2_View_PDF_KurzOsvedceniPms($sessionStatus);
+                break;
+            case 'RK':
+                $view = new Projektor2_View_PDF_KurzOsvedceniAkreditovany($sessionStatus);
+                break;
+            case 'PrK':
+                assert(false, 'Není implementováno PDF view pro profesní kvalifikaci.');
+                break;
+            default:
+                throw new UnexpectedValueException("Nepodařilo se určit číselnou řadu certifikátů pro kurz id: {$sKurz->id_s_kurz} a verzi certifikátu: {$certifikatVerze}.");
+                break;
+        }
+        $content = $this->createContent($view, $zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $fileCertifikat->relativeDocumentPath);
+        if (!isset($content) OR !$content) {
+            throw new UnexpectedValueException("Nevznikl obsah certifikátu pro kurz id: {$sKurz->id_s_kurz}.");
+        }
+        $fileCertifikat->setContent($content);
+        Projektor2_Model_File_CertifikatKurzMapper::save($fileCertifikat);  // znovuvytvoření souboru a zápis content do souboru
+
+        return new Projektor2_Model_CertifikatKurz($dbCertifikat, $fileCertifikat);
+    }
+
+    private static function getRadaCislovani(Projektor2_Model_Db_SKurz $sKurz, $certifikatVerze) {
+        /**
+         *
+         */
+        switch ($certifikatVerze) {
+            case 'monitoring':
+                $certifikatRada = 'MO';
+                break;
+            default:
+                $certifikatRada = $sKurz->certifikat_kurz_rada_FK;
+                break;
+        }
+        if (!isset($certifikatRada) OR !$certifikatRada) {
+            throw new UnexpectedValueException("Kurz nemá nastavenu číselnou řadu certifikátů. Nelze vytvořit certifikát pro kurz id: {$sKurz->id_s_kurz} a názvem: {$sKurz->kurz_nazev}.");
+        }
+        return $certifikatRada;
+    }
+
+    /**
+     * Vytvoří objekt certifikat a nastaví mu přečtené db certifikát a file certifikát.
+     * - db certifikát přečte podle zadaných paremetrů metody
+     * - file certifikátpřečte podle cesty k souboru obsažené v db certifikátu
+     *
+     * Pokud nenalezne db certifikát v databázi, vrací null a nepokouší se načítatl file certifikát - nezná cestu s souboru. Důsledkem je, že soubory s certifikáty,
+     * k nimž byl smazán záznam v databázi jsou "neviditelné", takyvý soubor je pak přepsán při vytvoření nového certifikátu pro zájemce, kurz, verze.
+     *
+     * Pokud nalezne více db certifikátů v db vyhazuje výjimku (více certifikátů jednoho uživatele v jednom kurzu a v jedné číselné řadě)
+     * Pokud nalezne certifikát v databázi a chybí soubor s certifikátem vyhatuje výjimku.
      *
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param Projektor2_Model_Db_SKurz $sKurz
-     * @param string $certifikatRada
-     * @return \Projektor2_Model_CertifikatKurz
-     * @throws LogicException
+     * @param type $certifikatRada
+     * @param type $certifikatVerze
+     * @return \Projektor2_Model_CertifikatKurz|null
+     * @throws \OverflowException
+     * @throws \LogicException
      */
-    private function getCertifikat(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, $certifikatRada) {
-        $modelyDbCertifikat = Projektor2_Model_Db_CertifikatKurzMapper::find($zajemce, $sKurz, $certifikatRada);
-
+    private function readCertifikat(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, $certifikatRada, $certifikatVerze) {
+        // musí vracet jeden řádek - v tabulce je kombinace id_zajemce, id_s_Kurz, certifikat_rada, certifikat_verze UNIQUE index
+        $modelyDbCertifikat = Projektor2_Model_Db_CertifikatKurzMapper::find($zajemce, $sKurz, $certifikatRada, $certifikatVerze);
         if ($modelyDbCertifikat) {   // neprázdné pole
-            if (count($modelyDbCertifikat) > 1) {
-                throw new UnderflowException('V databázi nalezeno více certifikátů pro jednoho zájemce, kurz a typ. První je id: '.$modelyDbCertifikat[0]->id);
-            }
             $modelDbCertifikat = $modelyDbCertifikat[0];
             try {
                 $modelFileCertifikat = Projektor2_Model_File_CertifikatKurzMapper::findByRelativeFilepath($modelDbCertifikat->filename);
             } catch (\Exception $e) {
-                throw new \LogicException("Nalezen certifikat v databázi a nenalezen odpovídající soubor s pdf dokumentem. Certifikát id: '{$modelDbCertifikat->id_s_kurz_FK}', cesta: {$modelDbCertifikat->filename}'.", 0, $e);
+                throw new \LogicException("Nalezen certifikat v databázi a nenalezen odpovídající soubor s pdf dokumentem. Certifikát id: '{$modelDbCertifikat->id}'.", 0, $e);
             }
             $modelCertifikatKurz = new Projektor2_Model_CertifikatKurz($modelDbCertifikat, $modelFileCertifikat);
             return $modelCertifikatKurz;
-        } else {
-            return NULL;
         }
-
+        return $modelCertifikatKurz ?? null;
     }
 
     /**
-     * Vytvoří pdf soubor s certifikátem a file model certifikátu.
+     *
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param Projektor2_View_PDF_Common $pdfView
      * @param type $fileMapperClassName
      * @return Projektor2_Model_File_ItemAbstract
      */
-    private function createContent(Projektor2_View_PDF_Common $pdfView,
+    private function createContent(
+            Projektor2_View_PDF_Common $pdfView,
             Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Kancelar $kancelar,
             Projektor2_Model_Db_CertifikatKurz $certifikat, Projektor2_Model_Db_SKurz $sKurz, $docPath) {
         $models = $this->createKurzOsvedceniModels($zajemce);
@@ -231,23 +199,6 @@ class Projektor2_Service_CertifikatKurz {
         $content = $pdfView->render();
         return $content;
     }
-
-    /**
-     * Přidá zadanému view go konzextu pozřebné proměnné
-     * @param type $pdfView
-     * @param Projektor2_Model_Db_Projekt $projekt
-     * @param Projektor2_Model_Db_Kancelar $kancelar
-     * @param Projektor2_Model_Db_CertifikatKurz $certifikat
-     * @param Projektor2_Model_Db_SKurz $sKurz
-     * @param type $docPath
-     * @return type
-     */
-//    private function completeKurzOsvedceniView($pdfView, Projektor2_Model_Db_Projekt $projekt, Projektor2_Model_Db_Kancelar $kancelar,
-//                Projektor2_Model_Db_CertifikatKurz $certifikat, Projektor2_Model_Db_SKurz $sKurz, $docPath) {
-//
-//                    /*     */
-//        return $pdfView;
-//    }
 
     /**
      * Vztvoří a vrací pole db modelů potřebných pto view.
