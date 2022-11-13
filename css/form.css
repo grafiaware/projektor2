@@ -135,6 +135,11 @@ input:required[type=radio]{
     border-radius: 10px;
 }
 
+form a button {
+    background-color: #375D81;
+    color: white;
+}
+
 .fieldsetcontainer .c1c1 {
     display: grid;
     grid-template-columns: 1fr 1fr;

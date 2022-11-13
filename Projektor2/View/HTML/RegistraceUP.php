@@ -26,11 +26,15 @@ class Projektor2_View_HTML_RegistraceUP extends Framework_View_Abstract {
         $zaUploadType = $registation['zaUploadType'];            /** @var Projektor2_Model_Db_ZaUpload $zaUpload */
         $zaUpload = $registation['zaUpload'];
         if (isset($zaUpload)) {
-            $fileBaseFolder = Projektor2_AppContext::getFileBaseFolder();
-            $href = $zaUpload->filename;
-            $href = '/'.substr($href, strpos($href, $fileBaseFolder)-strlen($href));  // levé lomítko + od base folder doprava - relativní adresa k root
-            $filename = substr($href, strpos($href, 'upload/')-strlen($href));  // od 'upload/ doprava
-            $aDownload = Html::tag('a', ['href'=>$href, 'download'=>$filename], "Download: $filename");
+            $fileBaseHref = Projektor2_AppContext::getHttpFileBasePath();
+            $fileSubpath = $zaUpload->filename;
+            $displayedFilename = substr($fileSubpath, strpos($fileSubpath, 'upload/')-strlen($fileSubpath)+7);  // od 'upload/ doprava
+            $aDownload =
+                    Html::tag('a', ['href'=>$fileBaseHref.$fileSubpath, 'download'=>$displayedFilename],
+                            Html::tag('button', [ 'type'=>"button"],   // POZOR 'type'=>"button" je nezbytné, jinak se chová jako dubmit button
+                                    "Download: $displayedFilename"
+                                    )
+                    );
         } else {
             $aDownload = '';
         }

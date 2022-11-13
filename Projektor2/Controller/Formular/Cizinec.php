@@ -47,23 +47,29 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
             $this->setModelsFromPost($this->request->postArray());
             // ukládání dat modelů flat table
             $this->saveFlatTableModels();
+
             // ukládání uploadu
+            $fileBaseFolder = Projektor2_AppContext::getFileBaseFolder();
             $uploadedFolderPath =
-                    Projektor2_AppContext::getFileBaseFolder()
-                    .Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod)
+                    Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod)
                     .'upload/';
             $osobaFolder =
                     $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->prijmeni
                     .' '.$this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->jmeno
                     .' - '.$this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->id_zajemce;
-            $saved = $this->saveUploadedFiles($uploadedFolderPath.$osobaFolder.'/', true);  // expanduj do podadresářů podle tyou uploadu
+
+            $fullFilepath = $fileBaseFolder.$uploadedFolderPath.$osobaFolder.'/';
+
+            $saved = $this->saveUploadedFiles($fullFilepath, true);  // true = expanduj do podadresářů podle typu uploadu
 
             // update & create
-            foreach ($saved as $uploadType => $fileName) {
+            foreach ($saved as $uploadType => $uploadedFilefullFilepath) {
                 if (array_key_exists($uploadType, $this->typeCollection)) {
                     $persistedUpload = $this->uploadCollection[$idZajemce.'-'.$uploadType];
                     if (isset($persistedUpload)) {
+                        $fileName = '/'.substr($uploadedFilefullFilepath, strpos($uploadedFilefullFilepath, $fileBaseFolder)-strlen($uploadedFilefullFilepath));  // levé lomítko + od base folder doprava - relativní adresa k root
                         $persistedUpload->filename = $fileName;
+            //
 //                                    ?? updated
 //                                    - při update smazat soubor?
                         Projektor2_Model_Db_ZaUploadMapper::update($persistedUpload);
