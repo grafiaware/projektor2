@@ -12,16 +12,13 @@ class Projektor2_View_HTML_Formular_IP1 extends Framework_View_Abstract {
         $this->parts[] = '<H4>Plán aktivit</H4>';
         $this->parts[] = '<form method="POST" action="index.php?osoby=form&form='.$this->context['formAction'].'" name="form_plan">';
 
-//        foreach ($this->context['kurzyModels'] as $druhKurzu=>$sKurzyJednohoDruhu) {
         foreach (array_keys($this->context['aktivityTypuKurz']) as $aktivita) {  // používám jen klíče - pole aktivit je v context
                 $view = new Projektor2_View_HTML_Element_Kurz_Fieldset($this->sessionStatus, $this->context);
                 $view
                     ->assign('aktivita', $aktivita)
                     ->assign('readonly', FALSE)
                         // Projektor2_Viewmodel_Kurz
-                    ->assign('returnedModelProperty', 'id')
-//                    ->assign('returnedModelProperty', 'id_s_kurz')
-                        ;
+                    ->assign('returnedModelProperty', 'id');
                 $this->parts[] = $view;
         }
 
@@ -31,7 +28,7 @@ class Projektor2_View_HTML_Formular_IP1 extends Framework_View_Abstract {
         $dvValue = $this->context[Projektor2_Controller_Formular_FlatTable::PLAN_FT][$dvName] ? $this->context[Projektor2_Controller_Formular_FlatTable::PLAN_FT][$dvName] : date("Y-m-d");
         $this->parts[] =   '<input type="date" id="datum_vytvor_dok" size="8" maxlength="10" name="'.$dvName.'" value="'.$dvValue.'" required >';
         $this->parts[] = '</p>';
-        
+
         $this->parts[] = '<p>';
         $this->parts[] = '<input type="submit" value="'.$this->context['submitUloz']['value'].'" name="'.$this->context['submitUloz']['name'];
         $this->parts[] = '&nbsp;&nbsp;&nbsp;</p> ';
