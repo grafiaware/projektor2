@@ -28,7 +28,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
             $readonlyAttribute = ' ';
             $disabledAttribute = ' ';
             $dateInputType = 'date';
-            $fieldsetClass = '';
+            $fieldsetClass = 'noclass';
         }
         $checkedAttribute = ' checked="checked" ';
 

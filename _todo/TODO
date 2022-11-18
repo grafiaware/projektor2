@@ -1,8 +1,10 @@
 
 s_kurz
-- přidat sloupce cas_konani a lektor (varchar) a harmonogram
+- upload a download harmonogramu
 
-typ certifikátu - do config
+- strornování certifikátu
+
+typ certifikátu - do config - nedoděláno
 
 
 Projektor2_Controller_SeznamRegistraci
@@ -20,16 +22,10 @@ foreach
 
 
 ####
-typ certifikátu:
-- db tabulka -> cizí klíč v s_kurz a v certifikat
-- Projektor2_AppContext::getCertificateTypeFolder() - volí se adresář podle typu
-- Projektor2_Service_CertifikatKurz->create() - generuje certifikát(y)
-    - tady změnit:
-    podle konfigurace aktivita:
-        - generovat jen originál
-        - generovat současně originál a pseudokopii
-        - generovat současně originál a certif pro monitoring (tlačítka pro tisk certifikátu uchovej dvě, jen se vždy při prvním zvolení tisku cert vegenerují oba)
-    podle typu certifikátu v s_kurz:
-        - generovat správný certifikát podle typu:
-            - neakreditovaný kurz
-            - akreditovaný kurz
+akceptovat hodnoty z Google form - tel, mail, datum narození
+
+- duplikát kurzu
+
+- opravit exporty
+
+- opravit (nebo zahodit??) onload="Zobraz_pdf()"

@@ -21,7 +21,6 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
 
         $view = new Projektor2_View_HTML_Formular_IP2($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'UKONČENÍ ÚČASTI V PROJEKTU A DOPLNĚNÍ IP - 2. část ÚČASTNÍKA PROJEKTU Moje Budoucnost')
-            ->assign('formAction', 'ukonceni_uc')
             ->assign('aktivityTypuKurz', $aktivityProjektuTypuKurz)
             ->assign('modelySKurz', $modelyKurzu)   // Projektor2_Model_Db_SKurz[]
             ->assign('duvodUkonceniValuesArray', $ukonceniArray['duvod'])

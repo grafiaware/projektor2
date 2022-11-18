@@ -22,7 +22,6 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA '.$this->sessionStatus->projekt->text)
-            ->assign('formAction', 'plan')
             ->assign('aktivityTypuKurz', $aktivityProjektuTypuKurz)
             ->assign('modelySKurz', $modelySKurz)   // Projektor2_Model_Db_SKurz[]
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))
