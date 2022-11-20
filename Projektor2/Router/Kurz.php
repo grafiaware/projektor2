@@ -24,7 +24,7 @@ class Projektor2_Router_Kurz {
             case "ucastnici_kurzu":
                 return new Projektor2_Controller_SeznamUcastnikuKurzu($this->sessionStatus, $this->request, $this->response);
                 break;
-            case "export_ucastnici":
+            case "excel":
                 return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response, ['export_type'=>'kurz']);
                 break;
         }

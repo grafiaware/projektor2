@@ -18,7 +18,7 @@ class Projektor2_Router_Kurzy {
 
     public function getController() {
         switch($this->request->param('kurzy')) {
-            case "export":
+            case "excel":
                 return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response, ['export_type'=>'kurzy']);
                 break;
             case "kurz":

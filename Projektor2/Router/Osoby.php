@@ -21,69 +21,27 @@ class Projektor2_Router_Osoby {
         // Udělátko pro spuštění testů. Každý test musí být kontroler.
         if ($this->request->get('akce') == 'test') {
             $testClassName = $this->request->get('testclass');
-            return new $testClassName();
+            return new $testClassName($this->sessionStatus, $this->request, $this->response);
         }
-
         //Volba akce
-        switch ($this->sessionStatus->projekt->kod) {
-            case "AGP":
-            case "HELP":
-            case "SJZP":
-            case "VZP":
-            case "ZPM":
-            case "SPP":
-            case "RP":
-            case "SJPK":
-            case "SJPO":
-            case "SJLP":
-            case "VDTP":
-            case "PDU":
-            case "MB":
-            case "CJC":
-            case 'CKP':
-            case 'PKP':
-                switch($this->request->param('osoby')) {
-                    case "export":
-                        return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response, ['export_type'=>'osoby']);
-                        break;
-                    case "certifikaty_export":
-                        return new Projektor2_Controller_Export_CertifikatyKurz($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "form":
-                        return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "zobraz_reg":
-                    default:
-                        return new Projektor2_Controller_SeznamRegistraci($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    }
+        switch($this->request->param('osoby')) {
+            case "excel":
+                return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response, ['export_type'=>'osoby']);
                 break;
-            case "AP":
-                switch($this->request->param('osoby')) {
-                    case "export":
-                        return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "certifikaty_export":
-                        return new Projektor2_Controller_Export_CertifikatyKurz($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "ap_projekt_certifikaty_export":
-                        return new Projektor2_Controller_Export_CertifikatyProjekt($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "form":
-                        return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    case "zobraz_reg":
-                    default:
-                        return new Projektor2_Controller_SeznamRegistraci($this->sessionStatus, $this->request, $this->response);
-                        break;
-                }
-            break;
-
+            case "export_certifikaty_kurz":
+                return new Projektor2_Controller_Export_CertifikatyKurz($this->sessionStatus, $this->request, $this->response);
+                break;
+            case "export_certifikaty_projekt":
+                return new Projektor2_Controller_Export_CertifikatyProjekt($this->sessionStatus, $this->request, $this->response);
+                break;
+            case "form":
+                return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
+                break;
+            case "zobraz_reg":
             default:
-                throw new UnexpectedValueException('neznámý kód projektu: '.$this->sessionStatus->projekt->kod);
-
+                return new Projektor2_Controller_SeznamRegistraci($this->sessionStatus, $this->request, $this->response);
+                break;
         }
     }
 }
 
-?>

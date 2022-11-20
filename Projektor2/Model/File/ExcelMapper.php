@@ -1,4 +1,7 @@
 <?php
+
+use Pes\Utils\Directory;
+
 class Projektor2_Model_File_ExcelMapper {
 
     const PATH_PREFIX = 'Excel/';
@@ -129,7 +132,7 @@ class Projektor2_Model_File_ExcelMapper {
 //        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, "Excel2007");
         $objWriter = new PHPExcel_Writer_Excel5($modelExcel->objPHPExcel);
         try {
-            $fullFileName = self::getAbsoluteFilePath($sessionStatus, $modelExcel->tabulka);
+            $fullFileName = self::prepareAbsoluteFilePath($sessionStatus, $modelExcel->tabulka);
             $objWriter->save($fullFileName);
         } catch (Exception $e){
             return FALSE;
@@ -139,17 +142,20 @@ class Projektor2_Model_File_ExcelMapper {
     }
 
     /**
-     * Generuje řetězec vhodný jako plné jméno souboru (s cestou).
+     * Generuje řetězec vhodný jako plné jméno souboru (s cestou). Pokud nnexistuje složka odpovídajíví zadané cestě vytvoří složky (adresář).
+     *
      * @param Projektor2_Model_SessionStatus $sessionStatus
      * @param type $tabulka
      * @return type
      */
-    private static function getAbsoluteFilePath(Projektor2_Model_SessionStatus $sessionStatus, $tabulka) {
+    private static function prepareAbsoluteFilePath(Projektor2_Model_SessionStatus $sessionStatus, $tabulka) {
         $dirName = Projektor2_AppContext::getFileBaseFolder()
                 .Projektor2_AppContext::getRelativeFilePath($sessionStatus->projekt->kod)
                 .static::PATH_PREFIX;
+        $normalizedPath = Directory::createDirectory($dirName);
+
         $basename = self::getBaseName($sessionStatus, $tabulka);
-        return $dirName.$basename;
+        return $normalizedPath.$basename;
     }
 
     /**

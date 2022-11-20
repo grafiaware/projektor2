@@ -7,28 +7,24 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Test_ModelZaPlanPoradenstvi  implements Projektor2_Controller_ControllerInterface {
-    
+class Projektor2_Controller_Test_ModelZaPlanPoradenstvi extends Projektor2_Controller_Abstract {
+
     /**
      *
-     * @var Projektor2_Model_Db_ZaPlanPoradenstvi 
+     * @var Projektor2_Model_Db_ZaPlanPoradenstvi
      */
     private $zaPlan;
-    
-    public function __construct() {
 
-    }
-    
     public function getResult() {
         $helper = new Projektor2_Controller_Test_Helper();
 
-        $html = $helper->listTestMethod('Projektor2_Controller_Test_ModelZaPlanPoradenstvi', 'test');
+//        $html = $helper->listTestMethod('Projektor2_Controller_Test_ModelZaPlanPoradenstvi', 'test');
         $html .= $helper->interval();
         $html .= $this->test();
         $html .= $helper->interval();
         return $html;
     }
-    
+
     public function test() {
         $html = '<div class=test>';
         $html .= '<h1>Test Projektor2_Model_ZaPlanPoradenstviMapper a Projektor2_Model_ZaPlanPoradenstvi';
@@ -53,6 +49,6 @@ class Projektor2_Controller_Test_ModelZaPlanPoradenstvi  implements Projektor2_C
         }
 
         $html .= '</div>';
-        return $html;        
+        return $html;
     }
 }

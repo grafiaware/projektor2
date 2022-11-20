@@ -56,7 +56,7 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
         if ( ($this->sessionStatus->user->username == "sys_admin")) {
             $menuArray[] = ['href'=>'index.php?kurzy=form&form=cj_novy_kurz&novy_kurz', 'text'=>'Nový kurz'];
         }
-        $menuArray[] = ['href'=>'index.php?kurzy=export', 'text'=>'Exporty dat'];
+        $menuArray[] = ['href'=>'index.php?kurzy=excel', 'text'=>'Exporty dat'];
 
         return $menuArray;
     }

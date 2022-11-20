@@ -31,13 +31,13 @@ class Projektor2_Controller_Export_SqlTemplate_SqlTemplate {
      * Proměnné ze session generuje a interpoluje automaticky, ostatní proměnné je třeba zadat v asociativní poli params.
      * Proměnné ze session jsou generovány se jmény: 'idProjekt', 'idKancelar', 'idBeh', 'idZajemce', 'idSKurz'
      *
-     * @param string $sqlFilename Jméno souboru s SQL šablonou včetně přípony, soubor se musí nacháte v podsložce Templates složky, ve které je definována tato třída
+     * @param string $sqlFilepath Úplná cesta k souboru s SQL šablonou včetně přípony
      * @param array $params
      * @return string
      */
-    public function getTemplate($sqlFilename, array $params = []) {
+    public function getTemplate($sqlFilepath, array $params = []) {
 
-        $template = file_get_contents(__DIR__."/Templates/$sqlFilename");
+        $template = file_get_contents($sqlFilepath);
         return $this->interpolate($template, "{{", "}}", $this->getData($params));
     }
 
@@ -58,6 +58,13 @@ class Projektor2_Controller_Export_SqlTemplate_SqlTemplate {
                 $this->request->paramArray(),
                 $params
                 );
+        foreach ($this->usedParams as $key => $value) {
+            if($value===null) {
+                $this->usedParams[$key] = 'NULL';
+            } elseif (!is_numeric ($value)) {
+                $this->usedParams[$key] = "'".(string)$value."'";
+            }
+        }
         return $this->usedParams;
     }
 
