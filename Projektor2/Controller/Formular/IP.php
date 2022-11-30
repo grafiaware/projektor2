@@ -14,7 +14,7 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
      *
      * @param string $kurz_druh Parametr musí obsahovat hodnotu ze sloupce kurz_druh db tabulky s_kurz
      * @param type $default TRUE - metoda vrací i model z tabulky s_kurz se zkratkou kurzu '*', tento model pak může být defaulní hodnotou v selectu
-     * @return Projektor2_Viewmodel_Kurz[]
+     * @return Projektor2_Viewmodel_KurzViewmodel[]
      */
     protected function findDbSKurzModelsInContext($kurz_druh, $default=TRUE) { // TODO - přesunout do modelu
         $filter = "(projekt_kod='".$this->sessionStatus->projekt->kod
@@ -25,7 +25,7 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
             $filter .= " OR kurz_zkratka='*'";
         }
         $filter = "(".$filter.")";
-        return Projektor2_Viewmodel_KurzMapper::find($filter, 'razeni');
+        return Projektor2_Viewmodel_KurzViewmodelMapper::find($filter, 'razeni');
     }
 
     /**
@@ -39,7 +39,7 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
         $DbSKurzModels = array();
         foreach ($aktivityProjektu as $indexAktivity => $parametryAktivity) {
             foreach ( $this->findDbSKurzModelsInContext($parametryAktivity['kurz_druh']) as $viewmodelKurz) {
-                /** @var Projektor2_Viewmodel_Kurz $viewmodelKurz */
+                /** @var Projektor2_Viewmodel_KurzViewmodel $viewmodelKurz */
                 $DbSKurzModels[$indexAktivity][$viewmodelKurz->id] = $viewmodelKurz;
 
             }

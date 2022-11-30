@@ -204,7 +204,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
      * @param Projektor2_Model_Db_SKurz $kurz
      * @return string
      */
-    public function textRetezecKurz(Projektor2_Viewmodel_Kurz $kurz) {  // musí být public pro použití jako callback
+    public function textRetezecKurz(Projektor2_Viewmodel_KurzViewmodel $kurz) {  // musí být public pro použití jako callback
     // Projektor2_Viewmodel_Kurz
     return $kurz->kurz_text;
 //    public function textRetezecKurz(Projektor2_Model_Db_SKurz $kurz) {  // musí být public pro použití jako callback

@@ -39,7 +39,7 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
      * Metoda vytvoří filtr z kontextu aplikace (projekt, běh a kancelář) a druhu kurzu zadaného jako parametr.
      * S tímto filtrem pak volá Projektor2_Model_KurzMapper, metodu findAll().
      *
-     * @return Projektor2_Viewmodel_Kurz[] array of Projektor2_Model_Kurz
+     * @return Projektor2_Viewmodel_KurzViewmodel[] array of Projektor2_Model_Kurz
      */
     protected function findKurzViewmodels() {
         $filter = "(projekt_kod='{$this->sessionStatus->projekt->kod}'
@@ -48,7 +48,7 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
 
 //                 AND beh_cislo='{$this->sessionStatus->beh->beh_cislo}'
         //                 AND kurz_druh='$kurz_druh'
-        $mapper = new Projektor2_Viewmodel_KurzMapper();
+        $mapper = new Projektor2_Viewmodel_KurzViewmodelMapper();
         return $mapper->find($filter, 'razeni');
     }
 

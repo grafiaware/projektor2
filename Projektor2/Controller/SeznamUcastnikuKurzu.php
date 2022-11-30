@@ -22,7 +22,7 @@ class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_A
         $gridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArray()]);
 
         // jednořádková tabulka s kurzem - nezobrazuje se pro nový kurz
-        $viewmodelKurz = (new Projektor2_Viewmodel_KurzMapper())->get($this->sessionStatus->sKurz->id_s_kurz);
+        $viewmodelKurz = (new Projektor2_Viewmodel_KurzViewmodelMapper())->get($this->sessionStatus->sKurz->id_s_kurz);
         $params = [Projektor2_Controller_Element_MenuKurz::VIEWMODEL_KURZ => $viewmodelKurz];
         $tlacitkaController = new Projektor2_Controller_Element_MenuKurz($this->sessionStatus, $this->request, $this->response, $params);
         $rowsKurzy[] = $tlacitkaController->getResult();
@@ -31,21 +31,19 @@ class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_A
 
         $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findAll("id_s_kurz_FK={$this->sessionStatus->sKurz->id_s_kurz}");
         if ($zaPlanKurzArray) {
+            $subgridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArrayUcastnici()]);
+
             $inBinds = [];
             $i = 0;
             foreach ($zaPlanKurzArray as $zaPlanKurz) {
                 $inBinds[':in'.$i++] = $zaPlanKurz->id_zajemce;
             }
             $inPlaceholders = implode(", ", array_keys($inBinds));
-            $ucastniciRegistrace = Projektor2_Viewmodel_ZajemceRegistraceMapper::findAll("zajemce.id_zajemce IN ($inPlaceholders)", $inBinds, "identifikator");
-            foreach ($ucastniciRegistrace as $ucastnikRegistrace) {
-                $tlacitkaController = new Projektor2_Controller_Element_MenuZajemce($this->sessionStatus, $this->request, $this->response, $ucastnikRegistrace);
-                $rowsUcastnici[] = $tlacitkaController->getResult();
-            }
 
-            $subgridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArrayUcastnici()]);
-            $seznam[] =  new Projektor2_View_HTML_Element_Table($this->sessionStatus, ['rows'=>$rowsUcastnici, 'class'=>'zaznamy']);
-            $subgridColumn[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$seznam, 'class'=>'content']);
+            // hledání bez kontextu (projekt, kancelář, běh) - rozhodující jsou id zájemců (podle Projektor2_Model_Db_ZaPlanKurzMapper)
+            // a valid - hodnotu valid zohledňuje i metoda find()
+            $osobyMenu = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::find("zajemce.id_zajemce IN ($inPlaceholders)", $inBinds, "identifikator");
+            $subgridColumn[] = (string) (new Projektor2_Controller_Element_TabulkaMenuOsoby($this->sessionStatus, $this->request, $this->response, $osobyMenu))->getResult();
             $contentParts[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$subgridColumn, 'class'=>'grid-container']);
         }
         $gridColumn[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$contentParts, 'class'=>'content']);

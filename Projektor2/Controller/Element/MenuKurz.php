@@ -19,8 +19,8 @@ class Projektor2_Controller_Element_MenuKurz extends Projektor2_Controller_Abstr
         if (isset($this->params[self::VIEWMODEL_KURZ])) {
             $kurzViewmodel = $this->params[self::VIEWMODEL_KURZ];
             // sada td tlačítka
-            $skupinaController = new Projektor2_Controller_Element_MenuKurzy_Skupina($this->sessionStatus, $this->request, $this->response,
-                    [Projektor2_Controller_Element_MenuKurzy_Skupina::VIEWMODEL_KURZ=>$kurzViewmodel]);
+            $skupinaController = new Projektor2_Controller_Element_MenuKurz_Skupina($this->sessionStatus, $this->request, $this->response,
+                    [Projektor2_Controller_Element_MenuKurz_Skupina::VIEWMODEL_KURZ=>$kurzViewmodel]);
             $htmlSkupiny = $skupinaController->getResult();
             // tr - registrační údaje + sada tlačítek + sada signálů
             $viewRegistrace = new Projektor2_View_HTML_Element_Kurz_Info(

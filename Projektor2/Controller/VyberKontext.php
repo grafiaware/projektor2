@@ -32,20 +32,31 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                         break;
                 }
             }
-            if ($this->request->post('akce')) {
-                $this->sessionStatus->akce = $this->request->post('akce');
-            }
+
+        }
+    }
+
+    /**
+     * Kontext akce přepne GET i POST parametr
+     */
+    private function performAnyRequestActions() {
+        if ($this->request->param('akce')) {
+            $this->sessionStatus->akce = $this->request->param('akce');
         }
     }
 
     public function getResult() {
         if ($this->request->isPost()) {  // proměnná z query v form action
             $this->performPostActions();
+            $this->performAnyRequestActions();
         } else {
+            $this->performAnyRequestActions();
             // odkaz z tlačítka Formular menu nové id_zajemce -> změna zájemce v session
             if ($this->request->get('id_zajemce')) {
                 $zajemce = Projektor2_Model_Db_ZajemceMapper::get($this->request->get('id_zajemce'));
                 $this->sessionStatus->setZajemce($zajemce);
+                $beh = Projektor2_Model_Db_BehMapper::findById($zajemce->id_s_beh_projektu_FK);
+                $this->sessionStatus->setBeh($beh);
             }
             // odkaz z left menu Nová osoba - smazání zájemce ze session
             if ($this->request->get('novy_zajemce')==="") {  // hodnota je prázdný string
@@ -70,7 +81,6 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
         } else {
             $kancelare = array();
         }
-        $behy = Projektor2_Model_Db_BehMapper::find('id_c_projekt='.$this->sessionStatus->projekt->id, 'beh_cislo ASC');
 
         $parts[] = new Projektor2_View_HTML_KontextKancelarAkce($this->sessionStatus,
                 array('kancelare'=>$kancelare,
@@ -78,16 +88,16 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                     'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
                 );
         If ($this->sessionStatus->akce == 'osoby') {
-            $parts[] = new Projektor2_View_HTML_KontextBeh($this->sessionStatus,
-                array('behy'=>$behy,
-                    'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
-                );
+//            $parts[] = new Projektor2_View_HTML_KontextBeh($this->sessionStatus,
+//                array('behy'=>$behy,
+//                    'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
+//                );
         }
         // podmínka pro pokračování - obsah zobrazený při úplném kontextu
         if (isset($this->sessionStatus->kancelar) AND $this->sessionStatus->akce) {
-            if ($this->sessionStatus->akce!='osoby' OR isset($this->sessionStatus->beh)) {
+//            if ($this->sessionStatus->akce!='osoby' OR isset($this->sessionStatus->beh)) {
                 $parts[] = (new Projektor2_Router_Akce($this->sessionStatus, $this->request, $this->response))->getController()->getResult();
-            }
+//            }
 
         }
 

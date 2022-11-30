@@ -4,10 +4,10 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Element_MenuFormulare_Skupina extends Projektor2_Controller_Abstract {
+class Projektor2_Controller_Element_MenuOsoba_Skupina extends Projektor2_Controller_Abstract {
 
      public function getResult() {
-         /** @var Projektor2_Viewmodel_ZajemceRegistrace $zajemceRegistrace */
+         /** @var Projektor2_Viewmodel_OsobaMenuViewmodel $zajemceRegistrace */
         $zajemceRegistrace = $this->params;
         $html = '';
         foreach ($zajemceRegistrace->getSkupinyAssoc() as $skupina) {

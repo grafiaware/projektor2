@@ -37,7 +37,7 @@ class Projektor2_Controller_Export_CertifikatyProjekt extends Projektor2_Control
                 }
             }
         }
-        $redirController = new Projektor2_Controller_SeznamRegistraci($this->sessionStatus, $this->request, $this->response);
+        $redirController = new Projektor2_Controller_SeznamOsob($this->sessionStatus, $this->request, $this->response);
         return $redirController->getResult();
     }
 }

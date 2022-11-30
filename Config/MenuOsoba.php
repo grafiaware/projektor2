@@ -10,12 +10,12 @@ class Config_MenuOsoba {
     /**
      * Nastaví skupiny tlačítek objeku zajemceRegistrace
      *
-     * @param Projektor2_Viewmodel_ZajemceRegistrace $zajemceRegistrace
+     * @param Projektor2_Viewmodel_OsobaMenuViewmodel $zajemceRegistrace
      * @param Projektor2_Model_Db_Zajemce $zajemce
-     * @return \Projektor2_Viewmodel_ZajemceRegistrace
+     * @return \Projektor2_Viewmodel_OsobaMenuViewmodel
      * @throws UnexpectedValueException
      */
-    public static function setSkupinyZajemce(Projektor2_Viewmodel_ZajemceRegistrace $zajemceRegistrace, Projektor2_Model_Db_Zajemce $zajemce) {
+    public static function setSkupinyZajemce(Projektor2_Viewmodel_OsobaMenuViewmodel $zajemceRegistrace, Projektor2_Model_Db_Zajemce $zajemce) {
         $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
         $user = $sessionStatus->user;
         $kod = $sessionStatus->projekt->kod;

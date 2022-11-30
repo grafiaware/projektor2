@@ -1,5 +1,5 @@
 <?php
-class Projektor2_Viewmodel_ZajemceRegistrace {
+class Projektor2_Viewmodel_OsobaMenuViewmodel {
     //tabulka zajemce
     CONST TABLE = "zajemce";
     public $id;

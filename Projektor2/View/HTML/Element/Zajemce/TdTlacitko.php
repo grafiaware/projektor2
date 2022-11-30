@@ -11,7 +11,7 @@ class Projektor2_View_HTML_Element_Zajemce_TdTlacitko extends Framework_View_Abs
      */
     public function render() {
         $model = $this->context['model'];
-        $href = 'index.php?osoby=form&form='.urlencode($model->osoba).'&id_zajemce='.urlencode($this->context['zajemceRegistrace']->id);
+        $href = 'index.php?akce=osoby&osoby=form&form='.urlencode($model->osoba).'&id_zajemce='.urlencode($this->context['zajemceRegistrace']->id);
         switch ($model->status) {
             case 'edit':
                 $class = 'edit';

@@ -39,7 +39,7 @@ class Projektor2_Router_Osoby {
                 break;
             case "zobraz_reg":
             default:
-                return new Projektor2_Controller_SeznamRegistraci($this->sessionStatus, $this->request, $this->response);
+                return new Projektor2_Controller_SeznamOsob($this->sessionStatus, $this->request, $this->response);
                 break;
         }
     }

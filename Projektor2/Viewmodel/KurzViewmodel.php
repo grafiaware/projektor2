@@ -1,6 +1,6 @@
 <?php
 
-class Projektor2_Viewmodel_Kurz {
+class Projektor2_Viewmodel_KurzViewmodel {
     public $id;
     public $kurz_text;
     public $kurz_lokace;

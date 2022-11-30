@@ -4,13 +4,13 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Element_MenuKurzy_Skupina extends Projektor2_Controller_Abstract {
+class Projektor2_Controller_Element_MenuKurz_Skupina extends Projektor2_Controller_Abstract {
 
     const VIEWMODEL_KURZ = 'viewmodelKurz';
     const ID_ZAJEMCE = 'id_zajemce';
 
      public function getResult() {
-         /** @var Projektor2_Viewmodel_ZajemceRegistrace $viewmodelKurz */
+         /** @var Projektor2_Viewmodel_OsobaMenuViewmodel $viewmodelKurz */
         $viewmodelKurz = $this->params[self::VIEWMODEL_KURZ];
         $html = '';
         foreach ($viewmodelKurz->getSkupinyAssoc() as $skupina) {

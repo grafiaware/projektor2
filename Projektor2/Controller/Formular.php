@@ -21,8 +21,8 @@ class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
 
         // nezobrazuje se pro novou osobu
         if ($this->sessionStatus->zajemce) {
-            $zajemceRegistrace = Projektor2_Viewmodel_ZajemceRegistraceMapper::findById($this->sessionStatus->zajemce->id);
-                $tlacitkaController = new Projektor2_Controller_Element_MenuZajemce($this->sessionStatus, $this->request, $this->response, $zajemceRegistrace);
+            $zajemceRegistrace = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::findById($this->sessionStatus->zajemce->id);
+                $tlacitkaController = new Projektor2_Controller_Element_MenuOsoba($this->sessionStatus, $this->request, $this->response, $zajemceRegistrace);
                 $rows[] = $tlacitkaController->getResult();
             $contentParts[] = new Projektor2_View_HTML_Element_Table($this->sessionStatus, array('rows'=>$rows, 'class'=>'zaznamy'));
         }

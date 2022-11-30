@@ -14,7 +14,7 @@ class Projektor2_View_HTML_Element_Kurz_Info extends Framework_View_Abstract {
      * @return \Projektor2_View_HTML_Element_Zajemce_Registrace
      */
     public function render() {
-        /** @var Projektor2_Viewmodel_Kurz $viewmodelKurz */
+        /** @var Projektor2_Viewmodel_KurzViewmodel $viewmodelKurz */
         $viewmodelKurz = $this->context[self::VIEWMODEL_KURZ];
 
         $this->parts[]= '<tr>';

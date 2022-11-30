@@ -1,9 +1,9 @@
 <?php
-class Projektor2_Viewmodel_KurzMapper {
+class Projektor2_Viewmodel_KurzViewmodelMapper {
     /**
      * Metoda vyhledá a vytvoří model podle id tabulky zajemce. Id modelu je shodné z id zajemce.
      * @param integer $id
-     * @return Projektor2_Viewmodel_Kurz
+     * @return Projektor2_Viewmodel_KurzViewmodel
      */
     public static function get($id) {
         $sKurz = Projektor2_Model_Db_SKurzMapper::get($id);
@@ -14,7 +14,7 @@ class Projektor2_Viewmodel_KurzMapper {
      *
      * @param type $filter
      * @param type $order
-     * @return Projektor2_Viewmodel_Kurz[]
+     * @return Projektor2_Viewmodel_KurzViewmodel[]
      */
     public static function find($filter = NULL, $order = NULL) {
         $kurzy = Projektor2_Model_Db_SKurzMapper::find($filter, $order);
@@ -27,10 +27,10 @@ class Projektor2_Viewmodel_KurzMapper {
     /**
      *
      * @param Projektor2_Model_Db_SKurz $sKurz
-     * @return Projektor2_Viewmodel_Kurz
+     * @return Projektor2_Viewmodel_KurzViewmodel
      */
     private static function create(Projektor2_Model_Db_SKurz $sKurz) {
-        $viewmodelKurz =  new Projektor2_Viewmodel_Kurz($sKurz);
+        $viewmodelKurz =  new Projektor2_Viewmodel_KurzViewmodel($sKurz);
         // nastaví skupiny objeku zajemceRegistrace
         return Config_MenuKurz::setSkupinyKurz($viewmodelKurz, $sKurz);
     }

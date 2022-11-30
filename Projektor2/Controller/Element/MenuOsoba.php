@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Element_MenuZajemce extends Projektor2_Controller_Abstract {
+class Projektor2_Controller_Element_MenuOsoba extends Projektor2_Controller_Abstract {
 
     /**
      * Očekává v poli params (předávané při volání konstruktoru) nastavenou hodootu $params['zajemceOsobniUdaje']
@@ -17,13 +17,13 @@ class Projektor2_Controller_Element_MenuZajemce extends Projektor2_Controller_Ab
         //nové
         $htmlParts = array();
         if (isset($this->params)) {
-            $zajemceRegistrace = $this->params;
+            $osobaViewmodel = $this->params;
             // sada td tlačítka
-            $skupinaController = new Projektor2_Controller_Element_MenuFormulare_Skupina($this->sessionStatus, $this->request, $this->response, $zajemceRegistrace);
+            $skupinaController = new Projektor2_Controller_Element_MenuOsoba_Skupina($this->sessionStatus, $this->request, $this->response, $osobaViewmodel);
             $htmlSkupiny = $skupinaController->getResult();
             // tr - registrační údaje + sada tlačítek + sada signálů
             $viewRegistrace = new Projektor2_View_HTML_Element_Zajemce_Registrace($this->sessionStatus,
-                                                                 array('zajemceRegistrace'=>$zajemceRegistrace, 'htmlSkupiny'=>$htmlSkupiny));
+                                                                 array('zajemceRegistrace'=>$osobaViewmodel, 'htmlSkupiny'=>$htmlSkupiny));
             $htmlParts[] = $viewRegistrace;
         }
         return new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$htmlParts));

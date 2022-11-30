@@ -19,7 +19,7 @@ class Config_MenuKurz {
      * @return type
      * @throws UnexpectedValueException
      */
-    public static function setSkupinyKurz(Projektor2_Viewmodel_Kurz $viewmodelKurz, Projektor2_Model_Db_SKurz $sKurz) {
+    public static function setSkupinyKurz(Projektor2_Viewmodel_KurzViewmodel $viewmodelKurz, Projektor2_Model_Db_SKurz $sKurz) {
         $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
         $user = $sessionStatus->user;
 
