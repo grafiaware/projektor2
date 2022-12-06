@@ -72,9 +72,13 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $podpisy->ZarovnaniTextu('C');
         $podpisy->PridejOdstavec("......................................................");
         $podpisy->PridejOdstavec($this->context['signerName'], '');
-        $podpisy->PridejOdstavec($this->context['signerPosition'],"");
-
         $this->pdf->TiskniBlok($podpisy);
+
+        $position = new Projektor2_PDF_Blok();
+        $position->VyskaPismaTextu(10);
+        $position->ZarovnaniTextu('C');
+        $position->PridejOdstavec($this->context['signerPosition'],"");
+        $this->pdf->TiskniBlok($position);
     }
 
     protected function celeJmeno() {
@@ -466,7 +470,6 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $mistoDatum->NovyRadek(0,1);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);
                 $mistoDatum->PridejBunku("Dne ",$datum,1);
-                $mistoDatum->NovyRadek(0,1);
                 $this->pdf->TiskniSaduBunek($mistoDatum, 0, 1);
                 break;
             case 'SJPK':
@@ -481,7 +484,6 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $mistoDatum->NovyRadek(0,1);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);
                 $mistoDatum->PridejBunku("Dne ",$datum,1);
-                $mistoDatum->NovyRadek(0,1);
                 $this->pdf->TiskniSaduBunek($mistoDatum, 0, 1);
                 break;
             default:

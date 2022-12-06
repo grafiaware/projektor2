@@ -23,6 +23,11 @@ class Projektor2_Controller_Formular_SKurz extends Projektor2_Controller_Formula
             Projektor2_Model_Db_SKurzMapper::update($this->models[self::S_KURZ]);
         }
         $context = $this->createContextFromModels(true);
+        if ($this->sessionStatus->user->povolen_zapis>1) {
+            $context['readonly'] = false;
+        } else {
+            $context['readonly'] = true;
+        }
         return (new Projektor2_View_HTML_Formular_SKurz($this->sessionStatus, $context))->render();
     }
 }

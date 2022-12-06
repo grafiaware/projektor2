@@ -6,17 +6,16 @@ class Projektor2_View_HTML_Formular_SKurz extends Projektor2_View_HTML_FormularP
     public function display() {
         $sign = Projektor2_Controller_Formular_SKurz::S_KURZ;
         $prefix = $sign.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
-
+        $lockClass = $this->context['readonly'] ? 'lock' : ''; // form je readonly pomocí css - class 'lock'
         $pole = $this->context[$sign]; // jen jeden model
 
 
         $html[] = Html::tag("h3", [], "KURZ");
         $html[] = Html::p($pole[$prefix.'id_s_kurz']);
         $html[] = Html::tagNopair("br");
-        // form je readonly pomocí css - class lock
         $html[] =
             Html::tag("form", [
-                "class"=>"lock",
+                "class"=>$lockClass,
                 "method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?kurzy=kurz&kurz=detail_kurzu"],
                 Html::tag("fieldset", [],
                     Html::tag("legend", [], "Údaje pro plánování kurzu"),
@@ -31,11 +30,13 @@ class Projektor2_View_HTML_Formular_SKurz extends Projektor2_View_HTML_FormularP
 
                     Html::input($prefix.'date_zacatek', "Datum začátku:", $pole, ["type"=>"date", "size"=>"8", "maxlength"=>"10", "required"=>true]),
                     Html::input($prefix.'date_konec', "Datum konce:", $pole, ["type"=>"date", "size"=>"8", "maxlength"=>"10", "required"=>true]),
+                    Html::input($prefix.'date_zaverecna_zkouska', "Datum závěrečné zkoušky:", $pole, ["type"=>"date", "size"=>"8", "maxlength"=>"10"]),
                     Html::input($prefix.'dodavatel', "Dodavatel kurzu:", $pole, ["type"=>"text", "size"=>"60", "maxlength"=>"120"]),
                     Html::input($prefix.'valid', "Platný:", $pole, ["type"=>"text", "size"=>"1", "maxlength"=>"1"])
                 ),
                 Html::tag("fieldset", [],
                     Html::tag("legend", [], "Akreditace kurzu"),
+                    Html::input($prefix.'kurz_typ_kvalifikace', "Typ kvalifikace:", $pole, ["type"=>"text", "size"=>"20", "maxlength"=>"45"]),
                     Html::input($prefix.'kurz_nazev', "Název kurzu:", $pole, ["type"=>"text", "size"=>"120", "maxlength"=>"120"]),
                     Html::input($prefix.'kurz_pracovni_cinnost', "Pracovní činnost:", $pole, ["type"=>"text", "size"=>"120", "maxlength"=>"120"]),
                     Html::input($prefix.'kurz_akreditace', "Akreditace:", $pole, ["type"=>"text", "size"=>"120", "maxlength"=>"120"]),
