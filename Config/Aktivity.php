@@ -874,8 +874,8 @@ class Config_Aktivity {
     $aktivity = array(
             'mot'=>array(
                 'typ'=>'kurz',
-                'nadpis'=>'Poradenský program',
-                'kurz_druh'=>'MOT',
+                'nadpis'=>'Poradenský program pro podnikání',
+                'kurz_druh'=>'POD',
                 's_certifikatem' => TRUE,
                 'certifikat' => self::getCertifikatParams('o+m'),
                 'help'=>self::getHelp('mot')
