@@ -1,7 +1,7 @@
 <?php
 class Projektor2_Viewmodel_KurzViewmodelMapper {
     /**
-     * Metoda vyhledá a vytvoří model podle id tabulky zajemce. Id modelu je shodné z id zajemce.
+     * Metoda vyhledá a vytvoří model podle id tabulky s_kurz. Id modelu je shodné z id s_kurz.
      * @param integer $id
      * @return Projektor2_Viewmodel_KurzViewmodel
      */

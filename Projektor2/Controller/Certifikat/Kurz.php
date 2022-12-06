@@ -12,26 +12,10 @@ class Projektor2_Controller_Certifikat_Kurz extends Projektor2_Controller_Certif
      * @throws LogicException
      */
     public function getResult() {
-        /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
-        $aktivitaPlan = $this->params['aktivitaPlan'];
-        $certifikatVerze = $this->params['certifikatVerze'];
-        // projekt ze session, kancelar a zajemce - zde pro individuální certifikát právě editovaného zájemce (plán) -
-        $certifikat = (new Projektor2_Service_CertifikatKurz())->get(
-                $this->sessionStatus,
-                $this->sessionStatus->kancelar,
-                $this->sessionStatus->zajemce,
-                $aktivitaPlan->sKurz,
-                $certifikatVerze,
-                $aktivitaPlan->datumCertif,
-                $this->sessionStatus->user->name,
-                __CLASS__
-                );
-        if (!$certifikat) {
-            throw new LogicException('Nepodařilo se vytvořit verzi certifikátu: '.$certifikatVerze.' pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
-        } else {
-            $viewPdf = new Projektor2_View_HTML_Script_NewWindowOpener($this->sessionStatus);
-            $viewPdf->assign('fullFileName', Projektor2_AppContext::getHttpFileBasePath().$certifikat->documentCertifikatKurz->relativeDocumentPath);
-            return $viewPdf->render();
-        }
+        /** @var Projektor2_Model_CertifikatKurz $certifikat */
+        $certifikat = $this->params['certifikat'];
+        $viewPdf = new Projektor2_View_HTML_Script_NewWindowOpener($this->sessionStatus);
+        $viewPdf->assign('fullFileName', Projektor2_AppContext::getHttpFileBasePath().$certifikat->documentCertifikatKurz->relativeDocumentPath);
+        return $viewPdf->render();
     }
 }

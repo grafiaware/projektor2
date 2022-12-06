@@ -232,7 +232,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
                 $sirkaOdstavce = $this->w - $this->lMargin - $this->rMargin - $blok->odsazeniZleva - $blok->odsazeniZprava - 2*$this->cMargin;
                 $prvniRadek = TRUE;
                 foreach ($slova as $slovo) {
-                    $token = $slovo ? $slovo." " : "";
+                    $token = ($slovo!=="") ? $slovo." " : " ";
                     $delkaTokenu = $this->GetStringWidth(iconv("UTF-8","windows-1250",$token));
 
                     if ($delkaRadku+$delkaTokenu <= $sirkaOdstavce) {

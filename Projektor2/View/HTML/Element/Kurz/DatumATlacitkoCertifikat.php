@@ -26,11 +26,11 @@ class Projektor2_View_HTML_Element_Kurz_DatumATlacitkoCertifikat extends Framewo
         } else {
             $displayTiskniCertifikat = 'none';
         }
-        $idTiskniCertifikat = $this->context['aktivita'].'_tiskni_certifikat';
+        $idTiskniCertifikat = $this->context['indexAktivity'].'_tiskni_certifikat';
 
         $this->parts[] = '<div id="'.$this->context['idBlokCertifikat'].'" style="display:'.$this->context['displayBlokCertifikat'].'">';
         $this->parts[] = '<p>';
-        $this->parts[] = '<label>Datum vydání osvědčení: </label>';
+        $this->parts[] = '<label>Datum pro vydání osvědčení: </label>';
         $inputTag = '<input type="'.$dateInputType.'" '
                 . 'name="'.$this->context['nameDatumCertif'].'" '
                 . 'value="'.$this->context['valueDatumCertif'].'" '
@@ -45,13 +45,13 @@ class Projektor2_View_HTML_Element_Kurz_DatumATlacitkoCertifikat extends Framewo
         if ($zobrazTiskniCertifikat) {
             $this->parts[] ='<p id="'.$idTiskniCertifikat.'" style="display:'.$displayTiskniCertifikat.'">';
             $this->parts[] ='<button '
-                    . 'type="submit" value="Tiskni osvědčení Grafia'.$this->context['aktivita'].'" '
+                    . 'type="submit" value="Tiskni osvědčení Grafia'.$this->context['indexAktivity'].'" '
                     . 'name="pdf" '.$disabledAttribute.'>'
                     . 'Tiskni osvědčení Grafia'
                     . '</button>';
             if ($zobrazTiskniCertifikatMonitoring) {
                 $this->parts[] ='<button '
-                        . 'type="submit" value="Tiskni osvědčení pro monitoring '.$this->context['aktivita'].'" '
+                        . 'type="submit" value="Tiskni osvědčení pro monitoring '.$this->context['indexAktivity'].'" '
                         . 'name="pdf" '.$disabledAttribute.'>'
                         . 'Tiskni osvědčení pro monitoring'
                         . '</button>';

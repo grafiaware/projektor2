@@ -63,6 +63,12 @@ class Projektor2_Model_SessionStatus {
     public $sKurz;
 
     /**
+     *
+     * @var Projektor2_Model_Navigation
+     */
+    public $navigation;
+
+    /**
      * @var Framework_Logger_File
      */
     public $logger;
@@ -113,6 +119,11 @@ class Projektor2_Model_SessionStatus {
 
     public function setSKurz(Projektor2_Model_Db_SKurz $sKurz=NULL) {
         $this->sKurz = $sKurz;
+        return $this;
+    }
+    
+    public function setNavigation(Projektor2_Model_Navigation $navigation) {
+        $this->navigation = $navigation;
         return $this;
     }
 

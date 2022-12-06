@@ -25,6 +25,11 @@ $response = new Projektor2_Response();
 //}
 
 $pageController = new Projektor2_Controller_Page($sessionStatus, $request, $response);
+
+$response->addHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+$response->addHeader("Cache-Control", "post-check=0, pre-check=0", false );  // don't replace apache header
+$response->addHeader("Pragma", "no-cache");
+
 $response->setBody($pageController->getResult());
 $sessionStatus->persistSessionStatus($request, $response);
 $response->send();

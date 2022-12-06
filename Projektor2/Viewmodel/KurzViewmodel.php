@@ -13,7 +13,7 @@ class Projektor2_Viewmodel_KurzViewmodel {
 //    public $pocet_hodin_distancne;
 //    public $pocet_hodin_praxe;
 //    public $date_zacatek;
-//    public $date_konec;
+    public $date_konec;
 //    public $dodavatel;
 
     private  $skupiny = array();
@@ -22,6 +22,7 @@ class Projektor2_Viewmodel_KurzViewmodel {
         $this->id = $sKurz->id_s_kurz;
         $this->kurz_text = $this->textRetezecKurz($sKurz);
         $this->kurz_lokace = $sKurz->kurz_lokace;
+        $this->date_konec = $sKurz->date_konec;
     }
 
     /**

@@ -26,7 +26,7 @@ class Projektor2_View_PDF_KurzOsvedceniAkreditovany extends Projektor2_View_PDF_
         //##################################################################################################
         $datumCertif = Projektor2_Date::createFromSqlDate($this->context['certifikat']->date)->getCzechStringDate();
         $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $datumCertif);
-        $this->pdf->Ln(10);
+        $this->pdf->Ln(2);
         $this->tiskniPodpisCertifikat();
 
     }

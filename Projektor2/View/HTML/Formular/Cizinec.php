@@ -38,6 +38,7 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                     ),
                     Html::tag("p", [],
                         Html::input($prefixDotaznik.'datum_narozeni', "Datum narození:", $poleDotaznik, ["id"=>"datum_narozeni", "type"=>"date", "size"=>"8", "maxlength"=>"10"]),  //, "required"=>true]),  // id pro javascript
+                        Html::input($prefixDotaznik.'misto_narozeni', "Místo narození pro certifikáty:", $poleDotaznik, ["id"=>"misto_narozeni", "type"=>"text", "size"=>"30", "maxlength"=>"50"]),  //, "required"=>true]),  // id pro javascript
                         Html::input($prefixDotaznik.'rodne_cislo', "Rodné číslo v ČR:", $poleDotaznik, ["id"=>"rodne_cislo", "type"=>"text", "size"=>"20", "maxlength"=>"50"]),  //, "readonly"=>true]),  // readonly - generuje javascript
                     )
                 ),

@@ -31,7 +31,9 @@ class Projektor2_View_HTML_Mb_Smlouva extends Projektor2_View_HTML_FormularPHP4 
           <option <?php if (@$pole[$prefixDotaznik.'pohlavi'] == 'muž'){echo 'selected';} ?>>muž</option>
           <option <?php if (@$pole[$prefixDotaznik.'pohlavi'] == 'žena'){echo 'selected';} ?>>žena</option>
   </select></p>
-  <p><label for="datum_narozeni">Datum narození:</label><input ID="datum_narozeni" type="date" name="<?=$prefixDotaznik.'datum_narozeni'?>" size="8" maxlength="10" value="<?=$pole[$prefixDotaznik.'datum_narozeni'];?>" required>
+  <p>
+    <label for="datum_narozeni">Datum narození:</label><input ID="datum_narozeni" type="date" name="<?=$prefixDotaznik.'datum_narozeni'?>" size="8" maxlength="10" value="<?=$pole[$prefixDotaznik.'datum_narozeni'];?>" required>
+    <label for="misto_narozeni">Místo narození pro certifikáty:</label><input ID="misto_narozeni" type="text" name="<?=$prefixDotaznik.'misto_narozeni'?>" size="20" maxlength="50" value="<?=$pole[$prefixDotaznik.'misto_narozeni'];?>" required>
     <label for="rodne_cislo">Rodné číslo:</label><input ID="rodne_cislo" type="text" name="<?=$prefixDotaznik.'rodne_cislo'?>" size="20" maxlength="50" value="<?=$pole[$prefixDotaznik.'rodne_cislo'];?>"></p>
   <p></p>
 </FIELDSET>

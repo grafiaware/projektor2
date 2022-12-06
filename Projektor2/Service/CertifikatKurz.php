@@ -29,16 +29,12 @@ class Projektor2_Service_CertifikatKurz {
             $certifikatVerze,
             $datumCertifikatu, $creator, $service
         ) {
-
-        $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
-
-        $fullCertifikatKurz = $this->readCertifikat($zajemce, $sKurz, $certifikatRada, $certifikatVerze);
-
         $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath(), 'Certificates/'.date('Ymd').' CertificateCreation.log');  // denní logy - jméno začíná "číslem" dne
 
-        if ($fullCertifikatKurz) {
-            $logger->log('Nalezen certifikát. Db id: '.$fullCertifikatKurz->dbCertifikatKurz->id.'. File path: '.$fullCertifikatKurz->documentCertifikatKurz->filePath);
-        } else {
+        $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
+        $fullCertifikatKurz = $this->readCertifikat($zajemce, $sKurz, $certifikatRada, $certifikatVerze);
+
+        if (!$fullCertifikatKurz) {
             $fullCertifikatKurz = $this->createCertifikat($sessionStatus, $kancelar, $zajemce, $sKurz, $certifikatVerze, $datumCertifikatu, $creator, $service);
             $logger->log('Vytvořen certifikát. Db id: '.$fullCertifikatKurz->dbCertifikatKurz->id.'. File path: '.$fullCertifikatKurz->documentCertifikatKurz->filePath);
         }

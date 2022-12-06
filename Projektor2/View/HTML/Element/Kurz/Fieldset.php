@@ -11,10 +11,10 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         $itemSeparator = Projektor2_Controller_Formular_FlatTable::ITEM_SEPARATOR;
         $planKurzSign = Projektor2_Controller_Formular_FlatTable::PLAN_KURZ;
 
-        $aktivita = $this->context['aktivita'];  // index aktivity
-        $konfiguraceAktivity = $this->context['aktivityTypuKurz'][$aktivita];
-        $modelySKurz = $this->context['modelySKurz'][$aktivita];
-        $planKurzArray = $this->context[$planKurzSign][$aktivita];
+        $indexAktivity = $this->context['indexAktivity'];  // index aktivity
+        $konfiguraceAktivity = $this->context['aktivityTypuKurz'][$indexAktivity];
+        $modelySKurz = $this->context['modelySKurz'][$indexAktivity];
+        $planKurzArray = $this->context[$planKurzSign][$indexAktivity];
 
         // hodnoty proměnných pro vytváření atributů při skládání tagů
         if ($this->context['readonly'] ?? false) {
@@ -32,7 +32,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         }
         $checkedAttribute = ' checked="checked" ';
 
-        $planKurzPrefix = 'planKurz'.$itemSeparator.$aktivita.$modelSeparator;
+        $planKurzPrefix = 'planKurz'.$itemSeparator.$indexAktivity.$modelSeparator;
 
         // názvy hodnoty v contextu
         ### povinné proměnné formuláře - musí existovat a mít nastevené neprázdné hodnoty - bez nich dojde k uložení chybných, neúplných dat do tabulky za_plan_kurz
@@ -66,7 +66,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         $zobrazTiskniCertifikat = ($konfiguraceAktivity['certifikat']['original'] ?? null) ? TRUE : FALSE;
         $zobrazTiskniCertifikatMonitoring = ($konfiguraceAktivity['certifikat']['monitoring'] ?? null) ? TRUE : FALSE;
 
-        $uniqueFieldsetSign = $aktivita;
+        $uniqueFieldsetSign = $indexAktivity;
         $idSelect = $uniqueFieldsetSign.'_select';
         $idTlacitkoAbsolvovano = $uniqueFieldsetSign.'_tlacitko_absolvovano';
         $idUdajeAbsolvovano = $uniqueFieldsetSign.'_udaje_absolvovano';
@@ -104,7 +104,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
             $this->parts[] = $viewSelect;
             $this->parts[] ='<input type="hidden" name="'.$nameKurzDruh.'" size=120 maxlength=120 value="'.$konfiguraceAktivity['kurz_druh'].'" >'
                         . '</input>';
-            $this->parts[] ='<input type="hidden" name="'.$nameAktivita.'" size=120 maxlength=120 value="'.$aktivita.'" >'
+            $this->parts[] ='<input type="hidden" name="'.$nameAktivita.'" size=120 maxlength=120 value="'.$indexAktivity.'" >'
                         . '</input>';
             $this->parts[] ='</p>';
 
@@ -184,8 +184,8 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
                 $viewCertifikat->assign('zobrazTiskniCertifikat', $zobrazTiskniCertifikat);
                 $viewCertifikat->assign('zobrazTiskniCertifikatMonitoring', $zobrazTiskniCertifikatMonitoring);
                 $viewCertifikat->assign('nameDatumCertif', $nameDatumCertif);
-                $viewCertifikat->assign('valueDatumCertif', $planKurzArray[$nameDatumCertif]);
-                $viewCertifikat->assign('aktivita', $aktivita);
+                $viewCertifikat->assign('valueDatumCertif', ($planKurzArray[$nameDatumCertif] ? $planKurzArray[$nameDatumCertif] : $modelSKurz->date_konec));
+                $viewCertifikat->assign('indexAktivity', $indexAktivity);
                 $this->parts[] = $viewCertifikat;
             }
             // konec bloku certifikát

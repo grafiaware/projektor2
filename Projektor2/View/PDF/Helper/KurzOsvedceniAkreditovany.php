@@ -14,6 +14,9 @@
 class Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany extends Projektor2_View_PDF_Helper_Base {
 
     public static function createContent($pdf, $context, $caller, $radkovani=1) {
+
+        $prefixDotaznik = $caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
+
         // pod logo Grafia
         $pdf->SetXY(0,40);
 
@@ -38,9 +41,15 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany extends Projektor2_Vi
             $blokLeftMargin20_11->VyskaPismaNadpisu(20);
             $blokLeftMargin20_11->VyskaPismaTextu(11);
 
+        /** @var Projektor2_PDF_Blok $blok */
+
         $blok = clone $blokCentered30_14;
             $blok->PridejOdstavec('Grafia, společnost s ručením omezeným');
             $blok->PridejOdstavec('se sídlem Budilova 4, 301 21 Plzeň - Jižní předměstí');
+        $pdf->TiskniBlok($blok);
+
+        $blok = clone $blokCentered30_14;
+            $blok->PridejOdstavec($context['sKurz']->kurz_akreditace);
         $pdf->TiskniBlok($blok);
 
         $blok = clone $blokCentered30_14;
@@ -49,19 +58,23 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany extends Projektor2_Vi
         $pdf->TiskniBlok($blok);
 
         $blok = clone $blokCentered20_11;
-            $blok->PridejOdstavec('po úspěšném ukončení vzdělávacího programu rekvalifikačního kurzu, podle vyhlášky MŠMT č. 176/2009 Sb., kterou se stanoví náležitosti žádosti o akreditaci vzdělávacího programu, organizace vzdělávání v rekvalifikačním zařízení a způsob jeho ukončení.');
+            $blok->PridejOdstavec(
+                'po úspěšném ukončení vzdělávacího programu rekvalifikačního kurzu podle vyhlášky MŠMT č. 176/2009 Sb.,
+                kterou se stanoví náležitosti žádosti o akreditaci vzdělávacího programu,
+                organizace vzdělávání v rekvalifikačním zařízení a způsob jeho ukončení.');
         $pdf->TiskniBlok($blok);
 
         $blok = clone $blokCentered30_14;
             $blok->Nadpis(self::celeJmeno($context[$caller::MODEL_DOTAZNIK]));
-        $pdf->TiskniBlok($blok);
-
-        $blok = clone $blokCentered30_14;
-        if ($context[$caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR.'pohlavi'] == 'muž') {
-            $blok->PridejOdstavec('absolvoval rekvalifikační program: ');
-        } else {
-            $blok->PridejOdstavec('absolvovala rekvalifikační program: ');
-        }
+            if ($context[$prefixDotaznik.'pohlavi'] == 'muž') {
+                $naroz = 'narozen';
+                $absol = 'absolvoval rekvalifikační program: ';
+            } else {
+                $naroz = 'narozena';
+                $absol = 'absolvovala rekvalifikační program: ';
+            }
+            $blok->PridejOdstavec($naroz.' '.self::datumBezNul($context[$prefixDotaznik.'datum_narozeni'])." ".$context[$prefixDotaznik.'misto_narozeni']);
+            $blok->PridejOdstavec($absol);
         $pdf->TiskniBlok($blok);
         $blok = clone $blokCentered30_14;
         $blok->Nadpis($context['sKurz']->kurz_nazev);
@@ -70,41 +83,40 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany extends Projektor2_Vi
 
         $blok = clone $blokCentered30_14;
         $blok->PridejOdstavec('pro pracovní činnost: '.$context['sKurz']->kurz_pracovni_cinnost);
-
-        if ($context['sKurz']->date_zacatek AND $context['sKurz']->date_konec){
-            if ($context['sKurz']->date_zacatek == $context['sKurz']->date_konec) {
-                $blok->PridejOdstavec('kurz proběhl dne '.self::datumBezNul($context['sKurz']->date_zacatek));
-            } else {
-                $blok->PridejOdstavec('kurz proběhl v období od '.self::datumBezNul($context['sKurz']->date_zacatek)
-                                        .' do '.self::datumBezNul($context['sKurz']->date_konec));
-            }
-        }
         $pdf->TiskniBlok($blok);
-
-        $blok = clone $blokLeftMargin30_14;
-        $blokLeftMargin->OdsazeniZleva(45);
 
         if ($context['sKurz']->pocet_hodin) {
-            $blok->PridejOdstavec('V rozsahu');
-            $blok->PridejOdstavec('- na teorii '.$context['sKurz']->pocet_hodin.' vyučovacích hodin');
-            $dist = $context['sKurz']->pocet_hodin_distancne ? $context['sKurz']->pocet_hodin_distancne : '0';
-                $blok->PridejOdstavec('- z toho distančně '.$dist.' vyučovacích hodin');
-            $praxe = $context['sKurz']->pocet_hodin_praxe ?$context['sKurz']->pocet_hodin_praxe : '0';
-                $blok->PridejOdstavec('- na praxi '.$praxe.' vyučovacích hodin');
+            $pdf->Ln(2);
+            $blok = clone $blokLeftMargin30_14;
+            $blok->OdsazeniZleva(45);
+            if ($context['sKurz']->date_zacatek AND $context['sKurz']->date_konec){
+                if ($context['sKurz']->date_zacatek == $context['sKurz']->date_konec) {
+                    $blok->PridejOdstavec('Kurz proběhl dne '.self::datumBezNul($context['sKurz']->date_zacatek));
+                } else {
+                    $blok->PridejOdstavec('Kurz proběhl v období od '.self::datumBezNul($context['sKurz']->date_zacatek)
+                                            .' do '.self::datumBezNul($context['sKurz']->date_konec));
+                }
+            }
+            $blok->PridejOdstavec('v rozsahu');
+            $blok->PridejOdstavec('  - na teorii '.$context['sKurz']->pocet_hodin.' vyučovacích hodin');
+            $blok->PridejOdstavec('  - z toho distanční formou '.$context['sKurz']->pocet_hodin_distancne);
+            $blok->PridejOdstavec('  - na praxi '.$context['sKurz']->pocet_hodin_praxe.' hodin');
+            $pdf->TiskniBlok($blok);
         }
-        $pdf->TiskniBlok($blok);
 
-//        $blok->PridejOdstavec('v rozsahu '.$context[$caller::MODEL_PLAN .$druh.'_poc_abs_hodin'].' hodin');
-        $blok = clone $blokCentered20_11;
+
         if ($context['sKurz']->kurz_obsah) {
+            $pdf->Ln(2);
+            $blok = clone $blokLeftMargin20_11;
+            $blok->OdsazeniZleva(45);
             $blok->PridejOdstavec('Vzdělávací program obsahoval tyto tématické celky: ');
             $odstavceObsah = explode('\r\n', $context['sKurz']->kurz_obsah);
             foreach ($odstavceObsah as $bodObsahu) {
                 $blok->PridejOdstavec($bodObsahu);
             }
+            $pdf->TiskniBlok($blok);
         }
-        $pdf->TiskniBlok($blok);
 
-        }
+    }
 
 }

@@ -48,29 +48,67 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
         }
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení Grafia') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení Grafia')));  // druh je řetězec za slovy Tiskni osvědčení Grafia
-            /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
-            $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
-            $params = array(
-                'aktivitaPlan'=>$aktivitaPlan,
-                'certifikatVerze'=>'original'
-            );
-
-            $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
-            $htmlResult = $ctrlIpCertifikat->getResult();
+            $htmlResult = $this->getCertificateNewOpenerHtml($indexAktivity, 'original');
         }
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení pro monitoring') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení pro monitoring')));  // druh je řetězec za slovy Tiskni osvědčení pro monitoring
-            /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
-            $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
-
-            $params = array(
-                'aktivitaPlan'=>$aktivitaPlan,
-                'certifikatVerze'=>'monitoring'
-            );
-
-            $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
-            $htmlResult = $ctrlIpCertifikat->getResult();
+            $htmlResult = $this->getCertificateNewOpenerHtml($indexAktivity, 'monitoring');
         }
         return $htmlResult;
+    }
+
+    private function getCertificateNewOpenerHtml($indexAktivity, $certifikatVerze) {
+
+        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
+        $konfiguraceAktivity = $aktivityProjektuTypuKurz[$indexAktivity];
+        $aktivitaSCertifikatem = ($konfiguraceAktivity['s_certifikatem'] ?? null) ? TRUE : FALSE;
+        if (!isset($aktivitaSCertifikatem) OR !$aktivitaSCertifikatem) {
+            throw new LogicException("Došlo k pokusu o vytvoření certifikátů pro akrivitu bez certifikátu. Aktivita '$indexAktivity'.");
+        }
+        /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
+        $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
+        $createCertifikat = ($konfiguraceAktivity['certifikat']['original'] ?? null) ? TRUE : FALSE;
+        $createCertifikatMonitoring = ($konfiguraceAktivity['certifikat']['monitoring'] ?? null) ? TRUE : FALSE;
+        if ($createCertifikat) {
+            $verze= 'original';
+            $certifikat = $this->readOrCreateCertificate($aktivitaPlan, $verze);
+            if ($verze==$certifikatVerze) {
+                $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, ['certifikat'=>$certifikat]);
+                $htmlResult = $ctrlIpCertifikat->getResult();  // NewWindowOpener
+            }
+        }
+        if ($createCertifikatMonitoring) {
+            $certifikatVerze = 'monitoring';
+            if ($verze==$certifikatVerze) {
+                $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, ['certifikat'=>$certifikat]);
+                $htmlResult = $ctrlIpCertifikat->getResult();  // NewWindowOpener
+            }
+        }
+
+        return $htmlResult;
+    }
+
+    /**
+     *
+     * @param type $aktivitaPlan
+     * @param type $certifikatVerze
+     * @return Projektor2_Model_CertifikatKurz
+     * @throws LogicException
+     */
+    private function readOrCreateCertificate(Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, $certifikatVerze) {
+        $certifikat = (new Projektor2_Service_CertifikatKurz())->get(
+                $this->sessionStatus,
+                $this->sessionStatus->kancelar,
+                $this->sessionStatus->zajemce,
+                $aktivitaPlan->sKurz,
+                $certifikatVerze,
+                $aktivitaPlan->datumCertif,
+                $this->sessionStatus->user->name,
+                __CLASS__
+                );
+        if (!$certifikat) {
+            throw new LogicException('Nepodařilo se vytvořit verzi certifikátu: '.$certifikatVerze.' pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
+        }
+        return $certifikat;
     }
 }

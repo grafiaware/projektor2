@@ -12,10 +12,10 @@ class Projektor2_View_HTML_Formular_IP1 extends Framework_View_Abstract {
         $this->parts[] = '<H4>Plán aktivit</H4>';
         $this->parts[] = '<form method="POST" action="index.php?osoby=form&form=plan">';
 
-        foreach (array_keys($this->context['aktivityTypuKurz']) as $aktivita) {  // používám jen klíče - pole aktivit je v context
+        foreach (array_keys($this->context['aktivityTypuKurz']) as $indexAktivity) {  // používám jen klíče - pole aktivit je v context
                 $view = new Projektor2_View_HTML_Element_Kurz_Fieldset($this->sessionStatus, $this->context);
                 $view
-                    ->assign('aktivita', $aktivita)
+                    ->assign('indexAktivity', $indexAktivity)
                     ->assign('readonly', FALSE)
                         // Projektor2_Viewmodel_Kurz
                     ->assign('returnedModelProperty', 'id');
