@@ -87,12 +87,7 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                     'id_kancelar'=>isset($this->sessionStatus->kancelar->id) ? $this->sessionStatus->kancelar->id : NULL,
                     'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
                 );
-        If ($this->sessionStatus->akce == 'osoby') {
-//            $parts[] = new Projektor2_View_HTML_KontextBeh($this->sessionStatus,
-//                array('behy'=>$behy,
-//                    'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
-//                );
-        }
+
         // podmínka pro pokračování - obsah zobrazený při úplném kontextu
         if (isset($this->sessionStatus->kancelar) AND $this->sessionStatus->akce) {
 //            if ($this->sessionStatus->akce!='osoby' OR isset($this->sessionStatus->beh)) {

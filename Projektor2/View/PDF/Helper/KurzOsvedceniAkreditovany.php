@@ -119,7 +119,12 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany extends Projektor2_Vi
         $pdf->Ln(2);
         if ($context['sKurz']->kurz_typ_kvalifikace AND $context['sKurz']->date_zaverecna_zkouska) {  // jen pro typ čistá- ale zjišťuji jen jestli je typ neprázdný
             $blok = clone $blokCentered28_13;
-            $blok->PridejOdstavec('Jmenovaný vykonal úspěšně závěrečné zkoušky dne: '.self::datumBezNul($context['sKurz']->date_zaverecna_zkouska));
+            if ($context[$prefixDotaznik.'pohlavi'] == 'muž') {
+                $jmeno = 'Jmenovaný vykonal';
+            } else {
+                $jmeno = 'Jmenovaná vykonala ';
+            }
+            $blok->PridejOdstavec("$jmeno úspěšně závěrečné zkoušky dne: ".self::datumBezNul($context['sKurz']->date_zaverecna_zkouska));
             $pdf->TiskniBlok($blok);
         }
     }

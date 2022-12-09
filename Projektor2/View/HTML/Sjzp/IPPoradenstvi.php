@@ -19,7 +19,7 @@ class Projektor2_View_HTML_Sjzp_IPPoradenstvi extends Projektor2_View_HTML_Formu
         
         $aktivity = Config_Aktivity::getAktivityProjektu('AP');   
         foreach ($aktivity as $druh=>$aktivita) {
-            if ($aktivita['typ']=='poradenstvi') {
+            if ($aktivita['typ']==Config_Aktivity::TYP_PORADENSTVI) {
                 $name = 'poranenstvi->'.$druh;
                 echo Projektor2_View_HTML_Element_PlanFieldset::renderFieldsetPoradenstvi($this->context, 'zaPlanPoradnestvi->id_s_kurz_FK', $this->context['poradenstvi_'.$druh], 'id', $aktivita['nadpis'], FALSE, $aktivita['s_certifikatem']);
             }

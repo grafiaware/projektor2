@@ -19,12 +19,15 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
      * @var Projektor2_Model_Db_SKurz
      */
     public $sKurz;
-    
+
     public $pocAbsHodin;
     public $duvodAbsence;
     public $dokoncenoUspesne;
     public $duvodNeuspechu;
     public $datumCertif;
+
+    public $defaultDatumCertif;
+
     /**
      * @var Projektor2_Model_Db_CertifikatKurz array of
      */
@@ -52,5 +55,11 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
         $this->datumCertif = $datumCertif;
         $this->certifikatyKurz = $certifikatyKurz;
         $this->hodnoceni = $hodnoceni;
+
+        $this->defaultDatumCertif =
+                $datumCertif = $this->datumCertif
+                ? $this->datumCertif
+                : ($this->sKurz->date_zaverecna_zkouska ? $this->sKurz->date_zaverecna_zkouska : $this->sKurz->date_konec);
+
     }
 }

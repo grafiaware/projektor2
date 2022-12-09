@@ -13,8 +13,8 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
     }
     
     protected function getResultFormular() {
-        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
-        $aktivityProjektuTypuPoradenstvi = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'poradenstvi');
+        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ);
+        $aktivityProjektuTypuPoradenstvi = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_PORADENSTVI);
         $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
         $kurzyPlanAssoc = Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
         
@@ -41,7 +41,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
     protected function getResultPdf() {
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
             $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
-            $aktivityProjektuTypuPoradenstvi = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'poradenstvi');            
+            $aktivityProjektuTypuPoradenstvi = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_PORADENSTVI);            
             $view = new Projektor2_View_PDF_Ap_IP2($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
@@ -61,7 +61,7 @@ class Projektor2_Controller_Formular_Ap_IP2 extends Projektor2_Controller_Formul
         
         if ($this->request->post('pdf') == "Tiskni IP 2.část - doplnění hodnocení") {
             $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
-            $aktivityProjektuTypuPoradenstvi = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'poradenstvi');            
+            $aktivityProjektuTypuPoradenstvi = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_PORADENSTVI);            
             $view = new Projektor2_View_PDF_Ap_IP2Hodnoceni($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)

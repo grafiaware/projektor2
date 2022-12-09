@@ -17,7 +17,7 @@ class Projektor2_Controller_Formular_Ap_IP1 extends Projektor2_Controller_Formul
     }
 
     protected function getResultFormular() {
-        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
+        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ);
         $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));

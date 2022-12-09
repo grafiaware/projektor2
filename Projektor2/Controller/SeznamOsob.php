@@ -9,7 +9,6 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
     protected function getLeftMenuArray() {
         $menuArray[] = ['href'=>'index.php?osoby=form&form=novy_zajemce&novy_zajemce', 'text'=>'Nová osoba'];
         $menuArray[] = ['href'=>'index.php?osoby=excel', 'text'=>'Exporty dat'];
-        $menuArray[] = ['href'=>'index.php?osoby=export_certifikaty_kurz', 'text'=>'Exportuj IP certifikáty'];
         $menuArray[] = ['href'=>'index.php?osoby=export_certifikaty_projekt', 'text'=>'Exportuj projektové certifikáty'];
         return $menuArray;
     }
@@ -29,7 +28,7 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
         if ($osobyMenu) {
             $row[] = (string) (new Projektor2_Controller_Element_TabulkaMenuOsoby($this->sessionStatus, $this->request, $this->response, $osobyMenu))->getResult();
         }
-        
+
         $gridColumns[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$row, 'class'=>'content']);
         $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$gridColumns, 'class'=>'grid-container']);
 

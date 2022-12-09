@@ -95,7 +95,7 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
     private static function createAktivitaPlan(Projektor2_Model_Db_ZaPlanKurz $planKurz=null, Projektor2_Model_Db_Flat_ZaUkoncFlatTable $ukonceni,
             $aktivita, $indexAktivity, $id, $zajemce) {
 
-        if ($aktivita['typ']=='kurz') {
+        if ($aktivita['typ']==Config_Aktivity::TYP_KURZ) {
 
             $columnsUkonceni = $ukonceni->getItemColumnsNames($indexAktivity);
             $sKurz = Projektor2_Model_Db_SKurzMapper::get($planKurz->id_s_kurz_FK);

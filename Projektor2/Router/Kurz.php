@@ -27,6 +27,9 @@ class Projektor2_Router_Kurz {
             case "excel":
                 return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response, ['export_type'=>'kurz']);
                 break;
+            case "export_certifikaty_kurz":
+                return new Projektor2_Controller_Export_CertifikatyKurz($this->sessionStatus, $this->request, $this->response);
+                break;
         }
     }
 }

@@ -29,7 +29,7 @@ class Projektor2_View_HTML_Element_Aktivita_HodnoceniFieldset extends Framework_
         $this->parts[] = '<fieldset>';
         $this->parts[] ='<legend>'.$konfiguraceAktivity['nadpis'].' - hodnocení</legend>';
         // kurz fieldset je readonly
-        if ($konfiguraceAktivity['typ']=='kurz') {
+        if ($konfiguraceAktivity['typ']==Config_Aktivity::TYP_KURZ) {
             $view = new Projektor2_View_HTML_Element_Kurz_Fieldset($this->sessionStatus, $this->context);
             $view->assign('returnedModelProperty', 'id');
             $view->assign('readonly', TRUE);

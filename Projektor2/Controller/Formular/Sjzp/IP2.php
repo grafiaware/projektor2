@@ -13,7 +13,7 @@ class Projektor2_Controller_Formular_Sjzp_IP2 extends Projektor2_Controller_Form
     }
     
     protected function getResultFormular() {
-        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
+        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ);
         $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
         $kurzyPlanAssoc = Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce);
         

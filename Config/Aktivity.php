@@ -7,11 +7,16 @@
  */
 class Config_Aktivity {
 
-    public static function getAktivityProjektuTypu($kod=NULL, $typ=NULL) {
-        $kurzyProjektu = array();
-        foreach (self::getAktivityProjektu($kod) as $druhAktivity => $aktivita) {
-            if ($aktivita['typ']==$typ) {
-                $kurzyProjektu[$druhAktivity] = $aktivita;
+    const TYP_KURZ = 'kurz';
+    const TYP_PORADENSTVI = self::TYP_PORADENSTVI;
+
+    public static function findAktivity($projektKod, $aktivitaTyp, $aktivitaKurzDruh=NULL) {
+        $kurzyProjektu = [];
+        foreach (self::getAktivityProjektu($projektKod) as $druhAktivity => $aktivita) {
+            if ($aktivita['typ']==$aktivitaTyp) {
+                if (isset($aktivitaKurzDruh) AND $aktivita['kurz_druh']==$aktivitaKurzDruh) {
+                    $kurzyProjektu[$druhAktivity] = $aktivita;
+                }
             }
         }
         return $kurzyProjektu;
@@ -30,7 +35,7 @@ class Config_Aktivity {
             case 'AP':
     $aktivity = array(
             'zztp'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'kurz_druh'=>'ZZTP',
                 'vyberovy'=> 0,
                 'nadpis'=>'Kurz základních znalostí trhu práce',
@@ -40,7 +45,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('mot')
                 ),
             'fg'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'kurz_druh'=>'FG',
                 'vyberovy'=> 0,
                 'nadpis'=>'Kurz finanční gramotnosti',
@@ -49,7 +54,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('mot')
                 ),
             'pc1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'kurz_druh'=>'PC',
                 'vyberovy'=> 0,
                 'nadpis'=>'Kurz komunikace včetně obsluhy PC',
@@ -58,7 +63,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('pc')
                 ),
             'im'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'kurz_druh'=>'IM',
                 'vyberovy'=> 1,
                 'nadpis'=>'Image poradna',
@@ -67,7 +72,7 @@ class Config_Aktivity {
                 'help'=>'Image poradna'
                 ),
             'spp'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'kurz_druh'=>'SPP',
                 'vyberovy'=> 1,
                 'nadpis'=>'Motivační setkání pro podnikavé',
@@ -76,7 +81,7 @@ class Config_Aktivity {
                 'help'=>'Motivační setkání pro podnikavé'
                 ),
             'sebas'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'kurz_druh'=>'SEBAS',
                 'vyberovy'=> 1,
                 'nadpis'=>'Podpora sebevědomí a asertivita',
@@ -85,7 +90,7 @@ class Config_Aktivity {
                 'help'=>'Podpora sebevědomí a asertivita'
                 ),
             'forpr'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'kurz_druh'=>'FORPR',
                 'vyberovy'=> 1,
                 'nadpis'=>'Moderní formy práce',
@@ -94,7 +99,7 @@ class Config_Aktivity {
                 'help'=>'Moderní formy práce'
                 ),
             'prdi'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'kurz_druh'=>'PD',
                 'vyberovy'=> 1,
                 'nadpis'=>'Pracovní diagnostika',
@@ -103,7 +108,7 @@ class Config_Aktivity {
                 'help'=>'Help Pracovní diagnostika'
                 ),
             'porad'=>array(
-                'typ'=>'poradenstvi',
+                'typ'=>self::TYP_PORADENSTVI,
                 'vyberovy'=> 0,
                 'nadpis'=>'Individuální poradenství a zprostředkování zaměstnání',
                 's_hodnocenim' => FALSE,
@@ -112,7 +117,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('poradenstvi')
                 ),
             'klub'=>array(
-                'typ'=>'poradenstvi',
+                'typ'=>self::TYP_PORADENSTVI,
                 'vyberovy'=> 1,
                 'nadpis'=>'Klubová setkání',
                 's_hodnocenim' => FALSE,
@@ -121,7 +126,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('poradenstvi')
                 ),
             'vyhodnoceni'=>array(
-                'typ'=>'poradenstvi',
+                'typ'=>self::TYP_PORADENSTVI,
                 'vyberovy'=> 0,
                 'nadpis'=>'Vyhodnovení účasti při ukončení účasti',
                 's_hodnocenim' => TRUE,
@@ -130,7 +135,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('poradenstvi')
                 ),
             'doporuceni'=>array(
-                'typ'=>'poradenstvi',
+                'typ'=>self::TYP_PORADENSTVI,
                 'vyberovy'=> 0,
                 'nadpis'=>'Doporučení vysílajícímu KoP ÚP při ukončení účasti',
                 's_hodnocenim' => TRUE,
@@ -146,7 +151,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Motivační kurz',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
@@ -154,7 +159,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('mot')
                 ),
             'pc1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => FALSE,
@@ -162,7 +167,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('pc')
                 ),
             'prof1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => FALSE,
@@ -170,7 +175,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'prof2'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 2',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => FALSE,
@@ -178,7 +183,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'prof3'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 3',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => FALSE,
@@ -186,7 +191,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'im'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Image poradna',
                 'kurz_druh'=>'IM',
                 's_certifikatem' => FALSE,
@@ -194,14 +199,14 @@ class Config_Aktivity {
                 'help'=>'Help Image poradna'
                 ),
             'spp'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Setkání pro podnikavé',
                 'kurz_druh'=>'SPP',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
                 'help'=>'Help Setkání pro podnikavé'),
             'prdi'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Pracovní diagnostika',
                 'kurz_druh'=>'PD',
                 's_certifikatem' => FALSE,
@@ -228,7 +233,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Motivační kurz',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
@@ -236,7 +241,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('mot')
                 ),
             'pc1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
@@ -244,7 +249,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('pc')
                 ),
             'prof1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
@@ -254,7 +259,7 @@ class Config_Aktivity {
         // prof3 je v SJZP použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof3
         // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
             'prof3'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
@@ -262,14 +267,14 @@ class Config_Aktivity {
                 'help'=>self::getHelp('jaz')
                 ),
             'prdi'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Pracovní diagnostika',
                 'kurz_druh'=>'PD',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
                 'help'=>'SJZP Pracovní diagnostika'),
             'bidi'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Bilanční diagnostika',
                 'kurz_druh'=>'BD',
                 's_certifikatem' => FALSE,
@@ -296,7 +301,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
@@ -310,7 +315,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'zztp'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Kurz dovedností pro pracovní trh',
                 'kurz_druh'=>'ZZTP',
                 's_certifikatem' => TRUE,
@@ -319,7 +324,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('mot')
                 ),
             'pc1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
@@ -328,7 +333,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('pc')
                 ),
             'prof1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz s jazykem',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
@@ -339,7 +344,7 @@ class Config_Aktivity {
         // prof2 je v SJZP použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof3
         // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
             'prof2'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
@@ -348,7 +353,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('jaz')
                 ),
             'prof3'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
@@ -357,7 +362,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'prof4'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 2',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
@@ -366,7 +371,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
                 'prdi'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Pracovní diagnostika',
                 'kurz_druh'=>'PD',
                 's_certifikatem' => FALSE,
@@ -396,7 +401,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
@@ -411,7 +416,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
@@ -426,7 +431,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
@@ -441,7 +446,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
@@ -459,7 +464,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
@@ -470,7 +475,7 @@ class Config_Aktivity {
         // prof1 je použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof1
         // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
             'prof1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Jazykový lurz - jazyk anglickýa',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
@@ -485,7 +490,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'zztp'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Kurz dovedností pro pracovní trh',
                 'kurz_druh'=>'ZZTP',
                 's_certifikatem' => TRUE,
@@ -494,7 +499,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('mot')
                 ),
             'pc1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
@@ -503,7 +508,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('pc')
                 ),
             'prof1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz s jazykem',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
@@ -514,7 +519,7 @@ class Config_Aktivity {
         // prof2 je v SJZP použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof3
         // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
             'prof2'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
@@ -523,7 +528,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('jaz')
                 ),
             'prof3'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
@@ -532,7 +537,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'prof4'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 2',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
@@ -541,7 +546,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'odb1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Odborný kurz 1',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
@@ -550,7 +555,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('odb')
                 ),
             'prdi'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Pracovní diagnostika',
                 'kurz_druh'=>'PD',
                 's_certifikatem' => FALSE,
@@ -580,7 +585,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'zztp'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Kurz dovedností pro pracovní trh',
                 'kurz_druh'=>'ZZTP',
                 's_certifikatem' => TRUE,
@@ -589,7 +594,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('mot')
                 ),
             'pc1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
@@ -598,7 +603,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('pc')
                 ),
             'prof1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz s jazykem',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
@@ -609,7 +614,7 @@ class Config_Aktivity {
         // prof2 je v SJZP použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof3
         // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
             'prof2'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
@@ -618,7 +623,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('jaz')
                 ),
             'prof3'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
@@ -627,7 +632,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'prof4'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 2',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
@@ -636,7 +641,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'odb1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Odborný kurz 1',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
@@ -645,7 +650,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('odb')
                 ),
                 'prdi'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Pracovní diagnostika',
                 'kurz_druh'=>'PD',
                 's_certifikatem' => FALSE,
@@ -675,7 +680,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'zztp'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Kurz dovedností pro trh práce a motivační aktivity',
                 'kurz_druh'=>'ZZTP',
                 's_certifikatem' => TRUE,
@@ -684,7 +689,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('mot')
                 ),
             'fg'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'kurz_druh'=>'FG',
                 'vyberovy'=> 0,
                 'nadpis'=>'Kurz finanční gramotnosti',
@@ -694,7 +699,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('mot')
                 ),
             'pc1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
@@ -703,7 +708,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('pc')
                 ),
             'pc2'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'PC kurz doplňkový',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
@@ -712,7 +717,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('pc')
                 ),
             'prof1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz s jazykem',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
@@ -723,7 +728,7 @@ class Config_Aktivity {
         // prof2 je v MB použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof2
         // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
             'prof2'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Intenzivní kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
@@ -732,7 +737,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('jaz')
                 ),
             'prof3'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
@@ -741,7 +746,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'prof4'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Rekvalifikační kurz 2',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
@@ -750,7 +755,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('rk')
                 ),
             'odb1'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Odborný kurz 1',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
@@ -759,7 +764,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('odb')
                 ),
             'odb2'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Odborný kurz 2',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
@@ -768,7 +773,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('odb')
                 ),
             'odb3'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Odborný kurz 3',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
@@ -777,7 +782,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('odb')
                 ),
             'odb4'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Odborný kurz 4',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
@@ -788,7 +793,7 @@ class Config_Aktivity {
 
 
             'prdi'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Pracovní diagnostika',
                 'kurz_druh'=>'PD',
                 's_certifikatem' => FALSE,
@@ -819,7 +824,7 @@ class Config_Aktivity {
     $aktivity = [
 
         'prof1'=> [
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Český jazyk pro cizince A1',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
@@ -828,7 +833,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('jaz')
                 ],
             'prof2'=>[
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Český jazyk pro cizince A1',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
@@ -837,7 +842,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('jaz')
                 ],
             'prof3'=>[
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Český jazyk pro cizince A2',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
@@ -846,7 +851,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('jaz')
                 ],
             'prof4'=>[
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Český jazyk pro cizince A2',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
@@ -860,7 +865,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
@@ -873,7 +878,7 @@ class Config_Aktivity {
 
     $aktivity = array(
             'mot'=>array(
-                'typ'=>'kurz',
+                'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Poradenský program pro podnikání',
                 'kurz_druh'=>'POD',
                 's_certifikatem' => TRUE,

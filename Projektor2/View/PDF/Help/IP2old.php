@@ -47,7 +47,7 @@ class Projektor2_View_PDF_Help_IP2 extends Projektor2_View_PDF_Help_HeaderFooter
         $aktivity = Config_Aktivity::getAktivityProjektu(); 
         $count = 1;
         foreach ($aktivity as $druh=>$aktivita) {
-            if ($aktivita['typ']=='kurz') {
+            if ($aktivita['typ']==Config_Aktivity::TYP_KURZ) {
                 if ($this->context[$druh.'_kurz'] AND $this->context[$druh.'_kurz']->kurz_zkratka != '*') {
                     $count++;
                     if (($count % 4)==0) {

@@ -17,7 +17,7 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
     }
 
     protected function getResultFormular() {
-        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
+        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ);
         $modelySKurz = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));
@@ -59,11 +59,11 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
 
     private function getCertificateNewOpenerHtml($indexAktivity, $certifikatVerze) {
 
-        $aktivityProjektuTypuKurz = Config_Aktivity::getAktivityProjektuTypu($this->sessionStatus->projekt->kod, 'kurz');
+        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ);
         $konfiguraceAktivity = $aktivityProjektuTypuKurz[$indexAktivity];
         $aktivitaSCertifikatem = ($konfiguraceAktivity['s_certifikatem'] ?? null) ? TRUE : FALSE;
         if (!isset($aktivitaSCertifikatem) OR !$aktivitaSCertifikatem) {
-            throw new LogicException("Došlo k pokusu o vytvoření certifikátů pro akrivitu bez certifikátu. Aktivita '$indexAktivity'.");
+            throw new LogicException("Došlo k pokusu o vytvoření certifikátů pro aktivitu bez certifikátu. Aktivita '$indexAktivity'.");
         }
         /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
         $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);

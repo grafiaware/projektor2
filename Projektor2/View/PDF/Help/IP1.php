@@ -35,13 +35,13 @@ class Projektor2_View_PDF_Help_IP1 extends Projektor2_View_PDF_Common {
         
         $aktivity = Config_Aktivity::getAktivityProjektu('HELP');    //'HELP'
         foreach ($aktivity as $druh=>$aktivita) {
-            if ($aktivita['typ']!='kurz') {
+            if ($aktivita['typ']!=Config_Aktivity::TYP_KURZ) {
                 $nabidkaNekurzovychAktivit .= $nabidkaNekurzovychAktivit ? ', '.$aktivita['nadpis'] : $aktivita['nadpis'];
             }
         }
         $nabidkaNekurzovychAktivit .= $nabidkaNekurzovychAktivit ? '.' : '';
         foreach ($aktivity as $druh=>$aktivita) {
-            if ($aktivita['typ']=='kurz') {
+            if ($aktivita['typ']==Config_Aktivity::TYP_KURZ) {
                 $nabidkaKurzovychAktivit .= $nabidkaKurzovychAktivit ? ', '.$aktivita['nadpis'] : $aktivita['nadpis'];
             }
         }

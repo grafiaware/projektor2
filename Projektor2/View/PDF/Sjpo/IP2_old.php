@@ -48,7 +48,7 @@ class Projektor2_View_PDF_Sjzp_IP2 extends Projektor2_View_PDF_Sjzp_IP {
             $this->pdf->TiskniBlok($blok);
             $count = 0;
             foreach ($aktivity as $druh=>$aktivita) {
-                if ($aktivita['typ']=='kurz') {
+                if ($aktivita['typ']==Config_Aktivity::TYP_KURZ) {
                     if ($this->context[$druh.'_kurz'] AND $this->context[$druh.'_kurz']->kurz_zkratka != '*') {
                         $count++;
                         if ((($count+1) % 4)==0) {

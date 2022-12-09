@@ -28,9 +28,6 @@ class Projektor2_Router_Osoby {
             case "excel":
                 return new Projektor2_Controller_Export_Excel($this->sessionStatus, $this->request, $this->response, ['export_type'=>'osoby']);
                 break;
-            case "export_certifikaty_kurz":
-                return new Projektor2_Controller_Export_CertifikatyKurz($this->sessionStatus, $this->request, $this->response);
-                break;
             case "export_certifikaty_projekt":
                 return new Projektor2_Controller_Export_CertifikatyProjekt($this->sessionStatus, $this->request, $this->response);
                 break;
