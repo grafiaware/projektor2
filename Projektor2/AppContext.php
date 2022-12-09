@@ -324,8 +324,8 @@ abstract class Projektor2_AppContext
             case 'PKP':
                 $texts['signerName'] = $sessionStatus->user->name;
                 $texts['signerPosition'] = 'pracovník sekce vzdělávání';
-                $texts['v_projektu'] = 'v programu „Cesta k práci“';
-                $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu „Cesta k práci“ ";
+                $texts['v_projektu'] = 'v programu „Poradenství k podnikání“';
+                $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu „Poradenství k podnikání“ ";
                 $texts['financovan'] = "\n";
                 break;
             default:

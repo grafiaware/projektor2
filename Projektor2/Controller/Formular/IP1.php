@@ -78,7 +78,8 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
             }
         }
         if ($createCertifikatMonitoring) {
-            $certifikatVerze = 'monitoring';
+            $verze = 'monitoring';
+            $certifikat = $this->readOrCreateCertificate($aktivitaPlan, $verze);
             if ($verze==$certifikatVerze) {
                 $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, ['certifikat'=>$certifikat]);
                 $htmlResult = $ctrlIpCertifikat->getResult();  // NewWindowOpener

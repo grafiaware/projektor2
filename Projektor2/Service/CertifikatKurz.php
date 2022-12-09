@@ -6,7 +6,6 @@
  */
 class Projektor2_Service_CertifikatKurz {
 
-
     /**
      *
      * @param string $certifikatRada

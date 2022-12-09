@@ -10,18 +10,26 @@ class Config_Aktivity {
     const TYP_KURZ = 'kurz';
     const TYP_PORADENSTVI = self::TYP_PORADENSTVI;
 
-    public static function findAktivity($projektKod, $aktivitaTyp, $aktivitaKurzDruh=NULL) {
+    public static function findAktivity($projektKod, $aktivitaTyp) {
         $kurzyProjektu = [];
         foreach (self::getAktivityProjektu($projektKod) as $druhAktivity => $aktivita) {
             if ($aktivita['typ']==$aktivitaTyp) {
-                if (isset($aktivitaKurzDruh) AND $aktivita['kurz_druh']==$aktivitaKurzDruh) {
-                    $kurzyProjektu[$druhAktivity] = $aktivita;
-                }
+                $kurzyProjektu[$druhAktivity] = $aktivita;
             }
         }
         return $kurzyProjektu;
     }
 
+    public static function findAktivityPodleKurzDruh($projektKod, $aktivitaTyp, $aktivitaKurzDruh) {
+        $kurzyProjektu = [];
+        foreach (self::getAktivityProjektu($projektKod) as $druhAktivity => $aktivita) {
+            if ($aktivita['typ']==$aktivitaTyp AND $aktivita['kurz_druh']==$aktivitaKurzDruh) {
+                $kurzyProjektu[$druhAktivity] = $aktivita;
+            }
+        }
+        return $kurzyProjektu;
+    }
+    
 ############# AKTIVITY PROJEKTU #############
     /**
      * Vrací pole pro formuláře IP projektu

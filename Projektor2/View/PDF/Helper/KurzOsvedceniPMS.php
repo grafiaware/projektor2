@@ -44,7 +44,7 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniPMS extends Projektor2_View_PDF_He
         $pdf->TiskniBlok($blok);
 
         $pdf->Ln(15);
-        
+
         $blok = clone $blokCentered40_14;
             $blok->Nadpis("OSVĚDČENÍ");
         $pdf->TiskniBlok($blok);
@@ -72,11 +72,11 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniPMS extends Projektor2_View_PDF_He
         $pdf->TiskniBlok($blok);
 
         $blok = clone $blokCentered20_11;
-            $blok->Nadpis(substr($context['sKurz']->kurz_nazev, 0, 19));   // !! Poradenský pragram - vypusti  -  ?? z s_kurz?
+            $blok->Nadpis('Poradenský program');
         $pdf->TiskniBlok($blok);
 
         $blok = clone $blokCentered20_11;
-            $blok->Nadpis(substr($context['sKurz']->kurz_nazev, 20));   // !! Poradenský pragram - vypusti  -  ?? z s_kurz?
+            $blok->Nadpis($context['sKurz']->kurz_nazev);
         $pdf->TiskniBlok($blok);
 
         $blok = clone $blokCentered20_11;

@@ -20,17 +20,17 @@ class Projektor2_View_PDF_Helper_KurzOsvedceni extends Projektor2_View_PDF_Helpe
             $blokCentered->ZarovnaniNadpisu('C');
             $blokCentered->ZarovnaniTextu('C');
             $blokCentered->Radkovani($radkovani);
-        $blokCentered30_14 = clone $blokCentered;
-            $blokCentered30_14->VyskaPismaNadpisu(30);
-            $blokCentered30_14->VyskaPismaTextu(14);
-            $blokCentered30_14->ZarovnaniTextu('C');
+        $blokCentered28_13 = clone $blokCentered;
+            $blokCentered28_13->VyskaPismaNadpisu(28);
+            $blokCentered28_13->VyskaPismaTextu(13);
+            $blokCentered28_13->ZarovnaniTextu('C');
         $blokCentered20_11 = clone $blokCentered;
             $blokCentered20_11->VyskaPismaNadpisu(20);
             $blokCentered20_11->VyskaPismaTextu(11);
             $blokCentered20_11->ZarovnaniTextu('C');
 
 
-        $blok = clone $blokCentered30_14;
+        $blok = clone $blokCentered28_13;
             $blok->PridejOdstavec('Grafia, společnost s ručením omezeným');
             $blok->PridejOdstavec('se sídlem Budilova 4, 301 21 Plzeň');
             $blok->PridejOdstavec('IČ: 477 14 620');
@@ -38,18 +38,17 @@ class Projektor2_View_PDF_Helper_KurzOsvedceni extends Projektor2_View_PDF_Helpe
             $blok->PridejOdstavec('uděluje');
         $pdf->TiskniBlok($blok);
 
-        $blok = clone $blokCentered30_14;
+        $blok = clone $blokCentered28_13;
             $blok->Nadpis("CERTIFIKÁT");
             $blok->PridejOdstavec('č. '.$context['certifikat']->identifikator);
         $pdf->TiskniBlok($blok);
 
-        $blok = clone $blokCentered30_14;
+        $blok = clone $blokCentered28_13;
             $blok->PridejOdstavec('o absolutoriu kurzu');
         $pdf->TiskniBlok($blok);
 
-        $blok = clone $blokCentered30_14;
+        $blok = clone $blokCentered28_13;
             $blok->Nadpis($context['sKurz']->kurz_nazev);
-            //$blok->PridejOdstavec('v projektu „Alternativní práce v Plzeňském kraji“');
             $blok->PridejOdstavec($context['v_projektu']);
         $pdf->TiskniBlok($blok);
 
@@ -57,11 +56,11 @@ class Projektor2_View_PDF_Helper_KurzOsvedceni extends Projektor2_View_PDF_Helpe
             $blok->PridejOdstavec($context['financovan']);
         $pdf->TiskniBlok($blok);
 
-        $blok = clone $blokCentered30_14;
+        $blok = clone $blokCentered28_13;
             $blok->Nadpis(self::celeJmeno($context[$caller::MODEL_DOTAZNIK]));
         $pdf->TiskniBlok($blok);
 
-        $blok = clone $blokCentered30_14;
+        $blok = clone $blokCentered28_13;
         if ($context[$caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR.'pohlavi'] == 'muž') {
             $abs = 'absolvoval';
         } else {
