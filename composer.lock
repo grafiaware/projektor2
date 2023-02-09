@@ -796,12 +796,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "0d64d35a462cd85ef1171f93b2e3a27b8a51eb0b"
+                "reference": "bbc782dd4e918c71b35a126e0375b6116c0a71b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/0d64d35a462cd85ef1171f93b2e3a27b8a51eb0b",
-                "reference": "0d64d35a462cd85ef1171f93b2e3a27b8a51eb0b",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/bbc782dd4e918c71b35a126e0375b6116c0a71b8",
+                "reference": "bbc782dd4e918c71b35a126e0375b6116c0a71b8",
                 "shasum": ""
             },
             "require": {
@@ -843,7 +843,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master"
             },
-            "time": "2022-12-06T13:11:36+00:00"
+            "time": "2022-12-10T20:54:58+00:00"
         },
         {
             "name": "phpseclib/phpseclib",

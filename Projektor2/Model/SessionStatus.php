@@ -121,7 +121,7 @@ class Projektor2_Model_SessionStatus {
         $this->sKurz = $sKurz;
         return $this;
     }
-    
+
     public function setNavigation(Projektor2_Model_Navigation $navigation) {
         $this->navigation = $navigation;
         return $this;
@@ -171,6 +171,7 @@ class Projektor2_Model_SessionStatus {
                     $part[] = self::$sessionStatus->zajemce->id;
                     $part[] = self::$sessionStatus->zajemce->identifikator;
                     $part[] = self::$sessionStatus->sKurz->id_s_kurz;
+                    $part[] = $request->isGet() ? 'GET' : ($request->isPost() ? 'POST' : 'METHOD NOT RECOGNIZED');
                     $part[] = preg_replace("/\s+/u", " : ", print_r($request->getArray(), true));
 //                    $part[] = preg_replace("/\s+/u", " : ", print_r($request->postArray(), true));
                     self::$sessionStatus->logger->log(implode(' | ', $part));

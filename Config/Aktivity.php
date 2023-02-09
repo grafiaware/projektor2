@@ -29,7 +29,7 @@ class Config_Aktivity {
         }
         return $kurzyProjektu;
     }
-    
+
 ############# AKTIVITY PROJEKTU #############
     /**
      * Vrací pole pro formuláře IP projektu
@@ -49,6 +49,7 @@ class Config_Aktivity {
                 'nadpis'=>'Kurz základních znalostí trhu práce',
                 's_hodnocenim' => FALSE,
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'help'=>self::getHelp('mot')
                 ),
@@ -58,6 +59,7 @@ class Config_Aktivity {
                 'vyberovy'=> 0,
                 'nadpis'=>'Kurz finanční gramotnosti',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'help'=>self::getHelp('mot')
                 ),
@@ -67,6 +69,7 @@ class Config_Aktivity {
                 'vyberovy'=> 0,
                 'nadpis'=>'Kurz komunikace včetně obsluhy PC',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'help'=>self::getHelp('pc')
                 ),
@@ -163,6 +166,7 @@ class Config_Aktivity {
                 'nadpis'=>'Motivační kurz',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 'help'=>self::getHelp('mot')
                 ),
@@ -245,6 +249,7 @@ class Config_Aktivity {
                 'nadpis'=>'Motivační kurz',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'help'=>self::getHelp('mot')
                 ),
@@ -253,6 +258,7 @@ class Config_Aktivity {
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 'help'=>self::getHelp('pc')
                 ),
@@ -261,6 +267,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'help'=>self::getHelp('rk')
                 ),
@@ -271,6 +278,7 @@ class Config_Aktivity {
                 'nadpis'=>'Kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'help'=>self::getHelp('jaz')
                 ),
@@ -313,6 +321,7 @@ class Config_Aktivity {
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'help'=>self::getHelp('mot')
                 )
@@ -327,6 +336,7 @@ class Config_Aktivity {
                 'nadpis'=>'Kurz dovedností pro pracovní trh',
                 'kurz_druh'=>'ZZTP',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('mot')
@@ -336,6 +346,7 @@ class Config_Aktivity {
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('pc')
@@ -345,6 +356,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz s jazykem',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
@@ -356,6 +368,7 @@ class Config_Aktivity {
                 'nadpis'=>'Kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
@@ -365,6 +378,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('rk')
@@ -374,6 +388,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz 2',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('rk')
@@ -413,6 +428,7 @@ class Config_Aktivity {
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'tiskni_certifikat_monitoring' => TRUE,
                 'help'=>self::getHelp('mot')
@@ -428,6 +444,7 @@ class Config_Aktivity {
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'tiskni_certifikat_monitoring' => TRUE,
                 'help'=>self::getHelp('mot')
@@ -443,6 +460,7 @@ class Config_Aktivity {
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'tiskni_certifikat_monitoring' => TRUE,
                 'help'=>self::getHelp('mot')
@@ -458,6 +476,7 @@ class Config_Aktivity {
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'tiskni_certifikat_monitoring' => TRUE,
                 'help'=>self::getHelp('mot')
@@ -476,6 +495,7 @@ class Config_Aktivity {
                 'nadpis'=>'Poradenský program',
                 'kurz_druh'=>'MOT',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 'tiskni_certifikat_monitoring' => TRUE,
                 'help'=>self::getHelp('mot')
@@ -487,6 +507,7 @@ class Config_Aktivity {
                 'nadpis'=>'Jazykový lurz - jazyk anglickýa',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
@@ -502,6 +523,7 @@ class Config_Aktivity {
                 'nadpis'=>'Kurz dovedností pro pracovní trh',
                 'kurz_druh'=>'ZZTP',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('mot')
@@ -511,6 +533,7 @@ class Config_Aktivity {
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('pc')
@@ -520,6 +543,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz s jazykem',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
@@ -531,6 +555,7 @@ class Config_Aktivity {
                 'nadpis'=>'Kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
@@ -540,6 +565,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('rk')
@@ -549,6 +575,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz 2',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('rk')
@@ -558,6 +585,7 @@ class Config_Aktivity {
                 'nadpis'=>'Odborný kurz 1',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('odb')
@@ -597,6 +625,7 @@ class Config_Aktivity {
                 'nadpis'=>'Kurz dovedností pro pracovní trh',
                 'kurz_druh'=>'ZZTP',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('mot')
@@ -606,6 +635,7 @@ class Config_Aktivity {
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('pc')
@@ -615,6 +645,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz s jazykem',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
@@ -626,6 +657,7 @@ class Config_Aktivity {
                 'nadpis'=>'Kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
@@ -635,6 +667,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('rk')
@@ -644,6 +677,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz 2',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('rk')
@@ -653,6 +687,7 @@ class Config_Aktivity {
                 'nadpis'=>'Odborný kurz 1',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('odb')
@@ -692,6 +727,7 @@ class Config_Aktivity {
                 'nadpis'=>'Kurz dovedností pro trh práce a motivační aktivity',
                 'kurz_druh'=>'ZZTP',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('mot')
@@ -702,6 +738,7 @@ class Config_Aktivity {
                 'vyberovy'=> 0,
                 'nadpis'=>'Kurz finanční gramotnosti',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('mot')
@@ -711,6 +748,7 @@ class Config_Aktivity {
                 'nadpis'=>'PC kurz',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('pc')
@@ -720,6 +758,7 @@ class Config_Aktivity {
                 'nadpis'=>'PC kurz doplňkový',
                 'kurz_druh'=>'PC',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('pc')
@@ -729,6 +768,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz s jazykem',
                 'kurz_druh'=>'RKJAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
@@ -740,6 +780,7 @@ class Config_Aktivity {
                 'nadpis'=>'Intenzivní kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
@@ -749,6 +790,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz 1',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('rk')
@@ -758,6 +800,7 @@ class Config_Aktivity {
                 'nadpis'=>'Rekvalifikační kurz 2',
                 'kurz_druh'=>'RK',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => FALSE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('rk')
@@ -767,6 +810,7 @@ class Config_Aktivity {
                 'nadpis'=>'Odborný kurz 1',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('odb')
@@ -776,6 +820,7 @@ class Config_Aktivity {
                 'nadpis'=>'Odborný kurz 2',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('odb')
@@ -785,6 +830,7 @@ class Config_Aktivity {
                 'nadpis'=>'Odborný kurz 3',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('odb')
@@ -794,6 +840,7 @@ class Config_Aktivity {
                 'nadpis'=>'Odborný kurz 4',
                 'kurz_druh'=>'ODB',
                 's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
                 'tiskni_certifikat' => TRUE,
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('odb')

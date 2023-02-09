@@ -36,7 +36,7 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
     public function save($relativeFilePath) {
         //TODO: Exception !! neexistuje $context["identifikator"]
         $this->relativeDocumentFilePath = $relativeFilePath;
-        $this->fullFileName = Projektor2_AppContext::getHttpFileBasePath().$relativeFilePath;
+        $this->fullFileName = Projektor2_AppContext::getFileBaseFolder().$relativeFilePath;
         define('FPDF_FONTPATH', self::FPDF_FONTPATH);  //běhová konstanta potřebná pro fpdf
         $this->createPDFObject();
         if (file_exists($this->fullFileName))  	{

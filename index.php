@@ -8,6 +8,10 @@ require_once 'Bootstrap.php';
 //Projektor_Autoloader::register();
 require_once 'Classes/PHPExcel.php';  // uvnitř v Classes/PHPExcel.php se provede PHPExcel_Autoloader::Register();
 
+### DOČASNÉ ##########################
+ini_set('max_execution_time', 45);
+######################################
+
 $request = new Projektor2_Request();
 $response = new Projektor2_Response();
 //$app = new Projektor2_Application($request, $response);

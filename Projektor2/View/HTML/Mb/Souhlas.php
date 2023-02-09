@@ -21,7 +21,7 @@ class Projektor2_View_HTML_Mb_Souhlas extends Projektor2_View_HTML_FormularPHP4 
     ?>
 <H3>SOUHLAS SE ZPRACOVÁNÍM OSOBNICH UDAJŮ V PROJEKTU Moje budoucnost</H3>
 
-<form method="POST" action="index.php?osoby=form&form=mb_souhlas_uc" name="<?=$prefixDotaznik.'form_souhlas'?>">
+<form method="POST" action="index.php?osoby=form&form=souhlas">
 
 <!--dále následuje původní kód-->
 

@@ -18,7 +18,7 @@ class Projektor2_Response {
     protected $body;
 
     public function addHeader($name, $value, $replace=true) {
-        $this->headers[] = ['name'=>$name, 'value'=> $value, 'replace'=> $replace];
+        $this->headers[] = ['name'=>trim($name), 'value'=> trim($value), 'replace'=> (bool) $replace];
     }
 
     public function setStatus($status) {
