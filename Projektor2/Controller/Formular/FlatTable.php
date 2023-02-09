@@ -27,18 +27,6 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
         }
     }
 
-    /**
-     * Potomkovské třídy musí implementovat matodu getResultFormular, která vrací html kód vlastního formuláře
-     */
-    abstract protected function getResultFormular();
-
-    /**
-     * Potomkovské třídy musí implementovat metodu getResultPdf, která vytvoří pdf dokument a vrátí kód
-     * pro zobrazení pdf dokumentu v novém panelu prohlížeče.
-     * Pokud k formuláři není přisružen pdf dokument, bude taková metoda prázdná.
-     */
-    abstract protected function getResultPdf();  // TODO - viz tot v kontroleru - všechna vytváření pdf so service, zbytek z getResultPdf do getResultFormular a ten přejmenovat na getResult
-
     public function getResult() {
         $htmlResult = '';
 
@@ -61,6 +49,22 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
         }
         return $htmlResult;
     }
+
+#### abstract methods #####################################
+
+    /**
+     * Potomkovské třídy musí implementovat matodu getResultFormular, která vrací html kód vlastního formuláře
+     */
+    abstract protected function getResultFormular();
+
+    /**
+     * Potomkovské třídy musí implementovat metodu getResultPdf, která vytvoří pdf dokument a vrátí kód
+     * pro zobrazení pdf dokumentu v novém panelu prohlížeče.
+     * Pokud k formuláři není přisružen pdf dokument, bude taková metoda prázdná.
+     */
+    abstract protected function getResultPdf();  // TODO - viz tot v kontroleru - všechna vytváření pdf so service, zbytek z getResultPdf do getResultFormular a ten přejmenovat na getResult
+
+#### protected methods #####################################
 
     protected function setStatusMainObject(Framework_Model_DbItemAbstract $mainObject) {
         $this->statusMainObject = $mainObject;

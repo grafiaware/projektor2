@@ -10,14 +10,14 @@ use Pes\Text\Html;
  */
 class Projektor2_View_HTML_UploadFile extends Framework_View_Abstract {
     public function render() {
-        return $this->getInputFile();
+        return $this->getInputFile(".pdf, .doc, .docx, image/*");
     }
 
 
     /**
      *
      * @param string $formAction url pro action atribut formuláře
-     * @param string $accept default "", dialog akceptuje všechny přípony, retězec přípon oddělených čárkou
+     * @param string $accept retězec přípon oddělených čárkou; default "", dialog akceptuje všechny přípony,
      * @param boolean $multiple default false, dialog uploaduje jeden soubor
      * @return type
      */
