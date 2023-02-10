@@ -133,19 +133,22 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
      * @return bool
      * @throws CreateDirectoryFailedException Pokud beexistuje složka pro uložení souborů a nepodaří se ani příslušné složky vytvořit
      */
-    protected function saveUploadedFiles($uploadedFolderPath, $expandIntoSubfoldersByType=false) {
-        $normalizedPath = Directory::normalizePath($uploadedFolderPath);
+    protected function saveUploadedFiles($fileBaseFolder, $uploadedFolderPath, $expandIntoSubfoldersByType=false) {
         if ($_FILES) {
-         // odpovídá tvaru atributu name v inputu typu file tak, jak je v Projektor2_View_HTML_UploadFile - varianta multiple = false
+            $normalizedBasePath = Directory::normalizePath($fileBaseFolder);
+            // odpovídá tvaru atributu name v inputu typu file tak, jak je v Projektor2_View_HTML_UploadFile - varianta multiple = false
             // indexy jsou typ uploadu
             foreach ($_FILES[self::UPLOADED_KEY]['name'] as $type => $name) {
+                $basename = basename($name);
                 if ($expandIntoSubfoldersByType) {
-                    $uploadfile = Directory::createDirectory($normalizedPath.$type.'/').basename($name);
+                    $normalizedUploadedPath = Directory::normalizePath($uploadedFolderPath.$type.'/');
+                    $uploadfile = Directory::createDirectory($normalizedBasePath.$normalizedUploadedPath).$basename;
                 } else {
-                    $uploadfile = Directory::createDirectory($normalizedPath).basename($name);
+                    $normalizedUploadedPath = Directory::normalizePath($uploadedFolderPath);
+                    $uploadfile = Directory::createDirectory($normalizedBasePath.$normalizedUploadedPath).$basename;
                 }
                 if (move_uploaded_file($_FILES[self::UPLOADED_KEY]['tmp_name'][$type], $uploadfile)) {
-                    $saved[$type] = $uploadfile;
+                    $saved[$type] = $normalizedUploadedPath.$basename;
                 }
             }
         }

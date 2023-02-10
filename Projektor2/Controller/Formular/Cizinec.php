@@ -58,17 +58,14 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
                     .' '.$this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->jmeno
                     .' - '.$this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->id_zajemce;
 
-            $fullFilepath = $fileBaseFolder.$uploadedFolderPath.$osobaFolder.'/';
-
-            $saved = $this->saveUploadedFiles($fullFilepath, true);  // true = expanduj do podadresářů podle typu uploadu
+            $saved = $this->saveUploadedFiles($fileBaseFolder, $uploadedFolderPath.$osobaFolder.'/', true);  // true = expanduj do podadresářů podle typu uploadu
 
             // update & create
             foreach ($saved as $uploadType => $uploadedFilefullFilepath) {
                 if (array_key_exists($uploadType, $this->typeCollection)) {
                     $persistedUpload = $this->uploadCollection[$idZajemce.'-'.$uploadType];
                     if (isset($persistedUpload)) {
-                        $fileName = '/'.substr($uploadedFilefullFilepath, strpos($uploadedFilefullFilepath, $fileBaseFolder)-strlen($uploadedFilefullFilepath));  // levé lomítko + od base folder doprava - relativní adresa k root
-                        $persistedUpload->filename = $fileName;
+                       $persistedUpload->filename = $uploadedFilefullFilepath;
             //
 //                                    ?? updated
 //                                    - při update smazat soubor?
@@ -77,7 +74,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
                         // nový model do kolekce (nep
                         $this->uploadCollection[$uploadType] = Projektor2_Model_Db_ZaUploadMapper::create(
                                 $this->sessionStatus->zajemce->id, $uploadType,
-                                $fileName,
+                                $uploadedFilefullFilepath,
                                 $this->sessionStatus->user->name, __CLASS__, Projektor2_AppContext::getDb()->getDbHost()
                             );
                     }
@@ -136,10 +133,10 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
 //        $ukHintHtml = (new Projektor2_View_HTML_Cjc_HintView($this->sessionStatus, $context))->render();
 //        $view->assign("uk_hint_fieldset", $ukHintHtml);
 
-        $view->assign('uk_hint_script', (new Projektor2_View_HTML_Cjc_HintScript($this->sessionStatus, $context))->render());
-        $view->assign('uk_hint_hidden', (new Projektor2_View_HTML_Cjc_HintHidden($this->sessionStatus, $context))->render());
-        $view->assign('uk_hint_prijmeni', (new Projektor2_View_HTML_Cjc_HintPrijmeni($this->sessionStatus, $context))->render());
-        $view->assign('uk_hint_mobil', (new Projektor2_View_HTML_Cjc_HintMobil($this->sessionStatus, $context))->render());
+//        $view->assign('uk_hint_script', (new Projektor2_View_HTML_Cjc_HintScript($this->sessionStatus, $context))->render());
+//        $view->assign('uk_hint_hidden', (new Projektor2_View_HTML_Cjc_HintHidden($this->sessionStatus, $context))->render());
+//        $view->assign('uk_hint_prijmeni', (new Projektor2_View_HTML_Cjc_HintPrijmeni($this->sessionStatus, $context))->render());
+//        $view->assign('uk_hint_mobil', (new Projektor2_View_HTML_Cjc_HintMobil($this->sessionStatus, $context))->render());
 
         $viewRegistrace = new Projektor2_View_HTML_RegistraceUP($this->sessionStatus, $context);
         $viewRegistrace->assign("registrace", $contextRegistrace);
