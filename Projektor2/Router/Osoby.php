@@ -34,7 +34,7 @@ class Projektor2_Router_Osoby {
             case "form":
                 return new Projektor2_Controller_Formular($this->sessionStatus, $this->request, $this->response);
                 break;
-            case "zobraz_reg":
+            case "seznam":
             default:
                 return new Projektor2_Controller_SeznamOsob($this->sessionStatus, $this->request, $this->response);
                 break;

@@ -17,8 +17,8 @@ class Projektor2_Router_Akce {
     }
 
     public function getController() {
-
-            switch ($this->sessionStatus->akce) {
+            // přijímá get parametry i z formuláže odesílaného metodou post (např VyberKontext)
+            switch ($this->request->param('akce')) {
                 case 'kurzy':
                     $routerKurzy = new Projektor2_Router_Kurzy($this->sessionStatus, $this->request, $this->response);
                     $ctrl = $routerKurzy->getController();

@@ -41,13 +41,15 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
      *
      * @return Projektor2_Viewmodel_KurzViewmodel[] array of Projektor2_Model_Kurz
      */
-    protected function findKurzViewmodels($multilike=null) {
+    protected function findKurzViewmodels($multilikeText=null, $multilikeDate=null) {
         $filter[] = "projekt_kod='{$this->sessionStatus->projekt->kod}'";
         $filter[] = "kancelar_kod='{$this->sessionStatus->kancelar->kod}'";
-        if (isset($multilike)) {
-            $filter[] = "(kurz_nazev LIKE '%$multilike%' OR info_cas_konani LIKE '%$multilike%' OR info_lektor LIKE '%$multilike%')";
+        if (isset($multilikeText) AND $multilikeText) {
+            $filter[] = "(kurz_nazev LIKE '%$multilikeText%' OR info_cas_konani LIKE '%$multilikeText%' OR info_misto_konani LIKE '%$multilikeText%' OR info_lektor LIKE '%$multilikeText%')";
         }
-
+        if (isset($multilikeDate) AND $multilikeDate) {
+            $filter[] = "(date_zacatek = '$multilikeDate' OR date_konec = '$multilikeDate' )";
+        }
 //                 AND beh_cislo='{$this->sessionStatus->beh->beh_cislo}'
         //                 AND kurz_druh='$kurz_druh'
 
@@ -66,13 +68,12 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
     }
 
     public function getResult() {
-        $multilike = $this->request->get('multilike');
-        $multilike = "Běl";
-        $viewmodelyKurzu = $this->findKurzViewmodels($multilike);
 
-        $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, array('menuArray'=>$this->getLeftMenuArray()));
-        $parts[] = $viewLeftMenu;
+        $multilike1 = $this->request->post('multiliketext');
+        $multilike2 = $this->request->post('multilikedate');
+        $parts[] = new Projektor2_View_HTML_Multilike($this->sessionStatus, ['multilike_text'=>$multilike1, 'multilike_date'=>$multilike2]);
 
+        $viewmodelyKurzu = $this->findKurzViewmodels($multilike1, $multilike2);
         if ($viewmodelyKurzu) {
             foreach ($viewmodelyKurzu as $viewmodelKurz) {
                 $params = [Projektor2_Controller_Element_MenuKurz::VIEWMODEL_KURZ => $viewmodelKurz];
@@ -84,6 +85,11 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
             $parts[] = $viewContent;
         }
         $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts, 'class'=>'grid-container'));
+
+
+        $gridColumns[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArray()]);
+        $gridColumns[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$parts, 'class'=>'content']);
+        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$gridColumns, 'class'=>'grid-container']);
         return $viewZobrazeniRegistraci;
     }
 }

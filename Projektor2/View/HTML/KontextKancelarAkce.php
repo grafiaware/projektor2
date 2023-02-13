@@ -5,11 +5,10 @@ class Projektor2_View_HTML_KontextKancelarAkce extends Framework_View_Abstract {
         $kancelare = $this->context['kancelare'];
         $subparts = $this->context['subparts'];
 
-        $this->parts[] = '<div id="vyberkontext" class="bordered">';
-        $this->parts[] = '<form name="Kancelar" id="Kancelar" action="index.php?kontext" method="post">';
-            $this->parts[] = '<fieldset id="vyber_context">';
-                $this->parts[] = '<legend>Výběr kanceláře a akce</legend>';
-                $this->parts[] = '<label for="kancelar" >Vyberte kancelář:</label>';
+        $this->parts[] = '<div id="vyberkontext" class="bordered fieldsetcontainer c1c1">';
+        $this->parts[] = '<form id="Kancelar" action="index.php?kontext" method="post">';
+            $this->parts[] = '<fieldset id="vyber_context" class"leftcolumn">';
+                $this->parts[] = '<legend>Výběr kanceláře</legend>';
                 $this->parts[] = '<select id="kancelar" size="1" name="id_kancelar" onchange="submitForm(this);">';
                     $this->parts[] = "<option value=\"ß\"> </option>\n";
                     foreach ($kancelare as $kancelar) {
@@ -21,11 +20,14 @@ class Projektor2_View_HTML_KontextKancelarAkce extends Framework_View_Abstract {
                         $this->parts[] = $option;
                     }
                 $this->parts[] = '</select>';
+            $this->parts[] = '</fieldset>';
+        $this->parts[] = '</form>';
 
-                $this->parts[] = '<span >Vyberte akci:</span>';
-                $this->parts[] = '<button type="submit" class="" formaction="index.php?kontext" name="akce" value="osoby" >OSOBY</button>';
-                $this->parts[] = '<button type="submit" class="" formaction="index.php?kontext" name="akce" value="kurzy" >KURZY</button>';
-
+                $this->parts[] = '<form method="post">';  // metoda musí výt POST (GET neodesílá query uvedené v action (nebo formaction) - router Akce příjímá parametry i z POST requestu
+            $this->parts[] = '<fieldset id="vyber_akci" class"rightcolumn">';
+                $this->parts[] = '<legend>Výběr akce</legend>';
+                $this->parts[] = '<button type="submit" class="" form action="index.php?akce=osoby&osoby=seznam">OSOBY</button>';
+                $this->parts[] = '<button type="submit" class="" formaction="index.php?akce=kurzy&kurzy=seznam" >KURZY</button>';
             $this->parts[] = '</fieldset>';
         $this->parts[] = '</form>';
         $this->parts[] = '</div>';

@@ -29,7 +29,7 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
         include 'hint/ukHintScript.php';
 
         $html[] =
-            Html::tag("form", ["method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?osoby=form&form&form=cizinec"],
+            Html::tag("form", ["method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?akce=osoby&osoby=form&form&form=cizinec"],
                 #### p pro table generovanou z json ############
                 Html::tag("fieldset", [],
                     Html::tag("legend", [], "Vyhledání osoby v údajích Google form"),

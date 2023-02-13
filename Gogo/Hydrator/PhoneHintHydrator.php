@@ -15,8 +15,6 @@ class PhoneHintHydrator implements HydratorInterface {
      * @param type $phoneData
      */
     public function hydrate(&$phoneModel, &$phoneData) {
-//        $phoneData = trim($phoneData, "+");
-//        $phoneData = trim($phoneData, "0");
         $phoneModel = trim($phoneData, " \n\r\t\v\x00");
     }
 

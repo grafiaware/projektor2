@@ -40,9 +40,9 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
      * Kontext akce přepne GET i POST parametr
      */
     private function performAnyRequestActions() {
-        if ($this->request->param('akce')) {
-            $this->sessionStatus->setAkce($this->request->param('akce'));
-        }
+//        if ($this->request->param('akce')) {
+//            $this->sessionStatus->setAkce($this->request->param('akce'));
+//        }
     }
 
     public function getResult() {
@@ -89,7 +89,7 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                 );
 
         // podmínka pro pokračování - obsah zobrazený při úplném kontextu
-        if (isset($this->sessionStatus->kancelar) AND $this->sessionStatus->akce) {
+        if (isset($this->sessionStatus->kancelar) ) {
 //            if ($this->sessionStatus->akce!='osoby' OR isset($this->sessionStatus->beh)) {
                 $parts[] = (new Projektor2_Router_Akce($this->sessionStatus, $this->request, $this->response))->getController()->getResult();
 //            }

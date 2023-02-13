@@ -15,7 +15,7 @@ class Projektor2_View_HTML_Sjlp_Export extends Framework_View_Abstract {
                         </div>';
         $this->parts[] = '<div class="content">';
             $this->parts[] = '
-                            <form method="POST" action="index.php?osoby=export" name="vyber_tabulky">
+                            <form method="POST" action="index.php?akce=osoby&osoby=export" name="vyber_tabulky">
                                   Databázové tabulky: <br>
                                 <select ID="dbtabulka" size="1" name="dbtabulka">
                                 <option >------------</option>

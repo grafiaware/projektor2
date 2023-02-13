@@ -19,7 +19,7 @@ class Projektor2_View_HTML_Pkp_Smlouva extends Projektor2_View_HTML_FormularPHP4
 <H3>SMLOUVA O ÚČASTI V PROJEKTU Moje budoucnost</H3>
 <H3>Registrace v poradenském programu Poradenství k podnikání</H3>
 
-<form method="POST" action="index.php?osoby=form&form=smlouva">
+<form method="POST" action="index.php?akce=osoby&osoby=form&form=smlouva">
 <FIELDSET><LEGEND><b>Osobní údaje</b></LEGEND>
 
     <p>

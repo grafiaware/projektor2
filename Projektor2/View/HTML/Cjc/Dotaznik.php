@@ -16,7 +16,7 @@ class Projektor2_View_HTML_Cjc_Dotaznik extends Projektor2_View_HTML_FormularPHP
     echo '<H3>Příloha IP 1. část</H3>';
     echo '<H3>DOTAZNÍK</H3>';
 
-    echo '<form method="POST" action="index.php?osoby=form&form=sjlp_mb_dot" name="dotaznik->form_dotaznik">';
+    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=sjlp_mb_dot" name="dotaznik->form_dotaznik">';
 
      //dále následuje původní kód
 ?>
