@@ -25,7 +25,7 @@ class Hint extends ViewmodelAbstract {
         if (!$this->values) {
             throw new LogicException("Nejsou zadány response values.");
         }
-        $hint = "";
+        $hint = [];
         if ($query !== "") {
             $this->viewHydrator->extract($query, $q);
             $len=strlen($q);
@@ -43,13 +43,13 @@ class Hint extends ViewmodelAbstract {
                     if (strpos($value, $q) !== false) {
                         $hintValue = "";
                         $this->viewHydrator->hydrate($hintValue, $value);
-                        $hint .= ",$hintValue";
+                        $hint[] = $hintValue;
                     }
                 }
             }
         }
 
-        return $hint;
+        return implode(",", $hint);
 
     }
 }

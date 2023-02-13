@@ -37,27 +37,35 @@ try {
             'path' => 'credentials.json',
             'spreadsheetId' => '1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w',
             'sheetName' => 'import odpovědí',
-            'range' => 'M:M', // sloupec telefon
+            'range' => 'M:M', // sloupec
             'headersRowRange' => "A1:U1"
             ],
         'name' => [
             'path' => 'credentials.json',
             'spreadsheetId' => '1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w',
             'sheetName' => 'import odpovědí',
-            'range' => 'J:J', // sloupec příjmení
+            'range' => 'J:J', // sloupec
+            'headersRowRange' => "A1:U1"
+            ],
+        'email' => [
+            'path' => 'credentials.json',
+            'spreadsheetId' => '1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w',
+            'sheetName' => 'import odpovědí',
+            'range' => 'N:N', // sloupec příjmení
             'headersRowRange' => "A1:U1"
             ],
         ];
 
-    $requestedPhone = isset($_REQUEST["phone"]) ? $_REQUEST["phone"] : '';
-    $requestedName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
 
-    if ($requestedPhone) {
+    if (isset($_REQUEST["phone"])) {
         $type = 'phone';
-        $needle = $requestedPhone;
-    } elseif ($requestedName) {
+        $needle = $_REQUEST["phone"];
+    } elseif (isset($_REQUEST["name"])) {
         $type = 'name';
-        $needle = $requestedName;
+        $needle = $_REQUEST["name"];
+    } elseif (isset($_REQUEST["email"])) {
+        $type = 'email';
+        $needle = $_REQUEST["email"];
     } else {
         throw new UnexpectedValueException("Chybný parametr hledání osoby.");
     }

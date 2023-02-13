@@ -41,15 +41,19 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
      *
      * @return Projektor2_Viewmodel_KurzViewmodel[] array of Projektor2_Model_Kurz
      */
-    protected function findKurzViewmodels() {
-        $filter = "(projekt_kod='{$this->sessionStatus->projekt->kod}'
-                 AND kancelar_kod='{$this->sessionStatus->kancelar->kod}'
-                                          )";
+    protected function findKurzViewmodels($multilike=null) {
+        $filter[] = "projekt_kod='{$this->sessionStatus->projekt->kod}'";
+        $filter[] = "kancelar_kod='{$this->sessionStatus->kancelar->kod}'";
+        if (isset($multilike)) {
+            $filter[] = "(kurz_nazev LIKE '%$multilike%' OR info_cas_konani LIKE '%$multilike%' OR info_lektor LIKE '%$multilike%')";
+        }
 
 //                 AND beh_cislo='{$this->sessionStatus->beh->beh_cislo}'
         //                 AND kurz_druh='$kurz_druh'
+
+        $f = "(".implode(" AND ", $filter).")";
         $mapper = new Projektor2_Viewmodel_KurzViewmodelMapper();
-        return $mapper->find($filter, 'razeni');
+        return $mapper->find($f, 'razeni');
     }
 
     protected function getLeftMenuArray() {
@@ -62,7 +66,9 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
     }
 
     public function getResult() {
-        $viewmodelyKurzu = $this->findKurzViewmodels();
+        $multilike = $this->request->get('multilike');
+        $multilike = "Běl";
+        $viewmodelyKurzu = $this->findKurzViewmodels($multilike);
 
         $viewLeftMenu = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, array('menuArray'=>$this->getLeftMenuArray()));
         $parts[] = $viewLeftMenu;

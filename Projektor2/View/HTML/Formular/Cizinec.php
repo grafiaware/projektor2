@@ -99,7 +99,17 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                             Html::input($prefixDotaznik.'popis_telefon', "Popis:", $poleDotaznik, ["type"=>"text", "size"=>"40", "maxlength"=>"100"])
                         ),
                         Html::tag("p", [],
-                            Html::input($prefixDotaznik.'mail', "e-mail:", $poleDotaznik, ["type"=>"email", "size"=>"40"])
+                        #### hint email ############
+                        Html::input($prefixDotaznik.'mail', "Začněte psát email:", $poleDotaznik,
+                                ["id"=>"email_input", "type"=>"email", "size"=>"40", "maxlength"=>"50",
+                                "list"=>"email_hints_list", "onkeyup"=>"showHint('email_hints_list', 'email', this.value)"]),
+                        Html::tag("datalist", ["id"=>"email_hints_list"]),
+                        // type="button" neodesílá form
+                        Html::tag("button",
+                                ["type"=>"button", "onclick"=>"showPerson('email_input', 'email')"],
+                                "Najdi osobu z Google formuláře podle emailu"),
+                        ################
+//                            Html::input($prefixDotaznik.'mail', "e-mail:", $poleDotaznik, ["type"=>"email", "size"=>"40"])
                         )
                     )
                 ),
@@ -147,12 +157,13 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
 
                 Html::tag("p", [],
                     Html::input("B1", "", ["B1"=>"Uložit"], ["type"=>"submit", "size"=>"8", "maxlength"=>"10"])
-                ),
-                $poleDotaznik[$prefixDotaznik.'id_zajemce'] ?
-                    Html::tag("p", [],
-                        Html::input("pdf", "", ["pdf"=>"Tisk"], ["type"=>"submit", "size"=>"8", "maxlength"=>"10"])
-                    )
-                    : ''
+                )
+//                ,
+//                $poleDotaznik[$prefixDotaznik.'id_zajemce'] ?
+//                    Html::tag("p", [],
+//                        Html::input("pdf", "", ["pdf"=>"Tisk"], ["type"=>"submit", "size"=>"8", "maxlength"=>"10"])
+//                    )
+//                    : ''
             );
 
         echo implode(PHP_EOL, $html);

@@ -6,6 +6,7 @@ use Gogo\Service\GoogleSheetsHelper;
 use Gogo\Viewmodel\Hint;
 use Gogo\Hydrator\PhoneHintHydrator;
 use Gogo\Hydrator\NameHintHydrator;
+use Gogo\Hydrator\EmailHintHydrator;
 
 try {
     // credentials.json is the key file we downloaded while setting up our Google Sheets API
@@ -39,13 +40,19 @@ try {
             'path' => 'credentials.json',
             'spreadsheetId' => '1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w',
             'sheetName' => 'import odpovědí',
-            'range' => 'M:M', // sloupec telefon
+            'range' => 'M:M', // sloupec
             ],
         'name' => [
             'path' => 'credentials.json',
             'spreadsheetId' => '1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w',
             'sheetName' => 'import odpovědí',
-            'range' => 'J:J', // sloupec příjmení
+            'range' => 'J:J', // sloupec
+            ],
+        'email' => [
+            'path' => 'credentials.json',
+            'spreadsheetId' => '1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w',
+            'sheetName' => 'import odpovědí',
+            'range' => 'N:N', // sloupec
             ],
         ];
 
@@ -64,6 +71,10 @@ try {
             break;
         case 'name':
             $hintHydrator = new NameHintHydrator();
+            break;
+        case 'email':
+            $hintHydrator = new EmailHintHydrator();
+            break;
         default:
             break;
     }

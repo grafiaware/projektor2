@@ -59,8 +59,8 @@ function showPerson(inputElementId, type) {
         document.getElementById("person").innerHTML = createTable(this.responseText);
     }
     let inputElement = document.getElementById(inputElementId);
-    let phone = inputElement.value
-    xmlhttp.open("GET", "hint/getPerson.php?" + type + "=" + phone);
+    let inputValue = inputElement.value
+    xmlhttp.open("GET", "hint/getPerson.php?" + type + "=" + inputValue);
     xmlhttp.send();
 }
 
