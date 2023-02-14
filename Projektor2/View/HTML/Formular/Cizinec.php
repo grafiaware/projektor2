@@ -142,7 +142,7 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                         Html::tag("div", [],
                             Html::checkbox(
                                 [
-                                    "Zájem o zvolenou rekvalifikaci jako zákemce"=>[$prefixCizinec."rk_zadost_1"=>"Zájem o zvolenou rekvalifikaci jako zákemce"],
+                                    "Zájem o zvolenou rekvalifikaci jako zájemce"=>[$prefixCizinec."rk_zadost_1"=>"Zájem o zvolenou rekvalifikaci jako zájemce"],
                                     "Zájem o zvolenou rekvalifikaci jako uchazeč"=>[$prefixCizinec."rk_zadost_2"=>"Zájem o zvolenou rekvalifikaci jako uchazeč"]
                                 ],
                                 $poleCizinec
