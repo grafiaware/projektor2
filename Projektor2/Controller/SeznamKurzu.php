@@ -71,7 +71,13 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
 
         $multilike1 = $this->request->post('multiliketext');
         $multilike2 = $this->request->post('multilikedate');
-        $parts[] = new Projektor2_View_HTML_Multilike($this->sessionStatus, ['multilike_text'=>$multilike1, 'multilike_date'=>$multilike2]);
+        $parts[] = new Projektor2_View_HTML_Multilike($this->sessionStatus,
+                [
+                'multilike_text'=>$multilike1,
+                'multilike_date'=>$multilike2,
+                'title_text'=>'Hledá text v názvu, místu konání a v lektorovi.',
+                'title_date'=>'Hledá datum v datumech začátku a konce kurzu.',
+                ]);
 
         $viewmodelyKurzu = $this->findKurzViewmodels($multilike1, $multilike2);
         if ($viewmodelyKurzu) {

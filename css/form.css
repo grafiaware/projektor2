@@ -45,25 +45,27 @@ fieldset {
     display: block;
     line-height: 17px;
     margin-bottom: 15px;
-    padding: 10px 20px 5px;
+    padding: 5px 20px 5px;
 }
 
+legend {
+    font-weight: bold;
+    padding: 5px 10px 5px 10px;
+}
 
 fieldset legend {
     background-color: #375D81;
     color: white;
     border-radius: 5px;
-    font-weight: bold;
+
 }
 
 fieldset fieldset legend {
-    font-weight: bold;
     color: indigo;
     background-color: #DDDDFF;
 }
 
 fieldset fieldset fildset legend {
-    font-weight: bold;
     color: black;
     background-color: #375D81;
 }

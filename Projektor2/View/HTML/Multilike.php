@@ -4,13 +4,15 @@ class Projektor2_View_HTML_Multilike extends Framework_View_Abstract {
     public function render() {
         $multilikeText = $this->context['multilike_text'] ?? '';
         $multilikeDate = $this->context['multilike_date'] ?? '';
-                $resetJs = 'function resetMultilike() {
-                    tt = document.getElementById(\'multilike_input_text\');
-                    tt.defaultValue=\'\';
-                    dd = document.getElementById(\'multilike_input_date\');
-                    dd.defaultValue=\'\';
-                    submitForm(tt);
-                    }';
+        $titleText = $this->context['title_text'] ?? '';
+        $titleDate = $this->context['title_date'] ?? '';
+        $resetJs = 'function resetMultilike() {
+            tt = document.getElementById(\'multilike_input_text\');
+            tt.defaultValue=\'\';
+            dd = document.getElementById(\'multilike_input_date\');
+            dd.defaultValue=\'\';
+            submitForm(tt);
+            }';
 
         $this->parts[] = '<script>'.$resetJs.'</script>';
         $this->parts[] = '<div id="" class="">';
@@ -19,8 +21,8 @@ class Projektor2_View_HTML_Multilike extends Framework_View_Abstract {
                 $this->parts[] = '<legend>Vyhledávání</legend>';
 
                 $this->parts[] = '<label for="multilike_input" >Zadejte co hledáte:</label>';
-                $this->parts[] = '<input id="multilike_input_text" type="text" name="multiliketext" value="'.$multilikeText.'" placeholder="Obsahuje..." onEnter="submitForm(this);"/>';
-                $this->parts[] = '<input id="multilike_input_date" type="date" name="multilikedate" value="'.$multilikeDate.'" onChange="submitForm(this);"/>';
+                $this->parts[] = '<input id="multilike_input_text" type="text" name="multiliketext" value="'.$multilikeText.'" placeholder="Obsahuje..." title="'.$titleText.'" onEnter="submitForm(this);"/>';
+                $this->parts[] = '<input id="multilike_input_date" type="date" name="multilikedate" value="'.$multilikeDate.'" title="'.$titleDate.'" onChange="submitForm(this);"/>';
 //
                 $this->parts[] = '<button type="reset" value="Reset" onClick="resetMultilike()">Reset</button>';
         $this->parts[] = '</fieldset>';
