@@ -149,7 +149,7 @@ class Projektor2_Model_SessionStatus {
                 // projekt z cookie
                 self::$sessionStatus->setProjekt(Projektor2_Model_Db_ProjektMapper::findById($request->cookie('projektId')));
                 // kancelar z cookie
-                self::$sessionStatus->setKancelar(Projektor2_Model_Db_KancelarMapper::findById($request->cookie('kancelarId')));
+                self::$sessionStatus->setKancelar(Projektor2_Model_Db_KancelarMapper::getValid($request->cookie('kancelarId')));
                 // beh z cookie
                 self::$sessionStatus->setBeh(Projektor2_Model_Db_BehMapper::findById($request->cookie('behId')));
                 // akce z cookie

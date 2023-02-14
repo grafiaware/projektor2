@@ -44,7 +44,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
                             $certifikat = $serviceCertifikat->get(
                                 $certicateType,
                                 $this->sessionStatus,
-                                Projektor2_Model_Db_KancelarMapper::findById($zajemce->id_c_kancelar_FK),
+                                Projektor2_Model_Db_KancelarMapper::getValid($zajemce->id_c_kancelar_FK),
                                 $zajemce, $sKurz, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
                             if (!$certifikat) {
                                 throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);

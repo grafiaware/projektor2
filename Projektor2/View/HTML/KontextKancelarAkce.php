@@ -3,7 +3,6 @@ class Projektor2_View_HTML_KontextKancelarAkce extends Framework_View_Abstract {
 
     public function render() {
         $kancelare = $this->context['kancelare'];
-        $subparts = $this->context['subparts'];
 
         $this->parts[] = '<div id="vyberkontext" class="bordered fieldsetcontainer c1c1">';
         $this->parts[] = '<form id="Kancelar" action="index.php?kontext" method="post">';
@@ -23,11 +22,11 @@ class Projektor2_View_HTML_KontextKancelarAkce extends Framework_View_Abstract {
             $this->parts[] = '</fieldset>';
         $this->parts[] = '</form>';
 
-                $this->parts[] = '<form method="post">';  // metoda musí výt POST (GET neodesílá query uvedené v action (nebo formaction) - router Akce příjímá parametry i z POST requestu
+        $this->parts[] = '<form method="post">';  // metoda musí být POST (GET neodesílá query uvedené v action (nebo formaction) - router Akce příjímá parametry i z POST requestu
             $this->parts[] = '<fieldset id="vyber_akci" class"rightcolumn">';
                 $this->parts[] = '<legend>Výběr akce</legend>';
-                $this->parts[] = '<button type="submit" class="" form action="index.php?akce=osoby&osoby=seznam">OSOBY</button>';
-                $this->parts[] = '<button type="submit" class="" formaction="index.php?akce=kurzy&kurzy=seznam" >KURZY</button>';
+                $this->parts[] = '<button type="submit" class="" formaction="index.php?akce=osoby&osoby=seznam">OSOBY</button>';
+                $this->parts[] = '<button type="submit" class="" formaction="index.php?akce=kurzy&kurzy=seznam">KURZY</button>';
             $this->parts[] = '</fieldset>';
         $this->parts[] = '</form>';
         $this->parts[] = '</div>';

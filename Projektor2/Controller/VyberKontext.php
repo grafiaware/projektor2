@@ -9,16 +9,8 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
     private function performPostActions() {
         if ($this->request->isPost() AND null!==$this->request->get("kontext")) {
             if ($this->request->post('id_kancelar')) {
-                switch ($this->request->post('id_kancelar')) {
-                    case 'ß':
-                            $this->sessionStatus->setKancelar();
-                        break;
-                    default:
-                            $kancelar = Projektor2_Model_Db_KancelarMapper::findById($this->request->post('id_kancelar'));
-                            $this->sessionStatus->setKancelar($kancelar);
-                            $selectedKancelar = TRUE;
-                        break;
-                }
+                $kancelar = Projektor2_Model_Db_KancelarMapper::getValid($this->request->post('id_kancelar'));
+                $this->sessionStatus->setKancelar($kancelar);
             }
             if ($this->request->post('id_beh')) {
                 switch ($this->request->post('id_beh')) {
@@ -75,7 +67,7 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
         // obsah zobrazený vždy
         $idKancelari = Projektor2_Model_Db_SysAccUsrKancelarMapper::getIndexArray('id_c_kancelar', 'id_sys_users='.$this->sessionStatus->user->id);
         if (isset($idKancelari)) {
-            $kancelare = Projektor2_Model_Db_KancelarMapper::find(
+            $kancelare = Projektor2_Model_Db_KancelarMapper::findValid(
                     'id_c_projekt_FK='.$this->sessionStatus->projekt->id.' AND id_c_kancelar IN ('.implode(', ', $idKancelari).')', 'razeni ASC'
                     );
         } else {
@@ -83,9 +75,10 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
         }
 
         $parts[] = new Projektor2_View_HTML_KontextKancelarAkce($this->sessionStatus,
-                array('kancelare'=>$kancelare,
-                    'id_kancelar'=>isset($this->sessionStatus->kancelar->id) ? $this->sessionStatus->kancelar->id : NULL,
-                    'id_beh'=>isset($this->sessionStatus->beh->id) ? $this->sessionStatus->beh->id : NULL)
+                array(
+                    'kancelare'=>$kancelare,
+                    'id_kancelar'=>isset($this->sessionStatus->kancelar->id) ? $this->sessionStatus->kancelar->id : NULL
+                    )
                 );
 
         // podmínka pro pokračování - obsah zobrazený při úplném kontextu
