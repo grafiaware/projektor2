@@ -157,11 +157,12 @@ class Projektor2_Model_SessionStatus {
                 // zajemce z cookie
                 $zajemce = Projektor2_Model_Db_ZajemceMapper::get($request->cookie('zajemceId'));
                 self::$sessionStatus->setZajemce($zajemce);
-
                 // sKurz z cookie
                 $sKurz = Projektor2_Model_Db_SKurzMapper::get($request->cookie('sKurzId'));
                 self::$sessionStatus->setSKurz($sKurz);
-
+                $navigation = new Projektor2_Model_Navigation();
+                $navigationLevel = new Projektor2_Model_NavigationLevel();
+                $navigation->push($navigationLevel);
                 if (self::$sessionStatus->logger) {
                     $part[] = date('Y-m-d H:i:s');
                     $part[] = self::$sessionStatus->user->username;
