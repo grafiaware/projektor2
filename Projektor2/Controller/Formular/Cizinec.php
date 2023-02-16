@@ -27,44 +27,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
         $this->models[self::ZA_UPLOAD_TYPE] = Projektor2_Model_Db_ZaUploadTypeMapper::findAll();
 
     }
-    protected function processPost() {
-        $this->setModelsFromPost($this->request->postArray());
-        // ukládání dat modelů flat table
-        $this->saveFlatTableModels();
 
-        // ukládání uploadu
-        $fileBaseFolder = Projektor2_AppContext::getFileBaseFolder();
-        $uploadedFolderPath =
-                Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod)
-                .'upload/';
-        $osobaFolder =
-                $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->prijmeni
-                .' '.$this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->jmeno
-                .' - '.$this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->id_zajemce;
-
-        $saved = $this->saveUploadedFiles($fileBaseFolder, $uploadedFolderPath.$osobaFolder.'/', true);  // true = expanduj do podadresářů podle typu uploadu
-
-        // update & create
-        foreach ($saved as $uploadType => $uploadedFilefullFilepath) {
-            if (array_key_exists($uploadType, $this->typeCollection)) {
-                $persistedUpload = $this->uploadCollection[$idZajemce.'-'.$uploadType];
-                if (isset($persistedUpload)) {
-                   $persistedUpload->filename = $uploadedFilefullFilepath;
-        //
-//                                    ?? updated
-//                                    - při update smazat soubor?
-                    Projektor2_Model_Db_ZaUploadMapper::update($persistedUpload);
-                } else {
-                    // nový model do kolekce (nep
-                    $this->uploadCollection[$uploadType] = Projektor2_Model_Db_ZaUploadMapper::create(
-                            $this->sessionStatus->zajemce->id, $uploadType,
-                            $uploadedFilefullFilepath,
-                            $this->sessionStatus->user->name, __CLASS__, Projektor2_AppContext::getDb()->getDbHost()
-                        );
-                }
-            }
-        }
-    }
     public function getResult() {
         $htmlResult = '';
         $idZajemce = $this->sessionStatus->zajemce->id;
@@ -81,7 +44,42 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
 
         // POST
         if ($this->request->isPost()) {
-            $this->processPost();
+            $this->setModelsFromPost($this->request->postArray());
+            // ukládání dat modelů flat table
+            $this->saveFlatTableModels();
+
+            // ukládání uploadu
+            $fileBaseFolder = Projektor2_AppContext::getFileBaseFolder();
+            $uploadedFolderPath =
+                    Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod)
+                    .'upload/';
+            $osobaFolder =
+                    $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->prijmeni
+                    .' '.$this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->jmeno
+                    .' - '.$this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->id_zajemce;
+
+            $saved = $this->saveUploadedFiles($fileBaseFolder, $uploadedFolderPath.$osobaFolder.'/', true);  // true = expanduj do podadresářů podle typu uploadu
+
+            // update & create
+            foreach ($saved as $uploadType => $uploadedFilefullFilepath) {
+                if (array_key_exists($uploadType, $this->typeCollection)) {
+                    $persistedUpload = $this->uploadCollection[$idZajemce.'-'.$uploadType];
+                    if (isset($persistedUpload)) {
+                       $persistedUpload->filename = $uploadedFilefullFilepath;
+            //
+//                                    ?? updated
+//                                    - při update smazat soubor?
+                        Projektor2_Model_Db_ZaUploadMapper::update($persistedUpload);
+                    } else {
+                        // nový model do kolekce (nep
+                        $this->uploadCollection[$uploadType] = Projektor2_Model_Db_ZaUploadMapper::create(
+                                $this->sessionStatus->zajemce->id, $uploadType,
+                                $uploadedFilefullFilepath,
+                                $this->sessionStatus->user->name, __CLASS__, Projektor2_AppContext::getDb()->getDbHost()
+                            );
+                    }
+                }
+            }
         }
 
         // formulář
