@@ -11,7 +11,7 @@ require_once 'Classes/PHPExcel.php';  // uvnitř v Classes/PHPExcel.php se prove
 ### DOČASNÉ ##########################
 ini_set('max_execution_time', 45);
 ######################################
-
+$session = new Projektor2_Session();
 $request = new Projektor2_Request();
 $response = new Projektor2_Response();
 //$app = new Projektor2_Application($request, $response);
