@@ -41,7 +41,7 @@ class Projektor2_Service_CertifikatProjekt {
      * @throws LogicException
      * @throws RuntimeException
      */
-    public function create(Projektor2_Model_SessionStatus $sessionStatus,
+    public function create(Projektor2_Model_Status $sessionStatus,
                 Projektor2_Model_Db_Kancelar $kancelar,
                 Projektor2_Model_Db_Zajemce $zajemce, $datumCertifikatu, $creator, $service) {
 
@@ -53,18 +53,18 @@ class Projektor2_Service_CertifikatProjekt {
             $modelDbCertifikat = Projektor2_Model_Db_CertifikatProjektMapper::create($zajemce, $datetimeCertifikatu, $creator, $service);  // bez filename
             // vytvoř a ulož pdf certifikátu
             $viewKurz = new Projektor2_View_PDF_ProjektOsvedceniOriginal();
-            $relativeOriginalDocumentPath = Projektor2_Model_File_CertifikatProjektOriginalMapper::getRelativeFilePath($sessionStatus->projekt, $zajemce);
+            $relativeOriginalDocumentPath = Projektor2_Model_File_CertifikatProjektOriginalMapper::getRelativeFilePath($sessionStatus->getUserStatus()->getProjekt(), $zajemce);
 
             $content = $this->createContentCertifikatProjekt($viewKurz, $zajemce, $sessionStatus, $kancelar, $modelDbCertifikat, $relativeOriginalDocumentPath);
-            $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatProjektOriginalMapper::create($sessionStatus->projekt, $zajemce, $content);
+            $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatProjektOriginalMapper::create($sessionStatus->getUserStatus()->getProjekt(), $zajemce, $content);
             Projektor2_Model_File_CertifikatProjektOriginalMapper::save($modelDocumentCertifikatOriginal);
 
             // vytvoř a ulož pdf pseudokopie
             $viewKurz = new Projektor2_View_PDF_ProjektOsvedceniPseudokopie();
-            $relativePseudokopieDocumentPath = Projektor2_Model_File_CertifikatProjektPseudokopieMapper::getRelativeFilePath($sessionStatus->projekt, $zajemce);
+            $relativePseudokopieDocumentPath = Projektor2_Model_File_CertifikatProjektPseudokopieMapper::getRelativeFilePath($sessionStatus->getUserStatus()->getProjekt(), $zajemce);
 
             $content = $this->createContentCertifikatProjekt($viewKurz, $zajemce, $sessionStatus, $kancelar, $modelDbCertifikat, $relativeOriginalDocumentPath);
-            $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatProjektPseudokopieMapper::create($sessionStatus->projekt, $zajemce, $content);
+            $modelDocumentCertifikatPseudokopie = Projektor2_Model_File_CertifikatProjektPseudokopieMapper::create($sessionStatus->getUserStatus()->getProjekt(), $zajemce, $content);
             Projektor2_Model_File_CertifikatProjektPseudokopieMapper::save($modelDocumentCertifikatPseudokopie);
 
             // vytvořen file model certifikát i pseudokopie -> nastav název souboru certifikátu v db
@@ -107,14 +107,14 @@ class Projektor2_Service_CertifikatProjekt {
      *
      * @param Projektor2_View_PDF_Common $pdfView
      * @param Projektor2_Model_Db_Zajemce $zajemce
-     * @param Projektor2_Model_SessionStatus $sessionStatus
+     * @param Projektor2_Model_Status $sessionStatus
      * @param Projektor2_Model_Db_Kancelar $kancelar
      * @param Projektor2_Model_Db_CertifikatKurz $certifikat
      * @param type $docPath
      * @return type
      */
     private function createContentCertifikatProjekt(Projektor2_View_PDF_Common $pdfView,
-            Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Kancelar $kancelar,
+            Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Status $sessionStatus, Projektor2_Model_Db_Kancelar $kancelar,
             Projektor2_Model_Db_CertifikatProjekt $certifikat, $docPath) {
         $models = $this->createProjektOsvedceniModels($zajemce);
         $context = $this->createContextFromModels($models);

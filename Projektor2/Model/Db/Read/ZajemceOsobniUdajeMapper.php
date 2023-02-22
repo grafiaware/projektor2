@@ -9,7 +9,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function findById($id) {
         $dbh = Projektor2_AppContext::getDb();
-        $appStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT zajemce.id_zajemce, zajemce.cislo_zajemce, zajemce.identifikator, zajemce.znacka,
                         zajemce.id_c_projekt_FK, zajemce.id_c_kancelar_FK, zajemce.id_s_beh_projektu_FK,
                         za_flat_table.jmeno,
@@ -44,7 +44,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function find($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE) {
         $dbh = Projektor2_AppContext::getDb();
-        $appStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT zajemce.id_zajemce, zajemce.cislo_zajemce, zajemce.identifikator, zajemce.znacka,
                         zajemce.id_c_projekt_FK, zajemce.id_c_kancelar_FK, zajemce.id_s_beh_projektu_FK,
                         za_flat_table.jmeno,
@@ -94,7 +94,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function findInContext($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE, $findOutOfContext=FALSE) {
         $dbh = Projektor2_AppContext::getDb();
-        $appStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT zajemce.id_zajemce, zajemce.cislo_zajemce, zajemce.identifikator, zajemce.znacka,
                         zajemce.id_c_projekt_FK, zajemce.id_c_kancelar_FK, zajemce.id_s_beh_projektu_FK,
                         za_flat_table.jmeno,
@@ -104,17 +104,17 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
         $where = array();
         $bindParams = array();
         if (!$findOutOfContext) {
-            if (isset($appStatus->projekt->id)) {
+            if (isset($appStatus->getUserStatus()->getProjekt()->id)) {
                 $where[] = "id_c_projekt_FK = :id_c_projekt_FK";
-                $bindParams = array_merge($bindParams, array('id_c_projekt_FK'=>$appStatus->projekt->id));
+                $bindParams = array_merge($bindParams, array('id_c_projekt_FK'=>$appStatus->getUserStatus()->getProjekt()->id));
             }
-            if (isset($appStatus->kancelar->id)) {
+            if (isset($appStatus->getUserStatus()->getKancelar()->id)) {
                 $where[] = "id_c_kancelar_FK = :id_c_kancelar_FK";
-                $bindParams = array_merge($bindParams, array('id_c_kancelar_FK'=>$appStatus->kancelar->id));
+                $bindParams = array_merge($bindParams, array('id_c_kancelar_FK'=>$appStatus->getUserStatus()->getKancelar()->id));
             }
-            if (isset($appStatus->beh->id)) {
+            if (isset($appStatus->getUserStatus()->getBeh()->id)) {
                 $where[] = "id_s_beh_projektu_FK = :id_s_beh_projektu_FK";
-                $bindParams = array_merge($bindParams, array('id_s_beh_projektu_FK'=>$appStatus->beh->id));
+                $bindParams = array_merge($bindParams, array('id_s_beh_projektu_FK'=>$appStatus->getUserStatus()->getBeh()->id));
             }
         }
         if (!$findInvalid) {

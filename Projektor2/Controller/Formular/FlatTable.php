@@ -20,10 +20,10 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
 
     private $statusMainObject;
 
-    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Request $request, Projektor2_Response $response, array $params = []) {
+    public function __construct(Projektor2_Model_Status $sessionStatus, Projektor2_Request $request, Projektor2_Response $response, array $params = []) {
         parent::__construct($sessionStatus, $request, $response, $params);
-        if(isset($this->sessionStatus->zajemce)) {
-            $this->setStatusMainObject($this->sessionStatus->zajemce);
+        if($this->sessionStatus->getUserStatus()->getZajemce()) {
+            $this->setStatusMainObject($this->sessionStatus->getUserStatus()->getZajemce());
         }
     }
 
@@ -33,15 +33,15 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
         if ($this->request->isPost()) {
             $fileBaseFolder = Projektor2_AppContext::getFileBaseFolder();
             $uploadedFolderPath =
-                    Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod)
+                    Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod)
                     .'filesUpload/';
             $this->saveUploadedFiles($fileBaseFolder, $uploadedFolderPath);
             // ukládání dat modelů flat table
-            $this->createFormModels();  // pokud není $this->sessionStatus->zajemce vytvoří při volání flat table->save() nový zájemce
+            $this->createFormModels();  // pokud není $this->sessionStatus->getUserStatus()->getZajemce() vytvoří při volání flat table->save() nový zájemce
             $this->setModelsFromPost($this->request->postArray());
             $this->saveFlatTableModels();
         } else { // request == GET
-            $this->createFormModels();  // pokud není $this->sessionStatus->zajemce vytvoří při volání flat table->save() nový zájemce
+            $this->createFormModels();  // pokud není $this->sessionStatus->getUserStatus()->getZajemce() vytvoří při volání flat table->save() nový zájemce
         }
 
         // formulář
@@ -89,10 +89,10 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
     }
 
     protected function saveFlatTableModels() {
-        if ($this->sessionStatus->user->povolen_zapis) {
+        if ($this->sessionStatus->getUserStatus()->getUser()->povolen_zapis) {
             if ($this->getStatusMainObject()===null) {
                 $mainObject = $this->createStatusMainObject();  // proběhne insert do databáze do tabulky hlavního objektu
-                $this->sessionStatus->zajemce = $mainObject;
+                $this->sessionStatus->getUserStatus()->setZajemce($mainObject);
                 foreach ($this->models as $model) {
                     if ($model instanceof Framework_Model_CollectionFlatTable OR $model instanceof Framework_Model_ItemFlatTable) {
                         // zde se nastaví hlavní objekt (např. zajemce) k flat table (např. za_flat_table), ktera nema hlavní objekt
@@ -110,7 +110,7 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
                     $model->save();
                     if ($model->isCreatedNewMainObject()) {
                         $zajemce = $model->getMainObject();
-                        $this->sessionStatus->setZajemce($zajemce);
+                        $this->sessionStatus->getUserStatus()->setZajemce($zajemce);
                     }
                 } elseif ($model instanceof Framework_Model_ItemFlatTable) {
                     // zde se vytvoří hlavní objekt (např. zajemce) k flat table (např. za_flat_table), ktera nema hlavní objekt
@@ -119,7 +119,7 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
                     $model->save();
                     if ($model->isCreatedNewMainObject()) {
                         $zajemce = $model->getMainObject();
-                        $this->sessionStatus->setZajemce($zajemce);
+                        $this->sessionStatus->getUserStatus()->setZajemce($zajemce);
                     }
                 }
             }

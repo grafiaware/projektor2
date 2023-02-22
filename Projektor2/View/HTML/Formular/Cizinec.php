@@ -21,7 +21,7 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
         $poleDotaznik = $this->context[$signDotaznik];
         $poleCizinec = $this->context[$signCizinec];
 
-        $projektTitulek = strtoupper($this->sessionStatus->projekt->text);
+        $projektTitulek = strtoupper($this->sessionStatus->getUserStatus()->getProjekt()->text);
 
         $html[] = Html::tag("h3", [], "REGISTRACE V PROGRAMU $projektTitulek");
         ##########

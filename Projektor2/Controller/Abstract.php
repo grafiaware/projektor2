@@ -7,7 +7,7 @@
 abstract class Projektor2_Controller_Abstract implements Projektor2_Controller_ControllerParamsInterface {
 
     /**
-     * @var Projektor2_Model_SessionStatus
+     * @var Projektor2_Model_Status
      */
     protected $sessionStatus;
     /**
@@ -20,7 +20,7 @@ abstract class Projektor2_Controller_Abstract implements Projektor2_Controller_C
     protected $response;
     protected $params;
 
-    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Request $request, Projektor2_Response $response, $params=null) {
+    public function __construct(Projektor2_Model_Status $sessionStatus, Projektor2_Request $request, Projektor2_Response $response, $params=null) {
         $this->sessionStatus = $sessionStatus;
         $this->request = $request;
         $this->response = $response;

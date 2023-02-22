@@ -8,7 +8,7 @@
 class Projektor2_Controller_Export_SqlTemplate_SqlTemplate {
 
     /**
-     * @var Projektor2_Model_SessionStatus
+     * @var Projektor2_Model_Status
      */
     protected $sessionStatus;
     /**
@@ -21,7 +21,7 @@ class Projektor2_Controller_Export_SqlTemplate_SqlTemplate {
     protected $response;
     protected $usedParams;
 
-    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Request $request) {
+    public function __construct(Projektor2_Model_Status $sessionStatus, Projektor2_Request $request) {
         $this->sessionStatus = $sessionStatus;
         $this->request = $request;
     }
@@ -47,11 +47,11 @@ class Projektor2_Controller_Export_SqlTemplate_SqlTemplate {
 
     private function getData(array $params=[]) {
         $sessionData = [
-            'idProjekt'=>$this->sessionStatus->projekt->id,
-            'idKancelar'=>$this->sessionStatus->kancelar->id,
-            'idBeh'=>$this->sessionStatus->beh->id,
-            'idZajemce'=>$this->sessionStatus->zajemce->id,
-            'idSKurz'=>$this->sessionStatus->sKurz->id_s_kurz
+            'idProjekt'=>$this->sessionStatus->getUserStatus()->getProjekt()->id,
+            'idKancelar'=>$this->sessionStatus->getUserStatus()->getKancelar()->id,
+            'idBeh'=>$this->sessionStatus->getUserStatus()->getBeh()->id,
+            'idZajemce'=>$this->sessionStatus->getUserStatus()->getZajemce()->id,
+            'idSKurz'=>$this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz
         ];
         $this->usedParams = array_merge(
                 $sessionData,

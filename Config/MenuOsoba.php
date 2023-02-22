@@ -16,9 +16,9 @@ class Config_MenuOsoba {
      * @throws UnexpectedValueException
      */
     public static function setSkupinyZajemce(Projektor2_Viewmodel_OsobaMenuViewmodel $zajemceRegistrace, Projektor2_Model_Db_Zajemce $zajemce) {
-        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
-        $user = $sessionStatus->user;
-        $kod = $sessionStatus->projekt->kod;
+        $sessionStatus = Projektor2_Model_Status::getSessionStatus();
+        $user = $sessionStatus->getUserStatus()->getUser();
+        $kod = $sessionStatus->getUserStatus()->getProjekt()->kod;
         switch ($kod) {
             case 'AP':
                 // příprava na                     $modelTlacitko->status = 'disabled';
@@ -124,7 +124,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
@@ -239,7 +239,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
@@ -343,7 +343,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
@@ -419,7 +419,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
 
@@ -508,7 +508,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
@@ -587,7 +587,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
 
@@ -650,7 +650,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
 
@@ -713,7 +713,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
 
@@ -803,7 +803,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
@@ -909,7 +909,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
@@ -987,7 +987,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
 
@@ -1049,7 +1049,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
 
@@ -1128,7 +1128,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani
@@ -1224,7 +1224,7 @@ class Config_MenuOsoba {
                 if (count($skupina->getMenuTlacitka())) {
                     $zajemceRegistrace->setSkupina('ukonceni', $skupina);
                     $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
-                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->projekt->kod));
+                    $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Projektor2_AppContext::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
                     $skupina->setMenuSignal($modelSignal);
                 }
                 // skupina zamestnani

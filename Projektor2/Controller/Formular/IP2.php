@@ -7,17 +7,17 @@
 class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_IP {
 
     protected function createFormModels() {
-        $this->models[Projektor2_Controller_Formular_FlatTable::UKONC_FT] = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($this->sessionStatus->zajemce);
-        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_FT] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($this->sessionStatus->zajemce);
-        $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce);
-        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($this->sessionStatus->zajemce);
+        $this->models[Projektor2_Controller_Formular_FlatTable::UKONC_FT] = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
+        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_FT] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
+        $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
+        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($this->sessionStatus->getUserStatus()->getZajemce());
     }
 
     protected function getResultFormular() {
-        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ);
+        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
         $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 
-        $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->projekt->kod);
+        $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->getUserStatus()->getProjekt()->kod);
 
         $view = new Projektor2_View_HTML_Formular_IP2($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'UKONČENÍ ÚČASTI V PROJEKTU A DOPLNĚNÍ IP - 2. část ÚČASTNÍKA PROJEKTU Moje Budoucnost')
@@ -35,19 +35,19 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
     protected function getResultPdf() {
          // TODO Všechny getResultPdf() - přesunout do service+mapper pro ukládání, v kontroleru zůstane jen $view->getNewWindowOpenerCode() - pak vše doe getResult()
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
-            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->zajemce);
+            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce());
             $view = new Projektor2_View_PDF_IP2($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
-            $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
-                ->assign('user_name', $this->sessionStatus->user->name)
-                ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
-                ->assign('znacka', $this->sessionStatus->zajemce->znacka)
+            $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text)
+                ->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name)
+                ->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator)
+                ->assign('znacka', $this->sessionStatus->getUserStatus()->getZajemce()->znacka)
 //                ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)
                 ->assign('aktivityPlan', $kurzyPlan);
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
             $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();
         }
@@ -56,15 +56,15 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
             $view = new Projektor2_View_PDF_Mb_Ukonceni($this->sessionStatus, $this->createContextFromModels());
             $file = 'ukonceni';
             //status proměnné
-            $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
-            $view->assign('user_name', $this->sessionStatus->user->name);
-            $view->assign('identifikator', $this->sessionStatus->zajemce->identifikator);
-            $view->assign('znacka', $this->sessionStatus->zajemce->znacka);
+            $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text);
+            $view->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name);
+            $view->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator);
+            $view->assign('znacka', $this->sessionStatus->getUserStatus()->getZajemce()->znacka);
 
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
             $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();
         }

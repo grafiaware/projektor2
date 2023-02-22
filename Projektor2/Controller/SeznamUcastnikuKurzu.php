@@ -11,7 +11,7 @@ class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_A
     }
 
     private function getLeftMenuArrayUcastnici() {
-//        if ( ($this->sessionStatus->user->username == "sys_admin" OR $this->sessionStatus->user->username == "cj_manager" OR $this->sessionStatus->user->username == "cj_monitor")) {
+//        if ( ($this->sessionStatus->getUserStatus()->getUser()->username == "sys_admin" OR $this->sessionStatus->getUserStatus()->getUser()->username == "cj_manager" OR $this->sessionStatus->getUserStatus()->getUser()->username == "cj_monitor")) {
             $menuArray[] = ['href'=>'index.php?kurzy=kurz&kurz=excel', 'text'=>'Exporty dat'];
             $menuArray[] = ['href'=>'index.php?kurzy=kurz&kurz=export_certifikaty_kurz', 'text'=>'Exportuj certifikáty za kurz'];
 //        }
@@ -23,14 +23,14 @@ class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_A
         $gridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArray()]);
 
         // jednořádková tabulka s kurzem - nezobrazuje se pro nový kurz
-        $viewmodelKurz = (new Projektor2_Viewmodel_KurzViewmodelMapper())->get($this->sessionStatus->sKurz->id_s_kurz);
+        $viewmodelKurz = (new Projektor2_Viewmodel_KurzViewmodelMapper())->get($this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz);
         $params = [Projektor2_Controller_Element_MenuKurz::VIEWMODEL_KURZ => $viewmodelKurz];
         $tlacitkaController = new Projektor2_Controller_Element_MenuKurz($this->sessionStatus, $this->request, $this->response, $params);
         $rowsKurzy[] = $tlacitkaController->getResult();
         $tableKurzy = new Projektor2_View_HTML_Element_Table($this->sessionStatus, ['rows'=>$rowsKurzy, 'class'=>'zaznamy']);
         $contentParts[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$tableKurzy, 'class'=>'content']);
 
-        $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findAll("id_s_kurz_FK={$this->sessionStatus->sKurz->id_s_kurz}");
+        $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findAll("id_s_kurz_FK={$this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz}");
         if ($zaPlanKurzArray) {
             $subgridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArrayUcastnici()]);
 

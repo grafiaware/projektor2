@@ -10,7 +10,7 @@ class Projektor2_Router_Kurzy {
     protected $request;
     protected $response;
 
-    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Request $request, Projektor2_Response $response) {
+    public function __construct(Projektor2_Model_Status $sessionStatus, Projektor2_Request $request, Projektor2_Response $response) {
         $this->sessionStatus = $sessionStatus;
         $this->request = $request;
         $this->response = $response;

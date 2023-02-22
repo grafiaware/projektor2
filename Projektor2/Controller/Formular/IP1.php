@@ -11,17 +11,17 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
         // t.j. elementy input, textarea, select, checkbox, radiobutton.
         // Kontext je asociativní pole, indexy kontextu se ve formuláři použijí jako jména (name) proměnných formuláře a hodnoty kontextu jako hodnoty (value) proměnných formuláře.
         //
-        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_FT] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($this->sessionStatus->zajemce);
-        $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce);
-        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($this->sessionStatus->zajemce);
+        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_FT] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
+        $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
+        $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($this->sessionStatus->getUserStatus()->getZajemce());
     }
 
     protected function getResultFormular() {
-        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ);
+        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
         $modelySKurz = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));
-        $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA '.$this->sessionStatus->projekt->text)
+        $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA '.$this->sessionStatus->getUserStatus()->getProjekt()->text)
             ->assign('aktivityTypuKurz', $aktivityProjektuTypuKurz)
             ->assign('modelySKurz', $modelySKurz)   // Projektor2_Model_Db_SKurz[]
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))
@@ -33,16 +33,16 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
         if ($this->request->post('pdf') == "Tiskni IP 1.část") {
             $view = new Projektor2_View_PDF_Cjc_IP1($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast1_aktivity';
-            $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
-                ->assign('user_name', $this->sessionStatus->user->name)
-                ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
-                ->assign('znacka', $this->sessionStatus->zajemce->znacka)
-                ->assign('aktivityPlan', Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->zajemce))  // Projektor2_Model_AktivitaPlan[]
+            $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text)
+                ->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name)
+                ->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator)
+                ->assign('znacka', $this->sessionStatus->getUserStatus()->getZajemce()->znacka)
+                ->assign('aktivityPlan', Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce()))  // Projektor2_Model_AktivitaPlan[]
                     ;
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
             $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();
         }
@@ -59,14 +59,14 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
 
     private function getCertificateNewOpenerHtml($indexAktivity, $certifikatVerze) {
 
-        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ);
+        $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
         $konfiguraceAktivity = $aktivityProjektuTypuKurz[$indexAktivity];
         $aktivitaSCertifikatem = ($konfiguraceAktivity['s_certifikatem'] ?? null) ? TRUE : FALSE;
         if (!isset($aktivitaSCertifikatem) OR !$aktivitaSCertifikatem) {
             throw new LogicException("Došlo k pokusu o vytvoření certifikátů pro aktivitu bez certifikátu. Aktivita '$indexAktivity'.");
         }
         /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
-        $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
+        $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce(), $indexAktivity);
         $createCertifikat = ($konfiguraceAktivity['certifikat']['original'] ?? null) ? TRUE : FALSE;
         $createCertifikatMonitoring = ($konfiguraceAktivity['certifikat']['monitoring'] ?? null) ? TRUE : FALSE;
         if ($createCertifikat) {
@@ -99,16 +99,16 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
     private function readOrCreateCertificate(Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, $certifikatVerze) {
         $certifikat = (new Projektor2_Service_CertifikatKurz())->get(
                 $this->sessionStatus,
-                $this->sessionStatus->kancelar,
-                $this->sessionStatus->zajemce,
+                $this->sessionStatus->getUserStatus()->getKancelar(),
+                $this->sessionStatus->getUserStatus()->getZajemce(),
                 $aktivitaPlan->sKurz,
                 $certifikatVerze,
                 $aktivitaPlan->datumCertif,
-                $this->sessionStatus->user->name,
+                $this->sessionStatus->getUserStatus()->getUser()->name,
                 __CLASS__
                 );
         if (!$certifikat) {
-            throw new LogicException('Nepodařilo se vytvořit verzi certifikátu: '.$certifikatVerze.' pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
+            throw new LogicException('Nepodařilo se vytvořit verzi certifikátu: '.$certifikatVerze.' pro zajemce id: '.$this->sessionStatus->getUserStatus()->getZajemce()->id. ', kurz id: '.$sKurz->id_s_kurz);
         }
         return $certifikat;
     }

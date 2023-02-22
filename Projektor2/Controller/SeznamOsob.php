@@ -17,10 +17,10 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
 
 ###################
     public function getResult() {
-        $behy = Projektor2_Model_Db_BehMapper::find('id_c_projekt='.$this->sessionStatus->projekt->id, 'beh_cislo DESC');
+        $behy = Projektor2_Model_Db_BehMapper::find('id_c_projekt='.$this->sessionStatus->getUserStatus()->getProjekt()->id, 'beh_cislo DESC');
         $row[] = new Projektor2_View_HTML_KontextBeh($this->sessionStatus,
                 array('behy'=>$behy,
-                    'id_beh'=> $this->hasBeh() ? $this->sessionStatus->beh->id : NULL)
+                    'id_beh'=> $this->hasBeh() ? $this->sessionStatus->getUserStatus()->getBeh()->id : NULL)
                 );
         // musí být vybrán běh - janak je výsledků příliš mnoho
         if ($this->hasBeh()) {
@@ -29,7 +29,7 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
         if ($osobyMenu) {
             $row[] = (string) (new Projektor2_Controller_Element_TabulkaMenuOsoby($this->sessionStatus, $this->request, $this->response, $osobyMenu))->getResult();
         }
-        
+
         $gridColumns[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArray()]);
         $gridColumns[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$row, 'class'=>'content']);
         $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$gridColumns, 'class'=>'grid-container']);
@@ -38,7 +38,7 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
     }
 
     private function hasBeh() {
-        return isset($this->sessionStatus->beh->id);
+        return null !== $this->sessionStatus->getUserStatus()->getBeh();
     }
 }
 

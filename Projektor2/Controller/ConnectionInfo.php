@@ -11,15 +11,15 @@
  * @author pes2704
  */
 class Projektor2_Controller_ConnectionInfo extends Projektor2_Controller_Abstract {
-    
+
     public function getResult() {
         $dbh = Projektor2_AppContext::getDb();
             if ($dbh->getDbHost() == 'localhost') {
-                $html = '<div class="connection development">';  
+                $html = '<div class="connection development">';
             } else {
-                $html = '<div class="connection production">';   
+                $html = '<div class="connection production">';
             }
-            $html .= '            Uživatel '.$this->sessionStatus->user->username.' pracuje s databází '. 
+            $html .= '            Uživatel '.$this->sessionStatus->getUserStatus()->getUser()->username.' pracuje s databází '.
                     $dbh->getDbName().' na stroji '.$dbh->getDbHost().' jako '.$dbh->getUser().'.';
             $html .= '     </div>';
         return $html;

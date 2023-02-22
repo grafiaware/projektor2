@@ -13,7 +13,7 @@
 class Projektor2_Controller_Formular_Ap_Smlouva extends Projektor2_Controller_Formular_FlatTable {
     
     protected function createFormModels($zajemce=null) {
-        $this->models['smlouva'] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce); 
+        $this->models['smlouva'] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce()); 
     }
     
     protected function getResultFormular() {
@@ -29,15 +29,15 @@ class Projektor2_Controller_Formular_Ap_Smlouva extends Projektor2_Controller_Fo
         // metoda se volá při ukládání dat z formuláře - tedy při post požadavku a pole params obsahuje post data z aktuálního formuláře
         $view = new Projektor2_View_PDF_Ap_Smlouva($this->sessionStatus, $this->createContextFromModels());   
         
-        $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
-        $view->assign('user_name', $this->sessionStatus->user->name);
-        $view->assign('identifikator', $this->sessionStatus->zajemce->identifikator);
-        $view->assign('znacka', $this->sessionStatus->zajemce->znacka);
+        $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text);
+        $view->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name);
+        $view->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator);
+        $view->assign('znacka', $this->sessionStatus->getUserStatus()->getZajemce()->znacka);
 
-        $fileName = $this->sessionStatus->projekt->kod.'_'.'smlouva'.' '.$this->sessionStatus->zajemce->identifikator.'.pdf';
+        $fileName = $this->sessionStatus->getUserStatus()->getProjekt()->kod.'_'.'smlouva'.' '.$this->sessionStatus->getUserStatus()->getZajemce()->identifikator.'.pdf';
         $view->assign('file', $fileName);
         
-        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
         $view->save($relativeFilePath);
         $htmlResult = $view->getNewWindowOpenerCode();
         

@@ -19,7 +19,7 @@ class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF
             $counter = 0;
             foreach($context['aktivityPlan'] as $aktivita) {
 //                    $kurzPlan = new Projektor2_Model_KurzPlan();
-                if (isset($aktivita->sKurz) AND $aktivita->sKurz->isRealCourse()) {
+                if (isset($aktivita->sKurz) AND $aktivita->getUserStatus()->getSKurz()->isRealCourse()) {
                     $counter++;
                     $yPositionBefore = $pdf->getY(); 
                     $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
@@ -31,8 +31,8 @@ class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF
                     $kurzSadaBunek->MezeraPredSadouBunek(1);
 //                        $kurzSadaBunek->PridejBunku("Název kurzu: ",$context[$druh.'_kurz']->kurz_nazev, 1);
 //                        $kurzSadaBunek->PridejBunku("Termín konání: ",$context[$druh.'_kurz']->date_zacatek.' - '.$context[$druh.'_kurz']->date_konec, 1);
-                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$aktivita->sKurz->kurz_nazev, 1);
-                    $kurzSadaBunek->PridejBunku("Termín konání: ",$aktivita->sKurz->date_zacatek.' - '.$aktivita->sKurz->date_konec, 1);
+                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$aktivita->getUserStatus()->getSKurz()->kurz_nazev, 1);
+                    $kurzSadaBunek->PridejBunku("Termín konání: ",$aktivita->getUserStatus()->getSKurz()->date_zacatek.' - '.$aktivita->getUserStatus()->getSKurz()->date_konec, 1);
                     $kurzSadaBunek->PridejBunku("Počet absolvovaných hodin: ", $aktivita->pocAbsHodin,1);
                     if ($aktivita->duvodAbsence) {
                         $kurzSadaBunek->PridejBunku("Důvod absence: ", $aktivita->duvodAbsence, 1);

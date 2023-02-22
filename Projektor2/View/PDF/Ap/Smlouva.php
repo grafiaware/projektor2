@@ -14,7 +14,7 @@ class Projektor2_View_PDF_Ap_Smlouva extends Projektor2_View_PDF_Common {
     const MODEL_SMLOUVA = "smlouva->";   //--vs
     
     public function createPDFObject() {
-       // $this->sessionStatus->projekt->pr
+       // $this->sessionStatus->getUserStatus()->getProjekt()->pr
         $textPaticky = "Dohoda o účasti v projektu „Alternativní práce v Plzeňském kraji“ ".$this->context["file"];  
         $this->setHeaderFooter($textPaticky);
         $this->initialize();

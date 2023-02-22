@@ -74,9 +74,9 @@ abstract class Projektor2_AppContext
     }
 
 ############# LOGO PROJEKTU #######################
-    public static function getLogoContext(Projektor2_Model_SessionStatus $sessionStatus) {
+    public static function getLogoContext(Projektor2_Model_Status $sessionStatus) {
         $context = array();
-        switch ($sessionStatus->projekt->kod) {
+        switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {
             case "NSP":
                 $context['nadpis'] = 'PROJEKT NAJDI SI PRÁCI V PLZEŇSKÉM KRAJI';
                 $context['src'] = "logoNSP.gif";
@@ -174,7 +174,7 @@ abstract class Projektor2_AppContext
                 break;
 
             default:
-                $context['nadpis'] = $sessionStatus->projekt->kod.'  PROJEKT DOSUD NEBYL PLNĚ NASTAVEN';
+                $context['nadpis'] = $sessionStatus->getUserStatus()->getProjekt()->kod.'  PROJEKT DOSUD NEBYL PLNĚ NASTAVEN';
                 $context['src'] = "logo_Projektu.png";
                 $context['alt'] = "Logo projektu dosud nebylo zadáno.";
                 break;
@@ -191,9 +191,9 @@ abstract class Projektor2_AppContext
      * @return array
      * @throws UnexpectedValueException
      */
-    public static function getCertificateTexts(Projektor2_Model_SessionStatus $sessionStatus) {
+    public static function getCertificateTexts(Projektor2_Model_Status $sessionStatus) {
         $texts = array();
-        switch ($sessionStatus->projekt->kod) {
+        switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {
         ######## AP #################
             case 'AP':
                 $texts['signerName'] = 'Mgr. Milada Kolářová';
@@ -205,7 +205,7 @@ abstract class Projektor2_AppContext
                 break;
         ######## SJZP #################
             case 'SJZP':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „S jazyky za prací v Karlovarském kraji“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „S jazyky za prací v Karlovarském kraji“ ";
@@ -214,7 +214,7 @@ abstract class Projektor2_AppContext
                 break;
         ######## VZP #################
             case 'VZP':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'administrator programu';
                 $texts['v_projektu'] = 'v projektu „Vzdělávání a dovednosti pro trh práce II“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu Vykroč za prací projektu „Vzdělávání a dovednosti pro trh práce II“ ";
@@ -224,7 +224,7 @@ abstract class Projektor2_AppContext
                 break;
          ######## SJZP PK KK #################
             case 'SJPK':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „S jazyky za prací v Plzeňském a Karlovarském kraji“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „S jazyky za prací v Plzeňském a Karlovarském kraji“ ";
@@ -233,7 +233,7 @@ abstract class Projektor2_AppContext
                 break;
            ######## ZPM #################
             case 'ZPM':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „Záruky pro mladé v Plzeňském kraji“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „Záruky pro mladé v Plzeňském kraji“ ";
@@ -242,7 +242,7 @@ abstract class Projektor2_AppContext
                 break;
            ######## SPP #################
             case 'SPP':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „Šance pro padesátníky v Plzeňském kraji“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „Šance pro padesátníky v Plzeňském kraji“ ";
@@ -252,7 +252,7 @@ abstract class Projektor2_AppContext
 
             ######## RP #################
             case 'RP':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „Rodina i práce v Plzeňském kraji“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „Rodina i práce v Plzeňském kraji“ ";
@@ -261,7 +261,7 @@ abstract class Projektor2_AppContext
                 break;
         ######## SJPO V PLZNI A OKOLÍ #################
             case 'SJPO':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „S jazyky za prací v Plzni a okolí“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „S jazyky za prací v Plzni a okolí“ ";
@@ -270,7 +270,7 @@ abstract class Projektor2_AppContext
                 break;
         ######## SJLP PRO LEPŠÍ PRÁCI #################
             case 'SJLP':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „S jazyky pro lepší práci“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „S jazyky pro lepší práci“ ";
@@ -279,7 +279,7 @@ abstract class Projektor2_AppContext
                 break;
            ######## VDTP #################
             case 'VDTP':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „Vzdělávání a dovednosti pro trh práce II“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „Vzdělávání a dovednosti pro trh práce II“ ";
@@ -288,7 +288,7 @@ abstract class Projektor2_AppContext
                 break;
            ######## PDU #################
             case 'PDU':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „Podpora zaměstnanosti dlouhodobě nezaměstnaných uchazečů o zaměstnání“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „Podpora zaměstnanosti dlouhodobě nezaměstnaných uchazečů o zaměstnání“ ";
@@ -297,7 +297,7 @@ abstract class Projektor2_AppContext
                 break;
         ######## MB MOJE BUDOUCNOST #################
             case 'MB':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
                 $texts['v_projektu'] = 'v projektu „Moje budoucnost“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v projektu „Moje budoucnost“ ";
@@ -306,7 +306,7 @@ abstract class Projektor2_AppContext
                 break;
         ######## MB MOJE BUDOUCNOST #################
             case 'CJC':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'pracovník sekce vzdělávání';
                 $texts['v_projektu'] = 'v programu „Čeština pro cizince“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu „Čeština pro cizince“ ";
@@ -314,7 +314,7 @@ abstract class Projektor2_AppContext
                 break;
            ######## CKP #################
             case 'CKP':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'pracovník sekce vzdělávání';
                 $texts['v_projektu'] = 'v programu „Cesta k práci“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu „Cesta k práci“ ";
@@ -322,7 +322,7 @@ abstract class Projektor2_AppContext
                 break;
            ######## PKP #################
             case 'PKP':
-                $texts['signerName'] = $sessionStatus->user->name;
+                $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'pracovník sekce vzdělávání';
                 $texts['v_projektu'] = 'v programu „Poradenství k podnikání“';
                 $texts['text_paticky'] = "Osvědčení o absolutoriu kurzu v programu „Poradenství k podnikání“ ";
@@ -335,8 +335,8 @@ abstract class Projektor2_AppContext
             return $texts;
     }
 
-    public static function getCertificateOriginalBackgroundImageFilepath(Projektor2_Model_SessionStatus $sessionStatus) {
-        switch ($sessionStatus->projekt->kod) {
+    public static function getCertificateOriginalBackgroundImageFilepath(Projektor2_Model_Status $sessionStatus) {
+        switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
                 $filePath = "img/pozadi/certifikat_pozadi.jpg";   //certifikat_pozadi.jpg je obrázek včetně log, zobrazuje se od horní hrany strányk, překrývá hlavičku
                 break;
@@ -363,13 +363,13 @@ abstract class Projektor2_AppContext
 
 
             default:
-                throw new UnexpectedValueException('Není definován soubor s orázkem na pozadí pro certifikát v projektu '.$sessionStatus->projekt->kod.'.');
+                throw new UnexpectedValueException('Není definován soubor s orázkem na pozadí pro certifikát v projektu '.$sessionStatus->getUserStatus()->getProjekt()->kod.'.');
         }
         return $filePath;
     }
 
-    public static function getCertificatePseudocopyBackgroundImageFilepath(Projektor2_Model_SessionStatus $sessionStatus) {
-        switch ($sessionStatus->projekt->kod) {
+    public static function getCertificatePseudocopyBackgroundImageFilepath(Projektor2_Model_Status $sessionStatus) {
+        switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
                 // náhodný výběr ze 4 možných pozadí
                 $number = intval(rand(1, 4.99));
@@ -394,13 +394,13 @@ abstract class Projektor2_AppContext
                 $filePath = self::getCertificateOriginalBackgroundImageFilepath($sessionStatus);
                 break;
             default:
-                throw new UnexpectedValueException('Není definován soubor s obrázkem na pozadí pro certifikát v projektu '.$sessionStatus->projekt->kod.'.');
+                throw new UnexpectedValueException('Není definován soubor s obrázkem na pozadí pro certifikát v projektu '.$sessionStatus->getUserStatus()->getProjekt()->kod.'.');
         }
         return $filePath;
     }
 
-    public static function getCertificatePmsBackgroundImageFilepath(Projektor2_Model_SessionStatus $sessionStatus) {
-        switch ($sessionStatus->projekt->kod) {
+    public static function getCertificatePmsBackgroundImageFilepath(Projektor2_Model_Status $sessionStatus) {
+        switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
             case 'SJZP':
             case 'VZP':
@@ -420,7 +420,7 @@ abstract class Projektor2_AppContext
                 $filePath = "img/pozadi/pozadi_osvedceni_pms.png";   // parte rámeček
                 break;
             default:
-                throw new UnexpectedValueException('Není definován soubor s obrázkem na pozadí pro certifikát v projektu '.$sessionStatus->projekt->kod.'.');
+                throw new UnexpectedValueException('Není definován soubor s obrázkem na pozadí pro certifikát v projektu '.$sessionStatus->getUserStatus()->getProjekt()->kod.'.');
         }
         return $filePath;
     }
@@ -433,7 +433,7 @@ abstract class Projektor2_AppContext
      * @throws UnexpectedValueException
      */
     public static function getCertificateVersionFolder($certificateVersion) {
-//        switch ($sessionStatus->projekt->kod) {
+//        switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {
         switch ($certificateVersion) {
             case 'original':
                 // jedno pozadí

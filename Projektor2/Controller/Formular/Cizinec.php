@@ -23,16 +23,16 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
         $flatTablesMainObject = $this->getStatusMainObject();
         $this->models[Projektor2_Controller_Formular_FlatTable::CIZINEC_FT] = new Projektor2_Model_Db_Flat_ZaCizinecFlatTable($flatTablesMainObject);
         $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($flatTablesMainObject);
-        $this->models[self::ZA_UPLOAD] = Projektor2_Model_Db_ZaUploadMapper::findByZajemce($this->sessionStatus->zajemce->id);
+        $this->models[self::ZA_UPLOAD] = Projektor2_Model_Db_ZaUploadMapper::findByZajemce($this->sessionStatus->getUserStatus()->getZajemce()->id);
         $this->models[self::ZA_UPLOAD_TYPE] = Projektor2_Model_Db_ZaUploadTypeMapper::findAll();
 
     }
 
     public function getResult() {
         $htmlResult = '';
-        $idZajemce = $this->sessionStatus->zajemce->id;
+        $idZajemce = $this->sessionStatus->getUserStatus()->getZajemce()->id;
         // modely
-        $this->createFormModels();  // pokud není $this->sessionStatus->zajemce vytvoří při volání flat table->save() nový zájemce
+        $this->createFormModels();  // pokud není $this->sessionStatus->getUserStatus()->getZajemce() vytvoří při volání flat table->save() nový zájemce
         // kolekce
         // indexované podle typu uploadu
         foreach ($this->models[self::ZA_UPLOAD_TYPE] as $zaUploadType) {
@@ -51,7 +51,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
             // ukládání uploadu
             $fileBaseFolder = Projektor2_AppContext::getFileBaseFolder();
             $uploadedFolderPath =
-                    Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod)
+                    Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod)
                     .'upload/';
             $osobaFolder =
                     $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->prijmeni
@@ -73,9 +73,9 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
                     } else {
                         // nový model do kolekce (nep
                         $this->uploadCollection[$uploadType] = Projektor2_Model_Db_ZaUploadMapper::create(
-                                $this->sessionStatus->zajemce->id, $uploadType,
+                                $this->sessionStatus->getUserStatus()->getZajemce()->id, $uploadType,
                                 $uploadedFilefullFilepath,
-                                $this->sessionStatus->user->name, __CLASS__, Projektor2_AppContext::getDb()->getDbHost()
+                                $this->sessionStatus->getUserStatus()->getUser()->name, __CLASS__, Projektor2_AppContext::getDb()->getDbHost()
                             );
                     }
                 }
@@ -93,7 +93,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
 
     protected function getResultFormular() {
         $context = $this->createContextFromModels(true);
-        $idZajemce = $this->sessionStatus->zajemce->id;
+        $idZajemce = $this->sessionStatus->getUserStatus()->getZajemce()->id;
         $context['faze'] =
             [
                 "Žádost na ÚP - registrace zájemce"=>"Žádost na ÚP - registrace zájemce",
@@ -151,14 +151,14 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
     protected function getResultPdf() {
         $view = new Projektor2_View_PDF_Cjc_Smlouva($this->sessionStatus, $this->createContextFromModels());
 
-        $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text);
-        $view->assign('user_name', $this->sessionStatus->user->name);
-        $view->assign('identifikator', $this->sessionStatus->zajemce->identifikator);
+        $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text);
+        $view->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name);
+        $view->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator);
 
-        $fileName = $this->sessionStatus->projekt->kod.'_'.'smlouva'.' '.$this->sessionStatus->zajemce->identifikator.'.pdf';
+        $fileName = $this->sessionStatus->getUserStatus()->getProjekt()->kod.'_'.'smlouva'.' '.$this->sessionStatus->getUserStatus()->getZajemce()->identifikator.'.pdf';
         $view->assign('file', $fileName);
 
-        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
         $view->save($relativeFilePath);
         $htmlResult = $view->getNewWindowOpenerCode();
 

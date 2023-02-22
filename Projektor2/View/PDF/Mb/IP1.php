@@ -66,8 +66,8 @@ class Projektor2_View_PDF_Mb_IP1 extends Projektor2_View_PDF_Common {
                     $kurzSadaBunek->ZarovnaniNadpisu("L");
                     $kurzSadaBunek->VyskaPismaNadpisu(11);
                     $kurzSadaBunek->MezeraPredSadouBunek(0);
-                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$planKurz->sKurz->kurz_nazev, 1);
-                    $kurzSadaBunek->PridejBunku("Termín konání: ",$planKurz->sKurz->date_zacatek.' - '.$planKurz->sKurz->date_konec, 1);
+                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$planKurz->getUserStatus()->getSKurz()->kurz_nazev, 1);
+                    $kurzSadaBunek->PridejBunku("Termín konání: ",$planKurz->getUserStatus()->getSKurz()->date_zacatek.' - '.$planKurz->getUserStatus()->getSKurz()->date_konec, 1);
                     $this->pdf->TiskniSaduBunek($kurzSadaBunek);
                     if ($counter == $count-1) {
                         $potrebneMisto = $dolniokrajAPaticka+$mistoDatumPodpisy;

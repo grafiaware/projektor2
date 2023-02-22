@@ -6,10 +6,10 @@
  */
 class Projektor2_Viewmodel_AktivityPlanMapper {
 
-    public static function findByIndexAktivity(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $indexAktivity) {
+    public static function findByIndexAktivity(Projektor2_Model_Status $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $indexAktivity) {
 //        $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
         $ukonceni = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
-        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->projekt->kod);
+        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);
         $kurzPlan = NULL;
         if ($aktivity) {
             $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemce->id);
@@ -24,15 +24,15 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
     /**
      * Vrací pole modelů Projektor2_Model_AktivitaPlan pro všechny aktivity projektu i nenaplánované
      *
-     * @param Projektor2_Model_SessionStatus $sessionStatus
+     * @param Projektor2_Model_Status $sessionStatus
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param type $typAktivity
      * @return \Projektor2_Viewmodel_AktivitaPlan array
      */
-    public static function findAll(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
+    public static function findAll(Projektor2_Model_Status $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
 //        $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
         $ukonceni = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
-        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->projekt->kod);
+        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);
         $kolekce = array();
         if ($aktivity) {
             $id = 0;
@@ -55,16 +55,16 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
     /**
      * Vrací asocitivní pole modelů Projektor2_Model_AktivitaPlan indexované indexem aktivity
      *
-     * @param Projektor2_Model_SessionStatus $sessionStatus
+     * @param Projektor2_Model_Status $sessionStatus
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param type $typAktivity
      * @return \Projektor2_Viewmodel_AktivitaPlan array
 
      */
-    public static function findAllAssoc(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
+    public static function findAllAssoc(Projektor2_Model_Status $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
 //        $plan = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
         $ukonceni = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
-        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->projekt->kod);
+        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);
         $kolekce = array();
         if ($aktivity) {
             $id = 0;

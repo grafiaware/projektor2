@@ -18,12 +18,12 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                 'osoby projekt' => [
                     'sqlFilename' => __DIR__."/Templates/Osoby_projekt.sql",
                     'createdViewPostfix' => 'osoby_projekt',
-                    'xlsSheetName' => "Osoby {$this->sessionStatus->projekt->kod}"
+                    'xlsSheetName' => "Osoby {$this->sessionStatus->getUserStatus()->getProjekt()->kod}"
                     ],
                 'osoby kancelar' => [
                     'sqlFilename' => __DIR__."/Templates/Osoby_kancelar.sql",
                     'createdViewPostfix' => 'osoby_kancelar',
-                    'xlsSheetName' => "Osoby {$this->sessionStatus->kancelar->kod}"
+                    'xlsSheetName' => "Osoby {$this->sessionStatus->getUserStatus()->getKancelar()->kod}"
                     ],
                 'cizinci projekt'=> [
                     'sqlFilename' => __DIR__."/Templates/Cizinci_projekt.sql",
@@ -38,24 +38,24 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                 'kurzy projekt' => [
                     'sqlFilename' => __DIR__."/Templates/Kurzy_projekt.sql",
                     'createdViewPostfix' => 'kurzy_projekt',
-                    'xlsSheetName' => "Kurzy {$this->sessionStatus->projekt->kod}",
-                    'params' => ['projektKod'=>$this->sessionStatus->projekt->kod]  // v s_kurz je projekt_kod (ne id)
+                    'xlsSheetName' => "Kurzy {$this->sessionStatus->getUserStatus()->getProjekt()->kod}",
+                    'params' => ['projektKod'=>$this->sessionStatus->getUserStatus()->getProjekt()->kod]  // v s_kurz je projekt_kod (ne id)
                     ],
                 'kurzy kancelar' => [
                     'sqlFilename' => __DIR__."/Templates/Kurzy_kancelar.sql",
                     'createdViewPostfix' => 'kurzy_kancelar',
-                    'xlsSheetName' => "Kurzy {$this->sessionStatus->kancelar->kod}",
-                    'params' => ['kancelarKod'=>$this->sessionStatus->kancelar->kod]  // v s_kurz je kancelar_kod (ne id)
+                    'xlsSheetName' => "Kurzy {$this->sessionStatus->getUserStatus()->getKancelar()->kod}",
+                    'params' => ['kancelarKod'=>$this->sessionStatus->getUserStatus()->getKancelar()->kod]  // v s_kurz je kancelar_kod (ne id)
                     ],
                 'certifikaty projekt' => [
                     'sqlFilename' => __DIR__."/Templates/Certifikaty_projekt.sql",
                     'createdViewPostfix' => 'certifikaty_projekt',
-                    'xlsSheetName' => "Certifikaty {$this->sessionStatus->projekt->kod}"
+                    'xlsSheetName' => "Certifikaty {$this->sessionStatus->getUserStatus()->getProjekt()->kod}"
                     ],
                 'certifikaty kurz' => [
                     'sqlFilename' => __DIR__."/Templates/Certifikaty_kurz.sql",
                     'createdViewPostfix' => 'certifikaty_kurz',
-                    'xlsSheetName' => "Certifikaty {$this->sessionStatus->sKurz->kurz_druh}"
+                    'xlsSheetName' => "Certifikaty {$this->sessionStatus->getUserStatus()->getSKurz()->kurz_druh}"
                     ],
 
                 ];
@@ -133,7 +133,7 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
         if ($this->request->isPost()) {
             $parts = $this->performPost();
         } else {
-            $kodProjektu = $this->sessionStatus->projekt->kod;
+            $kodProjektu = $this->sessionStatus->getUserStatus()->getProjekt()->kod;
             $exportType = $this->params['export_type'] ?? null;
 
             $exportSelectView = new Projektor2_View_HTML_ExportSelectView($this->sessionStatus);

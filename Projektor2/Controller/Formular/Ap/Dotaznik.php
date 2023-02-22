@@ -14,7 +14,7 @@ class Projektor2_Controller_Formular_Ap_Dotaznik extends Projektor2_Controller_F
     
 
     protected function createFormModels() {
-        $this->models['dotaznik']= new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce); 
+        $this->models['dotaznik']= new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce()); 
     }
     
     protected function getResultFormular() {
@@ -31,10 +31,10 @@ class Projektor2_Controller_Formular_Ap_Dotaznik extends Projektor2_Controller_F
         $html .= $this->getResultFormular();
 
         $view->assign('html', $html);        
-//        $view->assign('identifikator', $this->sessionStatus->zajemce->identifikator);
+//        $view->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator);
 
-        $fileName = $this->sessionStatus->projekt->kod.'_'.'dotaznik'.' '.$this->sessionStatus->zajemce->identifikator.'.pdf';
-        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $fileName = $this->sessionStatus->getUserStatus()->getProjekt()->kod.'_'.'dotaznik'.' '.$this->sessionStatus->getUserStatus()->getZajemce()->identifikator.'.pdf';
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
         $view->save($relativeFilePath);
         $htmlResult .= $view->getNewWindowOpenerCode();
         

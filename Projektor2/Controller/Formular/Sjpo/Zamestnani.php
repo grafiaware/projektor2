@@ -13,7 +13,7 @@
 class Projektor2_Controller_Formular_Sjpo_Zamestnani extends Projektor2_Controller_Formular_FlatTable {
     
     protected function createFormModels() {
-        $this->models['zamestnani'] = new Projektor2_Model_Db_Flat_ZaZamFlatTable($this->sessionStatus->zajemce); 
+        $this->models['zamestnani'] = new Projektor2_Model_Db_Flat_ZaZamFlatTable($this->sessionStatus->getUserStatus()->getZajemce()); 
     }
     
     protected function getResultFormular() {

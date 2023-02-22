@@ -18,7 +18,7 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
     static $instance = 0;
 
     /**
-     * @var Projektor2_Model_SessionStatus
+     * @var Projektor2_Model_Status
      */
     protected $sessionStatus;
 
@@ -29,7 +29,7 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
     protected $isConvertedToString = FALSE;
 
 //    public function __construct(array $context=NULL) {
-    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, array $context=NULL) {
+    public function __construct(Projektor2_Model_Status $sessionStatus, array $context=NULL) {
         $this->sessionStatus = $sessionStatus;
         $this->context = $context;
         $this->viewUniqueName = get_called_class().'-'.++self::$instance; //název třídy s číslem instance třídy

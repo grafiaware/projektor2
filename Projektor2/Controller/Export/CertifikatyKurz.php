@@ -17,8 +17,8 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
         $zajemci = Projektor2_Model_Db_ZajemceMapper::findAllForProject();
         if ($zajemci) {
             ini_set('max_execution_time', Projektor2_AppContext::getExportCertifMaxExucutionTime());
-            $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->projekt->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
-            $aktivity = Config_Aktivity::findAktivity($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ);
+            $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->getUserStatus()->getProjekt()->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
+            $aktivity = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
             foreach ($aktivity as $indexAktivity => $aktivita) {
                 if (isset($aktivita['tiskni_certifikat']) AND $aktivita['tiskni_certifikat']) {
                     $kurzyColumnNames[] = Projektor2_Model_Db_Flat_ZaPlanFlatTable::getItemColumnsNames($indexAktivity);
@@ -45,9 +45,9 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
                                 $certicateType,
                                 $this->sessionStatus,
                                 Projektor2_Model_Db_KancelarMapper::getValid($zajemce->id_c_kancelar_FK),
-                                $zajemce, $sKurz, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
+                                $zajemce, $sKurz, $datumCertifikatu, $this->sessionStatus->getUserStatus()->getUser()->username, __CLASS__);
                             if (!$certifikat) {
-                                throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
+                                throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->getUserStatus()->getZajemce()->id. ', kurz id: '.$sKurz->id_s_kurz);
                             }
                             $logger->log($certifikat->documentCertifikatKurz->filePath);
                         }
@@ -61,18 +61,18 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
 
     public function getResult() {
          // očekávám, že sKurz->kurz_druh odpovídá položce kurz_druh aktivit projektu v konfiguraci
-        $konfiguraceAktivity =  Config_Aktivity::findAktivityPodleKurzDruh($this->sessionStatus->projekt->kod, Config_Aktivity::TYP_KURZ, $this->sessionStatus->sKurz->kurz_druh);
+        $konfiguraceAktivity =  Config_Aktivity::findAktivityPodleKurzDruh($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ, $this->sessionStatus->getUserStatus()->getSKurz()->kurz_druh);
         $aktivitaSCertifikatem = ($konfiguraceAktivity['s_certifikatem'] ?? null) ? TRUE : FALSE;
         if (!isset($aktivitaSCertifikatem) OR !$aktivitaSCertifikatem) {
             throw new LogicException("Došlo k pokusu o vytvoření certifikátů pro aktivitu bez certifikátu. Aktivita '$indexAktivity'.");
         }
         /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
-        $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->zajemce, $indexAktivity);
+        $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce(), $indexAktivity);
         $createCertifikat = ($konfiguraceAktivity['certifikat']['original'] ?? null) ? TRUE : FALSE;
         $createCertifikatMonitoring = ($konfiguraceAktivity['certifikat']['monitoring'] ?? null) ? TRUE : FALSE;
 
 
-        $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findAll("id_s_kurz_FK={$this->sessionStatus->sKurz->id_s_kurz}");
+        $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findAll("id_s_kurz_FK={$this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz}");
             $inBinds = [];
             $i = 0;
             foreach ($zaPlanKurzArray as $zaPlanKurz) {
@@ -83,7 +83,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
         $zajemci = Projektor2_Model_Db_ZajemceMapper::find("zajemce.id_zajemce IN ($inPlaceholders)", $inBinds, "identifikator");
         if ($zajemci) {
             ini_set('max_execution_time', Projektor2_AppContext::getExportCertifMaxExucutionTime());
-            $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->projekt->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
+            $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->getUserStatus()->getProjekt()->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
             if ($createCertifikat) {
                 $verze= 'original';
                 $certifikat = $this->readOrCreateCertificate($aktivitaPlan, $verze, zajemce);
@@ -108,16 +108,16 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
 
         $certifikat = (new Projektor2_Service_CertifikatKurz())->get(
                 $this->sessionStatus,
-                $this->sessionStatus->kancelar,
+                $this->sessionStatus->getUserStatus()->getKancelar(),
                 $zajemce,
                 $aktivitaPlan->sKurz,
                 $certifikatVerze,
                 $aktivitaPlan->defaultDatumCertif,
-                $this->sessionStatus->user->name,
+                $this->sessionStatus->getUserStatus()->getUser()->name,
                 __CLASS__
                 );
         if (!$certifikat) {
-            throw new LogicException('Nepodařilo se vytvořit verzi certifikátu: '.$certifikatVerze.' pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
+            throw new LogicException('Nepodařilo se vytvořit verzi certifikátu: '.$certifikatVerze.' pro zajemce id: '.$this->sessionStatus->getUserStatus()->getZajemce()->id. ', kurz id: '.$sKurz->id_s_kurz);
         }
 
         if (!isset($aktivitaPlan->datumCertif)) {

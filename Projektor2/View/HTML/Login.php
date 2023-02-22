@@ -24,9 +24,9 @@ class Projektor2_View_HTML_Login extends Framework_View_Abstract {
 //                    $this->parts[] = "<option value=\"*\">všechny</option>\n";
                 foreach ($projekty as $projekt) {
                     $option = "<option ";
-                    if (isset($this->context['id_projekt']) AND $projekt->id==$this->context['id_projekt']) {
-                        $option .= 'selected="selected" ';
-                    }
+//                    if (isset($this->context['id_projekt']) AND $projekt->id==$this->context['id_projekt']) {
+//                        $option .= 'selected="selected" ';
+//                    }
                     $option .= "value=\"".$projekt->id."\">".$projekt->text."</option>\n";
                     $this->parts[] = $option;
                 }

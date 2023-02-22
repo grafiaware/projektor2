@@ -5,7 +5,7 @@
  * @author pes2704
  */
 class Projektor2_Viewmodel_Menu_Signal_Plan extends Projektor2_Viewmodel_Menu_Signal {
-    
+
     public function setByAktivitaPlan(Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan) {
         $sKurz = $aktivitaPlan->sKurz;
         if (isset($sKurz) AND $sKurz->isRealCourse()){  //kurz je naplanovan
@@ -14,17 +14,17 @@ class Projektor2_Viewmodel_Menu_Signal_Plan extends Projektor2_Viewmodel_Menu_Si
             if ($aktivitaPlan->certifikatyKurz) {  //ma certifikat kurz
                 $this->status = 'uspesneSCertifikatem';
             } elseif ($aktivitaPlan->dokoncenoUspesne=='Ano' AND !$aktivitaPlan->aktivitaSCertifikatem) {
-                $this->status = 'uspesne';                        
+                $this->status = 'uspesne';
             } elseif ($aktivitaPlan->dokoncenoUspesne=='Ano' AND $aktivitaPlan->aktivitaSCertifikatem) {
-                $this->status = 'uspesneCekaNaCertifikat';                        
+                $this->status = 'uspesneCekaNaCertifikat';
             } elseif ($aktivitaPlan->dokoncenoUspesne=='Ne') {
-                $this->status = 'neuspesne';                        
+                $this->status = 'neuspesne';
             } else {
-                $this->status = 'plan';                    
+                $this->status = 'plan';
             }
         } else {
             $this->text = '.';
-            $this->status = 'none';                                        
-        }        
+            $this->status = 'none';
+        }
     }
 }

@@ -15,10 +15,10 @@ class Projektor2_Controller_Certifikat_Projekt extends Projektor2_Controller_Cer
         $serviceCertifikat = new Projektor2_Service_CertifikatProjekt();
         $datumCertifikatu = $this->params['datumCertif'];
         $certifikat = $serviceCertifikat->create(
-                $this->sessionStatus, $this->sessionStatus->kancelar,
-                $this->sessionStatus->zajemce, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
+                $this->sessionStatus, $this->sessionStatus->getUserStatus()->getKancelar(),
+                $this->sessionStatus->getUserStatus()->getZajemce(), $datumCertifikatu, $this->sessionStatus->getUserStatus()->getUser()->username, __CLASS__);
         if (!$certifikat) {
-            throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. '.');
+            throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->getUserStatus()->getZajemce()->id. '.');
         }
         $viewPdf = new Projektor2_View_HTML_Script_NewWindowOpener($this->sessionStatus);
         $viewPdf->assign('fullFileName', Projektor2_AppContext::getHttpFileBasePath().$certifikat->dbCertifikatProjekt->filename);

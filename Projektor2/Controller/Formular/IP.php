@@ -17,9 +17,9 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
      * @return Projektor2_Viewmodel_KurzViewmodel[]
      */
     protected function findDbSKurzModelsInContext($kurz_druh, $default=TRUE) { // TODO - přesunout do modelu
-        $filter = "(projekt_kod='".$this->sessionStatus->projekt->kod
-                ."' AND kancelar_kod='".$this->sessionStatus->kancelar->kod
-//                ."' AND beh_cislo='".$this->sessionStatus->beh->beh_cislo
+        $filter = "(projekt_kod='".$this->sessionStatus->getUserStatus()->getProjekt()->kod
+                ."' AND kancelar_kod='".$this->sessionStatus->getUserStatus()->getKancelar()->kod
+//                ."' AND beh_cislo='".$this->sessionStatus->getUserStatus()->getBeh()->beh_cislo
                 ."' AND kurz_druh='".$kurz_druh."')";
         if ($default) {
             $filter .= " OR kurz_zkratka='*'";
@@ -47,7 +47,7 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
         return $DbSKurzModels;
     }
 
-    protected function createFileName(Projektor2_Model_SessionStatus $sessionStatus, $file) {
-        return $sessionStatus->projekt->kod.'_'.$file.' '.$sessionStatus->zajemce->identifikator.'.pdf';
+    protected function createFileName(Projektor2_Model_Status $sessionStatus, $file) {
+        return $sessionStatus->getUserStatus()->getProjekt()->kod.'_'.$file.' '.$sessionStatus->getUserStatus()->getZajemce()->identifikator.'.pdf';
     }
 }

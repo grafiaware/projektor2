@@ -128,7 +128,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     //-------------------------------------------------------------------------
 
     protected function setHeaderFooter($textPaticky=NULL, $cislovani=TRUE) {
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
                 self::completeHeader( "./img/loga/loga_AP_BW.png", 0, 5, 165,14 );
                 self::completeFooter( $textPaticky
@@ -181,7 +181,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         }
     }
     protected function setHeaderFooterPms($textPaticky=NULL, $cislovani=TRUE) {
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
 
             case 'VZP':
             case 'ZPM':
@@ -211,7 +211,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $grafia->PridejOdstavec("bankovní spojení: ČSOB");
         $grafia->PridejOdstavec("č. účtu:  275795033/0300");
         $grafia->PridejOdstavec("zapsán v obchodním rejstříku vedeném Krajským soudem v Plzni, v oddílu C vložka 3067");
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AGP':
             case 'AP':
             case 'VZP':
@@ -257,7 +257,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             $osobniUdaje->PridejOdstavec("adresa dojíždění odlišná od místa bydliště: ".$celaAdresa2);
         }
         $osobniUdaje->PridejOdstavec("nar.: " . $this->context[$signDotaznik][$prefixDotaznik ."datum_narozeni"]);
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
                 $osobniUdaje->PridejOdstavec("identifikační číslo účastníka: ".$this->context["identifikator"]);
                 $osobniUdaje->PridejOdstavec("identifikační značka účastníka: ".$this->context["znacka"]);
@@ -295,7 +295,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     protected function tiskniPodpisy($modelSmlouva) {
         $podpisy = new Projektor2_PDF_SadaBunek();
         $podpisy->PridejBunku('', '', FALSE, 20);
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
             case 'VZP':
             case 'ZPM':
@@ -334,7 +334,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $podpisy->PridejBunku($this->celeJmeno($modelSmlouva), '', FALSE, 100);
         $podpisy->PridejBunku($this->context['user_name'], '', TRUE);
         $podpisy->PridejBunku('', '', FALSE, 120);
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
             case 'AGP':
             case 'HELP':
@@ -372,7 +372,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 
      //vola se v AP!!!!!!!!!!
     protected function tiskniPodpisUcastnik($modelSmlouva) {
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
                 $podpisy = new Projektor2_PDF_SadaBunek();
                 $podpisy->PridejBunku('', '', FALSE, 110);
@@ -393,7 +393,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 
     //vola se v AGP!!!!!!!!!  a HELP!!!!!!!!!! a SJZP!!!!!!!!!!!!!!!!!!!!!!!
     protected function tiskniPodpis($modelSmlouva) {
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AGP':
             case 'HELP':
             case 'SJZP':
@@ -430,7 +430,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 
     //vola se v AP!!!!!!!!!!
     protected function tiskniPodpisPoradce($modelSmlouva) {
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
                 $podpisy = new Projektor2_PDF_SadaBunek();
                 $podpisy->PridejBunku('', '', FALSE, 110);
@@ -450,7 +450,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
 
     protected function tiskniMistoDatum($modelSmlouva, $datum) {
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AGP':
             case 'AP':
             case 'HELP':
@@ -494,7 +494,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 
 
     protected function tiskniMistoDatumPms($modelSmlouva, $datum) {
-        switch ($this->sessionStatus->projekt->kod) {
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             // jen pro PMS
             case 'VZP':
             case 'ZPM':

@@ -8,8 +8,8 @@ class Projektor2_Controller_Formular_Ap_IP0 extends Projektor2_Controller_Formul
     
 
     protected function createFormModels() {
-        $this->models['plan'] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($this->sessionStatus->zajemce); 
-        $this->models['dotaznik'] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->zajemce);         
+        $this->models['plan'] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($this->sessionStatus->getUserStatus()->getZajemce()); 
+        $this->models['dotaznik'] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce());         
     }
     
     protected function getResultFormular() {
@@ -26,15 +26,15 @@ class Projektor2_Controller_Formular_Ap_IP0 extends Projektor2_Controller_Formul
         $file = 'IP_cast1';        
         $fileName = $this->createFileName($this->sessionStatus, $file);
         $view = new Projektor2_View_PDF_Ap_IP0($this->sessionStatus, $this->createContextFromModels());  
-        $view->assign('kancelar_plny_text', $this->sessionStatus->kancelar->plny_text)
-            ->assign('user_name', $this->sessionStatus->user->name)
-            ->assign('identifikator', $this->sessionStatus->zajemce->identifikator)
-            ->assign('znacka', $this->sessionStatus->zajemce->znacka)
+        $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text)
+            ->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name)
+            ->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator)
+            ->assign('znacka', $this->sessionStatus->getUserStatus()->getZajemce()->znacka)
             ->assign('file', $fileName)
             ->assign('projekt', $this->sessionStatus->projekt)
                     ;    
         
-        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->projekt->kod).$fileName;
+        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
         $view->save($relativeFilePath);
         $htmlResult .= $view->getNewWindowOpenerCode();
         

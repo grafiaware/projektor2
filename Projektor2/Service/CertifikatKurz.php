@@ -9,7 +9,7 @@ class Projektor2_Service_CertifikatKurz {
     /**
      *
      * @param string $certifikatRada
-     * @param Projektor2_Model_SessionStatus $sessionStatus
+     * @param Projektor2_Model_Status $sessionStatus
      * @param Projektor2_Model_Db_Kancelar $kancelar
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param Projektor2_Model_Db_SKurz $sKurz
@@ -21,7 +21,7 @@ class Projektor2_Service_CertifikatKurz {
      * @throws UnexpectedValueException
      */
     public function get(
-            Projektor2_Model_SessionStatus $sessionStatus,
+            Projektor2_Model_Status $sessionStatus,
             Projektor2_Model_Db_Kancelar $kancelar,
             Projektor2_Model_Db_Zajemce $zajemce,
             Projektor2_Model_Db_SKurz $sKurz,
@@ -48,7 +48,7 @@ class Projektor2_Service_CertifikatKurz {
      * Výsledný model certifikátu obsahuje vzniklý db model a file model.
      *
      * @param string $certifikatVerze
-     * @param Projektor2_Model_SessionStatus $sessionStatus
+     * @param Projektor2_Model_Status $sessionStatus
      * @param Projektor2_Model_Db_Kancelar $kancelar
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @param Projektor2_Model_Db_SKurz $sKurz
@@ -58,7 +58,7 @@ class Projektor2_Service_CertifikatKurz {
      * @return Projektor2_Model_CertifikatKurz
      */
     private function createCertifikat(
-            Projektor2_Model_SessionStatus $sessionStatus,
+            Projektor2_Model_Status $sessionStatus,
             Projektor2_Model_Db_Kancelar $kancelar,
             Projektor2_Model_Db_Zajemce $zajemce,
             Projektor2_Model_Db_SKurz $sKurz,
@@ -68,7 +68,7 @@ class Projektor2_Service_CertifikatKurz {
 
 
         // file certifikat model - bez content, ale filepath již vznikne
-        $fileCertifikat = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->projekt, $zajemce, $sKurz, $certifikatVerze);  // bez content
+        $fileCertifikat = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->getUserStatus()->getProjekt(), $zajemce, $sKurz, $certifikatVerze);  // bez content
 
         $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
 
@@ -172,7 +172,7 @@ class Projektor2_Service_CertifikatKurz {
      */
     private function createContent(
             Projektor2_View_PDF_Common $pdfView,
-            Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Model_Db_Kancelar $kancelar,
+            Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Status $sessionStatus, Projektor2_Model_Db_Kancelar $kancelar,
             Projektor2_Model_Db_CertifikatKurz $certifikat, Projektor2_Model_Db_SKurz $sKurz, $docPath) {
         $models = $this->createKurzOsvedceniModels($zajemce);
         $context = $this->createContextFromModels($models);

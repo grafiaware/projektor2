@@ -42,15 +42,15 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
      * @return Projektor2_Viewmodel_KurzViewmodel[] array of Projektor2_Model_Kurz
      */
     protected function findKurzViewmodels($multilikeText=null, $multilikeDate=null) {
-        $filter[] = "projekt_kod='{$this->sessionStatus->projekt->kod}'";
-        $filter[] = "kancelar_kod='{$this->sessionStatus->kancelar->kod}'";
+        $filter[] = "projekt_kod='{$this->sessionStatus->getUserStatus()->getProjekt()->kod}'";
+        $filter[] = "kancelar_kod='{$this->sessionStatus->getUserStatus()->getKancelar()->kod}'";
         if (isset($multilikeText) AND $multilikeText) {
             $filter[] = "(kurz_nazev LIKE '%$multilikeText%' OR info_cas_konani LIKE '%$multilikeText%' OR info_misto_konani LIKE '%$multilikeText%' OR info_lektor LIKE '%$multilikeText%')";
         }
         if (isset($multilikeDate) AND $multilikeDate) {
             $filter[] = "(date_zacatek = '$multilikeDate' OR date_konec = '$multilikeDate' )";
         }
-//                 AND beh_cislo='{$this->sessionStatus->beh->beh_cislo}'
+//                 AND beh_cislo='{$this->sessionStatus->getUserStatus()->getBeh()->beh_cislo}'
         //                 AND kurz_druh='$kurz_druh'
 
         $f = "(".implode(" AND ", $filter).")";
@@ -59,7 +59,7 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
     }
 
     protected function getLeftMenuArray() {
-        if ( ($this->sessionStatus->user->username == "sys_admin")) {
+        if ( ($this->sessionStatus->getUserStatus()->getUser()->username == "sys_admin")) {
             $menuArray[] = ['href'=>'index.php?kurzy=form&form=cj_novy_kurz&novy_kurz', 'text'=>'Nový kurz'];
         }
         $menuArray[] = ['href'=>'index.php?kurzy=excel', 'text'=>'Exporty dat'];

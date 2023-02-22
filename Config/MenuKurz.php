@@ -20,8 +20,8 @@ class Config_MenuKurz {
      * @throws UnexpectedValueException
      */
     public static function setSkupinyKurz(Projektor2_Viewmodel_KurzViewmodel $viewmodelKurz, Projektor2_Model_Db_SKurz $sKurz) {
-        $sessionStatus = Projektor2_Model_SessionStatus::getSessionStatus();
-        $user = $sessionStatus->user;
+        $sessionStatus = Projektor2_Model_Status::getSessionStatus();
+        $user = $sessionStatus->getUserStatus()->getUser();
 
                 //kurz
                 $skupina = new Projektor2_Viewmodel_Menu_Skupina();

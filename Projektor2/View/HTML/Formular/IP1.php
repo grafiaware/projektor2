@@ -8,7 +8,7 @@ class Projektor2_View_HTML_Formular_IP1 extends Framework_View_Abstract {
     public function render() {
         $this->parts[] = '<div>';
         $this->parts[] = '<H3>'.$this->context['nadpis'].'</H3>';
-        $this->parts[] = '<span>'.$this->sessionStatus->zajemce->id.'</span>';
+        $this->parts[] = '<span>'.$this->sessionStatus->getUserStatus()->getZajemce()->id.'</span>';
         $this->parts[] = '<H4>Plán aktivit</H4>';
         $this->parts[] = '<form method="POST" action="index.php?akce=osoby&osoby=form&form=plan">';
 

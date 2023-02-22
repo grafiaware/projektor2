@@ -10,9 +10,9 @@ class Projektor2_Controller_Formular_SKurz extends Projektor2_Controller_Formula
     const S_KURZ = 'sKurz';
 
     protected function createFormModels() {
-        $this->models[self::S_KURZ] = $this->sessionStatus->sKurz->id_s_kurz
-                ? Projektor2_Model_Db_SKurzMapper::get($this->sessionStatus->sKurz->id_s_kurz)
-                : Projektor2_Model_Db_SKurzMapper::create($this->sessionStatus->projekt, $this->sessionStatus->kancelar);
+        $this->models[self::S_KURZ] = $this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz
+                ? Projektor2_Model_Db_SKurzMapper::get($this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz)
+                : Projektor2_Model_Db_SKurzMapper::create($this->sessionStatus->projekt, $this->sessionStatus->getUserStatus()->getKancelar());
     }
 
     public function getResult() {
@@ -23,7 +23,7 @@ class Projektor2_Controller_Formular_SKurz extends Projektor2_Controller_Formula
             Projektor2_Model_Db_SKurzMapper::update($this->models[self::S_KURZ]);
         }
         $context = $this->createContextFromModels(true);
-        if ($this->sessionStatus->user->povolen_zapis>1) {
+        if ($this->sessionStatus->getUserStatus()->getUser()->povolen_zapis>1) {
             $context['readonly'] = false;
         } else {
             $context['readonly'] = true;

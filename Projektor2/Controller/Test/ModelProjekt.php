@@ -8,7 +8,7 @@
 class Projektor2_Controller_Test_ModelProjekt extends Projektor2_Controller_Abstract {
 
     public function getResult() {
-        $projekt = Projektor2_Model_Db_ProjektMapper::findByKod($this->sessionStatus->projekt->kod);
+        $projekt = Projektor2_Model_Db_ProjektMapper::findByKod($this->sessionStatus->getUserStatus()->getProjekt()->kod);
         $html = '<div class=test>';
         $html .= '<h1>Test Projektor2_Model_ProjektMapper a Projektor2_Model_Projekt';
         $html .= '<pre>'.print_r($projekt, TRUE).'</pre>';

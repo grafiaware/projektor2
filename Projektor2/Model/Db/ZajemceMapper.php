@@ -2,14 +2,14 @@
 class Projektor2_Model_Db_ZajemceMapper {
 
     public static function create() {
-        $appStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        $appStatus = Projektor2_Model_Status::getSessionStatus();
         if(!$appStatus->kancelar OR !$appStatus->projekt OR !$appStatus->beh) {
             throw new Exception ("Cannot create new zajemce - kancelar,projekt,beh - one or more are not setted or setted improperly");
         }
         $dbh = Projektor2_AppContext::getDb();
         $query = "SELECT Max(zajemce.cislo_zajemce) AS maxU  FROM zajemce
                   WHERE (id_c_projekt_FK = :id_c_projekt_FK AND id_c_kancelar_FK = :id_c_kancelar_FK )";  //vybírá i nevalidní
-        $bindParams = array('id_c_projekt_FK'=>$appStatus->projekt->id, 'id_c_kancelar_FK'=>$appStatus->kancelar->id);
+        $bindParams = array('id_c_projekt_FK'=>$appStatus->getUserStatus()->getProjekt()->id, 'id_c_kancelar_FK'=>$appStatus->getUserStatus()->getKancelar()->id);
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
         $data = $sth->fetch(PDO::FETCH_ASSOC);
@@ -21,20 +21,20 @@ class Projektor2_Model_Db_ZajemceMapper {
         } else {
             $nove_cislo_ucastnika = 1;
         }
-        $identifikator = new Projektor2_ItemID($appStatus->projekt->id, $appStatus->kancelar->id,1);
+        $identifikator = new Projektor2_ItemID($appStatus->getUserStatus()->getProjekt()->id, $appStatus->getUserStatus()->getKancelar()->id,1);
         $identifikator->u_cislo_polozky = $nove_cislo_ucastnika;
-        $identifikator->c_cislo_behu = $appStatus->beh->beh_cislo;
-        $identifikator->c_oznaceni_turnusu = $appStatus->beh->oznaceni_turnusu;
+        $identifikator->c_cislo_behu = $appStatus->getUserStatus()->getBeh()->beh_cislo;
+        $identifikator->c_oznaceni_turnusu = $appStatus->getUserStatus()->getBeh()->oznaceni_turnusu;
 
         $retezec = strval($nove_cislo_ucastnika);
         $retezec = str_pad($retezec, 3, "0", STR_PAD_LEFT); // doplní zleva nulami na 3 místa
-        $znacka = $appStatus->beh->oznaceni_turnusu.'-'.$appStatus->kancelar->kod.'-'.$retezec;
+        $znacka = $appStatus->getUserStatus()->getBeh()->oznaceni_turnusu.'-'.$appStatus->getUserStatus()->getKancelar()->kod.'-'.$retezec;
 
         $query = "INSERT INTO  zajemce (cislo_zajemce, identifikator, znacka, id_c_projekt_FK, id_c_kancelar_FK,id_s_beh_projektu_FK )
                   VALUES (:cislo_zajemce, :identifikator, :znacka, :id_c_projekt_FK, :id_c_kancelar_FK, :id_s_beh_projektu_FK)";
         $bindParams = array('cislo_zajemce'=>$nove_cislo_ucastnika, 'identifikator'=>$identifikator->generuj_cislo(),
-                            'znacka'=>$znacka, 'id_c_projekt_FK'=>$appStatus->projekt->id,
-                            'id_c_kancelar_FK'=>$appStatus->kancelar->id, 'id_s_beh_projektu_FK'=>$appStatus->beh->id);
+                            'znacka'=>$znacka, 'id_c_projekt_FK'=>$appStatus->getUserStatus()->getProjekt()->id,
+                            'id_c_kancelar_FK'=>$appStatus->getUserStatus()->getKancelar()->id, 'id_s_beh_projektu_FK'=>$appStatus->getUserStatus()->getBeh()->id);
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
         $data = $sth->fetch(PDO::FETCH_ASSOC);
@@ -44,7 +44,7 @@ class Projektor2_Model_Db_ZajemceMapper {
 
     public static function get($id, $findInvalid=FALSE, $findOutOfContext=FALSE) {
         $dbh = Projektor2_AppContext::getDb();
-        $appStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT * FROM zajemce";
         $where[] = "id_zajemce = :id_zajemce";
         $bindParams = array('id_zajemce'=>$id);
@@ -65,22 +65,22 @@ class Projektor2_Model_Db_ZajemceMapper {
 
     public static function find($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE, $findOutOfContext=FALSE) {
         $dbh = Projektor2_AppContext::getDb();
-        $appStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT * FROM zajemce";
         $where = array();
         $bindParams = array();
         if (!$findOutOfContext) {
-            if (isset($appStatus->projekt->id)) {
+            if (isset($appStatus->getUserStatus()->getProjekt()->id)) {
                 $where[] = "id_c_projekt_FK = :id_c_projekt_FK";
-                $bindParams = array_merge($bindParams, array('id_c_projekt_FK'=>$appStatus->projekt->id));
+                $bindParams = array_merge($bindParams, array('id_c_projekt_FK'=>$appStatus->getUserStatus()->getProjekt()->id));
             }
-            if (isset($appStatus->kancelar->id)) {
+            if (isset($appStatus->getUserStatus()->getKancelar()->id)) {
                 $where[] = "id_c_kancelar_FK = :id_c_kancelar_FK";
-                $bindParams = array_merge($bindParams, array('id_c_kancelar_FK'=>$appStatus->kancelar->id));
+                $bindParams = array_merge($bindParams, array('id_c_kancelar_FK'=>$appStatus->getUserStatus()->getKancelar()->id));
             }
-//            if (isset($appStatus->beh->id)) {
+//            if (isset($appStatus->getUserStatus()->getBeh()->id)) {
 //                $where[] = "id_s_beh_projektu_FK = :id_s_beh_projektu_FK";
-//                $bindParams = array_merge($bindParams, array('id_s_beh_projektu_FK'=>$appStatus->beh->id));
+//                $bindParams = array_merge($bindParams, array('id_s_beh_projektu_FK'=>$appStatus->getUserStatus()->getBeh()->id));
 //            }
         }
         if (!$findInvalid) {
@@ -110,13 +110,13 @@ class Projektor2_Model_Db_ZajemceMapper {
     }
 
     public static function findAllForProject($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE) {
-        $appStatus = Projektor2_Model_SessionStatus::getSessionStatus();
+        $appStatus = Projektor2_Model_Status::getSessionStatus();
         if ($filter AND is_string($filter)) {
             $newFilter = $filter.' AND id_c_projekt_FK = :id_c_projekt_FK';
-            $newFilterBindParams = array_merge($filterBindParams, array('id_c_projekt_FK'=>$appStatus->projekt->id));
+            $newFilterBindParams = array_merge($filterBindParams, array('id_c_projekt_FK'=>$appStatus->getUserStatus()->getProjekt()->id));
         } else {
             $newFilter = ' id_c_projekt_FK = :id_c_projekt_FK';
-            $newFilterBindParams = array('id_c_projekt_FK'=>$appStatus->projekt->id);
+            $newFilterBindParams = array('id_c_projekt_FK'=>$appStatus->getUserStatus()->getProjekt()->id);
         }
         return self::find($newFilter, $newFilterBindParams, $order, $findInvalid, TRUE);
     }

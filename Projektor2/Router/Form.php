@@ -10,7 +10,7 @@ class Projektor2_Router_Form {
     protected $request;
     protected $response;
 
-    public function __construct(Projektor2_Model_SessionStatus $sessionStatus, Projektor2_Request $request, Projektor2_Response $response) {
+    public function __construct(Projektor2_Model_Status $sessionStatus, Projektor2_Request $request, Projektor2_Response $response) {
         $this->sessionStatus = $sessionStatus;
         $this->request = $request;
         $this->response = $response;
@@ -18,7 +18,7 @@ class Projektor2_Router_Form {
 
     public function getController() {
         $form = $this->request->get('form');
-        $kodProjektu = $this->sessionStatus->projekt->kod;
+        $kodProjektu = $this->sessionStatus->getUserStatus()->getProjekt()->kod;
         switch ($kodProjektu) {
             case 'AGP':
                 /** AGP **/
@@ -36,7 +36,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Agp_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
             case 'HELP':
@@ -61,7 +61,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Help_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
             case 'AP':
@@ -95,7 +95,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Ap_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
             case 'SJZP':
@@ -123,7 +123,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Sjzp_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
             case 'VZP':
@@ -142,7 +142,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Vzp_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
 
@@ -162,7 +162,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Zpm_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
             case 'SPP':
@@ -181,7 +181,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Spp_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
             case 'RP':
@@ -200,7 +200,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Rp_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
 
@@ -229,7 +229,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Sjpk_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
 
@@ -248,8 +248,8 @@ class Projektor2_Router_Form {
                     case "sjpo_souhlas_uc":
                         return new Projektor2_Controller_Formular_Sjpo_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "sjpo_plan_uc":
-                        return new Projektor2_Controller_Formular_Sjpo_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan":
+                        return new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "sjpo_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Sjpo_IP2($this->sessionStatus, $this->request, $this->response);
@@ -258,7 +258,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Sjpo_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form \"'.$form.'\" v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form "'.$form.'" v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
 
@@ -287,7 +287,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Sjlp_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form \"'.$form.'\" v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form "'.$form.'" v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
 
@@ -307,7 +307,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Vdtp_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
 
@@ -327,7 +327,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Pdu_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr form '.$form.' v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
 
@@ -356,7 +356,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Mb_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
-                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form \"'.$form.'\" v projektu '.$this->sessionStatus->projekt->kod);
+                        throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form "'.$form.'" v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
                 }
                 break;
             case 'CJC':
@@ -429,7 +429,7 @@ class Projektor2_Router_Form {
 
 
             default:
-                throw new UnexpectedValueException('Neznámý kód projektu: '.$this->sessionStatus->projekt->kod);
+                throw new UnexpectedValueException('Neznámý kód projektu: '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
         }
 
 

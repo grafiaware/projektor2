@@ -147,7 +147,7 @@ class Projektor2_Model_SessionStatus {
                 $authCookie->validate();  // při neúspěšné validaci vyhazuje výjimku
                 self::$sessionStatus->setAuthCookie($authCookie);
                 // user z auth cookie
-                $user = Projektor2_Model_Db_SysUserMapper::findById($authCookie->get_userid());
+                $user = Projektor2_Model_Db_SysUserMapper::get($authCookie->get_userid());
                 if(!$user) {
                     throw new Exception("Neexistuje uživatel s nastavenou identitou.");
                 }
@@ -173,13 +173,13 @@ class Projektor2_Model_SessionStatus {
                 $navigation->push($navigationLevel);
                 if (self::$sessionStatus->logger) {
                     $part[] = date('Y-m-d H:i:s');
-                    $part[] = self::$sessionStatus->user->username;
-                    $part[] = self::$sessionStatus->projekt->kod;
-                    $part[] = self::$sessionStatus->kancelar->kod;
-                    $part[] = self::$sessionStatus->beh->beh_cislo;
-                    $part[] = self::$sessionStatus->zajemce->id;
-                    $part[] = self::$sessionStatus->zajemce->identifikator;
-                    $part[] = self::$sessionStatus->sKurz->id_s_kurz;
+                    $part[] = self::$sessionStatus->getUserStatus()->getUser()->username;
+                    $part[] = self::$sessionStatus->getUserStatus()->getProjekt()->kod;
+                    $part[] = self::$sessionStatus->getUserStatus()->getKancelar()->kod;
+                    $part[] = self::$sessionStatus->getUserStatus()->getBeh()->beh_cislo;
+                    $part[] = self::$sessionStatus->getUserStatus()->getZajemce()->id;
+                    $part[] = self::$sessionStatus->getUserStatus()->getZajemce()->identifikator;
+                    $part[] = self::$sessionStatus->getUserStatus()->getSKurz()->id_s_kurz;
                     $part[] = $request->isGet() ? 'GET' : ($request->isPost() ? 'POST' : 'METHOD NOT RECOGNIZED');
                     $part[] = preg_replace("/\s+/u", " : ", print_r($request->getArray(), true));
 //                    $part[] = preg_replace("/\s+/u", " : ", print_r($request->postArray(), true));
@@ -207,22 +207,22 @@ class Projektor2_Model_SessionStatus {
             $response->setCookie('userId', NULL);
         }
         if (isset($this->user)) {
-            $response->setCookie('userId', $this->user->id);
+            $response->setCookie('userId', $this->getUserStatus()->getUser()->id);
         } else {
             $response->setCookie('userId', NULL);
         }
         if (isset($this->projekt)) {
-            $response->setCookie('projektId', $this->projekt->id);
+            $response->setCookie('projektId', $this->getUserStatus()->getProjekt()->id);
         } else {
             $response->setCookie('projektId', NULL);
         }
         if (isset($this->kancelar)) {
-            $response->setCookie('kancelarId', $this->kancelar->id);
+            $response->setCookie('kancelarId', $this->getUserStatus()->getKancelar()->id);
         } else {
             $response->setCookie('kancelarId', NULL);
         }
         if (isset($this->beh)) {
-            $response->setCookie('behId', $this->beh->id);
+            $response->setCookie('behId', $this->getUserStatus()->getBeh()->id);
         } else {
             $response->setCookie('behId', NULL);
         }
@@ -232,12 +232,12 @@ class Projektor2_Model_SessionStatus {
             $response->setCookie('akce', NULL);
         }
         if (isset($this->zajemce)) {
-            $response->setCookie('zajemceId', $this->zajemce->id);
+            $response->setCookie('zajemceId', $this->getUserStatus()->getZajemce()->id);
         } else {
             $response->setCookie('zajemceId', NULL);
         }
         if (isset($this->sKurz)) {
-            $response->setCookie('sKurzId', $this->sKurz->id_s_kurz);
+            $response->setCookie('sKurzId', $this->getUserStatus()->getSKurz()->id_s_kurz);
         } else {
             $response->setCookie('sKurzId', NULL);
         }

@@ -53,7 +53,7 @@ class Projektor2_View_PDF_Sjlp_IP1 extends Projektor2_View_PDF_Common {
             $counter = 0;
             foreach($this->context['aktivityPlan'] as $kurzPlan) {
 //                $kurzPlan = new Projektor2_Model_KurzPlan();
-                if ($kurzPlan->sKurz->isRealCourse()) {
+                if ($kurzPlan->getUserStatus()->getSKurz()->isRealCourse()) {
                     $counter++;
                     $yPositionBefore = $this->pdf->getY();
                     $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
@@ -63,8 +63,8 @@ class Projektor2_View_PDF_Sjlp_IP1 extends Projektor2_View_PDF_Common {
                     $kurzSadaBunek->ZarovnaniNadpisu("L");
                     $kurzSadaBunek->VyskaPismaNadpisu(11);
                     $kurzSadaBunek->MezeraPredSadouBunek(0);
-                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$kurzPlan->sKurz->kurz_nazev, 1);
-                    $kurzSadaBunek->PridejBunku("Termín konání: ",$kurzPlan->sKurz->date_zacatek.' - '.$kurzPlan->sKurz->date_konec, 1);
+                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$kurzPlan->getUserStatus()->getSKurz()->kurz_nazev, 1);
+                    $kurzSadaBunek->PridejBunku("Termín konání: ",$kurzPlan->getUserStatus()->getSKurz()->date_zacatek.' - '.$kurzPlan->getUserStatus()->getSKurz()->date_konec, 1);
                     $this->pdf->TiskniSaduBunek($kurzSadaBunek);
                     if ($counter == $count-1) {
                         $potrebneMisto = $dolniokrajAPaticka+$mistoDatumPodpisy;

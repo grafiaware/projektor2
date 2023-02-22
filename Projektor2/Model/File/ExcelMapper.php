@@ -128,7 +128,7 @@ class Projektor2_Model_File_ExcelMapper {
         }
     }
 
-    public static function save(Projektor2_Model_File_Excel $modelExcel, Projektor2_Model_SessionStatus $sessionStatus) {
+    public static function save(Projektor2_Model_File_Excel $modelExcel, Projektor2_Model_Status $sessionStatus) {
 //        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, "Excel2007");
         $objWriter = new PHPExcel_Writer_Excel5($modelExcel->objPHPExcel);
         try {
@@ -144,13 +144,13 @@ class Projektor2_Model_File_ExcelMapper {
     /**
      * Generuje řetězec vhodný jako plné jméno souboru (s cestou). Pokud nnexistuje složka odpovídajíví zadané cestě vytvoří složky (adresář).
      *
-     * @param Projektor2_Model_SessionStatus $sessionStatus
+     * @param Projektor2_Model_Status $sessionStatus
      * @param type $tabulka
      * @return type
      */
-    private static function prepareAbsoluteFilePath(Projektor2_Model_SessionStatus $sessionStatus, $tabulka) {
+    private static function prepareAbsoluteFilePath(Projektor2_Model_Status $sessionStatus, $tabulka) {
         $dirName = Projektor2_AppContext::getFileBaseFolder()
-                .Projektor2_AppContext::getRelativeFilePath($sessionStatus->projekt->kod)
+                .Projektor2_AppContext::getRelativeFilePath($sessionStatus->getUserStatus()->getProjekt()->kod)
                 .static::PATH_PREFIX;
         $normalizedPath = Directory::createDirectory($dirName);
 
@@ -160,11 +160,11 @@ class Projektor2_Model_File_ExcelMapper {
 
     /**
      * Generuje řetězec vhodný jako jméno souboru (base name).
-     * @param Projektor2_Model_SessionStatus $sessionStatus
+     * @param Projektor2_Model_Status $sessionStatus
      * @param type $tabulka
      * @return type
      */
-    private static function getBaseName(Projektor2_Model_SessionStatus $sessionStatus, $tabulka) {
+    private static function getBaseName(Projektor2_Model_Status $sessionStatus, $tabulka) {
         return $tabulka.'_'.date("Ymd_Hi").'.xls';
     }
 }

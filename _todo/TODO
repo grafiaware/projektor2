@@ -16,7 +16,7 @@ foreach
 
             1) new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
             2) Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemce->id)
-                - pro každou aktivitu (Config_Aktivity::getAktivityProjektu($sessionStatus->projekt->kod);)
+                - pro každou aktivitu (Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);)
                 => self::createAktivitaPlan($planKurz, $ukonceni, $aktivita, $indexAktivity, $id, $zajemce);
                     pro typ kurz => Projektor2_Model_Db_CertifikatKurzMapper::find($zajemce, $sKurz, FALSE);
 

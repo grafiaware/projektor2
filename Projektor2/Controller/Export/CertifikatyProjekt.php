@@ -17,7 +17,7 @@ class Projektor2_Controller_Export_CertifikatyProjekt extends Projektor2_Control
         $zajemci = Projektor2_Model_Db_ZajemceMapper::findAllForProject();
         if ($zajemci) {
             ini_set('max_execution_time', Projektor2_AppContext::getExportCertifMaxExucutionTime());
-            $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->projekt->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
+            $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->getUserStatus()->getProjekt()->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
             foreach ($zajemci as $zajemce) {
                 $ukonceni = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
                 if ($ukonceni->datum_certif) {
@@ -28,9 +28,9 @@ class Projektor2_Controller_Export_CertifikatyProjekt extends Projektor2_Control
 
                         $certifikat = $serviceCertifikat->create($this->sessionStatus->projekt,
                                             Projektor2_Model_Db_KancelarMapper::getValid($zajemce->id_c_kancelar_FK),
-                                            $zajemce, $datumCertifikatu, $this->sessionStatus->user->username, __CLASS__);
+                                            $zajemce, $datumCertifikatu, $this->sessionStatus->getUserStatus()->getUser()->username, __CLASS__);
                         if (!$certifikat) {
-                            throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->zajemce->id. ', kurz id: '.$sKurz->id_s_kurz);
+                            throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->getUserStatus()->getZajemce()->id. ', kurz id: '.$sKurz->id_s_kurz);
                         }
                         $logger->log($certifikat->documentCertifikatProjekt->filePath);
                     }

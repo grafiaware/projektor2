@@ -13,12 +13,12 @@ class Projektor2_View_PDF_IP2 extends Projektor2_View_PDF_Common {
 
     public function createPDFObject() {
 
-        $textPaticky = "Individuální plán účastníka v projektu „{$this->sessionStatus->projekt->text}“ - část 2 - vyhodnocení aktivit  ".$this->context["file"];
+        $textPaticky = "Individuální plán účastníka v projektu „{$this->sessionStatus->getUserStatus()->getProjekt()->text}“ - část 2 - vyhodnocení aktivit  ".$this->context["file"];
         $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 2 - vyhodnocení aktivit";
-        $textyNadpisu[] = "Projekt „{$this->sessionStatus->projekt->text}“";
+        $textyNadpisu[] = "Projekt „{$this->sessionStatus->getUserStatus()->getProjekt()->text}“";
         $this->tiskniTitul($textyNadpisu);
         //*****************************************************
         $this->tiskniOsobniUdaje(self::MODEL_DOTAZNIK);

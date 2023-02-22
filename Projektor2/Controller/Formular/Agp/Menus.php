@@ -14,7 +14,7 @@ abstract class Projektor2_Controller_Formular_Agp_Menus extends Projektor2_Contr
 
     protected function getContentMenu() {
         // nezobrazuje se pro novou osobu
-        if ($this->sessionStatus->zajemce) {
+        if ($this->sessionStatus->getUserStatus()->getZajemce()) {
             $contentMenuController = new Projektor2_Controller_Agp_ContentMenu($this->sessionStatus, $this->request, $this->response);
             $htmlResult .= $contentMenuController->getResult();
         }
