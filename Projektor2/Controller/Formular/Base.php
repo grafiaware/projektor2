@@ -138,17 +138,21 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
             $normalizedBasePath = Directory::normalizePath($fileBaseFolder);
             // odpovídá tvaru atributu name v inputu typu file tak, jak je v Projektor2_View_HTML_UploadFile - varianta multiple = false
             // indexy jsou typ uploadu
+            // $_FILES[self::UPLOADED_KEY]['name'], $_FILES[self::UPLOADED_KEY]['error'] (a size, tmp-name) obsahují vždy všechny položky uvedené ve formuláři jako input typu file
+            // vytvářím složku a přesunuji jen pložky ve $_FILES, které skutečně obsahují soubor -  ty mají ve $_FILES[self::UPLOADED_KEY]['error'] hodnotu 0
             foreach ($_FILES[self::UPLOADED_KEY]['name'] as $type => $name) {
-                $basename = basename($name);
-                if ($expandIntoSubfoldersByType) {
-                    $normalizedUploadedPath = Directory::normalizePath($uploadedFolderPath.$type.'/');
-                    $uploadfile = Directory::createDirectory($normalizedBasePath.$normalizedUploadedPath).$basename;
-                } else {
-                    $normalizedUploadedPath = Directory::normalizePath($uploadedFolderPath);
-                    $uploadfile = Directory::createDirectory($normalizedBasePath.$normalizedUploadedPath).$basename;
-                }
-                if (move_uploaded_file($_FILES[self::UPLOADED_KEY]['tmp_name'][$type], $uploadfile)) {
-                    $saved[$type] = $normalizedUploadedPath.$basename;
+                if ($_FILES[self::UPLOADED_KEY]['error'][$type] == 0) {
+                    $basename = basename($name);
+                    if ($expandIntoSubfoldersByType) {
+                        $normalizedUploadedPath = Directory::normalizePath($uploadedFolderPath.$type.'/');
+                        $uploadfile = Directory::createDirectory($normalizedBasePath.$normalizedUploadedPath).$basename;
+                    } else {
+                        $normalizedUploadedPath = Directory::normalizePath($uploadedFolderPath);
+                        $uploadfile = Directory::createDirectory($normalizedBasePath.$normalizedUploadedPath).$basename;
+                    }
+                    if (move_uploaded_file($_FILES[self::UPLOADED_KEY]['tmp_name'][$type], $uploadfile)) {
+                        $saved[$type] = $normalizedUploadedPath.$basename;
+                    }
                 }
             }
         }
