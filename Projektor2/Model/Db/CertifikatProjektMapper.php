@@ -76,7 +76,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
             'service'=>$service,
             'db_host'=>$dbh->getDbHost());
         $sth = $dbh->prepare($query);
-        $succ = $sth->execute($bindParams);
+        $sth->execute($bindParams);
         $newId = $dbh->lastInsertId();
         $success = $dbh->commit();
         // model vytvořen načtením z databáze
