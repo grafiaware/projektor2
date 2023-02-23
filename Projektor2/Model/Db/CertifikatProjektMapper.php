@@ -1,7 +1,7 @@
 <?php
 class Projektor2_Model_Db_CertifikatProjektMapper {
 
-    public static function findById($id) {
+    public static function get($id) {
         $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM certifikat_projekt WHERE id_certifikat_projekt = :id_certifikat_projekt";
         $bindParams = array('id_certifikat_projekt'=>$id);
@@ -44,11 +44,13 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
      */
     public static function create(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Date $date, $creator, $service, $fileName=NULL) {
         $rok = $date->getCzechStringYear();
-        $appStatus = Projektor2_Model_Status::getSessionStatus();
 
         $dbh = Config_AppContext::getDb();
-
-        $query = "SELECT Max(cislo) AS maxCislo  FROM certifikat_projekt WHERE rok=:rok";  //vybírá i nevalidní
+        // select a insert v transakci
+        $dbh->beginTransaction();
+        // select se zamknutím tabulky pro modifikaci
+        $query = "SELECT Max(cislo) AS maxCislo  FROM certifikat_projekt WHERE rok=:rok
+            LOCK IN SHARE MODE";  //vybírá i nevalidní
         $bindParams = array('rok'=>$rok);
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
@@ -75,14 +77,14 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
             'db_host'=>$dbh->getDbHost());
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
-        $data = $sth->fetch(PDO::FETCH_ASSOC);
+        $newId = $dbh->lastInsertId();
+        $success = $dbh->commit();
         // model vytvořen načtením z databáze
-        return self::findById($dbh->lastInsertId());
+        return self::get($newId);
     }
 
     public static function findAll($filter = NULL, $order = NULL) {
         $dbh = Config_AppContext::getDb();
-        $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT * FROM certifikat_projekt";
         if ($order AND is_string($order)) {
             $query .= " ORDER BY ".$order;

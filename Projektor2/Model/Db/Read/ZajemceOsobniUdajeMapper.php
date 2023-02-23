@@ -9,7 +9,6 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function findById($id) {
         $dbh = Config_AppContext::getDb();
-        $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT zajemce.id_zajemce, zajemce.cislo_zajemce, zajemce.identifikator, zajemce.znacka,
                         zajemce.id_c_projekt_FK, zajemce.id_c_kancelar_FK, zajemce.id_s_beh_projektu_FK,
                         za_flat_table.jmeno,
@@ -44,7 +43,6 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function find($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE) {
         $dbh = Config_AppContext::getDb();
-        $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT zajemce.id_zajemce, zajemce.cislo_zajemce, zajemce.identifikator, zajemce.znacka,
                         zajemce.id_c_projekt_FK, zajemce.id_c_kancelar_FK, zajemce.id_s_beh_projektu_FK,
                         za_flat_table.jmeno,
