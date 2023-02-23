@@ -13,7 +13,7 @@ class Projektor2_Model_File_ZaUploadMapper extends Framework_Model_FileMapper {
             throw new UnexpectedValueException('Obsah dokumentu musí být řetězec.');
         }
         return static::createFileItem(
-                Projektor2_AppContext::getRelativeFilePath($projekt->kod)
+                Config_AppContext::getRelativeFilePath($projekt->kod)
                 .self::getRelativeFilePath($projekt, $zaCizinecFlatTable, $relativePath), $content);
     }
 
@@ -47,7 +47,7 @@ class Projektor2_Model_File_ZaUploadMapper extends Framework_Model_FileMapper {
      */
     public static function getRelativeFilePath(Projektor2_Model_Db_Projekt $projekt, Projektor2_Model_Db_Flat_ZaCizinecFlatTable $zaCizinecFlatTable, $relativePath) {
         // rozděluje soubory do podsložek s názvem rovným id kurzu
-        $dirName = Projektor2_AppContext::getCertificateVersionFolder($certificateType).$sKurz->id_s_kurz.'/';
+        $dirName = Config_Certificates::getCertificateVersionFolder($certificateType).$sKurz->id_s_kurz.'/';
         $basename = $projekt->kod.'_IP_Osvedceni_'.$sKurz->kurz_druh.' '.$zajemce->identifikator.'.pdf';;
         return $dirName.$basename;
     }

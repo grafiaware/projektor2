@@ -15,7 +15,7 @@ class Projektor2_Controller_Certifikat_Kurz extends Projektor2_Controller_Certif
         /** @var Projektor2_Model_CertifikatKurz $certifikat */
         $certifikat = $this->params['certifikat'];
         $viewPdf = new Projektor2_View_HTML_Script_NewWindowOpener($this->sessionStatus);
-        $viewPdf->assign('fullFileName', Projektor2_AppContext::getHttpFileBasePath().$certifikat->documentCertifikatKurz->relativeDocumentPath);
+        $viewPdf->assign('fullFileName', Config_AppContext::getHttpFileBasePath().$certifikat->documentCertifikatKurz->relativeDocumentPath);
         return $viewPdf->render();
     }
 }

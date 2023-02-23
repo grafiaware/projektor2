@@ -16,7 +16,7 @@ class Projektor2_Model_Db_Ciselnik {
         }
         if($id) {
             $query="SELECT Count(id_".$this->jmeno_ciselniku.") FROM ".$this->jmeno_ciselniku." WHERE id_".$this->jmeno_ciselniku." = :1";
-            $dbh = Projektor2_AppContext::getDb();
+            $dbh = Config_AppContext::getDb();
             list($pocet) = $dbh->prepare($query)->execute($id)->fetch_row();
             if($pocet) {
                 return true;
@@ -27,7 +27,7 @@ class Projektor2_Model_Db_Ciselnik {
     public function check_text($text) {
         if($text) {
             $query="SELECT id_".$this->jmeno_ciselniku." AS id FROM ".$this->jmeno_ciselniku." WHERE text LIKE :text";
-            $dbh = Projektor2_AppContext::getDb();
+            $dbh = Config_AppContext::getDb();
             $bindParams = array('text'=>$text);
             $sth = $dbh->prepare($query);
             $succ = $sth->execute($bindParams);
@@ -42,7 +42,7 @@ class Projektor2_Model_Db_Ciselnik {
     public function check_column($text,$column) {
         if($text) {
             $query="SELECT id_".$this->jmeno_ciselniku." AS id FROM ".$this->jmeno_ciselniku." WHERE ".$column." LIKE :text";
-            $dbh = Projektor2_AppContext::getDb();
+            $dbh = Config_AppContext::getDb();
             $bindParams = array('text'=>$text);
             $sth = $dbh->prepare($query);
             $succ = $sth->execute($bindParams);
@@ -58,7 +58,7 @@ class Projektor2_Model_Db_Ciselnik {
     }
     public function get_value_from_column($id=false,$column="text") {
         if($id) {
-            $dbh = Projektor2_AppContext::getDb();
+            $dbh = Config_AppContext::getDb();
             $query = "SELECT ".$column."
                         FROM ".$this->jmeno_ciselniku."
                         WHERE id_".$this->jmeno_ciselniku." LIKE :id";

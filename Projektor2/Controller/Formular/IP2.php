@@ -17,7 +17,7 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
         $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
         $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 
-        $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->getUserStatus()->getProjekt()->kod);
+        $ukonceniArray = Config_Ukonceni::getUkonceniProjektu($this->sessionStatus->getUserStatus()->getProjekt()->kod);
 
         $view = new Projektor2_View_HTML_Formular_IP2($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'UKONČENÍ ÚČASTI V PROJEKTU A DOPLNĚNÍ IP - 2. část ÚČASTNÍKA PROJEKTU Moje Budoucnost')
@@ -47,7 +47,7 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
+            $relativeFilePath = Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
             $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();
         }
@@ -64,7 +64,7 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
+            $relativeFilePath = Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
             $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();
         }

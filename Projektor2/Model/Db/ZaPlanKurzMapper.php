@@ -17,8 +17,8 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
      * @param int $id
      * @return Projektor2_Model_Db_ZaPlanKurz
      */
-    public static function findById($id) {
-        $dbh = Projektor2_AppContext::getDb();
+    public static function get($id) {
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM za_plan_kurz WHERE id_za_plan_kurz = :id_za_plan_kurz";
         $bindParams = array('id_za_plan_kurz'=>$id);
         $sth = $dbh->prepare($query);
@@ -38,7 +38,7 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
      * @return Projektor2_Model_Db_ZaPlanKurz[] Pole objektů Projektor2_Model_Db_ZaPlanKurz
      */
     public static function findAllForZajemce($id_zajemce, $minimalIdSKurz = 3) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM za_plan_kurz WHERE id_zajemce=:id_zajemce AND id_s_kurz_FK>:minimal_id_s_kurz_FK ORDER BY kurz_druh_fk ASC, aktivita ASC";
         $sth = $dbh->prepare($query);
         $sth->bindValue(':id_zajemce', $id_zajemce);
@@ -61,7 +61,7 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
      * @return Projektor2_Model_Db_ZaPlanKurz[]
      */
     public static function findAll($filter = NULL, $order = NULL) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM za_plan_kurz";
         if ($filter AND is_string($filter)) {
             $query .= " WHERE ".$filter;

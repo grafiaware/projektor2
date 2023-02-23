@@ -9,7 +9,7 @@ class Projektor2_View_HTML_Login extends Framework_View_Abstract {
         if(isset($this->context['warning'])) {
             $this->parts[] = '<p class="login warning">'.$this->context['warning'].'</p>';
         }
-        $this->parts[] = '<h1>Přihlášení do systému '.Projektor2_AppContext::version().'</h1>';
+        $this->parts[] = '<h1>Přihlášení do systému '.Config_AppContext::version().'</h1>';
         $this->parts[] = '<form name="Login" id="Login" action="index.php?akce=login" method="post">';
 //	    $this->parts[] = '<input type="hidden" name="sent" value="1">';
 	    $this->parts[] = '<label for="name" >Uživatelské jméno:</label>';

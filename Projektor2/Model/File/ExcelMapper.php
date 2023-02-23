@@ -20,7 +20,7 @@ class Projektor2_Model_File_ExcelMapper {
      * @return type
      */
     public static function createViewFromSql($sqlViewName, $sqlViewCreateCode) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "DROP VIEW IF EXISTS `$sqlViewName`";
         $sth = $dbh->prepare($query);
         $succ = $sth->execute();
@@ -45,7 +45,7 @@ class Projektor2_Model_File_ExcelMapper {
                 echo 'Nepodařilo se nastavit lokalizaci '.$locale." - zůstává nastavena výchozí en_us<br />\n";
         }
 
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SHOW COLUMNS FROM ".$viewName;
         $sth = $dbh->prepare($query);
         $succ = $sth->execute();
@@ -149,8 +149,8 @@ class Projektor2_Model_File_ExcelMapper {
      * @return type
      */
     private static function prepareAbsoluteFilePath(Projektor2_Model_Status $sessionStatus, $tabulka) {
-        $dirName = Projektor2_AppContext::getFileBaseFolder()
-                .Projektor2_AppContext::getRelativeFilePath($sessionStatus->getUserStatus()->getProjekt()->kod)
+        $dirName = Config_AppContext::getFileBaseFolder()
+                .Config_AppContext::getRelativeFilePath($sessionStatus->getUserStatus()->getProjekt()->kod)
                 .static::PATH_PREFIX;
         $normalizedPath = Directory::createDirectory($dirName);
 

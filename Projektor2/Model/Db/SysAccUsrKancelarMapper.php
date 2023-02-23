@@ -1,7 +1,7 @@
 <?php
 class Projektor2_Model_Db_SysAccUsrKancelarMapper {
     public static function findById($userId, $kancelarId) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM sys_acc_usr_kancelar
                     WHERE id_sys_users =:id_sys_users
                     AND id_c_kancelar =:id_c_kancelar";
@@ -16,7 +16,7 @@ class Projektor2_Model_Db_SysAccUsrKancelarMapper {
     }
     
     public static function findAll($filter = NULL, $order = NULL) {
-        $dbh = Projektor2_AppContext::getDb(); 
+        $dbh = Config_AppContext::getDb(); 
         $query = "SELECT * FROM sys_acc_usr_kancelar";
         if ($filter AND is_string($filter)) {
             $query .= " WHERE ".$filter;
@@ -38,7 +38,7 @@ class Projektor2_Model_Db_SysAccUsrKancelarMapper {
     }      
     
     public static function getIndexArray($indexName, $filter = NULL, $order = NULL) {
-        $dbh = Projektor2_AppContext::getDb(); 
+        $dbh = Config_AppContext::getDb(); 
         $query = "SELECT ".$indexName." FROM sys_acc_usr_kancelar";
         if ($filter AND is_string($filter)) {
             $query .= " WHERE ".$filter;

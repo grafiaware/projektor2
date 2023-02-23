@@ -6,7 +6,7 @@ class Projektor2_Model_Db_ZajemceMapper {
         if(!$appStatus->kancelar OR !$appStatus->projekt OR !$appStatus->beh) {
             throw new Exception ("Cannot create new zajemce - kancelar,projekt,beh - one or more are not setted or setted improperly");
         }
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT Max(zajemce.cislo_zajemce) AS maxU  FROM zajemce
                   WHERE (id_c_projekt_FK = :id_c_projekt_FK AND id_c_kancelar_FK = :id_c_kancelar_FK )";  //vybírá i nevalidní
         $bindParams = array('id_c_projekt_FK'=>$appStatus->getUserStatus()->getProjekt()->id, 'id_c_kancelar_FK'=>$appStatus->getUserStatus()->getKancelar()->id);
@@ -43,7 +43,7 @@ class Projektor2_Model_Db_ZajemceMapper {
     }
 
     public static function get($id, $findInvalid=FALSE, $findOutOfContext=FALSE) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT * FROM zajemce";
         $where[] = "id_zajemce = :id_zajemce";
@@ -64,7 +64,7 @@ class Projektor2_Model_Db_ZajemceMapper {
     }
 
     public static function find($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE, $findOutOfContext=FALSE) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT * FROM zajemce";
         $where = array();

@@ -16,7 +16,7 @@ abstract class Projektor2_Model_File_ItemAbstract extends Framework_Model_FileIt
      * Relativní casta k dokumentu - relativní vůči složce documentRoot.
      */
     public function __construct($relativeDocumentPath, $content=NULL) {
-        parent::__construct(Projektor2_AppContext::getFileBaseFolder().$relativeDocumentPath, $content);
+        parent::__construct(Config_AppContext::getFileBaseFolder().$relativeDocumentPath, $content);
         $this->relativeDocumentPath = $relativeDocumentPath;
     }
 }

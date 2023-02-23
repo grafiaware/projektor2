@@ -1,7 +1,7 @@
 <?php
 class Projektor2_Model_Db_SysUserMapper {
     public static function get($id) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM sys_users WHERE id_sys_users = :id_sys_users";
         $bindParams = array('id_sys_users'=>$id);
         $sth = $dbh->prepare($query);
@@ -14,7 +14,7 @@ class Projektor2_Model_Db_SysUserMapper {
     }
 
     public static function getByUsername($username) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM sys_users WHERE username = :username";
         $bindParams = array('username'=>$username);
         $sth = $dbh->prepare($query);

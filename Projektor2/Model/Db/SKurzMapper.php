@@ -6,7 +6,7 @@ class Projektor2_Model_Db_SKurzMapper {
      * @return \Projektor2_Model_Db_SKurz
      */
     public static function get($id) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "
     SELECT
         `s_kurz`.`id_s_kurz`,
@@ -54,7 +54,7 @@ class Projektor2_Model_Db_SKurzMapper {
      * @return \Projektor2_Model_Db_SKurz[] array of \Projektor2_Model_Db_SKurz
      */
     public static function find($filter = NULL, $order = NULL) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "
     SELECT
         `s_kurz`.`id_s_kurz`,
@@ -148,7 +148,7 @@ class Projektor2_Model_Db_SKurzMapper {
         $info_cas_konani=null, $info_misto_konani=null, $info_lektor=null, $harmonogram_filename=null,
         $valid=null
             ) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $sKurz = new Projektor2_Model_Db_SKurz(
                 $razeni, $projekt->kod, $kancelar->kod,
@@ -182,7 +182,7 @@ class Projektor2_Model_Db_SKurzMapper {
     }
 
     public static function update(Projektor2_Model_Db_SKurz $sKurz) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         foreach ($sKurz as $key => $value) {
             if (isset($value)) {
                 if ($key!='id_s_kurz') {  //se seznamu sloupců vyloučen sloupec PRIMARY KEY
@@ -203,7 +203,7 @@ class Projektor2_Model_Db_SKurzMapper {
     }
 
     public static function delete(Projektor2_Model_Db_SKurz $sKurz) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $query = "DELETE FROM `s_kurz` WHERE `id_s_kurz`=:id_s_kurz";
         $bindParams = ['id_s_kurz'=>$sKurz->id_s_kurz];

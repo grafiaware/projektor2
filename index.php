@@ -20,7 +20,7 @@ $response = new Projektor2_Response();
 
 $logger = new Projektor2_Logger_RequestLogger(
         // denní logy - jméno začíná "číslem" dne
-        Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath(), 'SessionStatus/'.date('Ymd').' SessionStatus.log')
+        Framework_Logger_File::getInstance(Config_AppContext::getLogsPath(), 'SessionStatus/'.date('Ymd').' SessionStatus.log')
         );
 
 $sessionStatus = Projektor2_Model_Status::create($session);

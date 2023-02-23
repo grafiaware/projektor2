@@ -22,7 +22,7 @@ class Projektor2_Model_File_CertifikatKurzMapper extends Framework_Model_FileMap
             $certifikatVerze,
             $content = null
         ) {
-        $filePath = Projektor2_AppContext::getRelativeFilePath($projekt->kod).self::getRelativeFilePath($projekt, $zajemce, $sKurz, $certifikatVerze);
+        $filePath = Config_AppContext::getRelativeFilePath($projekt->kod).self::getRelativeFilePath($projekt, $zajemce, $sKurz, $certifikatVerze);
         $fileModel = static::createFileItem($filePath, $content);
         self::save($fileModel);
         return $fileModel;
@@ -70,7 +70,7 @@ class Projektor2_Model_File_CertifikatKurzMapper extends Framework_Model_FileMap
             $certificatVersion
         ) {
         // rozděluje soubory do podsložek s názvem rovným id kurzu
-        $dirName = Projektor2_AppContext::getCertificateVersionFolder($certificatVersion).$sKurz->id_s_kurz.'/';
+        $dirName = Config_Certificates::getCertificateVersionFolder($certificatVersion).$sKurz->id_s_kurz.'/';
         $basename = $projekt->kod.'_IP_Osvedceni_'.$sKurz->kurz_druh.' '.$zajemce->identifikator.'.pdf';;
         return $dirName.$basename;
     }

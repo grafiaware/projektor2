@@ -2,7 +2,7 @@
 class Projektor2_Model_Db_BehMapper {
     
     public static function findById($id, $findInvalid=FALSE, $findOutOfContext=FALSE) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT * FROM s_beh_projektu"
                 . " WHERE id_s_beh_projektu = :id_s_beh_projektu";
@@ -37,7 +37,7 @@ class Projektor2_Model_Db_BehMapper {
     }
 
     public static function find($filter = NULL, $order = NULL) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         // vždy vybírá běhy jen pro aktuální projekt
         $query = "SELECT * FROM s_beh_projektu WHERE id_c_projekt = :id_c_projekt AND valid = 1";

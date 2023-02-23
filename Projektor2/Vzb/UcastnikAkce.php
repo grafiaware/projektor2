@@ -18,7 +18,7 @@ class Vzb_UcastnikAkce
 	{		
 		$stavyAkciUcastnika = array();
 		$pocitadlo = 0;
-		$dbh = Projektor2_AppContext::getDb();
+		$dbh = Config_AppContext::getDb();
 		foreach($akceUcastnika as $akce)
 		{
 			$query = "SELECT ~1 FROM ~2 WHERE ~3 = :4 AND ~5 = :6";

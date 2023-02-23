@@ -24,18 +24,13 @@ class Projektor2_Viewmodel_OsobaMenuViewmodel {
     private function jmenoCele(Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
         return implode(' ', array($zajemceDbReadOsobniUdaje->prijmeni, $zajemceDbReadOsobniUdaje->jmeno, $zajemceDbReadOsobniUdaje->titul, $zajemceDbReadOsobniUdaje->titul_za)); //začíná příjmením
     }
+//
+//    public function setSkupina($name, Projektor2_Viewmodel_Menu_Skupina $skupina) {
+//        $this->skupiny[$name] = $skupina;
+//    }
 
-    public function setSkupina($name, Projektor2_Viewmodel_Menu_Skupina $skupina) {
-        $this->skupiny[$name] = $skupina;
-    }
-
-    /**
-     *
-     * @param string $name
-     * @return Projektor2_Viewmodel_Menu_Skupina
-     */
-    public function getSkupina($name) {
-        return $this->skupiny[$name];
+    public function setSkupina(Projektor2_Viewmodel_Menu_Skupina $skupina) {
+        $this->skupiny[] = $skupina;
     }
 
     public function getSkupinyAssoc() {

@@ -1,7 +1,7 @@
 <?php
 class Projektor2_Model_Db_MiKriterieMapper {
     public static function findById($id) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM mi_kriteria WHERE id_mi_kriteria = :id_mi_kriteria AND valid = 1";
         $bindParams = array('id_mi_kriteria'=>$id);
         $sth = $dbh->prepare($query);
@@ -20,7 +20,7 @@ class Projektor2_Model_Db_MiKriterieMapper {
     }
 
     public static function findAll($filter = NULL, $order = NULL) {
-        $dbh = Projektor2_AppContext::getDb(); 
+        $dbh = Config_AppContext::getDb(); 
         $query = "SELECT * FROM mi_kriteria WHERE valid = 1";
         if ($filter AND is_string($filter)) {
             $query .= " AND ".$filter;
@@ -48,7 +48,7 @@ class Projektor2_Model_Db_MiKriterieMapper {
     }
     
     public static function update(Projektor2_Model_Db_MiKriteria $miKriteria) {
-        $dbh = Projektor2_AppContext::getDb(); 
+        $dbh = Config_AppContext::getDb(); 
         foreach ($miKriteria as $key => $value) {
             if ($key!='id') {  // vyloučen sloupec PRIMARY KEY
                 $set[] = $key.'=:'.$key;

@@ -21,7 +21,7 @@ class Projektor2_Controller_Certifikat_Projekt extends Projektor2_Controller_Cer
             throw new LogicException('Nepodařilo se vytvořit certifikát pro zajemce id: '.$this->sessionStatus->getUserStatus()->getZajemce()->id. '.');
         }
         $viewPdf = new Projektor2_View_HTML_Script_NewWindowOpener($this->sessionStatus);
-        $viewPdf->assign('fullFileName', Projektor2_AppContext::getHttpFileBasePath().$certifikat->dbCertifikatProjekt->filename);
+        $viewPdf->assign('fullFileName', Config_AppContext::getHttpFileBasePath().$certifikat->dbCertifikatProjekt->filename);
 
         return $viewPdf->render();
     }

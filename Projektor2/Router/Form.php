@@ -283,7 +283,7 @@ class Projektor2_Router_Form {
                     case "sjlp_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Sjlp_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "sjlp_zamestnani_uc":
+                    case "zamestnani":
                         return new Projektor2_Controller_Formular_Sjlp_Zamestnani($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
@@ -297,13 +297,13 @@ class Projektor2_Router_Form {
                    case "vdtp_novy_zajemce":
                         return new Projektor2_Controller_Formular_Vdtp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                   case "vdtp_sml_uc":
+                   case "smlouva":
                         return new Projektor2_Controller_Formular_Vdtp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "vdtp_plan_uc":
+                    case "plan":
                         return new Projektor2_Controller_Formular_Vdtp_IP1($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "vdtp_ukonceni_uc":
+                    case "ukonceni":
                         return new Projektor2_Controller_Formular_Vdtp_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:
@@ -317,13 +317,13 @@ class Projektor2_Router_Form {
                    case "pdu_novy_zajemce":
                         return new Projektor2_Controller_Formular_Pdu_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                   case "pdu_sml_uc":
+                   case "smlouva":
                         return new Projektor2_Controller_Formular_Pdu_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "pdu_plan_uc":
+                    case "plan":
                         return new Projektor2_Controller_Formular_Pdu_IP1($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "pdu_ukonceni_uc":
+                    case "ukonceni":
                         return new Projektor2_Controller_Formular_Pdu_IP2($this->sessionStatus, $this->request, $this->response);
                         break;
                     default:

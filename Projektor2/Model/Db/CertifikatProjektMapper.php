@@ -2,7 +2,7 @@
 class Projektor2_Model_Db_CertifikatProjektMapper {
 
     public static function findById($id) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM certifikat_projekt WHERE id_certifikat_projekt = :id_certifikat_projekt";
         $bindParams = array('id_certifikat_projekt'=>$id);
         $sth = $dbh->prepare($query);
@@ -17,7 +17,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
         }
 
     public static function findByZajemce(Projektor2_Model_Db_Zajemce $zajemce) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM certifikat_projekt WHERE id_zajemce_FK = :id_zajemce_FK";
         $bindParams = array('id_zajemce_FK'=>$zajemce->id);
         $sth = $dbh->prepare($query);
@@ -46,7 +46,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
         $rok = $date->getCzechStringYear();
         $appStatus = Projektor2_Model_Status::getSessionStatus();
 
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $query = "SELECT Max(cislo) AS maxCislo  FROM certifikat_projekt WHERE rok=:rok";  //vybírá i nevalidní
         $bindParams = array('rok'=>$rok);
@@ -67,7 +67,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
         $bindParams = array('id_zajemce_FK'=>$zajemce->id,
             'cislo'=>$cisloCertifikatu,
             'rok'=>$rok,
-            'identifikator'=>  Projektor2_AppContext::getCertificateProjektIdentificator($rok, $cisloCertifikatu),
+            'identifikator'=> Config_Certificates::getCertificateProjektIdentificator($rok, $cisloCertifikatu),
             'filename'=>$fileName,
             'date'=>$date->getSqlDate(),
             'creator'=>$creator,
@@ -81,7 +81,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
     }
 
     public static function findAll($filter = NULL, $order = NULL) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT * FROM certifikat_projekt";
         if ($order AND is_string($order)) {
@@ -104,7 +104,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
     }
 
     public static function update(Projektor2_Model_Db_CertifikatProjekt $projektCertifikat) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         foreach ($projektCertifikat as $key => $value) {
             if ($key!='id' AND $key!='creating_time') {  // vyloučeny sloupce PRIMARY KEY a TIMESTAMP s DEFAULT hodnotou
                 $set[] = $key.'=:'.$key;
@@ -124,7 +124,7 @@ class Projektor2_Model_Db_CertifikatProjektMapper {
     }
 
     public static function delete(Projektor2_Model_Db_CertifikatProjekt $projektCertifikat) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $query = "DELETE FROM certifikat_projekt WHERE id_certifikat_projekt=:id_certifikat_projekt";
         $bindParams = array('id_certifikat_projekt'=>$projektCertifikat->id);

@@ -31,9 +31,9 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
         $htmlResult = '';
 
         if ($this->request->isPost()) {
-            $fileBaseFolder = Projektor2_AppContext::getFileBaseFolder();
+            $fileBaseFolder = Config_AppContext::getFileBaseFolder();
             $uploadedFolderPath =
-                    Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod)
+                    Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod)
                     .'filesUpload/';
             $this->saveUploadedFiles($fileBaseFolder, $uploadedFolderPath);
             // ukládání dat modelů flat table

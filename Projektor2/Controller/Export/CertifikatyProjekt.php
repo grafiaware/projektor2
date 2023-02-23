@@ -16,8 +16,8 @@ class Projektor2_Controller_Export_CertifikatyProjekt extends Projektor2_Control
     public function getResult() {
         $zajemci = Projektor2_Model_Db_ZajemceMapper::findAllForProject();
         if ($zajemci) {
-            ini_set('max_execution_time', Projektor2_AppContext::getExportCertifMaxExucutionTime());
-            $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->getUserStatus()->getProjekt()->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
+            ini_set('max_execution_time', Config_Certificates::getExportCertifMaxExucutionTime());
+            $logger = Framework_Logger_File::getInstance(Config_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->getUserStatus()->getProjekt()->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
             foreach ($zajemci as $zajemce) {
                 $ukonceni = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
                 if ($ukonceni->datum_certif) {

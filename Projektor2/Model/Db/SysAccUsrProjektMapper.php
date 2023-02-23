@@ -1,7 +1,7 @@
 <?php
 class Projektor2_Model_Db_SysAccUsrProjektMapper {
     public static function findById($userId, $projektId) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM sys_acc_usr_projekt
                     WHERE id_sys_users =:id_sys_users
                     AND id_c_projekt =:id_c_projekt";

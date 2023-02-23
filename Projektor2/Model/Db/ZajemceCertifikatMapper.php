@@ -6,7 +6,7 @@ class Projektor2_Model_Db_ZajemceCertifikatMapper {
      * @return \Projektor2_Model_Db_ZajemceCertifikat
      */
     public static function findById($id) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "select 
         `certifikat_kurz`.`id_certifikat_kurz` AS `id_certifikat_kurz`,
         `certifikat_kurz`.`id_zajemce_FK` AS `id_zajemce_FK`,

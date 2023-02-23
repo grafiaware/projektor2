@@ -28,7 +28,7 @@ class Projektor2_Service_CertifikatKurz {
             $certifikatVerze,
             $datumCertifikatu, $creator, $service
         ) {
-        $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath(), 'Certificates/'.date('Ymd').' CertificateCreation.log');  // denní logy - jméno začíná "číslem" dne
+        $logger = Framework_Logger_File::getInstance(Config_AppContext::getLogsPath(), 'Certificates/'.date('Ymd').' CertificateCreation.log');  // denní logy - jméno začíná "číslem" dne
 
         $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
         $fullCertifikatKurz = $this->readCertifikat($zajemce, $sKurz, $certifikatRada, $certifikatVerze);
@@ -177,7 +177,7 @@ class Projektor2_Service_CertifikatKurz {
         $models = $this->createKurzOsvedceniModels($zajemce);
         $context = $this->createContextFromModels($models);
         $pdfView->appendContext($context);
-        $texts = Projektor2_AppContext::getCertificateTexts($sessionStatus);
+        $texts = Config_Certificates::getCertificateTexts($sessionStatus);
         $pdfView->assign('signerName', $texts['signerName'])
             ->assign('signerPosition', $texts['signerPosition'])
             //TODO: natvrdo psát např. Plzeň - píše se kancelář, do které jsi přihlášen

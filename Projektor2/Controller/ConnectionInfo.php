@@ -13,7 +13,7 @@
 class Projektor2_Controller_ConnectionInfo extends Projektor2_Controller_Abstract {
 
     public function getResult() {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
             if ($dbh->getDbHost() == 'localhost') {
                 $html = '<div class="connection development">';
             } else {

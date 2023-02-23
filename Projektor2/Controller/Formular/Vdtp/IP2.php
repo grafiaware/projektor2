@@ -17,11 +17,11 @@ class Projektor2_Controller_Formular_Vdtp_IP2 extends Projektor2_Controller_Form
         $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
         $kurzyPlanAssoc = Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce());
 
-        $ukonceniArray = Projektor2_AppContext::getUkonceniProjektu($this->sessionStatus->getUserStatus()->getProjekt()->kod);
+        $ukonceniArray = Config_Ukonceni::getUkonceniProjektu($this->sessionStatus->getUserStatus()->getProjekt()->kod);
 
         $view = new Projektor2_View_HTML_Formular_IP2($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'UKONČENÍ ÚČASTI V PROJEKTU A DOPLNĚNÍ IP - 2. část')
-            ->assign('formAction', 'vdtp_ukonceni_uc')
+            ->assign('formAction', 'ukonceni')
             ->assign('aktivityProjektuTypuKurz', $aktivityProjektuTypuKurz)
             ->assign('duvodUkonceniValuesArray', $ukonceniArray['duvod'])
             ->assign('duvodUkonceniHelpArray', $ukonceniArray['duvodHelp'])
@@ -48,7 +48,7 @@ class Projektor2_Controller_Formular_Vdtp_IP2 extends Projektor2_Controller_Form
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
+            $relativeFilePath = Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
             $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();
         }
@@ -65,7 +65,7 @@ class Projektor2_Controller_Formular_Vdtp_IP2 extends Projektor2_Controller_Form
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
+            $relativeFilePath = Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
             $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();
         }
