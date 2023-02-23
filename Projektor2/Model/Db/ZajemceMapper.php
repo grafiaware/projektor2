@@ -3,12 +3,16 @@ class Projektor2_Model_Db_ZajemceMapper {
 
     public static function create() {
         $appStatus = Projektor2_Model_Status::getSessionStatus();
-        if(!$appStatus->kancelar OR !$appStatus->projekt OR !$appStatus->beh) {
-            throw new Exception ("Cannot create new zajemce - kancelar,projekt,beh - one or more are not setted or setted improperly");
+        if(!$appStatus->getUserStatus()->getProjekt() OR !$appStatus->getUserStatus()->getKancelar()) {
+            throw new Exception ("Cannot create new zajemce - kancelar,projekt - one or more are not setted or setted improperly");
         }
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
+        // select a insert v transakci
+        $dbh->beginTransaction();
+        // select se zamknutím tabulky pro modifikaci
         $query = "SELECT Max(zajemce.cislo_zajemce) AS maxU  FROM zajemce
-                  WHERE (id_c_projekt_FK = :id_c_projekt_FK AND id_c_kancelar_FK = :id_c_kancelar_FK )";  //vybírá i nevalidní
+                  WHERE (id_c_projekt_FK = :id_c_projekt_FK AND id_c_kancelar_FK = :id_c_kancelar_FK )
+                  LOCK IN SHARE MODE";  //vybírá i nevalidní
         $bindParams = array('id_c_projekt_FK'=>$appStatus->getUserStatus()->getProjekt()->id, 'id_c_kancelar_FK'=>$appStatus->getUserStatus()->getKancelar()->id);
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
@@ -37,14 +41,13 @@ class Projektor2_Model_Db_ZajemceMapper {
                             'id_c_kancelar_FK'=>$appStatus->getUserStatus()->getKancelar()->id, 'id_s_beh_projektu_FK'=>$appStatus->getUserStatus()->getBeh()->id);
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
-        $data = $sth->fetch(PDO::FETCH_ASSOC);
-
-        return Projektor2_Model_Db_ZajemceMapper::get($dbh->lastInsertId());
+        $newId = $dbh->lastInsertId();
+        $success = $dbh->commit();
+        return $success ? Projektor2_Model_Db_ZajemceMapper::get($newId) : null;
     }
 
     public static function get($id, $findInvalid=FALSE, $findOutOfContext=FALSE) {
-        $dbh = Projektor2_AppContext::getDb();
-        $appStatus = Projektor2_Model_Status::getSessionStatus();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM zajemce";
         $where[] = "id_zajemce = :id_zajemce";
         $bindParams = array('id_zajemce'=>$id);
@@ -64,7 +67,7 @@ class Projektor2_Model_Db_ZajemceMapper {
     }
 
     public static function find($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE, $findOutOfContext=FALSE) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $appStatus = Projektor2_Model_Status::getSessionStatus();
         $query = "SELECT * FROM zajemce";
         $where = array();

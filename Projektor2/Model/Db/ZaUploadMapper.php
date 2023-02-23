@@ -7,7 +7,7 @@ class Projektor2_Model_Db_ZaUploadMapper {
      * @return Projektor2_Model_Db_ZaUpload
      */
     public static function get($idZajemce, $typeUploadType) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "
 SELECT `za_upload`.`id_zajemce_FK`,
     `za_upload`.`id_upload_type_FK`,
@@ -37,7 +37,7 @@ WHERE `id_zajemce_FK`=:id_zajemce_FK AND `id_upload_type_FK`=:id_upload_type_FK
      * @return Projektor2_Model_Db_ZaUpload[]
      */
     public static function findByZajemce($idZajemce) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "
 SELECT `za_upload`.`id_zajemce_FK`,
     `za_upload`.`id_upload_type_FK`,
@@ -68,7 +68,7 @@ WHERE `id_zajemce_FK`=:id_zajemce_FK
      * @return Projektor2_Model_Db_ZaUpload
      */
     public static function create($idZajemce, $typeUploadType, $filename, $creator, $service, $dbHost) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $modelUpload = new Projektor2_Model_Db_ZaUpload($idZajemce, $typeUploadType, $filename, $creator, $service, $db_host);
 
@@ -111,7 +111,7 @@ WHERE `id_zajemce_FK`=:id_zajemce_FK
     }
 
     public static function update(Projektor2_Model_Db_ZaUpload $zaUpload) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         foreach ($zaUpload as $key => $value) {
             if ($key!='id_zajemce_FK' AND $key!='id_upload_type_FK' AND $key!='creating_time') {  // vyloučeny sloupce PRIMARY KEY a TIMESTAMP
                 $set[] = $key.'=:'.$key;
@@ -133,7 +133,7 @@ WHERE `id_zajemce_FK`=:id_zajemce_FK
     }
 
     public static function delete(Projektor2_Model_Db_ZaUpload $zaUpload) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $query = "DELETE FROM za_upload WHERE `id_zajemce_FK`=:id_zajemce_FK AND `id_upload_type_FK`=:id_upload_type_FK";
         $bindParams = ['id_zajemce_FK'=>$zaUpload->id_zajemce_FK, 'id_upload_type_FK'=>$zaUpload->id_upload_type_FK];

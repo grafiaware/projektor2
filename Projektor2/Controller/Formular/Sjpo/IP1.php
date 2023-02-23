@@ -44,7 +44,7 @@ class Projektor2_Controller_Formular_Sjpo_IP1 extends Projektor2_Controller_Form
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
+            $relativeFilePath = Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
             $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();
         }

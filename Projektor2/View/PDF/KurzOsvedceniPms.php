@@ -20,7 +20,7 @@ class Projektor2_View_PDF_KurzOsvedceniPms extends Projektor2_View_PDF_Common {
         $pomer = $vyska/$vyskaObrazku;
         $sirka = $sirkaObrazku*$pomer;
         $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
-        $this->pdf->Image(Projektor2_AppContext::getCertificatePmsBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        $this->pdf->Image(Config_Certificates::getCertificatePmsBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
 
         Projektor2_View_PDF_Helper_KurzOsvedceniPMS::createContent($this->pdf, $this->context, $this);
         //##################################################################################################

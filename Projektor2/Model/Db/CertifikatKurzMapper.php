@@ -7,7 +7,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
      * @return Projektor2_Model_Db_CertifikatKurz
      */
     public static function get($id) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM certifikat_kurz join certifikat_kurz_typ on certifikat_kurz.id_certifikat_kurz_typ_FK=certifikat_kurz_typ.id_certifikat_kurz "
                 . " WHERE id_certifikat_kurz = :id_certifikat_kurz";
         $bindParams = array('id_certifikat_kurz'=>$id);
@@ -26,7 +26,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
      * @return array
      */
     public static function find(Projektor2_Model_Db_Zajemce $zajemce=null, Projektor2_Model_Db_SKurz $sKurz=null, $certifikatKurzRada=null, $certifikatKurzVerze=null) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         if ($zajemce) {
             $conditionTokens[] = 'id_zajemce_FK = :id_zajemce_FK';
             $bindParams['id_zajemce_FK'] = $zajemce->id;
@@ -70,52 +70,51 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
      */
     public static function create(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, $certifikatRada, $certifikatVerze,
                                     Projektor2_Date $date, $creator, $service, $fileName) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $rok = $date->getCzechStringYear();
-        $cisloCertifikatu = self::readMaxCisloCertifikatu($rok, $certifikatRada)+1;
-        $now = new DateTime("now");
+        try {
+            // select a insert v transakci
+            $dbh->beginTransaction();
+            $cisloCertifikatu = self::readMaxCisloCertifikatu($dbh, $rok, $certifikatRada)+1;
+            $now = new DateTime("now");
 
-//    public function __construct($id_zajemce_FK, $certifikat_kurz_rada_FK, $certifikat_kurz_verze_FK, $id_s_kurz_FK,
-//          $cislo, $rok, $identifikator,
-//          $filename, $date,
-//          $creating_time,
-//          $creator, $service, $db_host, $id=false) {
-        $modelCertifikatKurz = new Projektor2_Model_Db_CertifikatKurz(
-                $zajemce->id, $sKurz->id_s_kurz, $certifikatRada, $certifikatVerze,
-                $cisloCertifikatu, $rok, Projektor2_AppContext::getCertificateKurzIdentificator($sKurz->certifikat_kurz_rada_FK, $rok, $cisloCertifikatu),
-                $fileName, $date->getSqlDate(),
-                $now->format("Y-m-d H:i:s"),
-                $creator, $service, $dbh->getDbHost()
-            );
+            $modelCertifikatKurz = new Projektor2_Model_Db_CertifikatKurz(
+                    $zajemce->id, $sKurz->id_s_kurz, $certifikatRada, $certifikatVerze,
+                    $cisloCertifikatu, $rok, Config_Certificates::getCertificateKurzIdentificator($sKurz->certifikat_kurz_rada_FK, $rok, $cisloCertifikatu),
+                    $fileName, $date->getSqlDate(),
+                    $now->format("Y-m-d H:i:s"),
+                    $creator, $service, $dbh->getDbHost()
+                );
 
-        // !! creating_time je TIMESTAMP s DEFAULT CURRENT_TIMESTAMP
-        foreach ($modelCertifikatKurz as $key => $value) {
-            if ($key!='id' AND $key!='creating_time') {  // vyloučen sloupec PRIMARY KEY a TIMESTAMP
-                $columns[] = $key;
-                $values[] = ':'.$key;
-                $bindParams[$key] = $value;
+            // !! creating_time je TIMESTAMP s DEFAULT CURRENT_TIMESTAMP
+            foreach ($modelCertifikatKurz as $key => $value) {
+                if ($key!='id' AND $key!='creating_time') {  // vyloučen sloupec PRIMARY KEY a TIMESTAMP
+                    $columns[] = $key;
+                    $values[] = ':'.$key;
+                    $bindParams[$key] = $value;
+                }
             }
-        }
-        $query = "INSERT INTO certifikat_kurz (".implode(', ', $columns).")
-                  VALUES (".  implode(', ', $values).")";
+            $query = "INSERT INTO certifikat_kurz (".implode(', ', $columns).")
+                      VALUES (".  implode(', ', $values).")";
 
-        $sth = $dbh->prepare($query);
-        $succ = $sth->execute($bindParams);
-        if ($succ) {
-            $modelCertifikatKurz->id = $dbh->lastInsertId();
-        } else {
-            unset($modelCertifikatKurz);
+            $sth = $dbh->prepare($query);
+            $sth->execute($bindParams);
+            $newId = $dbh->lastInsertId();
+            $success = $dbh->commit();
+        } catch(\Exception $e) {
+            $this->dbHandler->rollBack();
+            throw $e;
         }
+        $modelCertifikatKurz->id = $newId;
         return $modelCertifikatKurz;
-//        $data = $sth->fetch(PDO::FETCH_ASSOC);
-//        // model vytvořen načtením z databáze na základě last insert id
-//        return self::findById($dbh->lastInsertId());
     }
 
-    private static function readMaxCisloCertifikatu($rok, $certifikatRada) {
+    private static function readMaxCisloCertifikatu($dbh, $rok, $certifikatRada) {
 
-        $dbh = Projektor2_AppContext::getDb();
+        if (!$dbh->inTransaction()) {
+            throw new LogicException('Nové číslo certáifikátu lze hledat a generovat pouze ve spuštěné transakci.');
+        }
         $query =
         "SELECT `certifikat_kurz_rada`.`rada`
         FROM `certifikat_kurz_rada`
@@ -161,7 +160,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
     }
 
     public static function update(Projektor2_Model_Db_CertifikatKurz $kurzCertifikat) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         foreach ($kurzCertifikat as $key => $value) {
             if ($key!='id' AND $key!='creating_time') {  // vyloučen sloupec PRIMARY KEY a TIMESTAMP
                 $set[] = $key.'=:'.$key;
@@ -181,7 +180,7 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
     }
 
     public static function delete(Projektor2_Model_Db_CertifikatKurz $kurzCertifikat) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $query = "DELETE FROM certifikat_kurz WHERE id_certifikat_kurz=:id_certifikat_kurz";
         $bindParams = array('id_certifikat_kurz'=>$kurzCertifikat->id);

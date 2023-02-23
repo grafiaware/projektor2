@@ -1,7 +1,7 @@
 <?php
 class Projektor2_Model_Db_KancelarMapper {
     public static function getValid($id) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM c_kancelar WHERE id_c_kancelar = :id_c_kancelar AND valid = 1";
         $bindParams = array('id_c_kancelar'=>$id);
         $sth = $dbh->prepare($query);
@@ -14,7 +14,7 @@ class Projektor2_Model_Db_KancelarMapper {
     }
 
     public static function findValid($filter = NULL, $order = NULL) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM c_kancelar WHERE valid = 1";
         if ($filter AND is_string($filter)) {
             $query .= " AND ".$filter;

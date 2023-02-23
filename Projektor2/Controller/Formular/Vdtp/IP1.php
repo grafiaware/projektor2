@@ -22,7 +22,7 @@ class Projektor2_Controller_Formular_Vdtp_IP1 extends Projektor2_Controller_Form
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN účastníka projektu „Vzdělávání a dovednosti pro trh práce II“ ')
-            ->assign('formAction', 'vdtp_plan_uc')
+            ->assign('formAction', 'plan')
             ->assign('aktivityKurz', $aktivityProjektuTypuKurz)
             ->assign('modelyKurzu', $modelyKurzu)   // Projektor2_Model_Db_SKurz[]                
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))
@@ -43,7 +43,7 @@ class Projektor2_Controller_Formular_Vdtp_IP1 extends Projektor2_Controller_Form
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 
-            $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
+            $relativeFilePath = Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
             $view->save($relativeFilePath);
             $htmlResult = $view->getNewWindowOpenerCode();
         }

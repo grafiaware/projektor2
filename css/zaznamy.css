@@ -3,7 +3,7 @@ table.zaznamy {
     border: solid lightgray 1px;
     /*width: 100%;*/
     background-color: rgb(200, 200, 200);
-    font-size: 1em;
+    font-size: .9em;
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
     /*line-height:150%;*/
 /*    padding:3px;
@@ -17,14 +17,13 @@ table.zaznamy th,td {
 
 
 .zaznamy .identifikator {
-    font-weight: bold;
     padding-left: 2px;
     padding-right: 2px;
 }
 
 .zaznamy .jmeno {
     font-size: 110%;
-    color: #222222;
+    color: black;
     padding-left: 8px;
     padding-right:8px;
 }

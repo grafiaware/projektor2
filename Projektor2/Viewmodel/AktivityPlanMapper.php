@@ -36,7 +36,7 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
         $kolekce = array();
         if ($aktivity) {
             $id = 0;
-            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemce->id);
+            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemce->id);   // SELECT * FROM za_plan_kurz
             $planSortedAssoc = self::getPlanSortedAssoc($planovaneKurzy);
             foreach ($aktivity as $indexAktivity=>$aktivita) {
                 $planKurz = $planSortedAssoc[$indexAktivity] ?? null;

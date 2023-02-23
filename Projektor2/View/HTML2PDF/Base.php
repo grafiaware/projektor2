@@ -32,7 +32,7 @@ abstract class Projektor2_View_HTML2PDF_Base extends Framework_View_Abstract imp
      */
     public function save($relativeFilePath) {
         $this->relativeDocumentFilePath = $relativeFilePath;
-        $this->fullFileName = Projektor2_AppContext::getFileBaseFolder().$relativeFilePath;
+        $this->fullFileName = Config_AppContext::getFileBaseFolder().$relativeFilePath;
 
         define('FPDF_FONTPATH', self::FPDF_FONTPATH);  //běhová konstanta potřebná pro fpdf
         $this->pdfObject = $this->createPDFObject();
@@ -61,7 +61,7 @@ abstract class Projektor2_View_HTML2PDF_Base extends Framework_View_Abstract imp
 
     public function getNewWindowOpenerCode() {
         $code =  '<script type ="text/javascript">
-                    FullFileName="'.Projektor2_AppContext::getHttpFileBasePath().$this->relativeDocumentFilePath.'";
+                    FullFileName="'.Config_AppContext::getHttpFileBasePath().$this->relativeDocumentFilePath.'";
                   </script>';
         return $code;
     }

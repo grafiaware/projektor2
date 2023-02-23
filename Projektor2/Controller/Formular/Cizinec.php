@@ -49,9 +49,9 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
             $this->saveFlatTableModels();
 
             // ukládání uploadu
-            $fileBaseFolder = Projektor2_AppContext::getFileBaseFolder();
+            $fileBaseFolder = Config_AppContext::getFileBaseFolder();
             $uploadedFolderPath =
-                    Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod)
+                    Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod)
                     .'upload/';
             $osobaFolder =
                     $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]->prijmeni
@@ -75,7 +75,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
                         $this->uploadCollection[$uploadType] = Projektor2_Model_Db_ZaUploadMapper::create(
                                 $this->sessionStatus->getUserStatus()->getZajemce()->id, $uploadType,
                                 $uploadedFilefullFilepath,
-                                $this->sessionStatus->getUserStatus()->getUser()->name, __CLASS__, Projektor2_AppContext::getDb()->getDbHost()
+                                $this->sessionStatus->getUserStatus()->getUser()->name, __CLASS__, Config_AppContext::getDb()->getDbHost()
                             );
                     }
                 }
@@ -158,7 +158,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
         $fileName = $this->sessionStatus->getUserStatus()->getProjekt()->kod.'_'.'smlouva'.' '.$this->sessionStatus->getUserStatus()->getZajemce()->identifikator.'.pdf';
         $view->assign('file', $fileName);
 
-        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
+        $relativeFilePath = Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
         $view->save($relativeFilePath);
         $htmlResult = $view->getNewWindowOpenerCode();
 

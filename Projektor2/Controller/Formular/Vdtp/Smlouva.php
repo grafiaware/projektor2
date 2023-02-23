@@ -34,7 +34,7 @@ class Projektor2_Controller_Formular_Vdtp_Smlouva extends Projektor2_Controller_
         $fileName = $this->sessionStatus->getUserStatus()->getProjekt()->kod.'_'.'smlouva'.' '.$this->sessionStatus->getUserStatus()->getZajemce()->identifikator.'.pdf';
         $view->assign('file', $fileName);
 
-        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
+        $relativeFilePath = Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
         $view->save($relativeFilePath);
         $htmlResult = $view->getNewWindowOpenerCode();
 

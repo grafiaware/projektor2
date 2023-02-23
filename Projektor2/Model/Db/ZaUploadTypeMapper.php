@@ -7,7 +7,7 @@ class Projektor2_Model_Db_ZaUploadTypeMapper {
      * @return \Projektor2_Model_Db_ZaUploadType
      */
     public static function get($type) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "
 SELECT `za_upload_type`.`type`,
     `za_upload_type`.`popis`
@@ -26,7 +26,7 @@ WHERE `type`=:type
      * @return \Projektor2_Model_Db_ZaUploadType[]
      */
     public static function findAll() {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "
 SELECT `za_upload_type`.`type`,
     `za_upload_type`.`popis`
@@ -45,7 +45,7 @@ FROM `za_upload_type`
      * @return \Projektor2_Model_Db_ZaUploadType|null
      */
     public static function create($uploadType, $popis) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $modelUpload = new Projektor2_Model_Db_ZaUploadType($uploadType, $popis);
 
@@ -95,7 +95,7 @@ FROM `za_upload_type`
     }
 
     public static function update(Projektor2_Model_Db_ZaUploadType $zaUploadType) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         foreach ($zaUploadType as $key => $value) {
                 $set[] = $key.'=:'.$key;
                 $bindParams[$key] = $value;
@@ -112,7 +112,7 @@ FROM `za_upload_type`
     }
 
     public static function delete(Projektor2_Model_Db_ZaUploadType $zaUploadType) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
 
         $query = "DELETE FROM za_upload_type WHERE type=:type";
         $bindParams = ['type'=>$zaUploadType->type];

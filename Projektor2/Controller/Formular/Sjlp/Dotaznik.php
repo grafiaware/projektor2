@@ -34,7 +34,7 @@ class Projektor2_Controller_Formular_Sjlp_Dotaznik extends Projektor2_Controller
 //        $view->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator);
 
         $fileName = $this->sessionStatus->getUserStatus()->getProjekt()->kod.'_'.'dotaznik'.' '.$this->sessionStatus->getUserStatus()->getZajemce()->identifikator.'.pdf';
-        $relativeFilePath = Projektor2_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
+        $relativeFilePath = Config_AppContext::getRelativeFilePath($this->sessionStatus->getUserStatus()->getProjekt()->kod).$fileName;
         $view->save($relativeFilePath);
         $htmlResult .= $view->getNewWindowOpenerCode();
         

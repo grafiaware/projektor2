@@ -18,7 +18,7 @@ class Projektor2_Service_CertifikatProjekt {
             $modelDocumentCertifikatOriginal = Projektor2_Model_File_CertifikatProjektOriginalMapper::findByRelativeFilepath($modelDbCertifikat->filename);
             if (!isset($modelDocumentCertifikatOriginal)) {
                 throw new LogicException('Nalezen certifikat v databázi a nenalezen odpovídající soubor s pdf dokumentem. Certifikát id: '.$modelDbCertifikat->id
-                        .', filename: '.Projektor2_AppContext::getFileBaseFolder().$modelDbCertifikat->filename);
+                        .', filename: '.Config_AppContext::getFileBaseFolder().$modelDbCertifikat->filename);
             }
             // Obsah není třeba - čte se soubor přes javascriptový opener. Kdyby byl potřeba, tak třeba takto:
 //            $modelCertifikatProjektDokument = Projektor2_Model_File_CertifikatProjektOriginalMapper::hydrate($modelDocumentCertifikatOriginal);
@@ -119,7 +119,7 @@ class Projektor2_Service_CertifikatProjekt {
         $models = $this->createProjektOsvedceniModels($zajemce);
         $context = $this->createContextFromModels($models);
         $pdfView->appendContext($context);
-        $texts = Projektor2_AppContext::getCertificateTexts($sessionStatus);
+        $texts = Config_Certificates::getCertificateTexts($sessionStatus);
         $pdfView->assign('signerName', $texts['signerName'])
             ->assign('signerPosition', $texts['signerPosition'])
             //TODO: natvrdo psát např. Plzeň - píše se kancelář, do které jsi přihlášen

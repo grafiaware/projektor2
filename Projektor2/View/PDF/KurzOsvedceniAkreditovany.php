@@ -20,7 +20,7 @@ class Projektor2_View_PDF_KurzOsvedceniAkreditovany extends Projektor2_View_PDF_
         $pomer = $vyska/$vyskaObrazku;
         $sirka = $sirkaObrazku*$pomer;
         $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
-        $this->pdf->Image(Projektor2_AppContext::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        $this->pdf->Image(Config_Certificates::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
 
         Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany::createContent($this->pdf, $this->context, $this, 0.6);
         //##################################################################################################

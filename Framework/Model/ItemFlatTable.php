@@ -37,7 +37,7 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         if (isset($mainObject)) {
             $this->initializeMainObject($mainObject);
         }
-        $this->dbh = Projektor2_AppContext::getDb();
+        $this->dbh = Config_AppContext::getDb();
         // jedno načtení trvá cca 10ms, bez cache se jedna struktuta (struktura jedné tabulky) čte průměrně 5x
         $this->attributes = Framework_Database_Cache::getAttributes($this->dbh, $this->tableName);
         $this->primaryKeyColumnName = Framework_Database_Cache::getPrimaryKeyName($this->dbh, $this->tableName);

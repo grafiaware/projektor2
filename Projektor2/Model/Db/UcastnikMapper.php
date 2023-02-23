@@ -2,7 +2,7 @@
 class Projektor2_Model_Db_UcastnikMapper {
     
     public static function find_by_id($id) {
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         $query = "SELECT ucastnik.id_ucastnik,
                         ucastnik.cislo_ucastnika,
                         ucastnik.identifikator,
@@ -43,7 +43,7 @@ class Projektor2_Model_Db_UcastnikMapper {
             throw new Exception ("Cannot create new ucastnik - kancelar,projekt,beh - one or more are not setted or setted improperly");
         }
         
-        $dbh = Projektor2_AppContext::getDb();
+        $dbh = Config_AppContext::getDb();
         
         //$query="call new_ucastnik(:1,:2,:3)";
         //$dbh->prepare($query)->execute($Ucastnik->getUserStatus()->getProjekt()->id,$Ucastnik->getUserStatus()->getKancelar()->id,$Ucastnik->getUserStatus()->getBeh()->id);

@@ -16,8 +16,8 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
     public function getResultOLD() {
         $zajemci = Projektor2_Model_Db_ZajemceMapper::findAllForProject();
         if ($zajemci) {
-            ini_set('max_execution_time', Projektor2_AppContext::getExportCertifMaxExucutionTime());
-            $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->getUserStatus()->getProjekt()->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
+            ini_set('max_execution_time', Config_Certificates::getExportCertifMaxExucutionTime());
+            $logger = Framework_Logger_File::getInstance(Config_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->getUserStatus()->getProjekt()->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
             $aktivity = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
             foreach ($aktivity as $indexAktivity => $aktivita) {
                 if (isset($aktivita['tiskni_certifikat']) AND $aktivita['tiskni_certifikat']) {
@@ -82,8 +82,8 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
 
         $zajemci = Projektor2_Model_Db_ZajemceMapper::find("zajemce.id_zajemce IN ($inPlaceholders)", $inBinds, "identifikator");
         if ($zajemci) {
-            ini_set('max_execution_time', Projektor2_AppContext::getExportCertifMaxExucutionTime());
-            $logger = Framework_Logger_File::getInstance(Projektor2_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->getUserStatus()->getProjekt()->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
+            ini_set('max_execution_time', Config_Certificates::getExportCertifMaxExucutionTime());
+            $logger = Framework_Logger_File::getInstance(Config_AppContext::getLogsPath().'ExportCertikatu/', $this->sessionStatus->getUserStatus()->getProjekt()->kod.' Exportovane certifikaty projekt '.date('Ymd_His'));
             if ($createCertifikat) {
                 $verze= 'original';
                 $certifikat = $this->readOrCreateCertificate($aktivitaPlan, $verze, zajemce);

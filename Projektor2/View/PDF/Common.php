@@ -167,7 +167,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'SJLP':
             case 'MB':
                 self::completeHeader("./img/loga/logo_OPZ.png", 0, 5, 60, 22, 'L');
-                $texts = Projektor2_AppContext::getCertificateTexts($this->sessionStatus);
+                $texts = Config_Certificates::getCertificateTexts($this->sessionStatus);
                 self::completeFooter( $textPaticky . $texts['financovan'], $cislovani);
                 break;
             case 'CJC':

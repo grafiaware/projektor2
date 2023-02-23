@@ -26,7 +26,7 @@ class Projektor2_View_HTML_RegistraceUP extends Framework_View_Abstract {
         $zaUploadType = $registation['zaUploadType'];            /** @var Projektor2_Model_Db_ZaUpload $zaUpload */
         $zaUpload = $registation['zaUpload'];
         if (isset($zaUpload)) {
-            $fileBaseHref = Projektor2_AppContext::getHttpFileBasePath();
+            $fileBaseHref = Config_AppContext::getHttpFileBasePath();
             $fileSubpath = $zaUpload->filename;
             $displayedFilename = substr($fileSubpath, strpos($fileSubpath, 'upload/')-strlen($fileSubpath)+7);  // od 'upload/ doprava
             $aDownload =

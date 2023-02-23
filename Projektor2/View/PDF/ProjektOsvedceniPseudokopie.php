@@ -1,6 +1,6 @@
 <?php
 /**
-* Description of 
+* Description of
 *
 * @author pes2704
 */
@@ -8,8 +8,8 @@ class Projektor2_View_PDF_ProjektOsvedceniPseudokopie extends Projektor2_View_PD
     const MODEL_DOTAZNIK = "dotaznik";
     const MODEL_UKONCENI = "ukonceni";
 
-    public function createPDFObject() {           
-        $this->setHeaderFooter($this->context['text_paticky'], FALSE);        
+    public function createPDFObject() {
+        $this->setHeaderFooter($this->context['text_paticky'], FALSE);
         $this->initialize();
         //*****************************************************
         $odsazeniPozadiShora = 28;
@@ -19,14 +19,14 @@ class Projektor2_View_PDF_ProjektOsvedceniPseudokopie extends Projektor2_View_PD
         $pomer = $vyska/$vyskaObrazku;
         $sirka = $sirkaObrazku*$pomer;
         $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
-        $this->pdf->Image(Projektor2_AppContext::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);  
- 
+        $this->pdf->Image(Config_Certificates::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+
         Projektor2_View_PDF_Helper_ProjektOsvedceni::createContent($this->pdf, $this->context, $this);
         //##################################################################################################
         $datumCertif = Projektor2_Date::createFromSqlDate($this->context['certifikat']->date)->getCzechStringDate();
         $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $datumCertif);
         $this->pdf->Ln(20);
-        $this->tiskniPodpisCertifikat();      
+        $this->tiskniPodpisCertifikat();
     }
 }
 ?>
