@@ -24,6 +24,7 @@ $logger = new Projektor2_Logger_RequestLogger(
         );
 
 $sessionStatus = Projektor2_Model_Status::create($session);
+$sessionStatus->setLastGet($request);
 $logger->log($sessionStatus, $request);
 
 $pageController = new Projektor2_Controller_Page($sessionStatus, $request, $response);
