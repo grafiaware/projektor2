@@ -6,6 +6,7 @@
  */
 class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_Abstract {
     private function getLeftMenuArray() {
+        $lastGetRequest = $this->sessionStatus->getLastGet();
         $menuArray[] = ['href'=>'index.php?akce=kurzy', 'text'=>'Zpět na výběr kurzu'];
         return $menuArray;
     }

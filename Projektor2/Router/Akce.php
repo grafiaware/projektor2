@@ -24,9 +24,11 @@ class Projektor2_Router_Akce {
                     $ctrl = $routerKurzy->getController();
                     break;
                 case 'osoby':
-                default:
                     $routerOsoby = new Projektor2_Router_Osoby($this->sessionStatus, $this->request, $this->response);
                     $ctrl = $routerOsoby->getController();
+                    break;
+                default:
+                    $ctrl = new Projektor2_Controller_NoContent($this->sessionStatus, $this->request, $this->response);
                     break;
             }
             return $ctrl;

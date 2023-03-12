@@ -31,18 +31,20 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
         $html[] =
             Html::tag("form", ["method"=>"POST", "enctype"=>"multipart/form-data", "action"=>"index.php?akce=osoby&osoby=form&form&form=cizinec"],
                 #### p pro table generovanou z json ############
+                #
                 Html::tag("fieldset", [],
                     Html::tag("legend", [], "Vyhledání osoby v údajích Google form"),
                     Html::input($prefixCizinec."person_json", "", $poleCizinec, ["id"=>"person_json", "type"=>"hidden"]),
                     Html::tag("p", ["id"=>"person"])
                 ),
+                #
                 ####################
                 Html::tag("fieldset", [],
                     Html::tag("legend", [], "Osobní údaje"),
                     Html::tag("p", [],
                         Html::input($prefixDotaznik.'titul', "Titul:", $poleDotaznik, ["type"=>"text", "size"=>"3", "maxlength"=>"10"]),
                         Html::input($prefixDotaznik.'jmeno', "Jméno:", $poleDotaznik, ["type"=>"text", "size"=>"20", "maxlength"=>"50", "required"=>true]),
-                        #### hint mobil ############
+                        #### hint prijmeni ############
                         Html::input($prefixDotaznik.'prijmeni', "Začněte psát příjmení:", $poleDotaznik,
                                 ["id"=>"name_input", "type"=>"text", "size"=>"20", "maxlength"=>"50",
                                 "list"=>"name_hints_list", "onkeyup"=>"showHint('name_hints_list', 'name', this.value)"]),
@@ -52,8 +54,6 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                                 ["type"=>"button", "onclick"=>"showPerson('name_input', 'name')"],
                                 "Najdi osobu z Google formuláře podle příjmení"),
                         ################
-//                        $this->context['uk_hint_prijmeni'],
-//                        Html::input($prefixDotaznik.'prijmeni', "Příjmení:", $poleDotaznik, ["type"=>"text", "size"=>"20", "maxlength"=>"50", "required"=>true]),
                         Html::input($prefixDotaznik.'titul_za', "Titul za:", $poleDotaznik, ["type"=>"text", "size"=>"3", "maxlength"=>"10"]),
                         Html::select($prefixDotaznik.'pohlavi', "Pohlaví:", ["", "muž", "žena"], $poleDotaznik, ["id"=>"pohlavi", "required"=>true]),  // id pro javascript
                     ),
@@ -81,35 +81,30 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                     Html::tag("fieldset", [],
                         Html::tag("legend", [], "Telefon a email"),
                         Html::tag("p", [],
-                        #### hint mobil ############
-                        Html::input($prefixDotaznik.'mobilni_telefon', "Začněte psát telefonní číslo:", $poleDotaznik,
-                                ["id"=>"phone_input", "type"=>"tel", "size"=>"15", "maxlength"=>"15",
-                                "list"=>"phone_hints_list", "onkeyup"=>"showHint('phone_hints_list', 'phone', this.value)"]),
-                        Html::tag("datalist", ["id"=>"phone_hints_list"]),
-                        // type="button" neodesílá form
-                        Html::tag("button",
-                                ["type"=>"button", "onclick"=>"showPerson('phone_input', 'phone')"],
-                                "Najdi osobu z Google formuláře podle telefonu"),
-                        ################
-
-//                                $this->context['uk_hint_mobil'],
-//                            Html::input($prefixDotaznik.'mobilni_telefon', "Mobilní telefon:", $poleDotaznik, ["type"=>"tel", "size"=>"15", "maxlength"=>"15"]),  //, "required"=>true]),
-
-                              Html::input($prefixDotaznik.'dalsi_telefon', "Další telefon:", $poleDotaznik, ["type"=>"tel", "size"=>"15", "maxlength"=>"15"]),
+                            #### hint mobil ############
+                            Html::input($prefixDotaznik.'mobilni_telefon', "Začněte psát telefonní číslo:", $poleDotaznik,
+                                    ["id"=>"phone_input", "type"=>"tel", "size"=>"20", "maxlength"=>"55",
+                                    "list"=>"phone_hints_list", "onkeyup"=>"showHint('phone_hints_list', 'phone', this.value)"]),
+                            Html::tag("datalist", ["id"=>"phone_hints_list"]),
+                            // type="button" neodesílá form
+                            Html::tag("button",
+                                    ["type"=>"button", "onclick"=>"showPerson('phone_input', 'phone')"],
+                                    "Najdi osobu z Google formuláře podle telefonu"),
+                            ################
+                            Html::input($prefixDotaznik.'dalsi_telefon', "Další telefon:", $poleDotaznik, ["type"=>"tel", "size"=>"15", "maxlength"=>"15"]),
                             Html::input($prefixDotaznik.'popis_telefon', "Popis:", $poleDotaznik, ["type"=>"text", "size"=>"40", "maxlength"=>"100"])
                         ),
                         Html::tag("p", [],
-                        #### hint email ############
-                        Html::input($prefixDotaznik.'mail', "Začněte psát email:", $poleDotaznik,
-                                ["id"=>"email_input", "type"=>"email", "size"=>"40", "maxlength"=>"50",
-                                "list"=>"email_hints_list", "onkeyup"=>"showHint('email_hints_list', 'email', this.value)"]),
-                        Html::tag("datalist", ["id"=>"email_hints_list"]),
-                        // type="button" neodesílá form
-                        Html::tag("button",
-                                ["type"=>"button", "onclick"=>"showPerson('email_input', 'email')"],
-                                "Najdi osobu z Google formuláře podle emailu"),
-                        ################
-//                            Html::input($prefixDotaznik.'mail', "e-mail:", $poleDotaznik, ["type"=>"email", "size"=>"40"])
+                            #### hint email ############
+                            Html::input($prefixDotaznik.'mail', "Začněte psát email:", $poleDotaznik,
+                                    ["id"=>"email_input", "type"=>"email", "size"=>"40", "maxlength"=>"50",
+                                    "list"=>"email_hints_list", "onkeyup"=>"showHint('email_hints_list', 'email', this.value)"]),
+                            Html::tag("datalist", ["id"=>"email_hints_list"]),
+                            // type="button" neodesílá form
+                            Html::tag("button",
+                                    ["type"=>"button", "onclick"=>"showPerson('email_input', 'email')"],
+                                    "Najdi osobu z Google formuláře podle emailu"),
+                            ################
                         )
                     )
                 ),
@@ -148,7 +143,7 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                                 $poleCizinec
                             )
                         ),
-                            Html::tag("div", ["class"=>"rightcolumn"], $this->context['rekvalifikace_up'])
+                        Html::tag("div", ["class"=>"rightcolumn"], $this->context['rekvalifikace_up'])
                     )
                 ),
                 Html::tag("p", [],

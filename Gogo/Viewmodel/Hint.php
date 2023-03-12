@@ -42,7 +42,7 @@ class Hint extends ViewmodelAbstract {
                     //obsahuje
                     if (strpos($value, $q) !== false) {
                         $hintValue = "";
-                        $this->viewHydrator->hydrate($hintValue, $value);
+                        $this->viewHydrator->hydrate($hintValue, $rowArray);
                         $hint[] = $hintValue;
                     }
                 }

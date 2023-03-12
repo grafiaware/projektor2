@@ -103,40 +103,42 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
             ];
         $contextRegistrace = [
                 [
-                    'zaUploadType'=>$this->typeCollection['registrace zájemce'], 'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'registrace zájemce'],
-                    'datum_reg_name'=>'datum_reg_zadost_zajemce', 'datum_reg_text'=>'Datum žádosti o registraci zájemce na ÚP'
+                    'zaUploadType'=>$this->typeCollection['registrace zájemce'],
+                    'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'registrace zájemce'],
+                    'datum_reg_name'=>'datum_reg_zadost_zajemce',
+                    'datum_reg_text'=>'Datum žádosti o registraci zájemce na ÚP'
                 ],
                 [
-                    'datum_reg_name'=>'datum_reg_zajemce', 'datum_reg_text'=>'Datum registrace zájemce na ÚP'
+                    'datum_reg_name'=>'datum_reg_zajemce',
+                    'datum_reg_text'=>'Datum registrace zájemce na ÚP'
                 ],
                 [
-                    'zaUploadType'=>$this->typeCollection['registrace uchazeč'], 'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'registrace uchazeč'],
-                    'datum_reg_name'=>'datum_reg_zadost_uchazec', 'datum_reg_text'=>'Datum žádosti o registraci uchazeče na ÚP'
+                    'zaUploadType'=>$this->typeCollection['registrace uchazeč'],
+                    'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'registrace uchazeč'],
+                    'datum_reg_name'=>'datum_reg_zadost_uchazec',
+                    'datum_reg_text'=>'Datum žádosti o registraci uchazeče na ÚP'
                 ],
                 [
-                    'datum_reg_name'=>'datum_reg_uchazec', 'datum_reg_text'=>'Datum registrace uchazeče na ÚP'
+                    'datum_reg_name'=>'datum_reg_uchazec',
+                    'datum_reg_text'=>'Datum registrace uchazeče na ÚP'
                 ]
             ];
         $contextRekvalifikace = [
                 [
-                    'zaUploadType'=>$this->typeCollection['rekvalifikace zájemce'], 'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'rekvalifikace zájemce'],
-                    'datum_reg_name'=>'datum_rk_zadost_1', 'datum_reg_text'=>'Datum zájmu o rekvalifikaci na ÚP'
+                    'zaUploadType'=>$this->typeCollection['rekvalifikace zájemce'],
+                    'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'rekvalifikace zájemce'],
+                    'datum_reg_name'=>'datum_rk_zadost_1',
+                    'datum_reg_text'=>'Datum zájmu o rekvalifikaci na ÚP'
                 ],
                 [
-                    'zaUploadType'=>$this->typeCollection['rekvalifikace uchazeč'], 'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'rekvalifikace uchazeč'],
-                    'datum_reg_name'=>'datum_rk_zadost_2', 'datum_reg_text'=>'Datum zájmu o rekvalifikaci na ÚP'
+                    'zaUploadType'=>$this->typeCollection['rekvalifikace uchazeč'],
+                    'zaUpload'=>$this->uploadCollection[$idZajemce.'-'.'rekvalifikace uchazeč'],
+                    'datum_reg_name'=>'datum_rk_zadost_2',
+                    'datum_reg_text'=>'Datum zájmu o rekvalifikaci na ÚP'
                 ],
             ];
 
         $view = new Projektor2_View_HTML_Formular_Cizinec($this->sessionStatus, $context);
-
-//        $ukHintHtml = (new Projektor2_View_HTML_Cjc_HintView($this->sessionStatus, $context))->render();
-//        $view->assign("uk_hint_fieldset", $ukHintHtml);
-
-//        $view->assign('uk_hint_script', (new Projektor2_View_HTML_Cjc_HintScript($this->sessionStatus, $context))->render());
-//        $view->assign('uk_hint_hidden', (new Projektor2_View_HTML_Cjc_HintHidden($this->sessionStatus, $context))->render());
-//        $view->assign('uk_hint_prijmeni', (new Projektor2_View_HTML_Cjc_HintPrijmeni($this->sessionStatus, $context))->render());
-//        $view->assign('uk_hint_mobil', (new Projektor2_View_HTML_Cjc_HintMobil($this->sessionStatus, $context))->render());
 
         $viewRegistrace = new Projektor2_View_HTML_RegistraceUP($this->sessionStatus, $context);
         $viewRegistrace->assign("registrace", $contextRegistrace);

@@ -34,6 +34,7 @@ function showHint(datalistId, type, str) {
                   // Create a new <option> element.
                   var option = document.createElement('option');
                   option.value = item;
+                  option.innerText = item;
                   dataList.appendChild(option);
                 });
             }

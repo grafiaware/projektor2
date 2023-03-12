@@ -11,6 +11,9 @@ use Gogo\Hydrator\HydratorInterface;
 class PhoneHintHydrator implements HydratorInterface {
     /**
      * Pro zobrazení - generuje hodnoty phone hintů
+     *
+     * Jako hint se zobrazují původní data (z sheet) - jen pro zarovnané zobrazení trim
+     *
      * @param type $phoneModel
      * @param type $phoneData
      */
@@ -19,11 +22,14 @@ class PhoneHintHydrator implements HydratorInterface {
     }
 
     /**
-     * Pro práci s daty - generuje hodnoty pro vyhledávání v datech
+     * Pro práci s daty - generuje hodnoty pro vyhledávání v datech - pro porovnávání
+     *
+     * Porovnávají se hodnoty (telefonní čísla) složené jen z číslic - jiné znaky mažu
+     *
      * @param type $phoneModel
      * @param type $phoneData
      */
     public function extract(&$phoneModel, &$phoneData) {
-        $phoneData = $phoneModel;
+        $phoneData = preg_replace('~\D~', '', $phoneModel);
     }
 }
