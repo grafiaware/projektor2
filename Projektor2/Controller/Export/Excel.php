@@ -49,8 +49,6 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                                 self::SELECT_NAME,
                                 [
                                     ''=>'',
-                                    'osoby v projektu'=>'template|osoby projekt',
-                                    'osoby v kanceláři'=>'template|osoby kancelar',
                                     'cizinci v projektu'=>'template|cizinci projekt'
                                 ]
                             );
@@ -66,7 +64,7 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                                     'osoby v kanceláři'=>'template|osoby kancelar'
                                 ]
                             );
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?osoby=excel");
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=osoby&osoby=excel");
                             $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=seznam', 'text'=>'Zpět na seznam osob'];
                             break;
                     }

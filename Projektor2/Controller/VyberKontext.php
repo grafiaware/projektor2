@@ -7,7 +7,7 @@
 class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract {
 
     private function performPostActions() {
-        if ($this->request->isPost() AND null!==$this->request->get("kontext")) {
+        if ($this->request->isPost()) {
             if ($this->request->post('id_kancelar')) {
                 $kancelar = Projektor2_Model_Db_KancelarMapper::getValid($this->request->post('id_kancelar'));
                 $this->sessionStatus->getUserStatus()->setKancelar($kancelar);
@@ -60,8 +60,12 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
                 $this->sessionStatus->getUserStatus()->setSKurz($sKurz);
             }
             // odkaz z left menu Nový kurz - smazání kurzu ze session
-            if ($this->request->get('novy_kurz')==="") {  // hodnota je prázdný string
-                $this->sessionStatus->getUserStatus()->setSKurz();
+//            if ($this->request->get('novy_kurz')==="") {  // hodnota je prázdný string
+//                $this->sessionStatus->getUserStatus()->setSKurz();
+//            }
+            // odkaz z formaction buttonu výběr akce
+            if ($this->request->get('akce')) {
+                $this->sessionStatus->getUserStatus()->setAkce($this->request->get('akce'));
             }
         }
         // obsah zobrazený vždy

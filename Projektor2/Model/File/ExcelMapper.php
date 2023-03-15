@@ -108,12 +108,13 @@ class Projektor2_Model_File_ExcelMapper {
     private static function setCellFromDateType(PHPExcel_Cell $cell, $value) {
         $datum = PHPExcel_Shared_Date::PHPToExcel(DateTime::createFromFormat(self::SQL_FORMAT, $value));
         $cell->setValue($datum);
-        $cell->getStyle()->getNumberFormat()->setFormatCode("D.M.YYYY");
+        $cell->getStyle()->getNumberFormat()->setFormatCode("DD.MM.YYYY");
     }
 
     private static function setCellFromDatumColumn(PHPExcel_Cell $cell, $value) {
-        $cell->setValue($value);
-        $cell->getStyle()->getNumberFormat()->setFormatCode("D.M.YYYY");
+        $datum = PHPExcel_Shared_Date::PHPToExcel(DateTime::createFromFormat(self::SQL_FORMAT, $value));
+        $cell->setValue($datum);
+        $cell->getStyle()->getNumberFormat()->setFormatCode("DD.MM.YYYY");
     }
 
     private static function autosizeAll(PHPExcel $objPHPExcel, bool $value) {
