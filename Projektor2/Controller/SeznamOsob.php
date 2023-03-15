@@ -10,8 +10,8 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
         if ($this->hasBeh()) {
             $menuArray[] = ['href'=>'index.php?osoby=form&form=novy_zajemce&novy_zajemce', 'text'=>'Nová osoba'];
         }
-        $menuArray[] = ['href'=>'index.php?osoby=excel', 'text'=>'Exporty dat'];
-        $menuArray[] = ['href'=>'index.php?osoby=export_certifikaty_projekt', 'text'=>'Exportuj projektové certifikáty'];
+        $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=excel', 'text'=>'Exporty dat'];
+        $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=export_certifikaty_projekt', 'text'=>'Exportuj projektové certifikáty'];
         return $menuArray;
     }
 
