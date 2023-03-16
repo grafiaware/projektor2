@@ -1,13 +1,12 @@
 <?php
 class Projektor2_Viewmodel_OsobaMenuViewmodel {
-    //tabulka zajemce
-    CONST TABLE = "zajemce";
+
     public $id;
     public $jmeno_cele;
     public $identifikator;
     public $znacka;
 
-    private  $skupiny = array();
+    private  $groups = array();
 
     public function __construct(Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
         $this->id = $zajemceDbReadOsobniUdaje->id;
@@ -24,18 +23,12 @@ class Projektor2_Viewmodel_OsobaMenuViewmodel {
     private function jmenoCele(Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
         return implode(' ', array($zajemceDbReadOsobniUdaje->prijmeni, $zajemceDbReadOsobniUdaje->jmeno, $zajemceDbReadOsobniUdaje->titul, $zajemceDbReadOsobniUdaje->titul_za)); //začíná příjmením
     }
-//
-//    public function setSkupina($name, Projektor2_Viewmodel_Menu_Skupina $skupina) {
-//        $this->skupiny[$name] = $skupina;
-//    }
 
-    public function setSkupina(Projektor2_Viewmodel_Menu_Group $skupina) {
-        $this->skupiny[] = $skupina;
+    public function addGroup(Projektor2_Viewmodel_Menu_Group $group) {
+        $this->groups[] = $group;
     }
 
-    public function getSkupinyAssoc() {
-        return $this->skupiny;
+    public function getGroups() {
+        return $this->groups;
     }
-
 }
-?>

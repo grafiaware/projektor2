@@ -55,7 +55,7 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
         $this->certifikatyKurz = $certifikatyKurz;
 
         $this->defaultDatumCertif =
-                $datumCertif = $this->datumCertif
+                isset($this->datumCertif)
                 ? $this->datumCertif
                 : ($this->sKurz->date_zaverecna_zkouska ? $this->sKurz->date_zaverecna_zkouska : $this->sKurz->date_konec);
 

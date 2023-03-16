@@ -13,7 +13,7 @@ class Projektor2_Controller_Element_MenuKurz_Skupina extends Projektor2_Controll
          /** @var Projektor2_Viewmodel_OsobaMenuViewmodel $viewmodelKurz */
         $viewmodelKurz = $this->params[self::VIEWMODEL_KURZ];
         $html = '';
-        foreach ($viewmodelKurz->getSkupinyAssoc() as $skupina) {
+        foreach ($viewmodelKurz->getGroups() as $skupina) {
             foreach ($skupina->getButtons() as $tlacitko) {
                 $view = new Projektor2_View_HTML_Element_Kurz_TdTlacitko($this->sessionStatus);
                 $view->appendContext([

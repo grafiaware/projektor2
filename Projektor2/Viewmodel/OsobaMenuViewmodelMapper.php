@@ -35,9 +35,9 @@ class Projektor2_Viewmodel_OsobaMenuViewmodelMapper {
     }
 
     public static function create(Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
-        $zajemceRegistrace =  new Projektor2_Viewmodel_OsobaMenuViewmodel($zajemceDbReadOsobniUdaje);
+        $osobaMenuViewModel =  new Projektor2_Viewmodel_OsobaMenuViewmodel($zajemceDbReadOsobniUdaje);
         // nastaví skupiny objeku zajemceRegistrace
-        return Config_MenuOsoba::setSkupinyZajemce($zajemceRegistrace, $zajemceDbReadOsobniUdaje->zajemce);
+        return Config_MenuOsoba::setSkupinyZajemce($osobaMenuViewModel, $zajemceDbReadOsobniUdaje->zajemce);
     }
 
     ######### PRIVATE #######################

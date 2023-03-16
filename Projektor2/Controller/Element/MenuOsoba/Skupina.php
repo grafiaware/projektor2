@@ -10,7 +10,7 @@ class Projektor2_Controller_Element_MenuOsoba_Skupina extends Projektor2_Control
          /** @var Projektor2_Viewmodel_OsobaMenuViewmodel $zajemceRegistrace */
         $zajemceRegistrace = $this->params;
         $html = '';
-        foreach ($zajemceRegistrace->getSkupinyAssoc() as $skupina) {
+        foreach ($zajemceRegistrace->getGroups() as $skupina) {
             foreach ($skupina->getButtons() as $tlacitko) {
                 $view = new Projektor2_View_HTML_Element_Zajemce_TdTlacitko($this->sessionStatus);
                 $view->appendContext(array('model'=>$tlacitko, 'zajemceRegistrace'=>$zajemceRegistrace));

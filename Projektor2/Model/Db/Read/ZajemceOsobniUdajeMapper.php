@@ -9,8 +9,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function findById($id) {
         $dbh = Config_AppContext::getDb();
-        $query = "SELECT zajemce.id_zajemce, zajemce.cislo_zajemce, zajemce.identifikator, zajemce.znacka,
-                        zajemce.id_c_projekt_FK, zajemce.id_c_kancelar_FK, zajemce.id_s_beh_projektu_FK,
+        $query = "SELECT zajemce.id_zajemce, zajemce.identifikator, zajemce.znacka,
                         za_flat_table.jmeno,
                         za_flat_table.prijmeni, za_flat_table.datum_narozeni, za_flat_table.rodne_cislo,
                         za_flat_table.pohlavi, za_flat_table.titul, za_flat_table.titul_za
@@ -26,11 +25,10 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
         if(!$data) {
             return NULL;
         }
-        $zajemce = new Projektor2_Model_Db_Zajemce($data['cislo_zajemce'], $data['identifikator'], $data['znacka'], $data['id_c_projekt_FK'], $data['id_c_kancelar_FK'], $data['id_s_beh_projektu_FK'], $data['id_zajemce']);
-        $zajemceOsobniUdaje = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje($id, $zajemce, $jmeno, $prijmeni, $rodne_cislo, $datum_narozeni, $pohlavi, $titul, $titul_za);
-        return new Projektor2_Model_Db_Read_ZajemceOsobniUdaje($data['id_zajemce'], $data['identifikator'], $data['znacka'], $zajemce,
-                            $data['jmeno'], $data['prijmeni'], $data['datum_narozeni'], $data['rodne_cislo'],
-                            $data['pohlavi'], $data['titul'], $data['titul_za']    );
+        return new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
+                    $data['id_zajemce'], $data['identifikator'], $data['znacka'], 
+                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi']
+                );
     }
 
     /**
@@ -43,8 +41,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function find($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE) {
         $dbh = Config_AppContext::getDb();
-        $query = "SELECT zajemce.id_zajemce, zajemce.cislo_zajemce, zajemce.identifikator, zajemce.znacka,
-                        zajemce.id_c_projekt_FK, zajemce.id_c_kancelar_FK, zajemce.id_s_beh_projektu_FK,
+        $query = "SELECT zajemce.id_zajemce, zajemce.identifikator, zajemce.znacka,
                         za_flat_table.jmeno,
                         za_flat_table.prijmeni, za_flat_table.datum_narozeni, za_flat_table.rodne_cislo,
                         za_flat_table.pohlavi, za_flat_table.titul, za_flat_table.titul_za
@@ -72,10 +69,10 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
             return array();
         }
         foreach($radky as $data) {
-            $zajemce = new Projektor2_Model_Db_Zajemce($data['cislo_zajemce'], $data['identifikator'], $data['znacka'], $data['id_c_projekt_FK'], $data['id_c_kancelar_FK'], $data['id_s_beh_projektu_FK'], $data['id_zajemce']);
-            $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje($data['id_zajemce'], $data['identifikator'], $data['znacka'], $zajemce,
-                            $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'],
-                            $data['pohlavi'], $data['titul'], $data['titul_za']    );
+            $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
+                    $data['id_zajemce'], $data['identifikator'], $data['znacka'], 
+                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi']
+                );
         }
 
         return $vypis;
@@ -93,8 +90,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
     public static function findInContext($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE, $findOutOfContext=FALSE) {
         $dbh = Config_AppContext::getDb();
         $appStatus = Projektor2_Model_Status::getSessionStatus();
-        $query = "SELECT zajemce.id_zajemce, zajemce.cislo_zajemce, zajemce.identifikator, zajemce.znacka,
-                        zajemce.id_c_projekt_FK, zajemce.id_c_kancelar_FK, zajemce.id_s_beh_projektu_FK,
+        $query = "SELECT zajemce.id_zajemce, zajemce.identifikator, zajemce.znacka,
                         za_flat_table.jmeno,
                         za_flat_table.prijmeni, za_flat_table.datum_narozeni, za_flat_table.rodne_cislo,
                         za_flat_table.pohlavi, za_flat_table.titul, za_flat_table.titul_za
@@ -136,11 +132,11 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
             return array();
         }
         foreach($radky as $data) {
-            $zajemce = new Projektor2_Model_Db_Zajemce($data['cislo_zajemce'], $data['identifikator'], $data['znacka'], $data['id_c_projekt_FK'], $data['id_c_kancelar_FK'], $data['id_s_beh_projektu_FK'], $data['id_zajemce']);
-            $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje($data['id_zajemce'], $data['identifikator'], $data['znacka'], $zajemce,
-                            $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'],
-                            $data['pohlavi'], $data['titul'], $data['titul_za']    );
-        }
+            $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
+                    $data['id_zajemce'], $data['identifikator'], $data['znacka'], 
+                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi']
+                );
+            }
 
         return $vypis;
     }

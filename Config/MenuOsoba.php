@@ -10,12 +10,12 @@ class Config_MenuOsoba {
     /**
      * Nastaví skupiny tlačítek objeku zajemceRegistrace
      *
-     * @param Projektor2_Viewmodel_OsobaMenuViewmodel $zajemceRegistrace
+     * @param Projektor2_Viewmodel_OsobaMenuViewmodel $osobaMenuViewmodel
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @return \Projektor2_Viewmodel_OsobaMenuViewmodel
      * @throws UnexpectedValueException
      */
-    public static function setSkupinyZajemce(Projektor2_Viewmodel_OsobaMenuViewmodel $zajemceRegistrace, Projektor2_Model_Db_Zajemce $zajemce) {
+    public static function setSkupinyZajemce(Projektor2_Viewmodel_OsobaMenuViewmodel $osobaMenuViewmodel, Projektor2_Model_Db_Zajemce $zajemce) {
         $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $user = $sessionStatus->getUserStatus()->getUser();
         $kod = $sessionStatus->getUserStatus()->getProjekt()->kod;
@@ -50,7 +50,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -72,7 +72,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -85,7 +85,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -98,7 +98,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuZamestnani($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuZamestnani($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
             case 'HELP':
@@ -131,7 +131,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -145,7 +145,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -158,7 +158,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
             case 'SJZP':
@@ -191,7 +191,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -204,7 +204,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -217,7 +217,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -230,7 +230,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuZamestnani($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuZamestnani($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
             case 'VZP':
@@ -245,7 +245,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -258,7 +258,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -271,7 +271,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
             case 'SJPK':
@@ -304,7 +304,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -317,7 +317,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -330,7 +330,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -343,7 +343,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuZamestnani($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuZamestnani($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
 
@@ -359,7 +359,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -372,7 +372,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -385,7 +385,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
 
@@ -401,7 +401,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -414,7 +414,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -427,7 +427,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
 
@@ -443,7 +443,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -456,7 +456,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -469,7 +469,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
 
@@ -503,7 +503,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -516,7 +516,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -529,7 +529,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -542,7 +542,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuZamestnani($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuZamestnani($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
 
@@ -576,7 +576,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -589,7 +589,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -602,7 +602,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -615,7 +615,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuZamestnani($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuZamestnani($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
             case 'VDTP':
@@ -630,7 +630,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -643,7 +643,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -656,7 +656,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
             case 'PDU':
@@ -671,7 +671,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -684,7 +684,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -697,7 +697,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
             case 'MB':
@@ -730,7 +730,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -743,7 +743,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -756,7 +756,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -769,7 +769,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuZamestnani($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuZamestnani($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 break;
             case 'CJC':
@@ -784,7 +784,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuCizinec($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -797,7 +797,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina ukonceni
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -810,7 +810,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
 
                 // skupina zamestnani
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -823,7 +823,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuZamestnani($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuZamestnani($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
                 break;
 
 ##############
@@ -839,7 +839,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -852,7 +852,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
                 break;
 ############
             case 'PKP':
@@ -867,7 +867,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuRegistrace($zajemceRegistrace, $skupina);
+                self::pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina);
 
                 // skupina plan
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -880,7 +880,7 @@ class Config_MenuOsoba {
                     $modelTlacitko->status = 'edit';
                     $skupina->addButton($modelTlacitko);
                 }
-                self::pridejSkupinuPlan($zajemceRegistrace, $skupina, $sessionStatus, $zajemce);
+                self::pridejSkupinuPlan($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce);
                 break;
 
             default:
@@ -889,18 +889,32 @@ class Config_MenuOsoba {
 
         }
 
-        return $zajemceRegistrace;
+        return $osobaMenuViewmodel;
     }
 
-    public static function pridejSkupinuRegistrace($zajemceRegistrace, $skupina) {
+    public static function pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina) {
         if (count($skupina->getButtons())) {
-            $zajemceRegistrace->setSkupina($skupina);
+            $osobaMenuViewmodel->addGroup($skupina);
         }
     }
-
-    public static function pridejSkupinuPlan($zajemceRegistrace, Projektor2_Viewmodel_Menu_Group $skupina, $sessionStatus, $zajemce) {
+    
+    public static function pridejSkupinuCizinec(Projektor2_Viewmodel_OsobaMenuViewmodel $osobaMenuViewmodel, $skupina) {
         if (count($skupina->getButtons())) {
-            $zajemceRegistrace->setSkupina($skupina);
+            $osobaMenuViewmodel->addGroup($skupina);
+            self::addSignalsCizinec($skupina, $osobaMenuViewmodel);
+        }
+    }
+    
+    private static function addSignalsCizinec(Projektor2_Viewmodel_Menu_Group $skupina, Projektor2_Viewmodel_OsobaMenuViewmodel $osobaMenuViewmodel) {
+        $modelSignal = new Projektor2_Viewmodel_Menu_Signal_OsobniUdaje();
+        // použij CollectionFlatTable
+        $modelSignal->setByOsobaMenuViewmodel(new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce));
+        $skupina->addSignal($modelSignal);
+    }  
+    
+    public static function pridejSkupinuPlan($osobaMenuViewmodel, Projektor2_Viewmodel_Menu_Group $skupina, $sessionStatus, $zajemce) {
+        if (count($skupina->getButtons())) {
+            $osobaMenuViewmodel->addGroup($skupina);
             self::addSignalsPlan($skupina, $sessionStatus, $zajemce);
         }
     }
@@ -917,9 +931,9 @@ class Config_MenuOsoba {
         }        
     }
 
-    public static function pridejSkupinuUkonceni($zajemceRegistrace, $skupina, $sessionStatus, $zajemce) {
+    public static function pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce) {
         if (count($skupina->getButtons())) {
-            $zajemceRegistrace->setSkupina($skupina);
+            $osobaMenuViewmodel->addGroup($skupina);
             self::addSignalsUkonceni($skupina, $sessionStatus, $zajemce);
         }
     }
@@ -931,9 +945,9 @@ class Config_MenuOsoba {
         $skupina->addSignal($modelSignal);    
     }
     
-    public static function pridejSkupinuZamestnani($zajemceRegistrace, $skupina, $sessionStatus, $zajemce) {
+    public static function pridejSkupinuZamestnani($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce) {
         if (count($skupina->getButtons())) {
-            $zajemceRegistrace->setSkupina($skupina);
+            $osobaMenuViewmodel->addGroup($skupina);
             self::addSignalsZamestnani($skupina, $sessionStatus, $zajemce);
         }
     }
