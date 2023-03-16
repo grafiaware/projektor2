@@ -19,11 +19,9 @@ class Projektor2_View_HTML_Multilike extends Framework_View_Abstract {
         $this->parts[] = '<form method="post">';
             $this->parts[] = '<fieldset id="vyber_multilike">';
                 $this->parts[] = '<legend>Vyhledávání</legend>';
-
                 $this->parts[] = '<label for="multilike_input" >Zadejte co hledáte:</label>';
                 $this->parts[] = '<input id="multilike_input_text" type="text" name="multiliketext" value="'.$multilikeText.'" placeholder="Obsahuje..." title="'.$titleText.'" onEnter="submitForm(this);"/>';
-                $this->parts[] = '<input id="multilike_input_date" type="date" name="multilikedate" value="'.$multilikeDate.'" title="'.$titleDate.'" onEnter="submitForm(this);"/>';
-//
+                $this->parts[] = '<input id="multilike_input_date" type="date" name="multilikedate" value="'.$multilikeDate.'" title="'.$titleDate.'" onInput="submitForm(this);"/>';
                 $this->parts[] = '<button type="reset" value="Reset" onClick="resetMultilike()">Reset</button>';
         $this->parts[] = '</fieldset>';
         $this->parts[] = '</form>';

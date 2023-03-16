@@ -32,42 +32,38 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
      * Kontext akce přepne GET i POST parametr
      */
     private function performAnyRequestActions() {
-//        if ($this->request->param('akce')) {
-//            $this->sessionStatus->getUserStatus()->setAkce($this->request->param('akce'));
-//        }
+        // odkaz z tlačítka Formular menu nové id_zajemce -> změna zájemce v session
+        if ($this->request->get('id_zajemce')) {
+            $zajemce = Projektor2_Model_Db_ZajemceMapper::get($this->request->get('id_zajemce'));
+            $this->sessionStatus->getUserStatus()->setZajemce($zajemce);
+            $beh = Projektor2_Model_Db_BehMapper::findById($zajemce->id_s_beh_projektu_FK);
+            $this->sessionStatus->getUserStatus()->setBeh($beh);
+        }
+        // odkaz z left menu Nová osoba - smazání zájemce ze session
+        if ($this->request->get('novy_zajemce')==="") {  // hodnota je prázdný string
+            $this->sessionStatus->getUserStatus()->setZajemce();
+        }
+        // odkaz z tlačítka kurz menu nové id_s_kurz -> změna kurzu v session
+        if ($this->request->get('id_s_kurz')) {
+            $sKurz = Projektor2_Model_Db_SKurzMapper::get($this->request->get('id_s_kurz'));
+            $this->sessionStatus->getUserStatus()->setSKurz($sKurz);
+        }
+        // odkaz z left menu Nový kurz - smazání kurzu ze session
+//            if ($this->request->get('novy_kurz')==="") {  // hodnota je prázdný string
+//                $this->sessionStatus->getUserStatus()->setSKurz();
+//            }
+        // odkaz z formaction buttonu výběr akce
+        if ($this->request->get('akce')) {
+            $this->sessionStatus->getUserStatus()->setAkce($this->request->get('akce'));
+        }
     }
 
     public function getResult() {
         if ($this->request->isPost()) {  // proměnná z query v form action
             $this->performPostActions();
-            $this->performAnyRequestActions();
-        } else {
-            $this->performAnyRequestActions();
-            // odkaz z tlačítka Formular menu nové id_zajemce -> změna zájemce v session
-            if ($this->request->get('id_zajemce')) {
-                $zajemce = Projektor2_Model_Db_ZajemceMapper::get($this->request->get('id_zajemce'));
-                $this->sessionStatus->getUserStatus()->setZajemce($zajemce);
-                $beh = Projektor2_Model_Db_BehMapper::findById($zajemce->id_s_beh_projektu_FK);
-                $this->sessionStatus->getUserStatus()->setBeh($beh);
-            }
-            // odkaz z left menu Nová osoba - smazání zájemce ze session
-            if ($this->request->get('novy_zajemce')==="") {  // hodnota je prázdný string
-                $this->sessionStatus->getUserStatus()->setZajemce();
-            }
-            // odkaz z tlačítka kurz menu nové id_s_kurz -> změna kurzu v session
-            if ($this->request->get('id_s_kurz')) {
-                $sKurz = Projektor2_Model_Db_SKurzMapper::get($this->request->get('id_s_kurz'));
-                $this->sessionStatus->getUserStatus()->setSKurz($sKurz);
-            }
-            // odkaz z left menu Nový kurz - smazání kurzu ze session
-//            if ($this->request->get('novy_kurz')==="") {  // hodnota je prázdný string
-//                $this->sessionStatus->getUserStatus()->setSKurz();
-//            }
-            // odkaz z formaction buttonu výběr akce
-            if ($this->request->get('akce')) {
-                $this->sessionStatus->getUserStatus()->setAkce($this->request->get('akce'));
-            }
         }
+        $this->performAnyRequestActions();
+        
         // obsah zobrazený vždy
         $idKancelari = Projektor2_Model_Db_SysAccUsrKancelarMapper::getIndexArray('id_c_kancelar', 'id_sys_users='.$this->sessionStatus->getUserStatus()->getUser()->id);
         if (isset($idKancelari)) {

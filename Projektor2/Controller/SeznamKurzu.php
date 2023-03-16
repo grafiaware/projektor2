@@ -17,24 +17,6 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
     }
 
     /**
-     * Vytvoří asociativní pole polí Projektor2_Model_SKurz, první index je druh kurzu, druhý id SKurz.
-     * Pole je použito ve formulářích IP
-     *
-     * @param type $aktivityProjektu
-     * @return array[Projektor2_Model_SKurz[]] array of arrays of Projektor2_Model_SKurz
-     */
-    protected function createDbSKurzModelsAssoc($aktivityProjektu) {
-        $DbSKurzModels = array();
-        foreach ($aktivityProjektu as $indexAktivity => $parametryAktivity) {
-            foreach ( $this->findKurzViewmodels($parametryAktivity['kurz_druh']) as $sKurz) {
-                /** @var Projektor2_Model_Db_SKurz $sKurz */
-                $DbSKurzModels[$indexAktivity][$sKurz->id_s_kurz] = $sKurz;
-            }
-        }
-        return $DbSKurzModels;
-    }
-
-    /**
      * Metoda vrací pole objektů Projektor2_Model_Kurz pro aktuální projekt, běh, kancelář a zadaný druh kurzu.
      * Metoda vytvoří filtr z kontextu aplikace (projekt, běh a kancelář) a druhu kurzu zadaného jako parametr.
      * S tímto filtrem pak volá Projektor2_Model_KurzMapper, metodu findAll().
