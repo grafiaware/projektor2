@@ -181,6 +181,31 @@ class Projektor2_Model_Db_SKurzMapper {
         return $sKurz;
     }
 
+
+    public static function insert(Projektor2_Model_Db_SKurz $sKurz) {
+        $dbh = Config_AppContext::getDb();
+
+        foreach ($sKurz as $key => $value) {
+            if (isset($value)) {
+                if ($key!='id_s_kurz') {  // vyloučen sloupec PRIMARY KEY
+                    $columns[] = $key;
+                    $values[] = ':'.$key;
+                    $bindParams[$key] = $value;
+                }
+            }
+        }
+        $query = "INSERT INTO `s_kurz` (".implode(', ', $columns).")
+                  VALUES (".  implode(', ', $values).")";
+        $sth = $dbh->prepare($query);
+        $succ = $sth->execute($bindParams);
+        if ($succ) {
+            $sKurz->id_s_kurz = $dbh->lastInsertId();
+        } else {
+            unset($sKurz);
+        }
+        return $sKurz;
+    }
+
     public static function update(Projektor2_Model_Db_SKurz $sKurz) {
         $dbh = Config_AppContext::getDb();
         foreach ($sKurz as $key => $value) {

@@ -54,7 +54,8 @@ class Projektor2_View_HTML_Formular_SKurz extends Projektor2_View_HTML_FormularP
                     Html::input($prefix.'harmonogram_filename', "Soubor s harmonogramem:", $pole, ["type"=>"text", "size"=>"120", "maxlength"=>"256", "readonly"=>true])
                 ),
                 Html::tag("p", [],
-                    Html::input("save", "", ["save"=>"Uložit"], ["type"=>"submit", "size"=>"8", "maxlength"=>"10"])
+                    Html::input("save", "", ["save"=>"Uložit"], ["type"=>"submit", "size"=>"8", "maxlength"=>"10"]),
+                    Html::input("duplicate", "", ["duplicate"=>"Duplikovat"], ["type"=>"submit", "size"=>"8", "maxlength"=>"10"])
                 )
             );
         echo implode(PHP_EOL, $html);

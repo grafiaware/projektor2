@@ -6,7 +6,7 @@ class Projektor2_View_HTML_KontextBeh extends Framework_View_Abstract {
 //        $subparts = $this->context['subparts'];
 
         $this->parts[] = '<div id="vyberkontext" class="bordered">';
-        $this->parts[] = '<form name="Kancelar" id="Kancelar" action="index.php?kontext" method="post">';
+        $this->parts[] = '<form name="Kancelar" id="Kancelar" action="index.php?akce=osoby&osoby=seznam" method="post">';
             $this->parts[] = '<fieldset id="vyber_context">';
                 $this->parts[] = '<legend>Výběr běhu</legend>';
 

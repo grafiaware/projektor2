@@ -7,6 +7,97 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
      */
     const CREATED_VIEW_PREFIX = 'export_excel_';
 
+    public function getResult() {
+        if ($this->request->isPost()) {
+            $parts = $this->performPost();
+        } else {
+            $kodProjektu = $this->sessionStatus->getUserStatus()->getProjekt()->kod;
+            $exportType = $this->params['export_type'] ?? null;
+
+            $exportSelectView = new Projektor2_View_HTML_ExportSelectView($this->sessionStatus);
+
+            switch ($exportType) {
+                case 'kurzy':
+                    $selectModel = new Projektor2_Viewmodel_Element_Select(
+                        self::SELECT_NAME,
+                        [
+                            ''=>'',
+                            'kurzy v projektu'=>'template|kurzy projekt',
+                            'kurzy v kanceláři'=>'template|kurzy kancelar',
+                            'certifikáty v projektu'=>'template|certifikaty projekt'
+                        ]
+                    );
+                    $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=kurzy&kurzy=excel");
+                    $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=seznam', 'text'=>'Zpět na seznam kurzů'];
+                    break;
+                case 'kurz':
+                    $selectModel = new Projektor2_Viewmodel_Element_Select(
+                        self::SELECT_NAME,
+                        [
+                            ''=>'',
+                            'účastníci kurzu'=>'template|ucastnici',
+                            'certifikáty v kurzu'=>'template|certifikaty kurz'
+                        ]
+                    );
+                    $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=kurzy&kurzy=kurz&kurz=excel");
+                    $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=kurz&kurz=ucastnici_kurzu', 'text'=>'Zpět na seznam účastníků'];
+                    break;
+                case 'osoby':
+                    switch ($kodProjektu) {
+                        case 'CJC':
+                            $selectModel = new Projektor2_Viewmodel_Element_Select(
+                                self::SELECT_NAME,
+                                [
+                                    ''=>'',
+                                    'cizinci v projektu'=>'template|cizinci projekt'
+                                ]
+                            );
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=osoby&osoby=excel");
+                            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=seznam', 'text'=>'Zpět na seznam osob'];
+                            break;
+                        default:
+                            $selectModel = new Projektor2_Viewmodel_Element_Select(
+                                self::SELECT_NAME,
+                                [
+                                    ''=>'',
+                                    'osoby v projektu'=>'template|osoby projekt',
+                                    'osoby v kanceláři'=>'template|osoby kancelar'
+                                ]
+                            );
+                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=osoby&osoby=excel");
+                            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=seznam', 'text'=>'Zpět na seznam osob'];
+                            break;
+                    }
+            }
+            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODEL, $selectModel);
+            $parts[] = $exportSelectView;
+
+            $subgridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$menuArray]);
+            $subgridColumn[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$parts, 'class'=>'content']);
+            return new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$subgridColumn, 'class'=>'grid-container']);
+        }
+    }
+
+    private function performPost() {
+        if($this->request->post(self::SELECT_NAME)) {
+            list($type, $name) = explode('|', $this->request->post(self::SELECT_NAME));
+            if ($type) {
+                switch ($type) {
+                    case 'table':
+                        $parts[] = $this->exportFromView($name);
+                        break;
+                    case 'template':
+                        $parts[] = $this->exportByTemplate($name);
+                        break;
+                    default:
+                        throw new UnexpectedValueException("Neznámá hodnota typu exportu v post datech.");
+                }
+            }
+        }
+
+        return $parts ?? [];
+    }
+
     private function templateParams($exportTemplateName) {
 
 //            'jméno parametrů' => [
@@ -65,26 +156,6 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
         return $templateParams[$exportTemplateName];
     }
 
-    private function performPost() {
-        if($this->request->post(self::SELECT_NAME)) {
-            list($type, $name) = explode('|', $this->request->post(self::SELECT_NAME));
-            if ($type) {
-                switch ($type) {
-                    case 'table':
-                        $parts[] = $this->exportFromView($name);
-                        break;
-                    case 'template':
-                        $parts[] = $this->exportByTemplate($name);
-                        break;
-                    default:
-                        throw new UnexpectedValueException("Neznámá hodnota typu exportu v post datech.");
-                }
-            }
-        }
-
-        return $parts ?? [];
-    }
-
     private function exportFromView($sqlView) {
         $modelExcel = Projektor2_Model_File_ExcelMapper::createFromView($sqlView);
         if (Projektor2_Model_File_ExcelMapper::save($modelExcel, $this->sessionStatus)) {
@@ -127,79 +198,6 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
     private function getLeftMenuArray() {
         $menuArray[] = ['href'=>'index.php?kurzy=kurz&kurz=ucastnici_kurzu', 'text'=>'Zpět na seznam účastníků'];
         return $menuArray;
-    }
-
-    public function getResult() {
-        if ($this->request->isPost()) {
-            $parts = $this->performPost();
-        } else {
-            $kodProjektu = $this->sessionStatus->getUserStatus()->getProjekt()->kod;
-            $exportType = $this->params['export_type'] ?? null;
-
-            $exportSelectView = new Projektor2_View_HTML_ExportSelectView($this->sessionStatus);
-
-            switch ($exportType) {
-                case 'kurzy':
-                    $selectModel = new Projektor2_Viewmodel_Element_Select(
-                        self::SELECT_NAME,
-                        [
-                            ''=>'',
-                            'kurzy v projektu'=>'template|kurzy projekt',
-                            'kurzy v kanceláři'=>'template|kurzy kancelar',
-                            'certifikáty v projektu'=>'template|certifikaty projekt'
-                        ]
-                    );
-                    $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?kurzy=excel");
-                    $menuArray[] = ['href'=>'index.php?kurzy=seznam', 'text'=>'Zpět na seznam kurzů'];
-                    break;
-                case 'kurz':
-                    $selectModel = new Projektor2_Viewmodel_Element_Select(
-                        self::SELECT_NAME,
-                        [
-                            ''=>'',
-                            'účastníci kurzu'=>'template|ucastnici',
-                            'certifikáty v kurzu'=>'template|certifikaty kurz'
-                        ]
-                    );
-                    $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?kurzy=kurz&kurz=excel");
-                    $menuArray[] = ['href'=>'index.php?kurzy=kurz&kurz=ucastnici_kurzu', 'text'=>'Zpět na seznam účastníků'];
-                    break;
-                case 'osoby':
-                    switch ($kodProjektu) {
-                        case 'CJC':
-                            $selectModel = new Projektor2_Viewmodel_Element_Select(
-                                self::SELECT_NAME,
-                                [
-                                    ''=>'',
-                                    'osoby v projektu'=>'template|osoby projekt',
-                                    'osoby v kanceláři'=>'template|osoby kancelar',
-                                    'cizinci v projektu'=>'template|cizinci projekt'
-                                ]
-                            );
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?osoby=excel");
-                            $menuArray[] = ['href'=>'index.php?osoby=seznam', 'text'=>'Zpět na seznam osob'];
-                            break;
-                        default:
-                            $selectModel = new Projektor2_Viewmodel_Element_Select(
-                                self::SELECT_NAME,
-                                [
-                                    ''=>'',
-                                    'osoby v projektu'=>'template|osoby projekt',
-                                    'osoby v kanceláři'=>'template|osoby kancelar'
-                                ]
-                            );
-                            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?osoby=excel");
-                            $menuArray[] = ['href'=>'index.php?osoby=seznam', 'text'=>'Zpět na seznam osob'];
-                            break;
-                    }
-            }
-            $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::SELECT_MODEL, $selectModel);
-            $parts[] = $exportSelectView;
-
-            $subgridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$menuArray]);
-            $subgridColumn[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$parts, 'class'=>'content']);
-            return new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$subgridColumn, 'class'=>'grid-container']);
-        }
     }
 }
 

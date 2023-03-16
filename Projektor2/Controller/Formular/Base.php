@@ -42,7 +42,7 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
         return $context;
     }
 
-    protected function createContextFromCollectionFlatTable($modelSign, Framework_Model_CollectionFlatTable $model, $transformValuesForHtml=FALSE) {
+    private function createContextFromCollectionFlatTable($modelSign, Framework_Model_CollectionFlatTable $model, $transformValuesForHtml=FALSE) {
         foreach ($model as $collectionKey => $itemFT) {  // itemSign je primary key, itemModel je FT
             if ($itemFT instanceof Framework_Model_ItemFlatTable) {
                 foreach ($itemFT as $key => $value) {
@@ -65,7 +65,7 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
         return $context;
     }
 
-    protected function createContextFromItemFlatTable($modelSign, Framework_Model_ItemFlatTable $model, $transformValuesForHtml=FALSE) {
+    private function createContextFromItemFlatTable($modelSign, Framework_Model_ItemFlatTable $model, $transformValuesForHtml=FALSE) {
         foreach ($model as $key => $value) {
             if ($transformValuesForHtml) {
                 $value = $this->transformForHtml($key, $value);
@@ -75,7 +75,7 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
         return $context;
     }
 
-    protected function createContextFromAttributeModel($modelSign, Framework_Model_AttributeModelInterface $model, $transformValuesForHtml=FALSE) {
+    private function createContextFromAttributeModel($modelSign, Framework_Model_AttributeModelInterface $model, $transformValuesForHtml=FALSE) {
         foreach ($model as $key => $value) {
             if ($transformValuesForHtml) {
                 $value = $this->transformForHtml($key, $value);
@@ -139,7 +139,7 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
             // odpovídá tvaru atributu name v inputu typu file tak, jak je v Projektor2_View_HTML_UploadFile - varianta multiple = false
             // indexy jsou typ uploadu
             // $_FILES[self::UPLOADED_KEY]['name'], $_FILES[self::UPLOADED_KEY]['error'] (a size, tmp-name) obsahují vždy všechny položky uvedené ve formuláři jako input typu file
-            // vytvářím složku a přesunuji jen pložky ve $_FILES, které skutečně obsahují soubor -  ty mají ve $_FILES[self::UPLOADED_KEY]['error'] hodnotu 0
+            // vytvářím složku a přesunuji jen položky ve $_FILES, které skutečně obsahují soubor -  ty mají ve $_FILES[self::UPLOADED_KEY]['error'] hodnotu 0
             foreach ($_FILES[self::UPLOADED_KEY]['name'] as $type => $name) {
                 if ($_FILES[self::UPLOADED_KEY]['error'][$type] == 0) {
                     $basename = basename($name);

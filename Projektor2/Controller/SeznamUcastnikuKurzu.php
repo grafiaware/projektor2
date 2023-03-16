@@ -7,14 +7,14 @@
 class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_Abstract {
     private function getLeftMenuArray() {
         $lastGetRequest = $this->sessionStatus->getLastGet();
-        $menuArray[] = ['href'=>'index.php?akce=kurzy', 'text'=>'Zpět na výběr kurzu'];
+        $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=seznam', 'text'=>'Zpět na výběr kurzu'];
         return $menuArray;
     }
 
     private function getLeftMenuArrayUcastnici() {
 //        if ( ($this->sessionStatus->getUserStatus()->getUser()->username == "sys_admin" OR $this->sessionStatus->getUserStatus()->getUser()->username == "cj_manager" OR $this->sessionStatus->getUserStatus()->getUser()->username == "cj_monitor")) {
-            $menuArray[] = ['href'=>'index.php?kurzy=kurz&kurz=excel', 'text'=>'Exporty dat'];
-            $menuArray[] = ['href'=>'index.php?kurzy=kurz&kurz=export_certifikaty_kurz', 'text'=>'Exportuj certifikáty za kurz'];
+            $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=kurz&kurz=excel', 'text'=>'Exporty dat'];
+            $menuArray[] = ['href'=>'index.php?akce=kurzy&kurzy=kurz&kurz=export_certifikaty_kurz', 'text'=>'Exportuj certifikáty za kurz'];
 //        }
         return $menuArray;
     }

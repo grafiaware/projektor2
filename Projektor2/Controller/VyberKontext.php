@@ -7,7 +7,7 @@
 class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract {
 
     private function performPostActions() {
-        if ($this->request->isPost() AND null!==$this->request->get("kontext")) {
+        if ($this->request->isPost()) {
             if ($this->request->post('id_kancelar')) {
                 $kancelar = Projektor2_Model_Db_KancelarMapper::getValid($this->request->post('id_kancelar'));
                 $this->sessionStatus->getUserStatus()->setKancelar($kancelar);
@@ -28,7 +28,10 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
         }
     }
 
-    private function performGetActions() {
+    /**
+     * Kontext akce přepne GET i POST parametr
+     */
+    private function performAnyRequestActions() {
         // odkaz z tlačítka Formular menu nové id_zajemce -> změna zájemce v session
         if ($this->request->get('id_zajemce')) {
             $zajemce = Projektor2_Model_Db_ZajemceMapper::get($this->request->get('id_zajemce'));
@@ -46,17 +49,27 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
             $this->sessionStatus->getUserStatus()->setSKurz($sKurz);
         }
         // odkaz z left menu Nový kurz - smazání kurzu ze session
-        if ($this->request->get('novy_kurz')==="") {  // hodnota je prázdný string
-            $this->sessionStatus->getUserStatus()->setSKurz();
-        }        
+//            if ($this->request->get('novy_kurz')==="") {  // hodnota je prázdný string
+//                $this->sessionStatus->getUserStatus()->setSKurz();
+//            }
+        // odkaz z formaction buttonu výběr akce
+        if ($this->request->get('akce')) {
+            $this->sessionStatus->getUserStatus()->setAkce($this->request->get('akce'));
+        }
     }
     
     public function getResult() {
         if ($this->request->isPost()) {  // proměnná z query v form action
             $this->performPostActions();
+<<<<<<< HEAD
         } else {
             $this->performGetActions();
+=======
+
+>>>>>>> master
         }
+        $this->performAnyRequestActions();
+        
         // obsah zobrazený vždy
         $idKancelari = Projektor2_Model_Db_SysAccUsrKancelarMapper::getIndexArray('id_c_kancelar', 'id_sys_users='.$this->sessionStatus->getUserStatus()->getUser()->id);
         if (isset($idKancelari)) {
