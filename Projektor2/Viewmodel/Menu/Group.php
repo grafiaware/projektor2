@@ -4,11 +4,11 @@
  *
  * @author pes2704
  */
-class Projektor2_Viewmodel_Menu_Skupina {
+class Projektor2_Viewmodel_Menu_Group {
     public $menuTlacitka = array();
     public $menuSignaly = array();
 
-    public function setMenuTlacitko(Projektor2_Viewmodel_Menu_TlacitkoInterface $tlacitko) {
+    public function addButton(Projektor2_Viewmodel_Menu_TlacitkoInterface $tlacitko) {
         $this->menuTlacitka[] = $tlacitko;
     }
 
@@ -16,11 +16,11 @@ class Projektor2_Viewmodel_Menu_Skupina {
      *
      * @return Projektor2_Viewmodel_Menu_TlacitkoOsoba[]
      */
-    public function getMenuTlacitka() {
+    public function getButtons() {
         return $this->menuTlacitka;
     }
 
-    public function setMenuSignal(Projektor2_Viewmodel_Menu_Signal $signal) {
+    public function addSignal(Projektor2_Viewmodel_Menu_Signal $signal) {
         $this->menuSignaly[] = $signal;
     }
 
@@ -28,7 +28,7 @@ class Projektor2_Viewmodel_Menu_Skupina {
      *
      * @return Projektor2_Viewmodel_Menu_Signal[]
      */
-    public function getMenuSignaly() {
+    public function getSignals() {
         return $this->menuSignaly;
     }
 

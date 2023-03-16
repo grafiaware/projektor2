@@ -24,33 +24,33 @@ class Config_MenuKurz {
         $user = $sessionStatus->getUserStatus()->getUser();
 
                 //kurz
-                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Group();
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoKurz();
                     $modelTlacitko->kurz = 'detail_kurzu';
                     $modelTlacitko->text = 'Detail kurzu';
                     $modelTlacitko->title = 'Úprava údajů kurzu';
 
                     $modelTlacitko->status = 'edit';
-                $skupina->setMenuTlacitko($modelTlacitko);
-                if (count($skupina->getMenuTlacitka())) {
+                $skupina->addButton($modelTlacitko);
+                if (count($skupina->getButtons())) {
                     $viewmodelKurz->setSkupina('detail', $skupina);
                 }
                 //účastníci
-                $skupina = new Projektor2_Viewmodel_Menu_Skupina();
+                $skupina = new Projektor2_Viewmodel_Menu_Group();
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoKurz();
                     $modelTlacitko->kurz = 'ucastnici_kurzu';
                     $modelTlacitko->text = 'Účastníci';
                     $modelTlacitko->title = 'Seznam účastníků kurzu';
                     $modelTlacitko->status = 'print';
-                $skupina->setMenuTlacitko($modelTlacitko);
+                $skupina->addButton($modelTlacitko);
 
 
-                if (count($skupina->getMenuTlacitka())) {
+                if (count($skupina->getButtons())) {
                     $viewmodelKurz->setSkupina('ucastnici', $skupina);
-                    $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findAll("id_s_kurz_FK={$sKurz->id_s_kurz}");
+                    $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findByFilter("id_s_kurz_FK={$sKurz->id_s_kurz}");
                     $modelSignal = new Projektor2_Viewmodel_Menu_SignalKurz_Ucastnici();
                     $modelSignal->setByPlanKurzArray($zaPlanKurzArray);
-                    $skupina->setMenuSignal($modelSignal);
+                    $skupina->addSignal($modelSignal);
                 }
 
 

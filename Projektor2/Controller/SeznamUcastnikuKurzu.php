@@ -31,7 +31,7 @@ class Projektor2_Controller_SeznamUcastnikuKurzu extends Projektor2_Controller_A
         $tableKurzy = new Projektor2_View_HTML_Element_Table($this->sessionStatus, ['rows'=>$rowsKurzy, 'class'=>'zaznamy']);
         $contentParts[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$tableKurzy, 'class'=>'content']);
 
-        $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findAll("id_s_kurz_FK={$this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz}");
+        $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findByFilter("id_s_kurz_FK={$this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz}");
         if ($zaPlanKurzArray) {
             $subgridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArrayUcastnici()]);
 

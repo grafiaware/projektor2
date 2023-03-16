@@ -14,7 +14,7 @@ class Projektor2_Controller_Element_MenuKurz_Skupina extends Projektor2_Controll
         $viewmodelKurz = $this->params[self::VIEWMODEL_KURZ];
         $html = '';
         foreach ($viewmodelKurz->getSkupinyAssoc() as $skupina) {
-            foreach ($skupina->getMenuTlacitka() as $tlacitko) {
+            foreach ($skupina->getButtons() as $tlacitko) {
                 $view = new Projektor2_View_HTML_Element_Kurz_TdTlacitko($this->sessionStatus);
                 $view->appendContext([
                             Projektor2_View_HTML_Element_Kurz_TdTlacitko::VIEWMODEL_TLACITKO=>$tlacitko,
@@ -22,7 +22,7 @@ class Projektor2_Controller_Element_MenuKurz_Skupina extends Projektor2_Controll
                         ]);
                 $html .= $view->render();
             }
-            foreach ($skupina->getMenuSignaly() as $signal) {
+            foreach ($skupina->getSignals() as $signal) {
                 $view = new Projektor2_View_HTML_Element_Kurz_TdSignal($this->sessionStatus);
                 $view->appendContext(array('model'=>$signal));
                 $html .= $view->render();

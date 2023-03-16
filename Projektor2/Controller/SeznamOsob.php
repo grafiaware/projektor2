@@ -22,12 +22,13 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
                 array('behy'=>$behy,
                     'id_beh'=> $this->hasBeh() ? $this->sessionStatus->getUserStatus()->getBeh()->id : NULL)
                 );
-        // musí být vybrán běh - janak je výsledků příliš mnoho
-        if ($this->hasBeh()) {
+        // musí být vybrán běh - jinak je výsledků příliš mnoho, výjimku má sys_admin pro development
+        $displayOsoby = ($this->sessionStatus->getUserStatus()->getUser()->username=="sys_admin") OR $this->hasBeh();
+        if ($displayOsoby) {
             $osobyMenu = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::findInContext(NULL, NULL, "identifikator");
-        }
-        if ($osobyMenu) {
-            $row[] = (string) (new Projektor2_Controller_Element_TabulkaMenuOsoby($this->sessionStatus, $this->request, $this->response, $osobyMenu))->getResult();
+            if ($osobyMenu) {
+                $row[] = (string) (new Projektor2_Controller_Element_TabulkaMenuOsoby($this->sessionStatus, $this->request, $this->response, $osobyMenu))->getResult();
+            }
         }
 
         $gridColumns[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArray()]);

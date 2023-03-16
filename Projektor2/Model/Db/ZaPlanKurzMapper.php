@@ -60,7 +60,7 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
      * @param string $order
      * @return Projektor2_Model_Db_ZaPlanKurz[]
      */
-    public static function findAll($filter = NULL, $order = NULL) {
+    public static function findByFilter($filter = NULL, $order = NULL) {
         $dbh = Config_AppContext::getDb();
         $query = "SELECT * FROM za_plan_kurz";
         if ($filter AND is_string($filter)) {

@@ -11,12 +11,12 @@ class Projektor2_Controller_Element_MenuOsoba_Skupina extends Projektor2_Control
         $zajemceRegistrace = $this->params;
         $html = '';
         foreach ($zajemceRegistrace->getSkupinyAssoc() as $skupina) {
-            foreach ($skupina->getMenuTlacitka() as $tlacitko) {
+            foreach ($skupina->getButtons() as $tlacitko) {
                 $view = new Projektor2_View_HTML_Element_Zajemce_TdTlacitko($this->sessionStatus);
                 $view->appendContext(array('model'=>$tlacitko, 'zajemceRegistrace'=>$zajemceRegistrace));
                 $html .= $view->render();
             }
-            foreach ($skupina->getMenuSignaly() as $signal) {
+            foreach ($skupina->getSignals() as $signal) {
                 $view = new Projektor2_View_HTML_Element_Zajemce_TdSignal($this->sessionStatus);
                 $view->appendContext(array('model'=>$signal));
                 $html .= $view->render();

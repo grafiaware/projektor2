@@ -40,8 +40,7 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
             Projektor2_Viewmodel_AktivitaPlanCertifikatParams $certifikat = null,
             Projektor2_Model_Db_SKurz $sKurz = null,
             $pocAbsHodin = null, $duvodAbsence = null, $dokoncenoUspesne = null, $duvodNeuspechu = null, $datumCertif = null,
-            $certifikatyKurz = null,
-            $hodnoceni = null) {
+            $certifikatyKurz = null) {
         $this->id = $id;
         $this->indexAktivity = $indexAktivity;
         $this->nadpisAktivity = $nadpisAktivity;
@@ -54,7 +53,6 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
         $this->duvodNeuspechu = $duvodNeuspechu;
         $this->datumCertif = $datumCertif;
         $this->certifikatyKurz = $certifikatyKurz;
-        $this->hodnoceni = $hodnoceni;
 
         $this->defaultDatumCertif =
                 $datumCertif = $this->datumCertif

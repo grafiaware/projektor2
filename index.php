@@ -9,7 +9,7 @@ require_once 'Bootstrap.php';
 require_once 'Classes/PHPExcel.php';  // uvnitř v Classes/PHPExcel.php se provede PHPExcel_Autoloader::Register();
 
 ### DOČASNÉ ##########################
-ini_set('max_execution_time', 45);
+//ini_set('max_execution_time', 45);
 ######################################
 
 $session = Projektor2_Session::getInstance();

@@ -29,7 +29,7 @@ class Projektor2_Viewmodel_OsobaMenuViewmodel {
 //        $this->skupiny[$name] = $skupina;
 //    }
 
-    public function setSkupina(Projektor2_Viewmodel_Menu_Skupina $skupina) {
+    public function setSkupina(Projektor2_Viewmodel_Menu_Group $skupina) {
         $this->skupiny[] = $skupina;
     }
 

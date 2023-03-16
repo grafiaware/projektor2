@@ -28,7 +28,7 @@ class Projektor2_Service_CertifikatKurz {
             $certifikatVerze,
             $datumCertifikatu, $creator, $service
         ) {
-        $logger = Framework_Logger_File::getInstance(Config_AppContext::getLogsPath(), 'Certificates/'.date('Ymd').' CertificateCreation.log');  // denní logy - jméno začíná "číslem" dne
+        $logger = Framework_Logger_File::getInstance(Config_AppContext::getLogsPath().'Certificates/', date('Ymd').' CertificateCreation.log');  // denní logy - jméno začíná "číslem" dne
 
         $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
         $fullCertifikatKurz = $this->readCertifikat($zajemce, $sKurz, $certifikatRada, $certifikatVerze);
@@ -149,7 +149,7 @@ class Projektor2_Service_CertifikatKurz {
      */
     private function readCertifikat(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, $certifikatRada, $certifikatVerze) {
         // musí vracet jeden řádek - v tabulce je kombinace id_zajemce, id_s_Kurz, certifikat_rada, certifikat_verze UNIQUE index
-        $modelyDbCertifikat = Projektor2_Model_Db_CertifikatKurzMapper::find($zajemce, $sKurz, $certifikatRada, $certifikatVerze);
+        $modelyDbCertifikat = Projektor2_Model_Db_CertifikatKurzMapper::find($zajemce->id, $sKurz->id_s_kurz, $certifikatRada, $certifikatVerze);
         if ($modelyDbCertifikat) {   // neprázdné pole
             $modelDbCertifikat = $modelyDbCertifikat[0];
             try {

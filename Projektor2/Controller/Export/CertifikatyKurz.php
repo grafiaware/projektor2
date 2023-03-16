@@ -72,7 +72,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
         $createCertifikatMonitoring = ($konfiguraceAktivity['certifikat']['monitoring'] ?? null) ? TRUE : FALSE;
 
 
-        $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findAll("id_s_kurz_FK={$this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz}");
+        $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findByFilter("id_s_kurz_FK={$this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz}");
             $inBinds = [];
             $i = 0;
             foreach ($zaPlanKurzArray as $zaPlanKurz) {

@@ -19,21 +19,21 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
 
     /**
      *
-     * @param Projektor2_Model_Db_Zajemce $zajemce
-     * @param Projektor2_Model_Db_SKurz $sKurz
+     * @param int $zajemce
+     * @param int $idSKurz
      * @param string $certifikatKurzRada
      * @param string $certifikatKurzVerze
      * @return array
      */
-    public static function find(Projektor2_Model_Db_Zajemce $zajemce=null, Projektor2_Model_Db_SKurz $sKurz=null, $certifikatKurzRada=null, $certifikatKurzVerze=null) {
+    public static function find($idZajemce=null, $idSKurz=null, $certifikatKurzRada=null, $certifikatKurzVerze=null) {
         $dbh = Config_AppContext::getDb();
-        if ($zajemce) {
+        if ($idZajemce) {
             $conditionTokens[] = 'id_zajemce_FK = :id_zajemce_FK';
-            $bindParams['id_zajemce_FK'] = $zajemce->id;
+            $bindParams['id_zajemce_FK'] = $idZajemce;
         }
-        if ($sKurz) {
+        if ($idSKurz) {
             $conditionTokens[] = 'id_s_kurz_FK = :id_s_kurz_FK';
-            $bindParams['id_s_kurz_FK'] = $sKurz->id_s_kurz;
+            $bindParams['id_s_kurz_FK'] = $idSKurz;
         }
         if($certifikatKurzRada) {
             $conditionTokens[] = 'certifikat_kurz_rada_FK = :certifikat_kurz_rada_FK';

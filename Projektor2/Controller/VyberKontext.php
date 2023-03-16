@@ -61,12 +61,6 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
     public function getResult() {
         if ($this->request->isPost()) {  // proměnná z query v form action
             $this->performPostActions();
-<<<<<<< HEAD
-        } else {
-            $this->performGetActions();
-=======
-
->>>>>>> master
         }
         $this->performAnyRequestActions();
         
