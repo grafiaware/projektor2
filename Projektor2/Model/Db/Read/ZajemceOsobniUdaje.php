@@ -10,11 +10,14 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdaje {
     public $rodne_cislo;
     public $datum_narozeni;
     public $pohlavi;
+    public $telefon;
+    public $email;
 
 
-    public function __construct($id=null, $identifikator=null, $znacka=null, 
+    public function __construct($id=null, $identifikator=null, $znacka=null,
                             $titul=null, $titul_za=null, $jmeno=null, $prijmeni=null, $rodne_cislo=null, $datum_narozeni=null,
-                            $pohlavi=null) {
+                            $pohlavi=null, $telefon, $email
+            ) {
         $this->id = $id;
         $this->identifikator = $identifikator;
         $this->znacka = $znacka;
@@ -25,6 +28,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdaje {
         $this->rodne_cislo = $rodne_cislo;
         $this->datum_narozeni = $datum_narozeni;
         $this->pohlavi = $pohlavi;
-
+        $this->telefon = $telefon;
+        $this->email = $email;
     }
 }

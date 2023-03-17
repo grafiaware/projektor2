@@ -1,5 +1,6 @@
 <?php
 class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
+
     /**
      *
      * @param type $id
@@ -9,10 +10,9 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function findById($id) {
         $dbh = Config_AppContext::getDb();
-        $query = "SELECT zajemce.id_zajemce, zajemce.identifikator, zajemce.znacka,
-                        za_flat_table.jmeno,
-                        za_flat_table.prijmeni, za_flat_table.datum_narozeni, za_flat_table.rodne_cislo,
-                        za_flat_table.pohlavi, za_flat_table.titul, za_flat_table.titul_za
+        $query = "SELECT id_zajemce, identifikator, znacka,
+                        titul, titul_za, jmeno, prijmeni, datum_narozeni, rodne_cislo, pohlavi,
+                        mobil, mail
                     FROM zajemce left join za_flat_table ON (zajemce.id_zajemce=za_flat_table.id_zajemce)";
         $where[] = "zajemce.id_zajemce = :id_zajemce";
         $bindParams = array('id_zajemce'=>$id);
@@ -26,7 +26,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
             return NULL;
         }
         return new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
-                    $data['id_zajemce'], $data['identifikator'], $data['znacka'], 
+                    $data['id_zajemce'], $data['identifikator'], $data['znacka'],
                     $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi']
                 );
     }
@@ -41,10 +41,9 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function find($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE) {
         $dbh = Config_AppContext::getDb();
-        $query = "SELECT zajemce.id_zajemce, zajemce.identifikator, zajemce.znacka,
-                        za_flat_table.jmeno,
-                        za_flat_table.prijmeni, za_flat_table.datum_narozeni, za_flat_table.rodne_cislo,
-                        za_flat_table.pohlavi, za_flat_table.titul, za_flat_table.titul_za
+        $query = "SELECT id_zajemce, identifikator, znacka,
+                        titul, titul_za, jmeno, prijmeni, datum_narozeni, rodne_cislo, pohlavi,
+                        mobil, mail
                     FROM zajemce left join za_flat_table ON (zajemce.id_zajemce=za_flat_table.id_zajemce)";
         $where = array();
         $bindParams = array();
@@ -70,7 +69,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
         }
         foreach($radky as $data) {
             $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
-                    $data['id_zajemce'], $data['identifikator'], $data['znacka'], 
+                    $data['id_zajemce'], $data['identifikator'], $data['znacka'],
                     $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi']
                 );
         }
@@ -90,10 +89,9 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
     public static function findInContext($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE, $findOutOfContext=FALSE) {
         $dbh = Config_AppContext::getDb();
         $appStatus = Projektor2_Model_Status::getSessionStatus();
-        $query = "SELECT zajemce.id_zajemce, zajemce.identifikator, zajemce.znacka,
-                        za_flat_table.jmeno,
-                        za_flat_table.prijmeni, za_flat_table.datum_narozeni, za_flat_table.rodne_cislo,
-                        za_flat_table.pohlavi, za_flat_table.titul, za_flat_table.titul_za
+        $query = "SELECT id_zajemce, identifikator, znacka,
+                        titul, titul_za, jmeno, prijmeni, datum_narozeni, rodne_cislo, pohlavi,
+                        mobil, mail
                     FROM zajemce left join za_flat_table ON (zajemce.id_zajemce=za_flat_table.id_zajemce)";
         $where = array();
         $bindParams = array();
@@ -133,7 +131,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
         }
         foreach($radky as $data) {
             $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
-                    $data['id_zajemce'], $data['identifikator'], $data['znacka'], 
+                    $data['id_zajemce'], $data['identifikator'], $data['znacka'],
                     $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi']
                 );
             }
