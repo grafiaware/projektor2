@@ -81,10 +81,10 @@ class Projektor2_Model_Db_ZajemceMapper {
                 $where[] = "id_c_kancelar_FK = :id_c_kancelar_FK";
                 $bindParams = array_merge($bindParams, array('id_c_kancelar_FK'=>$appStatus->getUserStatus()->getKancelar()->id));
             }
-//            if (isset($appStatus->getUserStatus()->getBeh()->id)) {
-//                $where[] = "id_s_beh_projektu_FK = :id_s_beh_projektu_FK";
-//                $bindParams = array_merge($bindParams, array('id_s_beh_projektu_FK'=>$appStatus->getUserStatus()->getBeh()->id));
-//            }
+            if (isset($appStatus->getUserStatus()->getBeh()->id)) {
+                $where[] = "id_s_beh_projektu_FK = :id_s_beh_projektu_FK";
+                $bindParams = array_merge($bindParams, array('id_s_beh_projektu_FK'=>$appStatus->getUserStatus()->getBeh()->id));
+            }
         }
         if (!$findInvalid) {
             $where[] = "valid = 1";
