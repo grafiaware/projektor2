@@ -27,7 +27,8 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
         }
         return new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
                     $data['id_zajemce'], $data['identifikator'], $data['znacka'],
-                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi']
+                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi'],
+                    $data['mobil'], $data['mail']
                 );
     }
 
@@ -70,7 +71,8 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
         foreach($radky as $data) {
             $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
                     $data['id_zajemce'], $data['identifikator'], $data['znacka'],
-                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi']
+                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi'],
+                    $data['mobil'], $data['mail']
                 );
         }
 
@@ -132,7 +134,8 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
         foreach($radky as $data) {
             $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
                     $data['id_zajemce'], $data['identifikator'], $data['znacka'],
-                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi']
+                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi'],
+                    $data['mobil'], $data['mail']
                 );
             }
 
