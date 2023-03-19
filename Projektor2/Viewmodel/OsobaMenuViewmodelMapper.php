@@ -24,12 +24,9 @@ class Projektor2_Viewmodel_OsobaMenuViewmodelMapper {
 
     public static function findInContext($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE, $findOutOfContext=FALSE) {
         $zajemci = Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper::findInContext($filter, $filterBindParams, $order, $findInvalid, $findOutOfContext);
-        if ($zajemci) {
-            foreach ($zajemci as $zajemce) {
-                $zajemciRegistrace[] = self::create($zajemce);
-            }
-        } else {
-            return array();
+        $zajemciRegistrace = [];
+        foreach ($zajemci as $zajemce) {
+            $zajemciRegistrace[] = self::create($zajemce);
         }
         return $zajemciRegistrace;
     }
@@ -41,5 +38,70 @@ class Projektor2_Viewmodel_OsobaMenuViewmodelMapper {
     }
 
     ######### PRIVATE #######################
+    public static function pridejSkupinuRegistrace($osobaMenuViewmodel, $skupina) {
+        if (count($skupina->getButtons())) {
+            $osobaMenuViewmodel->addGroup($skupina);
+        }
+    }
 
+    public static function pridejSkupinuCizinec(Projektor2_Viewmodel_OsobaMenuViewmodel $osobaMenuViewmodel, $skupina) {
+        if (count($skupina->getButtons())) {
+            $osobaMenuViewmodel->addGroup($skupina);
+            self::addSignalsCizinec($skupina, $osobaMenuViewmodel);
+        }
+    }
+
+    private static function addSignalsCizinec(Projektor2_Viewmodel_Menu_Group $skupina, Projektor2_Viewmodel_OsobaMenuViewmodel $osobaMenuViewmodel) {
+        $modelSignal = new Projektor2_Viewmodel_Menu_Signal_OsobniUdaje();
+        // použij CollectionFlatTable
+        $modelSignal->setByOsobaMenuViewmodel(new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce));
+        $skupina->addSignal($modelSignal);
+    }
+
+    public static function pridejSkupinuPlan($osobaMenuViewmodel, Projektor2_Viewmodel_Menu_Group $skupina, $sessionStatus, $zajemce) {
+        if (count($skupina->getButtons())) {
+            $osobaMenuViewmodel->addGroup($skupina);
+            self::addSignalsPlan($skupina, $sessionStatus, $zajemce);
+        }
+    }
+
+    private static function addSignalsPlan(Projektor2_Viewmodel_Menu_Group $skupina, $sessionStatus, $zajemce) {
+        $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($sessionStatus, $zajemce);
+        if ($kolekceAktivityPlan) {
+            foreach ($kolekceAktivityPlan as $aktivitaPlan) {
+                /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
+                $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
+                $modelSignal->setByAktivitaPlan($aktivitaPlan);
+                $skupina->addSignal($modelSignal);
+            }
+        }
+    }
+
+    public static function pridejSkupinuUkonceni($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce) {
+        if (count($skupina->getButtons())) {
+            $osobaMenuViewmodel->addGroup($skupina);
+            self::addSignalsUkonceni($skupina, $sessionStatus, $zajemce);
+        }
+    }
+
+    private static function addSignalsUkonceni(Projektor2_Viewmodel_Menu_Group $skupina, $sessionStatus, $zajemce) {
+        $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
+        // použij CollectionFlatTable
+        $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Config_Ukonceni::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
+        $skupina->addSignal($modelSignal);
+    }
+
+    public static function pridejSkupinuZamestnani($osobaMenuViewmodel, $skupina, $sessionStatus, $zajemce) {
+        if (count($skupina->getButtons())) {
+            $osobaMenuViewmodel->addGroup($skupina);
+            self::addSignalsZamestnani($skupina, $sessionStatus, $zajemce);
+        }
+    }
+
+    private static function addSignalsZamestnani(Projektor2_Viewmodel_Menu_Group $skupina, $sessionStatus, $zajemce) {
+        $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
+        // použij CollectionFlatTable
+        $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
+        $skupina->addSignal($modelSignal);
+    }    
 }
