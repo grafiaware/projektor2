@@ -104,6 +104,16 @@ table.zaznamy th,td {
     border-style: solid;
     border-radius: 10px;
 }
+.signal-registration-ok {
+    color: darkgreen;
+    background-color: yellowgreen;
+    border-color: darkgreen;
+}
+.signal-registration-error {
+    color: darkred;
+    background-color: orange;
+    border-color: red;
+}
 .signal-none {
     color: grey;
     background-color: lightgrey;

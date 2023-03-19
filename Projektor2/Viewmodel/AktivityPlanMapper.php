@@ -6,7 +6,8 @@
  */
 class Projektor2_Viewmodel_AktivityPlanMapper {
 
-    public static function findByIndexAktivity(Projektor2_Model_Status $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $indexAktivity) {
+    public static function findByIndexAktivity(Projektor2_Model_Db_Zajemce $zajemce, $indexAktivity) {
+        $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);
         $kurzPlan = NULL;
         if ($aktivity) {
@@ -22,21 +23,21 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
     /**
      * Vrací pole modelů Projektor2_Model_AktivitaPlan pro všechny aktivity projektu i nenaplánované
      *
-     * @param Projektor2_Model_Status $sessionStatus
-     * @param Projektor2_Model_Db_Zajemce $zajemce
+     * @param Projektor2_Model_Db_Zajemce $idZajemce
      * @param type $typAktivity
      * @return \Projektor2_Viewmodel_AktivitaPlan array
      */
-    public static function findAll(Projektor2_Model_Status $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
+    public static function findAll($idZajemce, $typAktivity=NULL) {
+        $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);
         $kolekce = array();
         if ($aktivity) {
             $id = 0;
-            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemce->id);   // SELECT * FROM za_plan_kurz
+            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($idZajemce);   // SELECT * FROM za_plan_kurz
             $planSortedAssoc = self::sortAndAssocToActivity($planovaneKurzy);
             foreach ($aktivity as $indexAktivity=>$aktivita) {
                 $planKurz = $planSortedAssoc[$indexAktivity] ?? null;
-                $aktivitaPlan = self::createAktivitaPlan($planKurz, $aktivita, $indexAktivity, $id, $zajemce);
+                $aktivitaPlan = self::createAktivitaPlan($planKurz, $aktivita, $indexAktivity, $id, $idZajemce);
                 if ($aktivitaPlan) {
                     $id++;
                     $kolekce[] = $aktivitaPlan;
@@ -57,8 +58,8 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
      * @return \Projektor2_Viewmodel_AktivitaPlan array
 
      */
-    public static function findAllAssoc(Projektor2_Model_Status $sessionStatus, Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
-
+    public static function findAllAssoc(Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
+        $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);
         $kolekce = array();
         if ($aktivity) {
@@ -88,12 +89,12 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
     }
 
     private static function createAktivitaPlan(Projektor2_Model_Db_ZaPlanKurz $planKurz=null,
-            $aktivita, $indexAktivity, $id, Projektor2_Model_Db_Zajemce $zajemce) {
+            $aktivita, $indexAktivity, $id, $idZajemce) {
 
         if ($aktivita['typ']==Config_Aktivity::TYP_KURZ) {
             $sKurz = Projektor2_Model_Db_SKurzMapper::get($planKurz->id_s_kurz_FK);
             if ($sKurz) {
-                $certifikatyKurz = Projektor2_Model_Db_CertifikatKurzMapper::find($zajemce->id, $sKurz->id_s_kurz, FALSE);  // všechny typy certifikátu
+                $certifikatyKurz = Projektor2_Model_Db_CertifikatKurzMapper::find($idZajemce, $sKurz->id_s_kurz, FALSE);  // všechny typy certifikátu
             } else {
                 $certifikatyKurz = [];
             }

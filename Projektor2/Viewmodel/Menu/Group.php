@@ -5,8 +5,8 @@
  * @author pes2704
  */
 class Projektor2_Viewmodel_Menu_Group {
-    public $menuTlacitka = array();
-    public $menuSignaly = array();
+    private $menuTlacitka = array();
+    private $menuSignaly = array();
 
     public function addButton(Projektor2_Viewmodel_Menu_TlacitkoInterface $tlacitko) {
         $this->menuTlacitka[] = $tlacitko;

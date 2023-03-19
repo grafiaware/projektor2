@@ -8,6 +8,14 @@ class Projektor2_View_HTML_Element_Zajemce_TdSignal extends Projektor2_View_HTML
     public function render() {
         $model = $this->context['model'];
         switch ($model->status) {
+            case 'registrace ok':
+                $class = 'signal signal-registration-ok';
+                $title = 'Osobní údaje komplentní';
+                break;
+            case 'registrace chyba':
+                $class = 'signal signal-registration-error';
+                $title = 'Osobní údaje nekomplentní';
+                break;
             case 'none':
                 $class = 'signal signal-none';
                 $title = 'není zadáno';
