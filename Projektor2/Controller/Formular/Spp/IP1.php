@@ -51,7 +51,7 @@ class Projektor2_Controller_Formular_Spp_IP1 extends Projektor2_Controller_Formu
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení Grafia') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení Grafia')));  // druh je řetězec za slovy Tiskni osvědčení Grafia
             /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
-            $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce(), $indexAktivity);
+            $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($indexAktivity);
             $params = array('idSKurzFK'=>$aktivitaPlan->getUserStatus()->getSKurz()->id_s_kurz, 'datumCertif' => $aktivitaPlan->datumCertif, 'certifikatTyp'=>1);
 
             $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
@@ -60,7 +60,7 @@ class Projektor2_Controller_Formular_Spp_IP1 extends Projektor2_Controller_Formu
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení pro monitoring') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení pro monitoring')));  // druh je řetězec za slovy Tiskni osvědčení pro monitoring
             /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
-            $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce(), $indexAktivity);
+            $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($indexAktivity);
             $params = array('idSKurzFK'=>$aktivitaPlan->getUserStatus()->getSKurz()->id_s_kurz, 'datumCertif' => $aktivitaPlan->datumCertif, 'certifikatTyp'=>3);
 
             $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);

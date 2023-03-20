@@ -36,7 +36,7 @@ class Projektor2_Controller_Formular_Help_IP2 extends Projektor2_Controller_Form
 
     protected function getResultPdf() {
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
-            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce());
+            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce()->id);
             $view = new Projektor2_View_PDF_Help_IP2($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text)

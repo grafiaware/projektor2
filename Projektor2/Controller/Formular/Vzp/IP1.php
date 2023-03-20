@@ -29,7 +29,7 @@ class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formu
 
      protected function getResultPdf() {
         if ($this->request->post('pdf') == "Tiskni IP 1.část") {
-            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce());
+            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce()->id);
             $view = new Projektor2_View_PDF_Vzp_IP1($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast1_aktivity';
             $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text)
@@ -46,7 +46,7 @@ class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formu
         }
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení Grafia') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení Grafia')));  // druh je řetězec za slovy Tiskni osvědčení Grafia
-            $kurzPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce(), $indexAktivity);
+            $kurzPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($indexAktivity);
             $params = array('idSKurzFK'=>$kurzPlan->getUserStatus()->getSKurz()->id_s_kurz, 'datumCertif' => $kurzPlan->datumCertif, 'certifikatTyp'=>1);
 
             $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);
@@ -54,7 +54,7 @@ class Projektor2_Controller_Formular_Vzp_IP1 extends Projektor2_Controller_Formu
         }
         if (strpos($this->request->post('pdf'), 'Tiskni osvědčení pro monitoring') === 0 ) {
             $indexAktivity = trim(substr($this->request->post('pdf'), strlen('Tiskni osvědčení pro monitoring')));  // druh je řetězec za slovy Tiskni osvědčení pro monitoring
-            $kurzPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce(), $indexAktivity);
+            $kurzPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($indexAktivity);
             $params = array('idSKurzFK'=>$kurzPlan->getUserStatus()->getSKurz()->id_s_kurz, 'datumCertif' => $kurzPlan->datumCertif, 'certifikatTyp'=>3);
 
             $ctrlIpCertifikat = new Projektor2_Controller_Certifikat_Kurz($this->sessionStatus, $this->request, $this->response, $params);

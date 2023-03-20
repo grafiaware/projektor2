@@ -6,16 +6,17 @@
  */
 class Projektor2_Viewmodel_AktivityPlanMapper {
 
-    public static function findByIndexAktivity(Projektor2_Model_Db_Zajemce $zajemce, $indexAktivity) {
+    public static function findByIndexAktivity($indexAktivity) {
         $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);
         $kurzPlan = NULL;
         if ($aktivity) {
-            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemce->id);
+            $idZajemce = $sessionStatus->getUserStatus()->getZajemce()->id;
+            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($idZajemce);
             $planSortedAssoc = self::sortAndAssocToActivity($planovaneKurzy);
             $aktivita = $aktivity[$indexAktivity];
             $planKurz = $planSortedAssoc[$indexAktivity] ?? null;
-            $aktivitaPlan = self::createAktivitaPlan($planKurz, $aktivita, $indexAktivity, 1, $zajemce);
+            $aktivitaPlan = self::createAktivitaPlan($planKurz, $aktivita, $indexAktivity, 1, $idZajemce);
         }
         return $aktivitaPlan;
     }

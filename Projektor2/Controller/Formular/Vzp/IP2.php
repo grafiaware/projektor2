@@ -36,7 +36,7 @@ class Projektor2_Controller_Formular_Vzp_IP2 extends Projektor2_Controller_Formu
      protected function getResultPdf() {
          // TODO Všechny getResultPdf() - přesunout do service+mapper pro ukládání, v kontroleru zůstane jen $view->getNewWindowOpenerCode() - pak vše doe getResult()
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
-            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce());
+            $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce()->id);
             $view = new Projektor2_View_PDF_Vzp_IP2($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text)

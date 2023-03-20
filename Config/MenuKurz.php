@@ -33,7 +33,7 @@ class Config_MenuKurz {
                     $modelTlacitko->status = 'edit';
                 $skupina->addButton($modelTlacitko);
                 if (count($skupina->getButtons())) {
-                    $viewmodelKurz->setSkupina('detail', $skupina);
+                    $viewmodelKurz->addGroup('detail', $skupina);
                 }
                 //účastníci
                 $skupina = new Projektor2_Viewmodel_Menu_Group();
@@ -46,7 +46,7 @@ class Config_MenuKurz {
 
 
                 if (count($skupina->getButtons())) {
-                    $viewmodelKurz->setSkupina('ucastnici', $skupina);
+                    $viewmodelKurz->addGroup('ucastnici', $skupina);
                     $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findByFilter("id_s_kurz_FK={$sKurz->id_s_kurz}");
                     $modelSignal = new Projektor2_Viewmodel_Menu_SignalKurz_Ucastnici();
                     $modelSignal->setByPlanKurzArray($zaPlanKurzArray);

@@ -66,7 +66,7 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
             throw new LogicException("Došlo k pokusu o vytvoření certifikátů pro aktivitu bez certifikátu. Aktivita '$indexAktivity'.");
         }
         /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
-        $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce(), $indexAktivity);
+        $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($indexAktivity);
         $createCertifikat = ($konfiguraceAktivity['certifikat']['original'] ?? null) ? TRUE : FALSE;
         $createCertifikatMonitoring = ($konfiguraceAktivity['certifikat']['monitoring'] ?? null) ? TRUE : FALSE;
         if ($createCertifikat) {

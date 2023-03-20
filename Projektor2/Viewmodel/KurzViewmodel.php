@@ -46,7 +46,7 @@ class Projektor2_Viewmodel_KurzViewmodel {
         }
         return $ret;
     }
-    public function setSkupina($name, Projektor2_Viewmodel_Menu_Group $skupina) {
+    public function addGroup($name, Projektor2_Viewmodel_Menu_Group $skupina) {
         $this->skupiny[$name] = $skupina;
     }
 
@@ -55,11 +55,11 @@ class Projektor2_Viewmodel_KurzViewmodel {
      * @param string $name
      * @return Projektor2_Viewmodel_Menu_Group
      */
-    public function getSkupina($name) {
+    public function getGroup($name) {
         return $this->skupiny[$name];
     }
 
-    public function getSkupinyAssoc() {
+    public function getGroups() {
         return $this->skupiny;
     }
 }
