@@ -43,6 +43,12 @@ class Projektor2_Viewmodel_OsobaMenuViewmodelMapper {
                 case Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_PLAN:
                     self::addSignalsPlan($group, $zajemceDbReadOsobniUdaje);
                     break;
+                case Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_UKONCENI:
+                    self::addSignalsUkonceni($group, $zajemceDbReadOsobniUdaje);
+                    break;
+                case Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_ZAMESTNANI:
+                    self::addSignalsZamestnani($group, $zajemceDbReadOsobniUdaje);
+                    break;
                 default:
                     break;
             }
@@ -73,14 +79,14 @@ class Projektor2_Viewmodel_OsobaMenuViewmodelMapper {
     private static function addSignalsUkonceni(Projektor2_Viewmodel_Menu_Group $skupina, Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
         $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Ukonceni();
         // použij CollectionFlatTable
-        $modelSignal->setByUkonceni(new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce), Config_Ukonceni::getUkonceniProjektu($sessionStatus->getUserStatus()->getProjekt()->kod));
+        $modelSignal->setByUkonceni($zajemceDbReadOsobniUdaje);
         $skupina->addSignal($modelSignal);
     }
 
     private static function addSignalsZamestnani(Projektor2_Viewmodel_Menu_Group $skupina, Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
         $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Zamestnani();
         // použij CollectionFlatTable
-        $modelSignal->setByZamestnani(new Projektor2_Model_Db_Flat_ZaZamFlatTable($zajemce));
+        $modelSignal->setByZamestnani($zajemceDbReadOsobniUdaje);
         $skupina->addSignal($modelSignal);
-    }    
+    }
 }

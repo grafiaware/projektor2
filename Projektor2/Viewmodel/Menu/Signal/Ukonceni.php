@@ -5,28 +5,26 @@
  * @author pes2704
  */
 class Projektor2_Viewmodel_Menu_Signal_Ukonceni extends Projektor2_Viewmodel_Menu_Signal {
-    
-    public function setByUkonceni(Projektor2_Model_Db_Flat_ZaUkoncFlatTable $ukoncení, $ukonceniArray) {
-        
-        if ($ukoncení->datum_ukonceni){
-            $duvod = $ukoncení->duvod_ukonceni;
+
+    public function setByUkonceni(Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
+
+        if ($zajemceDbReadOsobniUdaje->datum_ukonceni){
+            $duvod = $zajemceDbReadOsobniUdaje->duvod_ukonceni;
             $this->text = substr($duvod, 0, strpos($duvod, ' '));
-            if ($ukoncení->datum_certif) {  //ma certifikat projekt
+            if ($zajemceDbReadOsobniUdaje->dokonceno=='Ano' AND $zajemceDbReadOsobniUdaje->datum_certif) {  //ma certifikat projekt
                 $this->status = 'uspesneSCertifikatem';
-            } elseif ($ukoncení->dokonceno=='Ano' AND $ukonceniArray['s_certifikatem']) {
-                $this->status = 'uspesneCekaNaCertifikat';                        
-            } elseif ($ukoncení->dokonceno=='Ano' AND !$ukonceniArray['s_certifikatem']) {
-                $this->status = 'uspesne';                        
-            } elseif ($ukoncení->dokonceno=='Ne') {
-                $this->status = 'neuspesne';                        
-            } elseif ($ukoncení->duvod_ukonceni) {
-                $this->status = 'ukonceni';                        
+            } elseif ($zajemceDbReadOsobniUdaje->dokonceno=='Ano') {
+                $this->status = 'uspesne';
+            } elseif ($zajemceDbReadOsobniUdaje->dokonceno=='Ne') {
+                $this->status = 'neuspesne';
+            } elseif ($zajemceDbReadOsobniUdaje->duvod_ukonceni) {
+                $this->status = 'ukonceni';
             } else {
                 $this->status = 'none';
             }
         } else {
             $this->text = '.';
-            $this->status = 'none';                                        
-        }        
+            $this->status = 'none';
+        }
     }
 }

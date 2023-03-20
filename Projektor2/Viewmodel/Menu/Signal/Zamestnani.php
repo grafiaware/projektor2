@@ -5,11 +5,11 @@
  * @author pes2704
  */
 class Projektor2_Viewmodel_Menu_Signal_Zamestnani extends Projektor2_Viewmodel_Menu_Signal {
-    
-    public function setByZamestnani(Projektor2_Model_Db_Flat_ZaZamFlatTable $zamestnani) {
-        
-        if ($zamestnani->zam_datum_vstupu) {
-            $forma = $zamestnani->zam_forma;
+
+    public function setByZamestnani(Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
+//        datum_ukonceni, duvod_ukonceni, dokonceno, datum_certif,
+        if ($zajemceDbReadOsobniUdaje->zam_datum_vstupu) {
+            $forma = $zajemceDbReadOsobniUdaje->zam_forma;
             switch ($forma) {
                 case 'pracovní smlouva':
                     $this->text = 'PP';
@@ -19,27 +19,27 @@ class Projektor2_Viewmodel_Menu_Signal_Zamestnani extends Projektor2_Viewmodel_M
                     break;
                 case 'dohoda o provedení práce':
                     $this->text = 'DPP';
-                    break;                
+                    break;
                 case 'sebezaměstnání (OSVČ)':
                     $this->text = 'OSVČ';
-                    break;                
+                    break;
                 default:
                     break;
             }
-            if ($zamestnani->zam_nove_misto=='Ano') {
+            if ($zajemceDbReadOsobniUdaje->zam_nove_misto=='Ano') {
                 $this->status = 'zamestnanNoveMisto';
-            } elseif ($zamestnani->supm=='Ano') { 
-                $this->status = 'zamestnanSUPM';                        
+            } elseif ($zajemceDbReadOsobniUdaje->zam_supm=='Ano') {
+                $this->status = 'zamestnanSUPM';
             } elseif ($this->text == 'PP' OR $this->text == 'OSVČ') {
-                $this->status = 'zamestnan';                        
-            } elseif ($zamestnani->zam_navazujici_datum_vstupu) {
-                $this->status = 'zamestnanNavazujici';                        
+                $this->status = 'zamestnan';
+            } elseif ($zajemceDbReadOsobniUdaje->zam_navazujici_datum_vstupu) {
+                $this->status = 'zamestnanNavazujici';
             } else {
-                $this->status = 'nezamestnan';                                        
+                $this->status = 'nezamestnan';
             }
         } else {
             $this->text = '.';
-            $this->status = 'none';                                        
-        }        
+            $this->status = 'none';
+        }
     }
 }

@@ -110,8 +110,8 @@ table.zaznamy th,td {
     border-color: darkgreen;
 }
 .signal-registration-error {
-    color: darkred;
-    background-color: orange;
+    color: black;
+    background-color: lightsalmon;
     border-color: red;
 }
 .signal-none {

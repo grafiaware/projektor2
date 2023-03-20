@@ -1,6 +1,35 @@
 <?php
 class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
 
+    const SQL = "
+SELECT zajemce.id_zajemce, identifikator, znacka,
+		titul, titul_za, jmeno, prijmeni, datum_narozeni, rodne_cislo, pohlavi,
+		mobilni_telefon, mail,
+        faze,
+        registrace_zajemce, registrace_uchazec, rekvalifikace_zajemce, rekvalifikace_uchazec,
+        datum_ukonceni, duvod_ukonceni, dokonceno, datum_certif,
+        zam_datum_vstupu, zam_forma, zam_nove_misto, zam_supm, zam_navazujici_datum_vstupu
+
+FROM
+zajemce
+LEFT JOIN za_flat_table ON (zajemce.id_zajemce=za_flat_table.id_zajemce)
+LEFT JOIN za_cizinec_flat_table ON (zajemce.id_zajemce=za_cizinec_flat_table.id_zajemce)
+LEFT JOIN
+(
+SELECT
+id_zajemce_FK,
+sum(if(id_upload_type_FK='registrace zájemce', 1, 0)) AS registrace_zajemce,
+sum(if(id_upload_type_FK='registrace uchazeč', 1, 0)) AS registrace_uchazec,
+sum(if(id_upload_type_FK='rekvalifikace zájemce', 1, 0)) AS rekvalifikace_zajemce,
+sum(if(id_upload_type_FK='rekvalifikace uchazeč', 1, 0)) AS rekvalifikace_uchazec
+FROM
+za_upload
+GROUP BY id_zajemce_FK
+) AS upload ON (zajemce.id_zajemce=upload.id_zajemce_FK)
+LEFT JOIN za_ukonc_flat_table ON (zajemce.id_zajemce=za_ukonc_flat_table.id_zajemce)
+LEFT JOIN za_zam_flat_table ON (zajemce.id_zajemce=za_zam_flat_table.id_zajemce)
+";
+
     /**
      *
      * @param type $id
@@ -10,10 +39,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function findById($id) {
         $dbh = Config_AppContext::getDb();
-        $query = "SELECT zajemce.id_zajemce, identifikator, znacka,
-                        titul, titul_za, jmeno, prijmeni, datum_narozeni, rodne_cislo, pohlavi,
-                        mobilni_telefon, mail
-                    FROM zajemce left join za_flat_table ON (zajemce.id_zajemce=za_flat_table.id_zajemce)";
+        $query = self::SQL;
         $where[] = "zajemce.id_zajemce = :id_zajemce";
         $bindParams = array('id_zajemce'=>$id);
         if ($where) {
@@ -25,11 +51,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
         if(!$data) {
             return NULL;
         }
-        return new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
-                    $data['id_zajemce'], $data['identifikator'], $data['znacka'],
-                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi'],
-                    $data['mobilni_telefon'], $data['mail']
-                );
+        return self::create($data);
     }
 
     /**
@@ -42,10 +64,8 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
      */
     public static function find($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE) {
         $dbh = Config_AppContext::getDb();
-        $query = "SELECT zajemce.id_zajemce, identifikator, znacka,
-                        titul, titul_za, jmeno, prijmeni, datum_narozeni, rodne_cislo, pohlavi,
-                        mobilni_telefon, mail
-                    FROM zajemce left join za_flat_table ON (zajemce.id_zajemce=za_flat_table.id_zajemce)";
+        $query = self::SQL;
+
         $where = array();
         $bindParams = array();
         if (!$findInvalid) {
@@ -69,11 +89,7 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
             return array();
         }
         foreach($radky as $data) {
-            $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
-                    $data['id_zajemce'], $data['identifikator'], $data['znacka'],
-                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi'],
-                    $data['mobilni_telefon'], $data['mail']
-                );
+            $vypis[] = self::create($data);
         }
 
         return $vypis;
@@ -91,10 +107,8 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
     public static function findInContext($filter = NULL, $filterBindParams=array(), $order = NULL, $findInvalid=FALSE, $findOutOfContext=FALSE) {
         $dbh = Config_AppContext::getDb();
         $appStatus = Projektor2_Model_Status::getSessionStatus();
-        $query = "SELECT zajemce.id_zajemce, identifikator, znacka,
-                        titul, titul_za, jmeno, prijmeni, datum_narozeni, rodne_cislo, pohlavi,
-                        mobilni_telefon, mail
-                    FROM zajemce left join za_flat_table ON (zajemce.id_zajemce=za_flat_table.id_zajemce)";
+        $query = self::SQL;
+
         $where = array();
         $bindParams = array();
         if (!$findOutOfContext) {
@@ -132,13 +146,21 @@ class Projektor2_Model_Db_Read_ZajemceOsobniUdajeMapper {
             return array();
         }
         foreach($radky as $data) {
-            $vypis[] = new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
-                    $data['id_zajemce'], $data['identifikator'], $data['znacka'],
-                    $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi'],
-                    $data['mobilni_telefon'], $data['mail']
-                );
-            }
+            $vypis[] = self::create($data);
+        }
 
         return $vypis ?? [];
+    }
+
+    private static function create($data) {
+            return new Projektor2_Model_Db_Read_ZajemceOsobniUdaje(
+                $data['id_zajemce'], $data['identifikator'], $data['znacka'],
+                $data['titul'], $data['titul_za'], $data['jmeno'], $data['prijmeni'], $data['rodne_cislo'], $data['datum_narozeni'], $data['pohlavi'],
+                $data['mobilni_telefon'], $data['mail'],
+                $data['faze'],
+                $data['registrace_zajemce'], $data['registrace_uchazec'], $data['rekvalifikace_zajemce'], $data['rekvalifikace_uchazec'],
+                $data['datum_ukonceni'], $data['duvod_ukonceni'], $data['dokonceno'], $data['datum_certif'],
+                $data['zam_datum_vstupu'], $data['zam_forma'], $data['zam_nove_misto'], $data['zam_supm'], $data['zam_navazujici_datum_vstupu']
+                );
     }
 }
