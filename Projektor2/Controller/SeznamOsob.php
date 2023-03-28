@@ -8,7 +8,7 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
 
     protected function getLeftMenuArray() {
         if ($this->hasBeh()) {
-            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=form&form=novy_zajemce&novy_zajemce', 'text'=>'Nová osoba'];
+            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=form&form='.Projektor2_Router_Form::CTRL_NOVA_OSOBA.'&novy_zajemce', 'text'=>'Nová osoba'];
         }
         $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=excel', 'text'=>'Exporty dat'];
         $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=export_certifikaty_projekt', 'text'=>'Exportuj projektové certifikáty'];
@@ -23,7 +23,7 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
                     'id_beh'=> $this->hasBeh() ? $this->sessionStatus->getUserStatus()->getBeh()->id : NULL)
                 );
         // musí být vybrán běh - jinak je výsledků příliš mnoho, výjimku má sys_admin pro development
-        $displayOsoby = ($this->sessionStatus->getUserStatus()->getUser()->username=="sys_admin") OR $this->hasBeh();
+        $displayOsoby = $this->hasBeh() || ($this->sessionStatus->getUserStatus()->getUser()->username=="sys_admin");
         if ($displayOsoby) {
             $osobyMenu = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::findInContext(NULL, NULL, "identifikator");
             if ($osobyMenu) {

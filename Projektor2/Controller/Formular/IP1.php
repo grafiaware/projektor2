@@ -16,7 +16,7 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
         $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($this->sessionStatus->getUserStatus()->getZajemce());
     }
 
-    protected function getResultFormular() {
+    protected function formular() {
         $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
         $modelySKurz = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 
@@ -31,13 +31,13 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
 
      protected function getResultPdf() {
         if ($this->request->post('pdf') == "Tiskni IP 1.část") {
-            $view = new Projektor2_View_PDF_Cjc_IP1($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_IP1($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast1_aktivity';
             $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text)
                 ->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name)
                 ->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator)
                 ->assign('znacka', $this->sessionStatus->getUserStatus()->getZajemce()->znacka)
-                ->assign('aktivityPlan', Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce()))  // Projektor2_Model_AktivitaPlan[]
+                ->assign('aktivityPlan', Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus->getUserStatus()->getZajemce()->id))  // Projektor2_Model_AktivitaPlan[]
                     ;
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);

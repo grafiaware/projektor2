@@ -13,7 +13,7 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
         $this->models[Projektor2_Controller_Formular_FlatTable::PLAN_KURZ] = new Projektor2_Model_Db_Flat_ZaPlanKurzCollection($this->sessionStatus->getUserStatus()->getZajemce());
     }
 
-    protected function getResultFormular() {
+    protected function formular() {
         $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
         $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
 

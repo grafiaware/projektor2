@@ -24,7 +24,7 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
     /**
      * Vrací pole modelů Projektor2_Model_AktivitaPlan pro všechny aktivity projektu i nenaplánované
      *
-     * @param Projektor2_Model_Db_Zajemce $idZajemce
+     * @param int $idZajemce
      * @param type $typAktivity
      * @return \Projektor2_Viewmodel_AktivitaPlan array
      */
@@ -54,22 +54,21 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
      * Vrací asocitivní pole modelů Projektor2_Model_AktivitaPlan indexované indexem aktivity
      *
      * @param Projektor2_Model_Status $sessionStatus
-     * @param Projektor2_Model_Db_Zajemce $zajemce
+     * @param int $idZajemce
      * @param type $typAktivity
      * @return \Projektor2_Viewmodel_AktivitaPlan array
-
      */
-    public static function findAllAssoc(Projektor2_Model_Db_Zajemce $zajemce, $typAktivity=NULL) {
+    public static function findAllAssoc($idZajemce, $typAktivity=NULL) {
         $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);
         $kolekce = array();
         if ($aktivity) {
             $id = 0;
-            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemce->id);
+            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($idZajemce); // ORDER BY kurz_druh_fk ASC, aktivita ASC
             $planSortedAssoc = self::sortAndAssocToActivity($planovaneKurzy);
             foreach ($aktivity as $indexAktivity=>$aktivita) {
                 $planKurz = $planSortedAssoc[$indexAktivity] ?? null;
-                $aktivitaPlan = self::createAktivitaPlan($planKurz, $aktivita, $indexAktivity, $id, $zajemce);
+                $aktivitaPlan = self::createAktivitaPlan($planKurz, $aktivita, $indexAktivity, $id, $idZajemce);
                 if ($aktivitaPlan) {
                     $id++;
                     $kolekce[$indexAktivity] = $aktivitaPlan;

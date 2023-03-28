@@ -16,7 +16,7 @@ class Projektor2_Controller_Formular_Pdu_Smlouva extends Projektor2_Controller_F
         $this->models['smlouva'] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
     }
 
-    protected function getResultFormular() {
+    protected function formular() {
         $htmlResult = "";
         $view = new Projektor2_View_HTML_Pdu_Smlouva($this->sessionStatus, $this->createContextFromModels(TRUE));
         $htmlResult .= $view->render();

@@ -16,7 +16,7 @@ class Projektor2_Controller_Formular_Sjzp_Zamestnani extends Projektor2_Controll
         $this->models['zamestnani'] = new Projektor2_Model_Db_Flat_ZaZamFlatTable($this->sessionStatus->getUserStatus()->getZajemce()); 
     }
     
-    protected function getResultFormular() {
+    protected function formular() {
         $htmlResult = "";         
         $view = new Projektor2_View_HTML_Sjzp_Zamestnani($this->sessionStatus, $this->createContextFromModels(TRUE));
         $htmlResult .= $view->render();

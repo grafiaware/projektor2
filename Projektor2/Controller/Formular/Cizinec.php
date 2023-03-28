@@ -83,7 +83,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
         }
 
         // formulář
-        $htmlResult .= $this->getResultFormular();
+        $htmlResult .= $this->formular();
         // javascript pro stažení pdf
         if ($this->request->isPost() AND ($this->request->post('T1') OR $this->request->post('pdf'))) {
             $htmlResult .= $this->getResultPdf();
@@ -91,7 +91,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
         return $htmlResult;
     }
 
-    protected function getResultFormular() {
+    protected function formular() {
         $context = $this->createContextFromModels(true);
         $idZajemce = $this->sessionStatus->getUserStatus()->getZajemce()->id;
         $context['faze'] =

@@ -45,27 +45,13 @@ abstract class Projektor2_Controller_Formular_FlatTable extends Projektor2_Contr
         }
 
         // formulář
-        $htmlResult .= $this->getResultFormular();
+        $htmlResult .= $this->formular();
         // javascript pro stažení pdf
         if ($this->request->isPost() AND ($this->request->post('T1') OR $this->request->post('pdf'))) {
             $htmlResult .= $this->getResultPdf();
         }
         return $htmlResult;
     }
-
-#### abstract methods #####################################
-
-    /**
-     * Potomkovské třídy musí implementovat matodu getResultFormular, která vrací html kód vlastního formuláře
-     */
-    abstract protected function getResultFormular();
-
-    /**
-     * Potomkovské třídy musí implementovat metodu getResultPdf, která vytvoří pdf dokument a vrátí kód
-     * pro zobrazení pdf dokumentu v novém panelu prohlížeče.
-     * Pokud k formuláři není přisružen pdf dokument, bude taková metoda prázdná.
-     */
-    abstract protected function getResultPdf();  // TODO - viz tot v kontroleru - všechna vytváření pdf so service, zbytek z getResultPdf do getResultFormular a ten přejmenovat na getResult
 
 #### protected methods #####################################
 

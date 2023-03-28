@@ -65,7 +65,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_ap_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'ap_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
@@ -138,7 +138,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_he_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'he_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
@@ -197,7 +197,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_sj_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjzp_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
@@ -251,7 +251,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_vz_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'vzp_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
@@ -310,7 +310,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_sp_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjpk_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
@@ -365,7 +365,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_zpm_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'zpm_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
@@ -407,7 +407,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_spp_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'spp_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
@@ -449,7 +449,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_rp_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'rp_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
@@ -509,7 +509,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_so_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjpo_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';
@@ -582,7 +582,7 @@ class Config_MenuOsoba {
                 //plán
                 if ($user->tl_sl_plan) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjlp_plan_uc';
+                    $modelTlacitko->osoba = 'plan';
                     $modelTlacitko->text = 'Plán kurzů';
                     $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
                     $modelTlacitko->status = 'edit';

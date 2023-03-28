@@ -18,7 +18,7 @@ class Projektor2_Controller_Formular_Ap_Zamestnani extends Projektor2_Controller
         $this->models['zamestnani'] = new Projektor2_Model_Db_Flat_ZaZamFlatTable($this->sessionStatus->getUserStatus()->getZajemce()); 
     }
     
-    protected function getResultFormular() {
+    protected function formular() {
         $htmlResult = "";
         //$pole = $this->flatTable->getValuesAssoc();
          

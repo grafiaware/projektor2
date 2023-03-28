@@ -27,8 +27,7 @@ class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
             $contentParts[] = new Projektor2_View_HTML_Element_Table($this->sessionStatus, array('rows'=>$rows, 'class'=>'zaznamy'));
         }
         $router = new Projektor2_Router_Form($this->sessionStatus, $this->request, $this->response);
-        $formController = $router->getController();
-        $contentParts[] = $formController->getResult();
+        $contentParts[] = $router->getResult();
         $gridParts[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$contentParts, 'class'=>'content'));
 
         $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$gridParts, 'class'=>'grid-container'));

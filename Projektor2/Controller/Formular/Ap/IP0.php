@@ -12,7 +12,7 @@ class Projektor2_Controller_Formular_Ap_IP0 extends Projektor2_Controller_Formul
         $this->models['dotaznik'] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce());         
     }
     
-    protected function getResultFormular() {
+    protected function formular() {
         $view = new Projektor2_View_HTML_Formular_IP0($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA PROJEKTU Alternativní práce')
             ->assign('formAction', 'ap_ip1_uc')

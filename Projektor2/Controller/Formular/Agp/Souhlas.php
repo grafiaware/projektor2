@@ -17,7 +17,7 @@ class Projektor2_Controller_Formular_Agp_Souhlas extends Projektor2_Controller_F
          $this->models['smlouva'] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce()); 
     }
     
-    protected function getResultFormular() {
+    protected function formular() {
         $htmlResult = "";
         //$pole = $this->flatTable->getValuesAssoc();
         $view = new Projektor2_View_HTML_Agp_Souhlas ($this->sessionStatus, $this->createContextFromModels(TRUE));

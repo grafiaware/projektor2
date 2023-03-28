@@ -16,7 +16,7 @@ class Projektor2_Controller_Formular_Cjc_Smlouva extends Projektor2_Controller_F
         $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT] = new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
     }
 
-    protected function getResultFormular() {
+    protected function formular() {
         $htmlResult = "";
         $view = new Projektor2_View_HTML_Cjc_Smlouva($this->sessionStatus, $this->createContextFromModels(TRUE));
         $ukHintView = new Projektor2_View_HTML_Cjc_HintView($this->sessionStatus);

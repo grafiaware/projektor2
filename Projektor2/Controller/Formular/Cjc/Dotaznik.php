@@ -17,7 +17,7 @@ class Projektor2_Controller_Formular_Cjc_Dotaznik extends Projektor2_Controller_
         $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]= new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
     }
 
-    protected function getResultFormular() {
+    protected function formular() {
         $htmlResult = "";
         $view = new Projektor2_View_HTML_Cjc_Dotaznik($this->sessionStatus, $this->createContextFromModels(TRUE));
         $htmlResult .= $view->render();
@@ -28,7 +28,7 @@ class Projektor2_Controller_Formular_Cjc_Dotaznik extends Projektor2_Controller_
     protected function getResultPdf() {
         $html = '<div></div>';
         $view = new Projektor2_View_HTML2PDF_Dotaznik($this->sessionStatus);
-        $html .= $this->getResultFormular();
+        $html .= $this->formular();
 
         $view->assign('html', $html);
 //        $view->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator);

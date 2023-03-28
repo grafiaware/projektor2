@@ -6,6 +6,14 @@
  */
 class Projektor2_Router_Form {
 
+    const CTRL_NOVA_OSOBA = "novy_zajemce";
+    const CTRL_CIZINEC = "cizinec";
+    const CTRL_SMLOUVA = "smlouva";
+    const CTRL_SOUHLAS = "souhlas";
+    const CTRL_PLAN = "plan";
+    const UKONCENI = "ukonceni";
+    const CTRL_ZAMESTNANI = "zamestnani";
+
     protected $sessionStatus;
     protected $request;
     protected $response;
@@ -16,14 +24,14 @@ class Projektor2_Router_Form {
         $this->response = $response;
     }
 
-    public function getController() {
+    public function getResult() {
         $form = $this->request->get('form');
         $kodProjektu = $this->sessionStatus->getUserStatus()->getProjekt()->kod;
         switch ($kodProjektu) {
             case 'AGP':
                 /** AGP **/
                 switch($form) {
-                    case "agp_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Agp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "agp_reg_dot":
@@ -42,7 +50,7 @@ class Projektor2_Router_Form {
             case 'HELP':
                 /** HELP **/
                 switch($form) {
-                   case "he_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Help_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "he_reg_dot":
@@ -67,7 +75,7 @@ class Projektor2_Router_Form {
             case 'AP':
                 /** AP **/
                 switch($form) {
-                   case "ap_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Ap_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "ap_reg_dot":
@@ -101,7 +109,7 @@ class Projektor2_Router_Form {
             case 'SJZP':
                 /** SJZP **/
                 switch($form) {
-                   case "sjzp_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Sjzp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "sjzp_reg_dot":
@@ -129,7 +137,7 @@ class Projektor2_Router_Form {
             case 'VZP':
                 /** VZP **/
                 switch($form) {
-                   case "vzp_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Vzp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                    case "vzp_sml_uc":
@@ -149,7 +157,7 @@ class Projektor2_Router_Form {
             case 'ZPM':
                 /** ZPM **/
                 switch($form) {
-                    case "zpm_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Zpm_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "zpm_sml_uc":
@@ -168,7 +176,7 @@ class Projektor2_Router_Form {
             case 'SPP':
                 /** SPP**/
                 switch($form) {
-                   case "spp_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Spp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                    case "spp_sml_uc":
@@ -187,7 +195,7 @@ class Projektor2_Router_Form {
             case 'RP':
                 /** RP**/
                 switch($form) {
-                   case "rp_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Rp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                    case "rp_sml_uc":
@@ -207,7 +215,7 @@ class Projektor2_Router_Form {
             case 'SJPK':
                 /** SJPK **/
                 switch($form) {
-                   case "sjpk_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Sjpk_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "sjpk_reg_dot":
@@ -219,7 +227,7 @@ class Projektor2_Router_Form {
                    case "sjpk_souhlas_uc":
                         return new Projektor2_Controller_Formular_Sjpk_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "sjpk_plan_uc":
+                    case "plan":
                         return new Projektor2_Controller_Formular_Sjpk_IP1($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "sjpk_ukonceni_uc":
@@ -236,7 +244,7 @@ class Projektor2_Router_Form {
             case 'SJPO':
                 /** SJPO **/
                 switch($form) {
-                    case "sjpo_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Sjpo_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "sjpo_reg_dot":
@@ -249,7 +257,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Sjpo_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "plan":
-                        return new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "sjpo_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Sjpo_IP2($this->sessionStatus, $this->request, $this->response);
@@ -265,7 +273,7 @@ class Projektor2_Router_Form {
             case 'SJLP':
                 /** SJLP **/
                 switch($form) {
-                    case "sjlp_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Sjlp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "sjlp_reg_dot":
@@ -277,8 +285,8 @@ class Projektor2_Router_Form {
                     case "sjlp_souhlas_uc":
                         return new Projektor2_Controller_Formular_Sjlp_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "sjlp_plan_uc":
-                        return new Projektor2_Controller_Formular_Sjlp_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan":
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "sjlp_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Sjlp_IP2($this->sessionStatus, $this->request, $this->response);
@@ -294,14 +302,14 @@ class Projektor2_Router_Form {
             case 'VDTP':
                 /** VDTP**/
                 switch($form) {
-                   case "vdtp_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Vdtp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                    case "smlouva":
                         return new Projektor2_Controller_Formular_Vdtp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "plan":
-                        return new Projektor2_Controller_Formular_Vdtp_IP1($this->sessionStatus, $this->request, $this->response);
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "ukonceni":
                         return new Projektor2_Controller_Formular_Vdtp_IP2($this->sessionStatus, $this->request, $this->response);
@@ -314,14 +322,14 @@ class Projektor2_Router_Form {
            case 'PDU':
                 /** PDU **/
                 switch($form) {
-                   case "pdu_novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Pdu_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                    case "smlouva":
                         return new Projektor2_Controller_Formular_Pdu_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "plan":
-                        return new Projektor2_Controller_Formular_Pdu_IP1($this->sessionStatus, $this->request, $this->response);
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "ukonceni":
                         return new Projektor2_Controller_Formular_Pdu_IP2($this->sessionStatus, $this->request, $this->response);
@@ -334,8 +342,8 @@ class Projektor2_Router_Form {
             case 'MB':
                 /** MB **/
                 switch($form) {
-                    case "novy_zajemce":
-                        return new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);
+                    case self::CTRL_NOVA_OSOBA:
+                        return (new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "dotaznik":
                         return new Projektor2_Controller_Formular_Mb_Dotaznik($this->sessionStatus, $this->request, $this->response);
@@ -347,7 +355,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Mb_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "plan":
-                        return new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "ukonceni":
                         return new Projektor2_Controller_Formular_IP2($this->sessionStatus, $this->request, $this->response);
@@ -362,7 +370,7 @@ class Projektor2_Router_Form {
             case 'CJC':
                 /** CJC **/
                 switch($form) {
-                    case "novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "cizinec":
@@ -375,7 +383,7 @@ class Projektor2_Router_Form {
                         return new Projektor2_Controller_Formular_Cjc_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "plan":
-                        return new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "ukonceni":
                         return new Projektor2_Controller_Formular_IP2($this->sessionStatus, $this->request, $this->response);
@@ -391,7 +399,7 @@ class Projektor2_Router_Form {
             case 'CKP':
                 /** CKP **/
                 switch($form) {
-                    case "novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Ckp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "smlouva":
@@ -410,7 +418,7 @@ class Projektor2_Router_Form {
             case 'PKP':
                 /** PKP **/
                 switch($form) {
-                    case "novy_zajemce":
+                    case self::CTRL_NOVA_OSOBA:
                         return new Projektor2_Controller_Formular_Pkp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "smlouva":
