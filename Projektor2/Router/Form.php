@@ -62,8 +62,8 @@ class Projektor2_Router_Form {
                    case "he_souhlas_uc":
                         return new Projektor2_Controller_Formular_Help_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
-                   case "he_plan_uc":
-                        return new Projektor2_Controller_Formular_Help_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan":
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                    case "he_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Help_IP2($this->sessionStatus, $this->request, $this->response);
@@ -90,8 +90,8 @@ class Projektor2_Router_Form {
                    case "ap_ip1_uc":
                         return new Projektor2_Controller_Formular_Ap_IP0($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "ap_plan_uc":
-                        return new Projektor2_Controller_Formular_Ap_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan":
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "ap_porad_uc":
                         return new Projektor2_Controller_Formular_Ap_IPPoradenstvi($this->sessionStatus, $this->request, $this->response);
@@ -121,8 +121,8 @@ class Projektor2_Router_Form {
                    case "sjzp_souhlas_uc":
                         return new Projektor2_Controller_Formular_Sjzp_Souhlas($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "sjzp_plan_uc":
-                        return new Projektor2_Controller_Formular_Sjzp_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan":
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "sjzp_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Sjzp_IP2($this->sessionStatus, $this->request, $this->response);
@@ -143,8 +143,8 @@ class Projektor2_Router_Form {
                    case "vzp_sml_uc":
                         return new Projektor2_Controller_Formular_Vzp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "vzp_plan_uc":
-                        return new Projektor2_Controller_Formular_Vzp_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan":
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "vzp_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Vzp_IP2($this->sessionStatus, $this->request, $this->response);
@@ -163,8 +163,8 @@ class Projektor2_Router_Form {
                     case "zpm_sml_uc":
                         return new Projektor2_Controller_Formular_Zpm_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "zpm_plan_uc":
-                        return new Projektor2_Controller_Formular_Zpm_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan":
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "zpm_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Zpm_IP2($this->sessionStatus, $this->request, $this->response);
@@ -182,8 +182,8 @@ class Projektor2_Router_Form {
                    case "spp_sml_uc":
                         return new Projektor2_Controller_Formular_Spp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "spp_plan_uc":
-                        return new Projektor2_Controller_Formular_Spp_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan":
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "spp_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Spp_IP2($this->sessionStatus, $this->request, $this->response);
@@ -201,8 +201,8 @@ class Projektor2_Router_Form {
                    case "rp_sml_uc":
                         return new Projektor2_Controller_Formular_Rp_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "rp_plan_uc":
-                        return new Projektor2_Controller_Formular_Rp_IP1($this->sessionStatus, $this->request, $this->response);
+                    case "plan":
+                        return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "rp_ukonceni_uc":
                         return new Projektor2_Controller_Formular_Rp_IP2($this->sessionStatus, $this->request, $this->response);
