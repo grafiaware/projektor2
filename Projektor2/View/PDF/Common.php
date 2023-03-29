@@ -4,7 +4,11 @@
  * @author pes2704
  */
 abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
-
+    // formát řetězce obsahujícího datum pro MySQL, shodný s formátem dle RFC3339
+    const SQL_FORMAT = "Y-m-d";
+    const CS_FORMAT = "d.m.Y";
+    const CS_FORMAT_BEZ_NUL = "j. n. Y";
+    
 
     protected function initialize() {
         $pdfdebug = Projektor2_PDFContext::getDebug();
@@ -82,11 +86,18 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
 
     protected function celeJmeno() {
-        $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
-        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
-        $celeJmeno = $this->context[$signDotaznik][$prefixDotaznik."titul"]." ".  $this->context[$signDotaznik][$prefixDotaznik ."jmeno"]." ".  $this->context[$signDotaznik][$prefixDotaznik ."prijmeni"];
-        if ($this->context[$signDotaznik][$prefixDotaznik ."titul_za"]) {
-            $celeJmeno = $celeJmeno.", ". $this->context[$signDotaznik][$prefixDotaznik ."titul_za"];
+        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
+            case 'CJC':
+                $sigFlattable = Projektor2_Controller_Formular_FlatTable::CIZINEC_FT;
+                break;
+            default:
+                $sigFlattable = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
+                break;
+        }
+        $prefixFT = $sigFlattable.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
+        $celeJmeno = $this->context[$sigFlattable][$prefixFT."titul"]." ".  $this->context[$sigFlattable][$prefixFT ."jmeno"]." ".  $this->context[$sigFlattable][$prefixFT ."prijmeni"];
+        if ($this->context[$sigFlattable][$prefixFT ."titul_za"]) {
+            $celeJmeno = $celeJmeno.", ". $this->context[$sigFlattable][$prefixFT ."titul_za"];
         }
         return $celeJmeno;
     }
@@ -117,11 +128,18 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
 
     protected function datumBezNul($datum) {
-        $tokens = explode('.', $datum);
-        foreach ($tokens as $key=>$value) {
-            $tokens[$key] = (int) $value;
+        $datum = DateTime::createFromFormat(self::SQL_FORMAT, $datum);
+        if($datum==false) {
+            $datum = DateTime::createFromFormat(self::CS_FORMAT, $datum);
         }
-        return \implode('.', $tokens);
+        return $datum->format(self::CS_FORMAT_BEZ_NUL);
+
+        
+//        $tokens = explode('.', $datum);
+//        foreach ($tokens as $key=>$value) {
+//            $tokens[$key] = (int) $value;
+//        }
+//        return \implode('.', $tokens);
     }
 
 
@@ -256,7 +274,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         if  ($celaAdresa2) {
             $osobniUdaje->PridejOdstavec("adresa dojíždění odlišná od místa bydliště: ".$celaAdresa2);
         }
-        $osobniUdaje->PridejOdstavec("nar.: " . $this->context[$signDotaznik][$prefixDotaznik ."datum_narozeni"]);
+        $osobniUdaje->PridejOdstavec("nar.: " . $this->datumBezNul($this->context[$signDotaznik][$prefixDotaznik ."datum_narozeni"]));
         switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
                 $osobniUdaje->PridejOdstavec("identifikační číslo účastníka: ".$this->context["identifikator"]);
@@ -469,7 +487,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $mistoDatum->PridejBunku("Konzultační centrum: ", $this->context['kancelar_plny_text'], TRUE);
                 $mistoDatum->NovyRadek(0,1);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);
-                $mistoDatum->PridejBunku("Dne ",$datum,1);
+                $mistoDatum->PridejBunku("Dne ", $this->datumBezNul($datum),1);
                 $this->pdf->TiskniSaduBunek($mistoDatum, 0, 1);
                 break;
             case 'SJPK':
@@ -483,7 +501,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $mistoDatum->PridejBunku("Poradenské centrum: ", $this->context['kancelar_plny_text'], TRUE);
                 $mistoDatum->NovyRadek(0,1);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);
-                $mistoDatum->PridejBunku("Dne ",$datum,1);
+                $mistoDatum->PridejBunku("Dne ",$this->datumBezNul($datum),1);
                 $this->pdf->TiskniSaduBunek($mistoDatum, 0, 1);
                 break;
             default:
@@ -516,7 +534,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $mistoDatum->PridejBunku('', '', FALSE, 136);
                 $mistoDatum->PridejBunku(".........................................", '', TRUE, 70);
                 $mistoDatum->PridejBunku('', '', FALSE, 10);
-                $mistoDatum->PridejBunku("Dne ",$datum, FALSE, 70);
+                $mistoDatum->PridejBunku("Dne ",$this->datumBezNul($datum), FALSE, 70);
                 $mistoDatum->PridejBunku('', '', FALSE, 60);
                 $mistoDatum->PridejBunku('', $this->context['signerName'], TRUE, 70);
                 $mistoDatum->NovyRadek(0,1);

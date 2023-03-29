@@ -20,9 +20,15 @@ class Projektor2_View_PDF_IP1 extends Projektor2_View_PDF_Common {
     const MODEL_PLAN = "plan->";
 
     public function createPDFObject() {
-         $textPaticky = "Individuální plán účastníka v projektu „S jazyky za prací v Plzni a okolí“ - část 1 - plán aktivit  ".$this->context["file"]; //!!
+        $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
+        $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
+        $signPlan = Projektor2_Controller_Formular_FlatTable::PLAN_FT;
+        $prefixPlan = $signPlan.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;        
+        
+        
+        $textPaticky = "Individuální plán účastníka v projektu „{$this->sessionStatus->getUserStatus()->getProjekt()->text}“ - část 1 - plán aktivit  ".$this->context["file"]; //!!
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1 - plán aktivit";
-        $textyNadpisu[] = 'Projekt „S jazyky za prací v Plzni a okolí“'; //!!
+        $textyNadpisu[] = "Projekt „{$this->sessionStatus->getUserStatus()->getProjekt()->text}“";
         $this->setHeaderFooter($textPaticky);
         $this->initialize();
         //*****************************************************
@@ -48,20 +54,21 @@ class Projektor2_View_PDF_IP1 extends Projektor2_View_PDF_Common {
         $mistoDatumPodpisy = 60;
         if ($count) {
             $counter = 0;
-            foreach($this->context['aktivityPlan'] as $kurzPlan) {
+            foreach($this->context['aktivityPlan'] as $aktivitaPlan) {
+                /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
 //                $kurzPlan = new Projektor2_Model_KurzPlan();
-                if ($kurzPlan->getUserStatus()->getSKurz()->isRealCourse()) {
+                if (isset($aktivitaPlan->sKurz) AND $aktivitaPlan->sKurz->isRealCourse()) {
                     $counter++;
                     $yPositionBefore = $this->pdf->getY();
                     $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
                     $kurzSadaBunek->SpustSadu(true);
-                    $kurzSadaBunek->Nadpis($kurzPlan->nadpisAktivity); // prohledaz podle kurz_druh
+                    $kurzSadaBunek->Nadpis($aktivitaPlan->nadpisAktivity); // prohledaz podle kurz_druh
                     $kurzSadaBunek->MezeraPredNadpisem(0);
                     $kurzSadaBunek->ZarovnaniNadpisu("L");
                     $kurzSadaBunek->VyskaPismaNadpisu(11);
                     $kurzSadaBunek->MezeraPredSadouBunek(0);
-                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$kurzPlan->getUserStatus()->getSKurz()->kurz_nazev, 1);
-                    $kurzSadaBunek->PridejBunku("Termín konání: ",$kurzPlan->getUserStatus()->getSKurz()->date_zacatek.' - '.$kurzPlan->getUserStatus()->getSKurz()->date_konec, 1);
+                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$aktivitaPlan->sKurz->kurz_nazev, 1);
+                    $kurzSadaBunek->PridejBunku("Termín konání: ", $this->datumBezNul($aktivitaPlan->sKurz->date_zacatek).' - '. $this->datumBezNul($aktivitaPlan->sKurz->date_konec), 1);
                     $this->pdf->TiskniSaduBunek($kurzSadaBunek);
                     if ($counter == $count-1) {
                         $potrebneMisto = $dolniokrajAPaticka+$mistoDatumPodpisy;
@@ -80,8 +87,8 @@ class Projektor2_View_PDF_IP1 extends Projektor2_View_PDF_Common {
         }
 
         //##################################################################################################
-        $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $this->context[self::MODEL_PLAN . "datum_upravy_dok_plan"]);
-        $this->tiskniPodpisy(self::MODEL_DOTAZNIK);
+        $this->tiskniMistoDatum($this->context[$signDotaznik], $this->context[$signPlan][$prefixPlan . "datum_upravy_dok_plan"]);
+        $this->tiskniPodpisy($this->context[$signDotaznik]);
         return $this->pdf;
     }
 
