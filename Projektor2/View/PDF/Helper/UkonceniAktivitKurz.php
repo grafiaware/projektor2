@@ -13,13 +13,16 @@
  */
 class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF_Helper_Base {
 
-    public static function createContent($pdf, $context, $caller, $dolniokrajAPaticka, $mistoDatumPodpisy) {
+    public static function createContent($pdf, $context, $dolniokrajAPaticka, $mistoDatumPodpisy) {
+        $signUkonceni = Projektor2_Controller_Formular_FlatTable::UKONC_FT;
+        $prefixUkonceni = $signUkonceni.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
+        
         $count = count($context['aktivityPlan']);
         if ($count) {
             $counter = 0;
             foreach($context['aktivityPlan'] as $aktivita) {
 //                    $kurzPlan = new Projektor2_Model_KurzPlan();
-                if (isset($aktivita->sKurz) AND $aktivita->getUserStatus()->getSKurz()->isRealCourse()) {
+                if (isset($aktivita->sKurz) AND $aktivita->sKurz->isRealCourse()) {
                     $counter++;
                     $yPositionBefore = $pdf->getY(); 
                     $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
@@ -31,8 +34,8 @@ class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF
                     $kurzSadaBunek->MezeraPredSadouBunek(1);
 //                        $kurzSadaBunek->PridejBunku("Název kurzu: ",$context[$druh.'_kurz']->kurz_nazev, 1);
 //                        $kurzSadaBunek->PridejBunku("Termín konání: ",$context[$druh.'_kurz']->date_zacatek.' - '.$context[$druh.'_kurz']->date_konec, 1);
-                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$aktivita->getUserStatus()->getSKurz()->kurz_nazev, 1);
-                    $kurzSadaBunek->PridejBunku("Termín konání: ",$aktivita->getUserStatus()->getSKurz()->date_zacatek.' - '.$aktivita->getUserStatus()->getSKurz()->date_konec, 1);
+                    $kurzSadaBunek->PridejBunku("Název kurzu: ",$aktivita->sKurz->kurz_nazev, 1);
+                    $kurzSadaBunek->PridejBunku("Termín konání: ", self::datumBezNul($aktivita->sKurz->date_zacatek).' - '.self::datumBezNul($aktivita->sKurz->date_konec), 1);
                     $kurzSadaBunek->PridejBunku("Počet absolvovaných hodin: ", $aktivita->pocAbsHodin,1);
                     if ($aktivita->duvodAbsence) {
                         $kurzSadaBunek->PridejBunku("Důvod absence: ", $aktivita->duvodAbsence, 1);
@@ -46,14 +49,14 @@ class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF
                         $vyhodnoceni = new Projektor2_PDF_Blok();
                         $vyhodnoceni->Nadpis('Osvědčení o absolvování kurzu v projektu');
                         $vyhodnoceni->vyskaPismaNadpisu(9);
-                        $vyhodnoceni->Odstavec("Účastníkovi bylo vydáno osvědčení dne: ".$aktivita->datumCertif);
+                        $vyhodnoceni->Odstavec("Účastníkovi bylo vydáno osvědčení dne: ".self::datumBezNul($aktivita->datumCertif));
                         $pdf->TiskniBlok($vyhodnoceni);
                     }
-                    if ($context[$caller::MODEL_UKONCENI.$aktivita->indexAktivity.'_hodnoceni']) {
+                    if ($context[$prefixUkonceni.$aktivita->indexAktivity.'_hodnoceni']) {
                         $vyhodnoceni = new Projektor2_PDF_Blok();
                         $vyhodnoceni->Nadpis('Hodnocení');
                         $vyhodnoceni->vyskaPismaNadpisu(9);
-                        $vyhodnoceni->Odstavec($context[$caller::MODEL_UKONCENI.$aktivita->indexAktivity.'_hodnoceni']);
+                        $vyhodnoceni->Odstavec($context[$prefixUkonceni.$aktivita->indexAktivity.'_hodnoceni']);
                         $pdf->TiskniBlok($vyhodnoceni);
                     }                        
                     if ($counter == $count-1) {

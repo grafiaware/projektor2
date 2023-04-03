@@ -78,7 +78,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_ap_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'ap_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
@@ -151,7 +151,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_he_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'he_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
@@ -210,7 +210,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_sj_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjzp_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
@@ -264,7 +264,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_vz_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'vzp_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
@@ -323,7 +323,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_sp_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjpk_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
@@ -378,7 +378,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_zpm_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'zpm_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
@@ -420,7 +420,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_spp_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'spp_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
@@ -462,7 +462,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_rp_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'rp_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
@@ -522,7 +522,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_so_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjpo_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';
@@ -595,7 +595,7 @@ class Config_MenuOsoba {
                 //ukončení
                 if ($user->tl_sl_ukon) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjlp_ukonceni_uc';
+                    $modelTlacitko->osoba = 'ukonceni';
                     $modelTlacitko->text = 'Ukončení a IP2';
                     $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
                     $modelTlacitko->status = 'edit';

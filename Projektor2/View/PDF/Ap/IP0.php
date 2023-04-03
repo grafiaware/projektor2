@@ -80,7 +80,7 @@ class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
             $blok->odsazeniZleva(0);
         $this->pdf->TiskniBlok($blok);        
         //##################################################################################################
-        $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $this->context[self::MODEL_PLAN ."datum_vytvor_dok_plan"]);
+        $this->tiskniMistoDatum($this->context[self::MODEL_PLAN ."datum_vytvor_dok_plan"]);
         $this->tiskniPodpisy(self::MODEL_DOTAZNIK);      
     }
 }

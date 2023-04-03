@@ -133,13 +133,6 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             $datum = DateTime::createFromFormat(self::CS_FORMAT, $datum);
         }
         return $datum->format(self::CS_FORMAT_BEZ_NUL);
-
-        
-//        $tokens = explode('.', $datum);
-//        foreach ($tokens as $key=>$value) {
-//            $tokens[$key] = (int) $value;
-//        }
-//        return \implode('.', $tokens);
     }
 
 
@@ -467,7 +460,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         }
     }
 
-    protected function tiskniMistoDatum($modelSmlouva, $datum) {
+    protected function tiskniMistoDatum($datum) {
         switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AGP':
             case 'AP':
@@ -511,7 +504,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
 
 
-    protected function tiskniMistoDatumPms($modelSmlouva, $datum) {
+    protected function tiskniMistoDatumPms($datum) {
         switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             // jen pro PMS
             case 'VZP':

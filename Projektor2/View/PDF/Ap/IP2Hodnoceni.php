@@ -75,7 +75,7 @@ class Projektor2_View_PDF_Ap_IP2Hodnoceni extends Projektor2_View_PDF_Common {
                 $this->pdf->TiskniBlok($bezAktivit);                    
             }            
         //##################################################################################################
-        $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $this->context[self::MODEL_UKONCENI . "datum_vytvor_dok_ukonc"]);
+        $this->tiskniMistoDatum($this->context[self::MODEL_UKONCENI . "datum_vytvor_dok_ukonc"]);
         $this->tiskniPodpisPoradce(self::MODEL_DOTAZNIK);   
         return $this->pdf;
     }

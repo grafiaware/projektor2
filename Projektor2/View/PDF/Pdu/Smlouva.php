@@ -195,7 +195,7 @@ class Projektor2_View_PDF_Pdu_Smlouva extends Projektor2_View_PDF_Common {
 
         //##################################################################################################
         $this->pdf->Ln(5);
-        $this->tiskniMistoDatum(self::MODEL_SMLOUVA, $this->context[self::MODEL_SMLOUVA ."datum_vytvor_smlouvy"]);
+        $this->tiskniMistoDatum($this->context[self::MODEL_SMLOUVA ."datum_vytvor_smlouvy"]);
         $this->tiskniPodpisy(self::MODEL_SMLOUVA);
     }
 }

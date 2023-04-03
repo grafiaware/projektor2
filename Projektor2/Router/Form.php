@@ -288,11 +288,11 @@ class Projektor2_Router_Form {
                     case "plan":
                         return (new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
-                    case "sjlp_ukonceni_uc":
-                        return new Projektor2_Controller_Formular_Sjlp_IP2($this->sessionStatus, $this->request, $this->response);
+                    case "ukonceni":
+                        return (new Projektor2_Controller_Formular_IP2($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     case "zamestnani":
-                        return new Projektor2_Controller_Formular_Sjlp_Zamestnani($this->sessionStatus, $this->request, $this->response);
+                        return (new Projektor2_Controller_Formular_Sjlp_Zamestnani($this->sessionStatus, $this->request, $this->response))->getResult();
                         break;
                     default:
                         throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form "'.$form.'" v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);

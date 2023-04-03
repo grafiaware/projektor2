@@ -97,7 +97,7 @@ class Projektor2_View_PDF_Help_IPOsvedceni extends Projektor2_View_PDF_Common {
         
         
         //##################################################################################################
-        $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $this->context[self::MODEL_PLAN .$druh."_datum_certif"]);
+        $this->tiskniMistoDatum($this->context[self::MODEL_PLAN .$druh."_datum_certif"]);
         $this->pdf->Ln(20);
         $this->tiskniPodpisCertifikat();      
     }

@@ -14,13 +14,14 @@ class Projektor2_Controller_ConnectionInfo extends Projektor2_Controller_Abstrac
 
     public function getResult() {
         $dbh = Config_AppContext::getDb();
-            if ($dbh->getDbHost() == 'localhost') {
+            if (false AND $dbh->getDbHost() == 'localhost') {
                 $html = '<div class="connection development">';
+                $html .= 'Uživatel '.$this->sessionStatus->getUserStatus()->getUser()->username.' pracuje s databází '.
+                    $dbh->getDbName().' na stroji '.$dbh->getDbHost().' jako '.$dbh->getUser().'.';
             } else {
                 $html = '<div class="connection production">';
             }
-            $html .= '            Uživatel '.$this->sessionStatus->getUserStatus()->getUser()->username.' pracuje s databází '.
-                    $dbh->getDbName().' na stroji '.$dbh->getDbHost().' jako '.$dbh->getUser().'.';
+
             $html .= '     </div>';
         return $html;
     }

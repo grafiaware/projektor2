@@ -49,7 +49,7 @@ class Projektor2_View_PDF_Agp_Souhlas extends Projektor2_View_PDF_Common{
             $blok->Radkovani(1.25);
         $this->pdf->TiskniBlok($blok);
 
-        $this->tiskniMistoDatum(self::MODEL_SMLOUVA, $this->context[self::MODEL_SMLOUVA ."datum_vytvor_smlouvy"]);
+        $this->tiskniMistoDatum($this->context[self::MODEL_SMLOUVA ."datum_vytvor_smlouvy"]);
         $this->tiskniPodpisy(self::MODEL_SMLOUVA);
         
     }

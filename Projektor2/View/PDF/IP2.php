@@ -7,12 +7,12 @@
 * @author pes2704
 */
 class Projektor2_View_PDF_IP2 extends Projektor2_View_PDF_Common {
-    const MODEL_UKONCENI = "ukonceni->";
-    const MODEL_DOTAZNIK = "dotaznik->";
-    const MODEL_PLAN = 'plan->';
-
+        
     public function createPDFObject() {
-
+        $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
+        $signUkonceni = Projektor2_Controller_Formular_FlatTable::UKONC_FT;
+        $prefixUkonceni = $signUkonceni.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
+        
         $textPaticky = "Individuální plán účastníka v projektu „{$this->sessionStatus->getUserStatus()->getProjekt()->text}“ - část 2 - vyhodnocení aktivit  ".$this->context["file"];
         $this->setHeaderFooter($textPaticky);
         $this->initialize();
@@ -21,7 +21,7 @@ class Projektor2_View_PDF_IP2 extends Projektor2_View_PDF_Common {
         $textyNadpisu[] = "Projekt „{$this->sessionStatus->getUserStatus()->getProjekt()->text}“";
         $this->tiskniTitul($textyNadpisu);
         //*****************************************************
-        $this->tiskniOsobniUdaje(self::MODEL_DOTAZNIK);
+        $this->tiskniOsobniUdaje();  // osobní údaje z dotaznik 
         //********************************************************
         $blok = new Projektor2_PDF_Blok;
             $blok->Nadpis("Preambule");
@@ -38,10 +38,10 @@ class Projektor2_View_PDF_IP2 extends Projektor2_View_PDF_Common {
             $this->pdf->TiskniBlok($blok);
             $dolniokrajAPaticka = 25;
             $mistoDatumPodpisy = 60;
-            Projektor2_View_PDF_Helper_UkonceniAktivitKurz::createContent($this->pdf, $this->context, $this, $dolniokrajAPaticka, $mistoDatumPodpisy);
+            Projektor2_View_PDF_Helper_UkonceniAktivitKurz::createContent($this->pdf, $this->context, $dolniokrajAPaticka, $mistoDatumPodpisy);
         //##################################################################################################
-        $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $this->context[self::MODEL_UKONCENI . "datum_vytvor_dok_ukonc"]);
-        $this->tiskniPodpisy(self::MODEL_DOTAZNIK);
+        $this->tiskniMistoDatum($this->context[$signUkonceni][$prefixUkonceni . "datum_vytvor_dok_ukonc"]);
+        $this->tiskniPodpisy($signDotaznik);
         return $this->pdf;
     }
 }

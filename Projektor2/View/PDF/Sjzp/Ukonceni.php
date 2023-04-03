@@ -78,7 +78,7 @@ class Projektor2_View_PDF_Sjzp_Ukonceni extends Projektor2_View_PDF_Common {
         $this->pdf->TiskniBlok($pozn); 
         
         //##################################################################################################
-        $this->tiskniMistoDatum(self::MODEL_UKONCENI, $this->context[self::MODEL_UKONCENI."datum_vytvor_dok_ukonc"]);
+        $this->tiskniMistoDatum($this->context[self::MODEL_UKONCENI."datum_vytvor_dok_ukonc"]);
         $this->tiskniPodpisy(self::MODEL_UKONCENI);        
     }
 }

@@ -15,7 +15,7 @@ class Projektor2_Controller_Formular_Sjlp_IP2 extends Projektor2_Controller_Form
     protected function formular() {
         $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
         $kurzyModelsAssoc = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
-        $kurzyPlanAssoc = Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus, $this->sessionStatus->getUserStatus()->getZajemce());
+        $kurzyPlanAssoc = Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus->getUserStatus()->getZajemce()->id);
 
         $ukonceniArray = Config_Ukonceni::getUkonceniProjektu($this->sessionStatus->getUserStatus()->getProjekt()->kod);
 

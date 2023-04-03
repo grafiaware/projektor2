@@ -5,7 +5,10 @@
  * @author pes2704
  */
 class Projektor2_View_PDF_Helper_Base {
-
+    // formát řetězce obsahujícího datum pro MySQL, shodný s formátem dle RFC3339
+    const SQL_FORMAT = "Y-m-d";
+    const CS_FORMAT = "d.m.Y";
+    const CS_FORMAT_BEZ_NUL = "j. n. Y";
 
     protected static function celeJmeno(Projektor2_Model_Db_Flat_ZaFlatTable $modelSmlouva) {   //--vs
         $celeJmeno = $modelSmlouva->titul." ".$modelSmlouva->jmeno." ".$modelSmlouva->prijmeni;
@@ -40,12 +43,11 @@ class Projektor2_View_PDF_Helper_Base {
     }
 
     protected static function datumBezNul($datum) {
-        $tokens = explode('-', $datum);
-            $d[] = (int) $tokens[2];
-            $d[] = (int) $tokens[1];
-            $d[] = (int) $tokens[0];
-        return \implode('. ', $d);
+        $datum = DateTime::createFromFormat(self::SQL_FORMAT, $datum);
+        if($datum==false) {
+            $datum = DateTime::createFromFormat(self::CS_FORMAT, $datum);
+        }
+        return $datum->format(self::CS_FORMAT_BEZ_NUL);
     }
-
 
 }

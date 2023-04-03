@@ -24,7 +24,7 @@ class Projektor2_View_PDF_ProjektOsvedceniPseudokopie extends Projektor2_View_PD
         Projektor2_View_PDF_Helper_ProjektOsvedceni::createContent($this->pdf, $this->context, $this);
         //##################################################################################################
         $datumCertif = Projektor2_Date::createFromSqlDate($this->context['certifikat']->date)->getCzechStringDate();
-        $this->tiskniMistoDatum(self::MODEL_DOTAZNIK, $datumCertif);
+        $this->tiskniMistoDatum($datumCertif);
         $this->pdf->Ln(20);
         $this->tiskniPodpisCertifikat();
     }

@@ -25,7 +25,7 @@ class Projektor2_View_PDF_KurzOsvedceniPms extends Projektor2_View_PDF_Common {
         Projektor2_View_PDF_Helper_KurzOsvedceniPMS::createContent($this->pdf, $this->context, $this);
         //##################################################################################################
         $datumCertif = Projektor2_Date::createFromSqlDate($this->context['certifikat']->date)->getCzechStringDate();
-        $this->tiskniMistoDatumPms(self::MODEL_DOTAZNIK, $datumCertif);
+        $this->tiskniMistoDatumPms($datumCertif);
         $this->pdf->Ln(20);
 //        $this->tiskniPodpisCertifikat();
 
