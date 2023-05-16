@@ -11,7 +11,7 @@ class Projektor2_Controller_Formular extends Projektor2_Controller_Abstract {
     }
 
     private function getLeftMenuArrayUni() {
-        $menuArray[] = array('href'=>'index.php?akce=zobraz_reg', 'text'=>'Zpět na výběr zájemce');
+        $menuArray[] = array('href'=>'index.php?akce=osoby&osoby=seznam', 'text'=>'Zpět na výběr zájemce');
         return $menuArray;
     }
 

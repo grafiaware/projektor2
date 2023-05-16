@@ -8,7 +8,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_UploadFile extends Framework_View_Abstract {
+class Projektor2_View_HTML_Formular_UploadFile extends Framework_View_Abstract {
     public function render() {
         return $this->getInputFile(".pdf, .doc, .docx, image/*");
     }

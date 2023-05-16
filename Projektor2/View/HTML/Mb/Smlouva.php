@@ -16,7 +16,7 @@ class Projektor2_View_HTML_Mb_Smlouva extends Projektor2_View_HTML_FormularPHP4 
 
         $pole = $this->context[$signDotaznik];
 ?>
-<H3>SMLOUVA O ÚČASTI V PROJEKTU Moje budoucnost</H3>
+<H3>SMLOUVA O ÚČASTI V PROJEKTU <?=$this->context["projekt_plny_text"]?></H3>
 
 <form method="POST" action="index.php?akce=osoby&osoby=form&form=smlouva">
 <FIELDSET><LEGEND><b>Osobní údaje</b></LEGEND>
@@ -33,7 +33,7 @@ class Projektor2_View_HTML_Mb_Smlouva extends Projektor2_View_HTML_FormularPHP4 
   </select></p>
   <p>
     <label for="datum_narozeni">Datum narození:</label><input ID="datum_narozeni" type="date" name="<?=$prefixDotaznik.'datum_narozeni'?>" size="8" maxlength="10" value="<?=$pole[$prefixDotaznik.'datum_narozeni'];?>" required>
-    <label for="misto_narozeni">Místo narození pro certifikáty:</label><input ID="misto_narozeni" type="text" name="<?=$prefixDotaznik.'misto_narozeni'?>" size="20" maxlength="50" value="<?=$pole[$prefixDotaznik.'misto_narozeni'];?>" required>
+    <label for="misto_narozeni">Místo narození:</label><input ID="misto_narozeni" type="text" name="<?=$prefixDotaznik.'misto_narozeni'?>" size="20" maxlength="50" value="<?=$pole[$prefixDotaznik.'misto_narozeni'];?>">
     <label for="rodne_cislo">Rodné číslo:</label><input ID="rodne_cislo" type="text" name="<?=$prefixDotaznik.'rodne_cislo'?>" size="20" maxlength="50" value="<?=$pole[$prefixDotaznik.'rodne_cislo'];?>"></p>
   <p></p>
 </FIELDSET>

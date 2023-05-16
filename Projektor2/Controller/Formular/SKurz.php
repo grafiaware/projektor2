@@ -22,7 +22,9 @@ class Projektor2_Controller_Formular_SKurz extends Projektor2_Controller_Formula
                 Projektor2_Model_Db_SKurzMapper::update($this->models[self::S_KURZ]);
             }
             if ($this->request->post("duplicate")) {
-                Projektor2_Model_Db_SKurzMapper::insert($this->models[self::S_KURZ]);
+                $duplikatSKurz = Projektor2_Model_Db_SKurzMapper::insert($this->models[self::S_KURZ]);
+                $this->models[self::S_KURZ] = $duplikatSKurz;
+                $this->sessionStatus->getUserStatus()->setSKurz($duplikatSKurz);
             }
         }
         $context = $this->createContextFromModels(true);

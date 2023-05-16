@@ -24,7 +24,8 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                             ''=>'',
                             'kurzy v projektu'=>'template|kurzy projekt',
                             'kurzy v kanceláři'=>'template|kurzy kancelar',
-                            'certifikáty v projektu'=>'template|certifikaty projekt'
+                            'certifikáty v projektu'=>'template|certifikaty projekt',
+                            'aktivity v projektu'=>'template|aktivity projekt',
                         ]
                     );
                     $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=kurzy&kurzy=excel");
@@ -148,7 +149,11 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                     'createdViewPostfix' => 'certifikaty_kurz',
                     'xlsSheetName' => "Certifikaty {$this->sessionStatus->getUserStatus()->getSKurz()->kurz_druh}"
                     ],
-
+                'aktivity projekt' => [
+                    'sqlFilename' => __DIR__."/Templates/Aktivity_projekt.sql",
+                    'createdViewPostfix' => 'aktivity_projekt',
+                    'xlsSheetName' => "Aktivity {$this->sessionStatus->getUserStatus()->getProjekt()->kod}"
+                    ],
                 ];
         if (!array_key_exists($exportTemplateName, $templateParams)) {
                 throw new UnexpectedValueException("Neznámá hodnota parametru 'template' $exportTemplateName");

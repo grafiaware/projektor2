@@ -11,7 +11,6 @@
  * @author pes2704
  */
 class Projektor2_View_PDF_Mb_Smlouva extends Projektor2_View_PDF_Common {
-    const MODEL_SMLOUVA = "smlouva->";   //--vs
 
     public function createPDFObject() {
         $nazevProjektu = '„Moje budoucnost“';
@@ -40,7 +39,7 @@ class Projektor2_View_PDF_Mb_Smlouva extends Projektor2_View_PDF_Common {
         $this->pdf->TiskniBlok($a);
         $this->pdf->Ln(2);
 
-        $this->tiskniOsobniUdaje(self::MODEL_SMLOUVA);  //--vs
+        $this->tiskniOsobniUdaje(Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT);  //--vs
         $this->pdf->Ln(2);
 
         $spolecneUzaviraji = new Projektor2_PDF_Blok;
@@ -199,8 +198,8 @@ class Projektor2_View_PDF_Mb_Smlouva extends Projektor2_View_PDF_Common {
 
         //##################################################################################################
         $this->pdf->Ln(5);
-        $this->tiskniMistoDatum($this->context[self::MODEL_SMLOUVA ."datum_vytvor_smlouvy"]);
-        $this->tiskniPodpisy(self::MODEL_SMLOUVA);
+        $this->tiskniMistoDatum($this->context[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT ."datum_vytvor_smlouvy"]);
+        $this->tiskniPodpisy(Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT);
     }
 }
 

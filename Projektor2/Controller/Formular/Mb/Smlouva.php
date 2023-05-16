@@ -19,6 +19,7 @@ class Projektor2_Controller_Formular_Mb_Smlouva extends Projektor2_Controller_Fo
     protected function formular() {
         $htmlResult = "";
         $view = new Projektor2_View_HTML_Mb_Smlouva($this->sessionStatus, $this->createContextFromModels(TRUE));
+        $view->assign('projekt_plny_text', $this->sessionStatus->getUserStatus()->getProjekt()->plny_text);
         $htmlResult .= $view->render();
 
         return $htmlResult;

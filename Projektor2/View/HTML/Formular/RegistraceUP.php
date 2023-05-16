@@ -8,7 +8,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_RegistraceUP extends Framework_View_Abstract {
+class Projektor2_View_HTML_Formular_RegistraceUP extends Framework_View_Abstract {
     public function render() {
 
         $signCizinec = Projektor2_Controller_Formular_FlatTable::CIZINEC_FT;
@@ -39,7 +39,7 @@ class Projektor2_View_HTML_RegistraceUP extends Framework_View_Abstract {
             $aDownload = '';
         }
         $inputDatum = Html::input($prefixCizinec.$registation['datum_reg_name'], $registation['datum_reg_text'], $poleCizinec, ["type"=>"date", "size"=>"8", "maxlength"=>"10"]);
-        $inputUpload = (new Projektor2_View_HTML_UploadFile($this->sessionStatus, ['type'=>$zaUploadType->type]))->render();
+        $inputUpload = (new Projektor2_View_HTML_Formular_UploadFile($this->sessionStatus, ['type'=>$zaUploadType->type]))->render();
 
         return
             Html::tag("div", [],

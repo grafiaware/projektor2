@@ -773,9 +773,21 @@ class Config_Aktivity {
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
                 ),
-        // prof2 je v MB použit pro jazykové kurzy - v tabulce za_plan_flat_table se použijí sloupce s prefixem prof2
+        // prof2 je v MB použit pro jazykové kurzy 
         // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
             'prof2'=>array(
+                'typ'=>self::TYP_KURZ,
+                'nadpis'=>'Intenzivní kurz odborného jazyka',
+                'kurz_druh'=>'JAZ',
+                's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
+                'tiskni_certifikat' => TRUE,
+                's_hodnocenim' => FALSE,
+                'help'=>self::getHelp('jaz')
+                ),
+        // prof5 je v MB použit pro další jazykový kurz
+        // v tabulce s_kurz je použijí kurzy s typem 'JAZ'
+            'prof5'=>array(
                 'typ'=>self::TYP_KURZ,
                 'nadpis'=>'Intenzivní kurz odborného jazyka',
                 'kurz_druh'=>'JAZ',

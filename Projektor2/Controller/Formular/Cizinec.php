@@ -140,7 +140,7 @@ class Projektor2_Controller_Formular_Cizinec extends Projektor2_Controller_Formu
 
         $view = new Projektor2_View_HTML_Formular_Cizinec($this->sessionStatus, $context);
 
-        $viewRegistrace = new Projektor2_View_HTML_RegistraceUP($this->sessionStatus, $context);
+        $viewRegistrace = new Projektor2_View_HTML_Formular_RegistraceUP($this->sessionStatus, $context);
         $viewRegistrace->assign("registrace", $contextRegistrace);
         $view->assign("registrace_up", $viewRegistrace->render());
         $viewRegistrace->assign("registrace", $contextRekvalifikace);

@@ -37,11 +37,15 @@ class Projektor2_Viewmodel_KurzViewmodel {
             $ret = trim($kurz->projekt_kod). "_"
                     .trim($kurz->kurz_druh). "_"
                     .trim($kurz->kurz_cislo) . "_"
-                    .trim($kurz->beh_cislo) . "T_"
+//                    .trim($kurz->beh_cislo) . "T_"
                     .trim($kurz->kurz_zkratka). " | "
                     .trim($kurz->kurz_nazev)." | "
                     .DateTime::createFromFormat('Y-m-d', trim($kurz->date_zacatek))->format('j.n.Y')." - "
                     .DateTime::createFromFormat('Y-m-d', trim($kurz->date_konec))->format('j.n.Y'). " | "
+                    ."zk: ".DateTime::createFromFormat('Y-m-d', trim($kurz->date_zaverecna_zkouska))->format('j.n.Y'). " | "
+                    . mb_substr(trim($kurz->info_cas_konani), 0, 18)." | "
+                    . mb_substr(trim($kurz->info_misto_konani), 0, 12)." | "
+                    . mb_substr(trim($kurz->info_lektor), 0, 12)." | "
                     .trim($kurz->kancelar_kod);
         }
         return $ret;
