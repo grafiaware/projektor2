@@ -8,7 +8,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     const SQL_FORMAT = "Y-m-d";
     const CS_FORMAT = "d.m.Y";
     const CS_FORMAT_BEZ_NUL = "j. n. Y";
-    
+
 
     protected function initialize() {
         $pdfdebug = Projektor2_PDFContext::getDebug();
@@ -129,8 +129,11 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 
     protected function datumBezNul($datum) {
         $datum = DateTime::createFromFormat(self::SQL_FORMAT, $datum);
-        if($datum==false) {
+        if($datum===false) {
             $datum = DateTime::createFromFormat(self::CS_FORMAT, $datum);
+        }
+        if($datum===false) {
+            throw new LogicException("Hodnotu parametru datum nelze převést na Datetime.");
         }
         return $datum->format(self::CS_FORMAT_BEZ_NUL);
     }

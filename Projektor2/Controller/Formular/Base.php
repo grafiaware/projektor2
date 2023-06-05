@@ -42,6 +42,17 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
         return $context;
     }
 
+    /**
+     * Vytvoří z kolekce Framework_Model_CollectionFlatTable asociativní pole s indexy:
+     *
+     * modelSign:collectionKey->key
+     *
+     * @param type $modelSign
+     * @param Framework_Model_CollectionFlatTable $model
+     * @param type $transformValuesForHtml
+     * @return type
+     * @throws LogicException
+     */
     private function createContextFromCollectionFlatTable($modelSign, Framework_Model_CollectionFlatTable $model, $transformValuesForHtml=FALSE) {
         foreach ($model as $collectionKey => $itemFT) {  // itemSign je primary key, itemModel je FT
             if ($itemFT instanceof Framework_Model_ItemFlatTable) {
@@ -65,6 +76,14 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
         return $context;
     }
 
+    /**
+     * Vytvoří z itemu Framework_Model_ItemFlatTable
+     *
+     * @param type $modelSign
+     * @param Framework_Model_ItemFlatTable $model
+     * @param type $transformValuesForHtml
+     * @return type
+     */
     private function createContextFromItemFlatTable($modelSign, Framework_Model_ItemFlatTable $model, $transformValuesForHtml=FALSE) {
         foreach ($model as $key => $value) {
             if ($transformValuesForHtml) {
