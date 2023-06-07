@@ -78,9 +78,8 @@ class Projektor2_View_PDF_Mb_Ukonceni extends Projektor2_View_PDF_Common {
         $this->pdf->TiskniBlok($pozn);
 
         //##################################################################################################
-        $this->tiskniMistoDatum($this->context[self::MODEL_UKONCENI."datum_vytvor_dok_ukonc"]);
-        $this->tiskniPodpisy(self::MODEL_UKONCENI);
+//        $this->tiskniMistoDatum($this->context[self::MODEL_UKONCENI."datum_vytvor_dok_ukonc"]);
+        $this->tiskniMistoDatum($this->context[Projektor2_Controller_Formular_FlatTable::UKONC_FT][Projektor2_Controller_Formular_FlatTable::UKONC_FT.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR."datum_vytvor_dok_ukonc"]);
+        $this->tiskniPodpisy();
     }
 }
-
-?>

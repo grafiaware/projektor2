@@ -7,7 +7,6 @@
 class Projektor2_Router_Form {
 
     const CTRL_NOVA_OSOBA = "novy_zajemce";
-    const CTRL_CIZINEC = "cizinec";
     const CTRL_SMLOUVA = "smlouva";
     const CTRL_SOUHLAS = "souhlas";
     const CTRL_PLAN = "plan";
@@ -346,7 +345,7 @@ class Projektor2_Router_Form {
                         $controler = new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "dotaznik":
-                        $controler = new Projektor2_Controller_Formular_Mb_Dotaznik($this->sessionStatus, $this->request, $this->response);
+                        $controler = new Projektor2_Controller_Formular_Dotaznik($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "smlouva":
                         $controler = new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);
@@ -431,10 +430,17 @@ class Projektor2_Router_Form {
 
         switch($form) {
             case self::CTRL_NOVA_OSOBA:
-                $controler = new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);
+                switch ($kodProjektu) {
+                    case 'CJC':
+                        $controler = new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
+                        break;
+                    default :
+                        $controler = new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);
+                        break;
+                }
                 break;
             case "dotaznik":
-                $controler = new Projektor2_Controller_Formular_Mb_Dotaznik($this->sessionStatus, $this->request, $this->response);
+                $controler = new Projektor2_Controller_Formular_Dotaznik($this->sessionStatus, $this->request, $this->response);
                 break;
             case "smlouva":
                 $controler = new Projektor2_Controller_Formular_Mb_Smlouva($this->sessionStatus, $this->request, $this->response);

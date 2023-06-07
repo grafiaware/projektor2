@@ -8,7 +8,7 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
 
     protected function getLeftMenuArray() {
         if ($this->hasBeh()) {
-            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=form&form='.Projektor2_Router_Form::CTRL_NOVA_OSOBA.'&novy_zajemce', 'text'=>'Nová osoba'];
+            $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=form&form='.Projektor2_Router_Form::CTRL_NOVA_OSOBA, 'text'=>'Nová osoba'];
         }
         $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=excel', 'text'=>'Exporty dat'];
         $menuArray[] = ['href'=>'index.php?akce=osoby&osoby=export_certifikaty_projekt', 'text'=>'Exportuj projektové certifikáty'];
@@ -25,7 +25,7 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
         // musí být vybrán běh - jinak je výsledků příliš mnoho, výjimku má sys_admin pro development
         $displayOsoby = $this->hasBeh() || ($this->sessionStatus->getUserStatus()->getUser()->username=="sys_admin");
         if ($displayOsoby) {
-            $osobyMenu = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::findInContext(NULL, NULL, "identifikator");
+            $osobyMenu = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::findInContext(NULL, NULL, "znacka"); //"prijmeni");
             if ($osobyMenu) {
                 $row[] = (string) (new Projektor2_Controller_Element_TabulkaMenuOsoby($this->sessionStatus, $this->request, $this->response, $osobyMenu))->getResult();
             }

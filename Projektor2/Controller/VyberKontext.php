@@ -40,7 +40,7 @@ class Projektor2_Controller_VyberKontext extends Projektor2_Controller_Abstract 
             $this->sessionStatus->getUserStatus()->setBeh($beh);
         }
         // odkaz z left menu Nová osoba - smazání zájemce ze session
-        if ($this->request->get('novy_zajemce')==="") {  // hodnota je prázdný string
+        if ($this->request->get(Projektor2_Router_Form::CTRL_NOVA_OSOBA)==="") {  // hodnota je prázdný string
             $this->sessionStatus->getUserStatus()->setZajemce();
         }
         // odkaz z tlačítka kurz menu nové id_s_kurz -> změna kurzu v session

@@ -1,13 +1,13 @@
 <?php
 /**
- * Třída Projektor2_View_HTML_HeSmlouva zabaluje původní PHP4 kód do objektu. Funkčně se jedná o konponentu View, 
+ * Třída Projektor2_View_HTML_HeSmlouva zabaluje původní PHP4 kód do objektu. Funkčně se jedná o konponentu View,
  * na základě dat předaných konstruktoru a šablony obsažené v metodě display() generuje HTML výstup
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Sjlp_Dotaznik extends Projektor2_View_HTML_FormularPHP4 {
+class Projektor2_View_HTML_Dotaznik extends Projektor2_View_HTML_FormularPHP4 {
     /**
-     * Metoda obsahuje php kod (ve stylu PHP4), který užívá PHP jako šablonovací jazyk. Na základě dat zadaných v konstruktoru 
+     * Metoda obsahuje php kod (ve stylu PHP4), který užívá PHP jako šablonovací jazyk. Na základě dat zadaných v konstruktoru
      * do paramentru $context metoda generuje přímo html výstup. Metoda nemá návratovou hodnotu.
      */
     public function display() {
@@ -16,26 +16,26 @@ class Projektor2_View_HTML_Sjlp_Dotaznik extends Projektor2_View_HTML_FormularPH
     echo '<H3>Příloha IP 1. část</H3>';
     echo '<H3>DOTAZNÍK</H3>';
 
-    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=sjlp_reg_dot" name="dotaznik->form_dotaznik">';
+    echo '<form method="POST" action="index.php?akce=osoby&osoby=form&form=sjlp_mb_dot" name="dotaznik->form_dotaznik">';
 
-     //dále následuje původní kód 
+     //dále následuje původní kód
 ?>
 <FIELDSET><LEGEND style="color:white;"><b>Osobní údaje</b></LEGEND>
-  
+
   Titul: <input ID="titul" type="text" name="dotaznik->titul" size="3" maxlength="10" readonly value="<?php echo @$pole['dotaznik->titul'];?>">
   Jméno: <input ID="jmeno" type="text" name="dotaznik->jmeno" size="20" maxlength="30" readonly value="<?php echo @$pole['dotaznik->jmeno'];?>">
   Příjmení: <input ID="prijmeni" type="text" name="dotaznik->prijmeni" size="20" maxlength="30" readonly value="<?php echo @$pole['dotaznik->prijmeni'];?>">
   Titul za: <input ID="titul_za" type="text" name="dotaznik->titul_za" size="3" maxlength="10" readonly value="<?php echo @$pole['dotaznik->titul_za'];?>">
   Pohlaví: <input ID="pohlavi" type="text" name="dotaznik->pohlavi" size="5" maxlength="10" readonly value="<?php echo @$pole['dotaznik->pohlavi'];?>">
-          
+
   <p>Datum narození: <input ID="datum_narozeni" type="date" name="dotaznik->datum_narozeni" size="8" maxlength="10" readonly value="<?php echo @$pole['dotaznik->datum_narozeni'];?>">
     Rodné číslo: <input ID="rodne_cislo" type="text" name="dotaznik->rodne_cislo" size="20" maxlength="20" readonly value="<?php echo @$pole['dotaznik->rodne_cislo'];?>"></p>
-  <p></p>  
-</FIELDSET>  
-  
-<FIELDSET style="display:none"><LEGEND style="color:white;"><b>Údaje zájemce</b></LEGEND>  
+  <p></p>
+</FIELDSET>
+
+<FIELDSET style="display:none"><LEGEND style="color:white;"><b>Údaje zájemce</b></LEGEND>
 Datum vstupu do projektu: <input ID="datum_reg" type="text" name="dotaznik->datum_reg" size="8" maxlength="10" readonly value="<?php echo @$pole['dotaznik->datum_reg'];?>">
-  
+
 <p>Vysílající úřad práce:
           <input ID="z_up" type="text" name="dotaznik->z_up" size="30" maxlength="30" readonly value="<?php echo @$pole['dotaznik->z_up'];?>">
           Pracoviště úřadu práce:
@@ -49,7 +49,7 @@ Datum vstupu do projektu: <input ID="datum_reg" type="text" name="dotaznik->datu
   </p>
   <p>Datum zahájení individuálního poradenství: <input ID="datum_poradenstvi_zacatek" type="text" name="dotaznik->datum_poradenstvi_zacatek" size="8" maxlength="10" readonly value="<?php echo @$pole['dotaznik->datum_poradenstvi_zacatek'];?>"></p>
 
-  <p></p>          
+  <p></p>
 </FIELDSET>
 
 
@@ -76,7 +76,7 @@ Datum vstupu do projektu: <input ID="datum_reg" type="text" name="dotaznik->datu
   Popis: <input ID="popis_telefon" type="text" name="dotaznik->popis_telefon" size="40" maxlength="50" readonly value="<?php echo @$pole['dotaznik->popis_telefon'];?>"></p>
   <p>e-mail: <input ID="mail" type="text" name="dotaznik->mail" size="40" maxlength="50" readonly value="<?php echo @$pole['dotaznik->mail'];?>"></p>
 </FIELDSET>
-  
+
 <FIELDSET><LEGEND><b>Vzdělání a schopnosti</b></LEGEND>
   <FIELDSET style="border-style: solid;border-color: black; border-width: 1px;margin: 4px">
   <LEGEND style="color:black;font-size: 11px"><b>Absolvované školy</b></LEGEND>
@@ -804,7 +804,7 @@ Zdravotní stav: <input ID="zdrav_stav" type="text" name="dotaznik->zdrav_stav" 
 Změněná pracovní schopnost:<br>
   <input ID="ZPS0" type="radio" checked name="dotaznik->ZPS" value="Ne" <?php if (@$pole['dotaznik->ZPS'] != 'Ano') {echo 'checked="checked"';} ?>> Ne<br>
   <input ID="ZPS1" type="radio" value="Ano" name="dotaznik->ZPS" <?php if (@$pole['dotaznik->ZPS'] == 'Ano') {echo 'checked="checked"';} ?>> Ano<br>
-    
+
  Zdravotní znevýhodnění:
           <select ID="zdravotni_znevyhodneni" size="1" name="dotaznik->zdravotni_znevyhodneni">
           <option <?php if (@$pole['dotaznik->zdravotni_znevyhodneni'] == '------------'){echo 'selected';} ?>>------------</option>
@@ -815,10 +815,10 @@ Změněná pracovní schopnost:<br>
           <option <?php if (@$pole['dotaznik->zdravotni_znevyhodneni'] == 'invalidita třetího stupně'){echo 'selected';} ?>>invalidita třetího stupně</option>
           <option <?php if (@$pole['dotaznik->zdravotni_znevyhodneni'] == 'zdravotní znevýhodnění dle rozhodnutí ÚP'){echo 'selected';} ?>>zdravotní znevýhodnění dle rozhodnutí ÚP</option>
           </select>
- <br>   
-    
-    
-    
+ <br>
+
+
+
 <p>Jak dlouho jste v evidenci úřadu práce jako nezaměstnaný/á (číslo v měsících):
     <input ID="doba_evidence" type="text" name="dotaznik->doba_evidence" size="3" maxlength="3" value="<?php echo @$pole['dotaznik->doba_evidence'];?>"><br>
 <p>Pokolikáté jste v evidenci úřadu práce jako nezaměstnaný/á (číslo):
@@ -827,7 +827,7 @@ Změněná pracovní schopnost:<br>
 </FIELDSET>
 
 <FIELDSET><LEGEND><b>Prostředky přímé podpory</b></LEGEND>
-<p>Účastník požaduje vyplácet prostředky přímé podpory v hotovosti v kontaktní kanceláři. 
+<p>Účastník požaduje vyplácet prostředky přímé podpory v hotovosti v kontaktní kanceláři.
 <input ID="prostredky_p_p1" type="radio" name="dotaznik->prostredky_p_p" value="ano" <?php if (@$pole['dotaznik->prostredky_p_p'] == 'ano') {echo 'checked="checked"';} ?>>ANO
 <input ID="prostredky_p_p2" type="radio" name="dotaznik->prostredky_p_p" value="ne" <?php if (@$pole['dotaznik->prostredky_p_p'] != 'ano') {echo 'checked="checked"';} ?>> NE </p>
 <p style="padding-left:45px;">
@@ -853,63 +853,62 @@ banky</td>
 
     <!-- číselník platný k 1.7.2014 -->
 <select size="1" name="dotaznik->banka">
-<option <?php if (@$pole['dotaznik->banka'] == '-------------'){echo 'selected';} ?>>-------------</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '0100 | Komerční banka, a.s.'){echo 'selected';} ?>>0100 | Komerční banka, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '0300 | Československá obchodní banka, a.s.'){echo 'selected';} ?>>0300 | Československá obchodní banka, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '0600 | GE Money Bank, a.s.'){echo 'selected';} ?>>0600 | GE Money Bank, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '0710 | Česká národní banka'){echo 'selected';} ?>>0710 | Česká národní banka</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '0800 | Česká spořitelna, a.s.'){echo 'selected';} ?>>0800 | Česká spořitelna, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2010 | Fio banka, a.s.'){echo 'selected';} ?>>2010 | Fio banka, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2020 | Bank of Tokyo-Mitsubishi UFJ (Holland) N.V. Prague Branch, organizační složka'){echo 'selected';} ?>>2020 | Bank of Tokyo-Mitsubishi UFJ (Holland) N.V. Prague Branch, organizační složka</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2030 | AKCENTA, spořitelní a úvěrní družstvo'){echo 'selected';} ?>>2030 | AKCENTA, spořitelní a úvěrní družstvo</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2050 | WPB Capital, spořitelní družstvo'){echo 'selected';} ?>>2050 | WPB Capital, spořitelní družstvo</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2060 | Citfin, spořitelní družstvo'){echo 'selected';} ?>>2060 | Citfin, spořitelní družstvo</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2070 | Moravský Peněžní Ústav – spořitelní družstvo'){echo 'selected';} ?>>2070 | Moravský Peněžní Ústav – spořitelní družstvo</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2100 | Hypoteční banka, a.s.'){echo 'selected';} ?>>2100 | Hypoteční banka, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2200 | Peněžní dům, spořitelní družstvo'){echo 'selected';} ?>>2200 | Peněžní dům, spořitelní družstvo</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2210 | Evropsko-ruská banka, a.s.'){echo 'selected';} ?>>2210 | Evropsko-ruská banka, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2220 | Artesa, spořitelní družstvo'){echo 'selected';} ?>>2220 | Artesa, spořitelní družstvo</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2240 | Poštová banka, a.s., pobočka Česká republika'){echo 'selected';} ?>>2240 | Poštová banka, a.s., pobočka Česká republika</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2250 | Záložna CREDITAS, spořitelní družstvo'){echo 'selected';} ?>>2250 | Záložna CREDITAS, spořitelní družstvo</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2310 | ZUNO BANK AG, organizační složka'){echo 'selected';} ?>>2310 | ZUNO BANK AG, organizační složka</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2600 | Citibank Europe plc, organizační složka'){echo 'selected';} ?>>2600 | Citibank Europe plc, organizační složka</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '2700 | UniCredit Bank Czech Republic and Slovakia, a.s.'){echo 'selected';} ?>>2700 | UniCredit Bank Czech Republic and Slovakia, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '3020 | MEINL BANK Aktiengesellshaft, pobočka Praha'){echo 'selected';} ?>>3020 | MEINL BANK Aktiengesellshaft, pobočka Praha</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '3030 | Air Bank, a.s.'){echo 'selected';} ?>>3030 | Air Bank, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '3500 | ING Bank N.V.'){echo 'selected';} ?>>3500 | ING Bank N.V.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '4000 | LBBW Bank CZ a.s.'){echo 'selected';} ?>>4000 | LBBW Bank CZ a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '4300 | Českomoravská záruční a rozvojová banka, a.s.'){echo 'selected';} ?>>4300 | Českomoravská záruční a rozvojová banka, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '5400 | The Royal Bank of Scotland plc, organizační složka'){echo 'selected';} ?>>5400 | The Royal Bank of Scotland plc, organizační složka</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '5500 | Raiffeisenbank a.s.'){echo 'selected';} ?>>5500 | Raiffeisenbank a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '5800 | J & T Banka, a.s.'){echo 'selected';} ?>>5800 | J & T Banka, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '6000 | PPF banka a.s.'){echo 'selected';} ?>>6000 | PPF banka a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '6100 | Equa Bank, a.s.'){echo 'selected';} ?>>6100 | Equa Bank, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '6200 | COMMERZBANK Aktiengesellschaft, pobočka Praha'){echo 'selected';} ?>>6200 | COMMERZBANK Aktiengesellschaft, pobočka Praha</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '6210 | mBank S.A., organizační složka'){echo 'selected';} ?>>6210 | mBank S.A., organizační složka</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '6300 | BNP Paribas Fortis SA/NV, pobočka Česká republika'){echo 'selected';} ?>>6300 | BNP Paribas Fortis SA/NV, pobočka Česká republika</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '6700 | Všeobecná úvěrová banka a.s., pobočka Praha'){echo 'selected';} ?>>6700 | Všeobecná úvěrová banka a.s., pobočka Praha</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '6800 | Sberbank CZ, a.s.'){echo 'selected';} ?>>6800 | Sberbank CZ, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '7910 | Deutsche Bank A.G. Filiale Prag'){echo 'selected';} ?>>7910 | Deutsche Bank A.G. Filiale Prag</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '7940 | Waldviertler Sparkasse von 1842 AG'){echo 'selected';} ?>>7940 | Waldviertler Sparkasse von 1842 AG</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '7950 | Raiffeisen stavební spořitelna a.s.'){echo 'selected';} ?>>7950 | Raiffeisen stavební spořitelna a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '7960 | Českomoravská stavební spořitelna, a.s.'){echo 'selected';} ?>>7960 | Českomoravská stavební spořitelna, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '7970 | Wüstenrot-stavební spořitelna a.s.'){echo 'selected';} ?>>7970 | Wüstenrot-stavební spořitelna a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '7980 | Wüstenrot hypoteční banka a.s.'){echo 'selected';} ?>>7980 | Wüstenrot hypoteční banka a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '7990 | Modrá pyramida stavební spořitelna, a.s.'){echo 'selected';} ?>>7990 | Modrá pyramida stavební spořitelna, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '8030 | Raiffeisenbank im Stiftland eG pobočka Cheb, odštěpný závod'){echo 'selected';} ?>>8030 | Raiffeisenbank im Stiftland eG pobočka Cheb, odštěpný závod</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '8040 | Oberbank AG pobočka Česká republika'){echo 'selected';} ?>>8040 | Oberbank AG pobočka Česká republika</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '8060 | Stavební spořitelna České spořitelny, a.s.'){echo 'selected';} ?>>8060 | Stavební spořitelna České spořitelny, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '8090 | Česká exportní banka, a.s.'){echo 'selected';} ?>>8090 | Česká exportní banka, a.s.</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '8150 | HSBC Bank plc - pobočka Praha'){echo 'selected';} ?>>8150 | HSBC Bank plc - pobočka Praha</option> 
-<option <?php if (@$pole['dotaznik->banka'] == '8200 | PRIVAT BANK AG der Raiffeisenlandesbank Oberösterreich v České republice'){echo 'selected';} ?>>8200 | PRIVAT BANK AG der Raiffeisenlandesbank Oberösterreich v České republice</option> 
+<option <?php if (@$pole['dotaznik->banka'] == '-------------'){echo 'selected';} ?>>-------------</option>
+<option <?php if (@$pole['dotaznik->banka'] == '0100 | Komerční banka, a.s.'){echo 'selected';} ?>>0100 | Komerční banka, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '0300 | Československá obchodní banka, a.s.'){echo 'selected';} ?>>0300 | Československá obchodní banka, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '0600 | GE Money Bank, a.s.'){echo 'selected';} ?>>0600 | GE Money Bank, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '0710 | Česká národní banka'){echo 'selected';} ?>>0710 | Česká národní banka</option>
+<option <?php if (@$pole['dotaznik->banka'] == '0800 | Česká spořitelna, a.s.'){echo 'selected';} ?>>0800 | Česká spořitelna, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2010 | Fio banka, a.s.'){echo 'selected';} ?>>2010 | Fio banka, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2020 | Bank of Tokyo-Mitsubishi UFJ (Holland) N.V. Prague Branch, organizační složka'){echo 'selected';} ?>>2020 | Bank of Tokyo-Mitsubishi UFJ (Holland) N.V. Prague Branch, organizační složka</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2030 | AKCENTA, spořitelní a úvěrní družstvo'){echo 'selected';} ?>>2030 | AKCENTA, spořitelní a úvěrní družstvo</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2050 | WPB Capital, spořitelní družstvo'){echo 'selected';} ?>>2050 | WPB Capital, spořitelní družstvo</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2060 | Citfin, spořitelní družstvo'){echo 'selected';} ?>>2060 | Citfin, spořitelní družstvo</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2070 | Moravský Peněžní Ústav – spořitelní družstvo'){echo 'selected';} ?>>2070 | Moravský Peněžní Ústav – spořitelní družstvo</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2100 | Hypoteční banka, a.s.'){echo 'selected';} ?>>2100 | Hypoteční banka, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2200 | Peněžní dům, spořitelní družstvo'){echo 'selected';} ?>>2200 | Peněžní dům, spořitelní družstvo</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2210 | Evropsko-ruská banka, a.s.'){echo 'selected';} ?>>2210 | Evropsko-ruská banka, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2220 | Artesa, spořitelní družstvo'){echo 'selected';} ?>>2220 | Artesa, spořitelní družstvo</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2240 | Poštová banka, a.s., pobočka Česká republika'){echo 'selected';} ?>>2240 | Poštová banka, a.s., pobočka Česká republika</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2250 | Záložna CREDITAS, spořitelní družstvo'){echo 'selected';} ?>>2250 | Záložna CREDITAS, spořitelní družstvo</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2310 | ZUNO BANK AG, organizační složka'){echo 'selected';} ?>>2310 | ZUNO BANK AG, organizační složka</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2600 | Citibank Europe plc, organizační složka'){echo 'selected';} ?>>2600 | Citibank Europe plc, organizační složka</option>
+<option <?php if (@$pole['dotaznik->banka'] == '2700 | UniCredit Bank Czech Republic and Slovakia, a.s.'){echo 'selected';} ?>>2700 | UniCredit Bank Czech Republic and Slovakia, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '3020 | MEINL BANK Aktiengesellshaft, pobočka Praha'){echo 'selected';} ?>>3020 | MEINL BANK Aktiengesellshaft, pobočka Praha</option>
+<option <?php if (@$pole['dotaznik->banka'] == '3030 | Air Bank, a.s.'){echo 'selected';} ?>>3030 | Air Bank, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '3500 | ING Bank N.V.'){echo 'selected';} ?>>3500 | ING Bank N.V.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '4000 | LBBW Bank CZ a.s.'){echo 'selected';} ?>>4000 | LBBW Bank CZ a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '4300 | Českomoravská záruční a rozvojová banka, a.s.'){echo 'selected';} ?>>4300 | Českomoravská záruční a rozvojová banka, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '5400 | The Royal Bank of Scotland plc, organizační složka'){echo 'selected';} ?>>5400 | The Royal Bank of Scotland plc, organizační složka</option>
+<option <?php if (@$pole['dotaznik->banka'] == '5500 | Raiffeisenbank a.s.'){echo 'selected';} ?>>5500 | Raiffeisenbank a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '5800 | J & T Banka, a.s.'){echo 'selected';} ?>>5800 | J & T Banka, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '6000 | PPF banka a.s.'){echo 'selected';} ?>>6000 | PPF banka a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '6100 | Equa Bank, a.s.'){echo 'selected';} ?>>6100 | Equa Bank, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '6200 | COMMERZBANK Aktiengesellschaft, pobočka Praha'){echo 'selected';} ?>>6200 | COMMERZBANK Aktiengesellschaft, pobočka Praha</option>
+<option <?php if (@$pole['dotaznik->banka'] == '6210 | mBank S.A., organizační složka'){echo 'selected';} ?>>6210 | mBank S.A., organizační složka</option>
+<option <?php if (@$pole['dotaznik->banka'] == '6300 | BNP Paribas Fortis SA/NV, pobočka Česká republika'){echo 'selected';} ?>>6300 | BNP Paribas Fortis SA/NV, pobočka Česká republika</option>
+<option <?php if (@$pole['dotaznik->banka'] == '6700 | Všeobecná úvěrová banka a.s., pobočka Praha'){echo 'selected';} ?>>6700 | Všeobecná úvěrová banka a.s., pobočka Praha</option>
+<option <?php if (@$pole['dotaznik->banka'] == '6800 | Sberbank CZ, a.s.'){echo 'selected';} ?>>6800 | Sberbank CZ, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '7910 | Deutsche Bank A.G. Filiale Prag'){echo 'selected';} ?>>7910 | Deutsche Bank A.G. Filiale Prag</option>
+<option <?php if (@$pole['dotaznik->banka'] == '7940 | Waldviertler Sparkasse von 1842 AG'){echo 'selected';} ?>>7940 | Waldviertler Sparkasse von 1842 AG</option>
+<option <?php if (@$pole['dotaznik->banka'] == '7950 | Raiffeisen stavební spořitelna a.s.'){echo 'selected';} ?>>7950 | Raiffeisen stavební spořitelna a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '7960 | Českomoravská stavební spořitelna, a.s.'){echo 'selected';} ?>>7960 | Českomoravská stavební spořitelna, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '7970 | Wüstenrot-stavební spořitelna a.s.'){echo 'selected';} ?>>7970 | Wüstenrot-stavební spořitelna a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '7980 | Wüstenrot hypoteční banka a.s.'){echo 'selected';} ?>>7980 | Wüstenrot hypoteční banka a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '7990 | Modrá pyramida stavební spořitelna, a.s.'){echo 'selected';} ?>>7990 | Modrá pyramida stavební spořitelna, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '8030 | Raiffeisenbank im Stiftland eG pobočka Cheb, odštěpný závod'){echo 'selected';} ?>>8030 | Raiffeisenbank im Stiftland eG pobočka Cheb, odštěpný závod</option>
+<option <?php if (@$pole['dotaznik->banka'] == '8040 | Oberbank AG pobočka Česká republika'){echo 'selected';} ?>>8040 | Oberbank AG pobočka Česká republika</option>
+<option <?php if (@$pole['dotaznik->banka'] == '8060 | Stavební spořitelna České spořitelny, a.s.'){echo 'selected';} ?>>8060 | Stavební spořitelna České spořitelny, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '8090 | Česká exportní banka, a.s.'){echo 'selected';} ?>>8090 | Česká exportní banka, a.s.</option>
+<option <?php if (@$pole['dotaznik->banka'] == '8150 | HSBC Bank plc - pobočka Praha'){echo 'selected';} ?>>8150 | HSBC Bank plc - pobočka Praha</option>
+<option <?php if (@$pole['dotaznik->banka'] == '8200 | PRIVAT BANK AG der Raiffeisenlandesbank Oberösterreich v České republice'){echo 'selected';} ?>>8200 | PRIVAT BANK AG der Raiffeisenlandesbank Oberösterreich v České republice</option>
 
-PRIVAT BANK AG der Raiffeisenlandesbank Oberösterreich v České republice
 </select>
 
 </p>
 
 </FIELDSET>
- 
+
 
 <p>Datum vytvoření:
 <input ID="datum_vytvor_dotazniku" type="date" name="dotaznik->datum_vytvor_dotazniku" size="8" maxlength="10" value="<?php
@@ -931,7 +930,7 @@ PRIVAT BANK AG der Raiffeisenlandesbank Oberösterreich v České republice
 
 
   </form>
-<?php        
+<?php
     }
 }
 

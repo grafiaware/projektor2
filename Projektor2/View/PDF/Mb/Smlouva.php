@@ -198,7 +198,7 @@ class Projektor2_View_PDF_Mb_Smlouva extends Projektor2_View_PDF_Common {
 
         //##################################################################################################
         $this->pdf->Ln(5);
-        $this->tiskniMistoDatum($this->context[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT ."datum_vytvor_smlouvy"]);
+        $this->tiskniMistoDatum($this->context[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT][Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR."datum_vytvor_smlouvy"]);
         $this->tiskniPodpisy(Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT);
     }
 }

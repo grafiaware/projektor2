@@ -4,7 +4,7 @@
  *
  * @author pes2704
  */
-class Projektor2_Viewmodel_Menu_Signal_Registrace extends Projektor2_Viewmodel_Menu_Signal {
+class Projektor2_Viewmodel_Menu_Signal_RegistraceOsobni extends Projektor2_Viewmodel_Menu_Signal {
 
     public function setByDbReadOsobniUdaje(Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
         $required = ['prijmeni', 'jmeno', 'datum_narozeni', 'mobilni_telefon', 'mail'];

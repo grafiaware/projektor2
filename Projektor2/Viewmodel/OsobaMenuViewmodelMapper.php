@@ -59,9 +59,15 @@ class Projektor2_Viewmodel_OsobaMenuViewmodelMapper {
     ######### PRIVATE #######################
 
     private static function addSignalsCizinec(Projektor2_Viewmodel_Menu_Group $group, Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
-        $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Registrace();
-        $modelSignal->setByDbReadOsobniUdaje($zajemceDbReadOsobniUdaje);
-        $group->addSignal($modelSignal);
+        $modelSignalOsobni = new Projektor2_Viewmodel_Menu_Signal_RegistraceOsobni();
+        $modelSignalOsobni->setByDbReadOsobniUdaje($zajemceDbReadOsobniUdaje);
+        $group->addSignal($modelSignalOsobni);
+        $modelSignalZajemce = new Projektor2_Viewmodel_Menu_Signal_RegistraceUPZajemce();
+        $modelSignalZajemce->setByDbReadOsobniUdaje($zajemceDbReadOsobniUdaje);
+        $group->addSignal($modelSignalZajemce);
+        $modelSignalUchazec = new Projektor2_Viewmodel_Menu_Signal_RegistraceUPUchazec();
+        $modelSignalUchazec->setByDbReadOsobniUdaje($zajemceDbReadOsobniUdaje);
+        $group->addSignal($modelSignalUchazec);        
     }
 
     private static function addSignalsPlan(Projektor2_Viewmodel_Menu_Group $group, Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {

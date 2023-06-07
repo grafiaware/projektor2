@@ -128,14 +128,14 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     }
 
     protected function datumBezNul($datum) {
-        $datum = DateTime::createFromFormat(self::SQL_FORMAT, $datum);
-        if($datum===false) {
-            $datum = DateTime::createFromFormat(self::CS_FORMAT, $datum);
+        $dateTime = DateTime::createFromFormat(self::SQL_FORMAT, $datum);
+        if($dateTime===false) {
+            $dateTime = DateTime::createFromFormat(self::CS_FORMAT, $datum);
         }
-        if($datum===false) {
+        if($dateTime===false) {
             throw new LogicException("Hodnotu parametru datum nelze převést na Datetime.");
         }
-        return $datum->format(self::CS_FORMAT_BEZ_NUL);
+        return $dateTime->format(self::CS_FORMAT_BEZ_NUL);
     }
 
 
@@ -306,7 +306,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $this->pdf->TiskniBlok($osobniUdaje);
     }
 
-    protected function tiskniPodpisy($modelSmlouva) {
+    protected function tiskniPodpisy() {
         $podpisy = new Projektor2_PDF_SadaBunek();
         $podpisy->PridejBunku('', '', FALSE, 20);
         switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
@@ -345,7 +345,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $podpisy->PridejBunku("......................................................", '', FALSE, 100);
         $podpisy->PridejBunku("......................................................","",TRUE);
         $podpisy->PridejBunku('', '', FALSE, 20);
-        $podpisy->PridejBunku($this->celeJmeno($modelSmlouva), '', FALSE, 100);
+        $podpisy->PridejBunku($this->celeJmeno(), '', FALSE, 100);
         $podpisy->PridejBunku($this->context['user_name'], '', TRUE);
         $podpisy->PridejBunku('', '', FALSE, 120);
         switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
