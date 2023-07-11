@@ -18,7 +18,7 @@ class Projektor2_Controller_Formular_Sjlp_Zamestnani extends Projektor2_Controll
     
     protected function formular() {
         $htmlResult = "";         
-        $view = new Projektor2_View_HTML_Zamestnani($this->sessionStatus, $this->createContextFromModels(TRUE));
+        $view = new Projektor2_View_HTML_Formular_Zamestnani($this->sessionStatus, $this->createContextFromModels(TRUE));
         $htmlResult .= $view->render();
         return $htmlResult;
     }

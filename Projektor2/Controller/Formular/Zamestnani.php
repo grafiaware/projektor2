@@ -10,7 +10,7 @@
  *
  * @author pes2704
  */
-class Projektor2_Controller_Formular_Mb_Zamestnani extends Projektor2_Controller_Formular_FlatTable {
+class Projektor2_Controller_Formular_Zamestnani extends Projektor2_Controller_Formular_FlatTable {
 
     protected function createFormModels() {
         $this->models[Projektor2_Controller_Formular_FlatTable::ZAM_FT] = new Projektor2_Model_Db_Flat_ZaZamFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
@@ -18,7 +18,7 @@ class Projektor2_Controller_Formular_Mb_Zamestnani extends Projektor2_Controller
 
     protected function formular() {
         $htmlResult = "";
-        $view = new Projektor2_View_HTML_Zamestnani($this->sessionStatus, $this->createContextFromModels(TRUE));
+        $view = new Projektor2_View_HTML_Formular_Zamestnani($this->sessionStatus, $this->createContextFromModels(TRUE));
         $htmlResult .= $view->render();
         return $htmlResult;
     }
