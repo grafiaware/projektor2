@@ -19,13 +19,13 @@ class Projektor2_Controller_Formular_Souhlas extends Projektor2_Controller_Formu
 
     protected function formular() {
         $htmlResult = "";
-        $view = new Projektor2_View_HTML_Souhlas($this->sessionStatus, $this->createContextFromModels(TRUE));
+        $view = new Projektor2_View_HTML_Formular_Souhlas($this->sessionStatus, $this->createContextFromModels(TRUE));
         $htmlResult .= $view->render();
         return $htmlResult;
     }
 
     protected function getResultPdf() {
-        $view = new Projektor2_View_PDF_Mb_Souhlas($this->sessionStatus, $this->createContextFromModels());
+        $view = new Projektor2_View_PDF_Formular_Souhlas($this->sessionStatus, $this->createContextFromModels());
 
         $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text);
         $view->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name);

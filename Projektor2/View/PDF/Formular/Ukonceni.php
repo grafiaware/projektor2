@@ -10,7 +10,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Mb_Ukonceni extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_Formular_Ukonceni extends Projektor2_View_PDF_Common {
     const MODEL_UKONCENI = "ukonceni->";
     const MODEL_DOTAZNIK = "dotaznik->";
 
@@ -24,7 +24,7 @@ class Projektor2_View_PDF_Mb_Ukonceni extends Projektor2_View_PDF_Common {
         $textyNadpisu[] = 'Projekt „Moje budoucnost“';
         $this->tiskniTitul($textyNadpisu, TRUE);
         //*****************************************************
-        $this->tiskniOsobniUdaje(self::MODEL_DOTAZNIK);
+        $this->tiskniOsobniUdaje();
         //**********************************************
         $blok = new Projektor2_PDF_Blok;
             $blok->Nadpis("Ukončení účasti v projektu");

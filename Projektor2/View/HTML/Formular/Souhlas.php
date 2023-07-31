@@ -5,7 +5,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_HTML_Souhlas extends Projektor2_View_HTML_FormularPHP4 {
+class Projektor2_View_HTML_Formular_Souhlas extends Projektor2_View_HTML_FormularPHP4 {
 
     /**
      * Metoda obsahuje php kod (ve stylu PHP4), který užívá PHP jako šablonovací jazyk. Na základě dat zadaných v konstruktoru

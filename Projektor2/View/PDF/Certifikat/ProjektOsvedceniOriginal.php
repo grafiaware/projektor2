@@ -4,7 +4,7 @@
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_ProjektOsvedceniOriginal extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_Certifikat_ProjektOsvedceniOriginal extends Projektor2_View_PDF_Common {
     const MODEL_DOTAZNIK = "dotaznik";
     const MODEL_UKONCENI = "ukonceni";
 

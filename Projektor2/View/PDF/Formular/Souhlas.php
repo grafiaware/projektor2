@@ -10,7 +10,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Mb_Souhlas extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_Formular_Souhlas extends Projektor2_View_PDF_Common {
     const MODEL_SMLOUVA = "smlouva->";
 
     public function createPDFObject() {
@@ -27,7 +27,7 @@ class Projektor2_View_PDF_Mb_Souhlas extends Projektor2_View_PDF_Common {
             $strana->ZarovnaniNadpisu("L");
             $strana->VyskaPismaNadpisu(11);
             $this->pdf->TiskniBlok($strana);
-        $this->tiskniOsobniUdaje(self::MODEL_SMLOUVA);
+        $this->tiskniOsobniUdaje();
         $dohoda1 = new Projektor2_PDF_Blok;
                 $dohoda1->Nadpis("Prohlášení");
                 $dohoda1->ZarovnaniNadpisu("C");
@@ -45,8 +45,12 @@ class Projektor2_View_PDF_Mb_Souhlas extends Projektor2_View_PDF_Common {
             $blok->Radkovani(1.00);
         $this->pdf->TiskniBlok($blok);
 
+        //##################################################################################################
+        //$this->pdf->Ln(5);
+        // souhlas pracuje s modelem dotaznik
         $this->tiskniMistoDatum($this->context[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT][Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR."datum_vytvor_smlouvy"]);
-        $this->tiskniPodpisy(self::MODEL_SMLOUVA);
+        $this->tiskniPodpisy(Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT);        
+        
     }
 }
 

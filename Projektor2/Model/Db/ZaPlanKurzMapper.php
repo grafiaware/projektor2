@@ -12,6 +12,27 @@
  * @author pes2704
  */
 class Projektor2_Model_Db_ZaPlanKurzMapper {
+    
+    private static $sql="SELECT 
+za_plan_kurz.id_za_plan_kurz AS id_za_plan_kurz,
+za_plan_kurz.id_zajemce AS id_zajemce,
+za_plan_kurz.id_s_kurz_FK AS id_s_kurz_FK,
+za_plan_kurz.kurz_druh_fk AS kurz_druh_fk,
+za_plan_kurz.aktivita AS aktivita,
+za_plan_kurz.`text` AS `text`,
+za_plan_kurz.poc_abs_hodin AS poc_abs_hodin,
+za_plan_kurz.duvod_absence AS duvod_absence,
+za_plan_kurz.dokonceno AS dokonceno,
+za_plan_kurz.duvod_neukonceni AS duvod_neukonceni,
+certifikat_kurz.`date` AS datum_certif
+FROM
+za_plan_kurz
+LEFT JOIN 
+certifikat_kurz
+ON ((za_plan_kurz.id_zajemce=certifikat_kurz.id_zajemce_FK) AND (za_plan_kurz.id_s_kurz_FK=certifikat_kurz.id_s_kurz_FK))
+";
+    
+    private static $statementfindAllForZajemce;
     /**
      *
      * @param int $id
@@ -19,7 +40,7 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
      */
     public static function get($id) {
         $dbh = Config_AppContext::getDb();
-        $query = "SELECT * FROM za_plan_kurz WHERE id_za_plan_kurz = :id_za_plan_kurz";
+        $query = self::$sql . "WHERE id_za_plan_kurz = :id_za_plan_kurz";
         $bindParams = array('id_za_plan_kurz'=>$id);
         $sth = $dbh->prepare($query);
         $succ = $sth->execute($bindParams);
@@ -39,9 +60,19 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
      */
     public static function findAllForZajemce($id_zajemce, $minimalIdSKurz = 3) {
         $dbh = Config_AppContext::getDb();
-        $query = "SELECT * FROM za_plan_kurz WHERE id_zajemce=:id_zajemce AND id_s_kurz_FK>:minimal_id_s_kurz_FK ORDER BY kurz_druh_fk ASC, aktivita ASC";
-        $sth = $dbh->prepare($query);
-        $sth->bindValue(':id_zajemce', $id_zajemce);
+//        $query = "SELECT * FROM za_plan_kurz WHERE id_zajemce=:id_zajemce AND id_s_kurz_FK>:minimal_id_s_kurz_FK ORDER BY kurz_druh_fk ASC, aktivita ASC";
+
+        if (!isset(self::$statementfindAllForZajemce)) {
+        $query = self::$sql . "
+WHERE
+za_plan_kurz.id_zajemce=:id_zajemce 
+AND 
+za_plan_kurz.id_s_kurz_FK>:minimal_id_s_kurz_FK 
+ORDER BY kurz_druh_fk ASC, aktivita ASC";            
+            self::$statementfindAllForZajemce = $dbh->prepare($query);
+        }
+        $sth = self::$statementfindAllForZajemce;
+        $sth->bindValue('id_zajemce', $id_zajemce);
         $sth->bindValue('minimal_id_s_kurz_FK', $minimalIdSKurz);
         $succ = $sth->execute();
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -62,7 +93,7 @@ class Projektor2_Model_Db_ZaPlanKurzMapper {
      */
     public static function findByFilter($filter = NULL, $order = NULL) {
         $dbh = Config_AppContext::getDb();
-        $query = "SELECT * FROM za_plan_kurz";
+        $query = self::$sql;
         if ($filter AND is_string($filter)) {
             $query .= " WHERE ".$filter;
         }

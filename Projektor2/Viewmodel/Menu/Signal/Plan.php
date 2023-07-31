@@ -6,18 +6,33 @@
  */
 class Projektor2_Viewmodel_Menu_Signal_Plan extends Projektor2_Viewmodel_Menu_Signal {
 
-    public function setByAktivitaPlan(Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan) {
-        $sKurz = $aktivitaPlan->sKurz;
-        if (isset($sKurz) AND $sKurz->isRealCourse()){  //kurz je naplanovan
-            $this->text = $aktivitaPlan->sKurz->kurz_druh;
-            $this->kurzDruh = $aktivitaPlan->sKurz->kurz_druh;
-            if ($aktivitaPlan->certifikatyKurz) {  //ma certifikat kurz
+    public function setByAktivitaPlan($aktivita, $kurz=null) {
+//            'zztp'=>array(
+//                'typ'=>self::TYP_KURZ,
+//                'kurz_druh'=>'ZZTP',
+//                'vyberovy'=> 0,
+//                'nadpis'=>'Kurz základních znalostí trhu práce',
+//                's_hodnocenim' => FALSE,
+//                's_certifikatem' => TRUE,
+//                'certifikat' => self::getCertifikatParams('o'),
+//                'tiskni_certifikat' => TRUE,
+//                'help'=>self::getHelp('mot')
+//                ),        
+        if (isset($kurz)) {
+            /** @var Projektor2_Model_Db_ZaPlanKurz $kurz */
+            if (Config_AppContext::isVerboseMode()) {
+                $this->text = $kurz->kurz_druh_fk." ".$kurz->id_s_kurz_FK;
+            } else {
+                $this->text = $kurz->kurz_druh_fk;
+            }        
+            
+            if ($kurz->datum_certif) {  //ma certifikat kurz
                 $this->status = 'uspesneSCertifikatem';
-            } elseif ($aktivitaPlan->dokoncenoUspesne=='Ano' AND !$aktivitaPlan->aktivitaSCertifikatem) {
+            } elseif ($kurz->dokonceno=='Ano' AND !$aktivita['s_certifikatem']) {
                 $this->status = 'uspesne';
-            } elseif ($aktivitaPlan->dokoncenoUspesne=='Ano' AND $aktivitaPlan->aktivitaSCertifikatem) {
+            } elseif ($kurz->dokonceno=='Ano' AND $aktivita['s_certifikatem']) {
                 $this->status = 'uspesneCekaNaCertifikat';
-            } elseif ($aktivitaPlan->dokoncenoUspesne=='Ne') {
+            } elseif ($kurz->dokonceno=='Ne') {
                 $this->status = 'neuspesne';
             } else {
                 $this->status = 'plan';

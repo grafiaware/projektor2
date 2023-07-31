@@ -4,30 +4,30 @@
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_KurzOsvedceniPseudokopie extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_Certifikat_KurzOsvedceniAkreditovany extends Projektor2_View_PDF_Common {
+
     const MODEL_PLAN     = "plan";
     const MODEL_DOTAZNIK = "dotaznik";
 
-    public function createPDFObject() {
+    public function createPDFObject() {  //Projektor2_Model_Db_Projekt $projekt
         $this->setHeaderFooter($this->context['text_paticky'], FALSE);
         $this->initialize();
         //*****************************************************
-        // přidání obrázku s vodotiskem a podpisem
-        $odsazeniPozadiShora = 28;
-        $vyskaObrazku = 287;
+        $odsazeniPozadiShora = 8;
+        $vyskaObrazku = 297;
         $sirkaObrazku = 210;
         $vyska = 297-$odsazeniPozadiShora;
         $pomer = $vyska/$vyskaObrazku;
         $sirka = $sirkaObrazku*$pomer;
         $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
-        $this->pdf->Image(Config_Certificates::getCertificatePseudocopyBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        $this->pdf->Image(Config_Certificates::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
 
-        Projektor2_View_PDF_Helper_KurzOsvedceni::createContent($this->pdf, $this->context, $this);
+        Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany::createContent($this->pdf, $this->context, $this, 0.6);
         //##################################################################################################
         $datumCertif = Projektor2_Date::createFromSqlDate($this->context['certifikat']->date)->getCzechStringDate();
         $this->tiskniMistoDatum($datumCertif);
-        $this->pdf->Ln(20);
+        $this->pdf->Ln(1);
         $this->tiskniPodpisCertifikat();
+
     }
 }
-?>

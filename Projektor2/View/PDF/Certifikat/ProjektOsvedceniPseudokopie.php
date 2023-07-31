@@ -4,12 +4,11 @@
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_KurzOsvedceniOriginal extends Projektor2_View_PDF_Common {
-    
-    const MODEL_PLAN     = "plan";
+class Projektor2_View_PDF_Certifikat_ProjektOsvedceniPseudokopie extends Projektor2_View_PDF_Common {
     const MODEL_DOTAZNIK = "dotaznik";
+    const MODEL_UKONCENI = "ukonceni";
 
-    public function createPDFObject() {  //Projektor2_Model_Db_Projekt $projekt
+    public function createPDFObject() {
         $this->setHeaderFooter($this->context['text_paticky'], FALSE);
         $this->initialize();
         //*****************************************************
@@ -22,12 +21,12 @@ class Projektor2_View_PDF_KurzOsvedceniOriginal extends Projektor2_View_PDF_Comm
         $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
         $this->pdf->Image(Config_Certificates::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
 
-        Projektor2_View_PDF_Helper_KurzOsvedceni::createContent($this->pdf, $this->context, $this);
+        Projektor2_View_PDF_Helper_ProjektOsvedceni::createContent($this->pdf, $this->context, $this);
         //##################################################################################################
         $datumCertif = Projektor2_Date::createFromSqlDate($this->context['certifikat']->date)->getCzechStringDate();
         $this->tiskniMistoDatum($datumCertif);
         $this->pdf->Ln(20);
         $this->tiskniPodpisCertifikat();
-
     }
 }
+?>

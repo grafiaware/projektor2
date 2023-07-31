@@ -15,7 +15,7 @@ Obě části IP budou podepsány poradcem i klientem. Kopie IP budou předány s
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_IP1 extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_Formular_IP1 extends Projektor2_View_PDF_Common {
     const MODEL_DOTAZNIK = "dotaznik->";
     const MODEL_PLAN = "plan->";
 
@@ -34,7 +34,7 @@ class Projektor2_View_PDF_IP1 extends Projektor2_View_PDF_Common {
         //*****************************************************
         $this->tiskniTitul($textyNadpisu);
         //*****************************************************
-        $this->tiskniOsobniUdaje(self::MODEL_DOTAZNIK);
+        $this->tiskniOsobniUdaje();
         //********************************************************
         $blok = new Projektor2_PDF_Blok;
             $blok->Nadpis("Preambule");
@@ -87,12 +87,8 @@ class Projektor2_View_PDF_IP1 extends Projektor2_View_PDF_Common {
         }
 
         //##################################################################################################
-        $this->tiskniMistoDatum($this->context[$signDotaznik], $this->context[$signPlan][$prefixPlan . "datum_upravy_dok_plan"]);
-        $this->tiskniPodpisy($this->context[$signDotaznik]);
-        return $this->pdf;
+        $this->pdf->Ln(5);
+        $this->tiskniMistoDatum($this->context[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT][Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR."datum_vytvor_smlouvy"]);
+        $this->tiskniPodpisy(Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT);
     }
-
-
 }
-
-?>

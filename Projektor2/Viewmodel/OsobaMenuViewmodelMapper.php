@@ -37,6 +37,8 @@ class Projektor2_Viewmodel_OsobaMenuViewmodelMapper {
         Config_MenuOsoba::setSkupinyZajemce($osobaMenuViewModel);
         foreach ($osobaMenuViewModel->getGroups() as $groupName=>$group) {
             switch ($groupName) {
+                case Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_REGISTRACE:
+                    break;
                 case Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_CIZINEC:
                     self::addSignalsCizinec($group, $zajemceDbReadOsobniUdaje);
                     break;
@@ -71,12 +73,17 @@ class Projektor2_Viewmodel_OsobaMenuViewmodelMapper {
     }
 
     private static function addSignalsPlan(Projektor2_Viewmodel_Menu_Group $group, Projektor2_Model_Db_Read_ZajemceOsobniUdaje $zajemceDbReadOsobniUdaje) {
-        $kolekceAktivityPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($zajemceDbReadOsobniUdaje->id);
-        if ($kolekceAktivityPlan) {
-            foreach ($kolekceAktivityPlan as $aktivitaPlan) {
-                /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
+        $sessionStatus = Projektor2_Model_Status::getSessionStatus();
+        $aktivity = Config_Aktivity::findAktivity($sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
+        if ($aktivity) {
+            /** @var Projektor2_Model_Db_ZaPlanKurz $planovaneKurzy */
+            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($zajemceDbReadOsobniUdaje->id);
+            foreach ($planovaneKurzy as $planovanyKurz) {
+                $kurzy[$planovanyKurz->aktivita] = $planovanyKurz;
+            }
+            foreach ($aktivity as $typAktivity=>$aktivita) {
                 $modelSignal = new Projektor2_Viewmodel_Menu_Signal_Plan();
-                $modelSignal->setByAktivitaPlan($aktivitaPlan);
+                $modelSignal->setByAktivitaPlan($aktivita, $kurzy[$typAktivity]);
                 $group->addSignal($modelSignal);
             }
         }

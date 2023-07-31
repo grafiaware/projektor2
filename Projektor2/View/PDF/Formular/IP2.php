@@ -6,7 +6,7 @@
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_IP2 extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_Formular_IP2 extends Projektor2_View_PDF_Common {
         
     public function createPDFObject() {
         $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;

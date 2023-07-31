@@ -12,15 +12,13 @@
  */
 class Projektor2_Controller_Formular_Dotaznik extends Projektor2_Controller_Formular_FlatTable {
 
-    const DOTAZNIK_FT = 'dotaznikFT';
-
     protected function createFormModels() {
         $this->models[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT]= new Projektor2_Model_Db_Flat_ZaFlatTable($this->sessionStatus->getUserStatus()->getZajemce());
     }
 
     protected function formular() {
         $htmlResult = "";
-        $view = new Projektor2_View_HTML_Dotaznik($this->sessionStatus, $this->createContextFromModels(TRUE));
+        $view = new Projektor2_View_HTML_Formular_Dotaznik($this->sessionStatus, $this->createContextFromModels(TRUE));
         $htmlResult .= $view->render();
 
         return $htmlResult;

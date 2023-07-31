@@ -36,7 +36,7 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
          // TODO Všechny getResultPdf() - přesunout do service+mapper pro ukládání, v kontroleru zůstane jen $view->getNewWindowOpenerCode() - pak vše doe getResult()
         if ($this->request->post('pdf') == "Tiskni IP 2.část - vyhodnocení aktivit") {
             $kurzyPlan = Projektor2_Viewmodel_AktivityPlanMapper::findAll($this->sessionStatus->getUserStatus()->getZajemce()->id);
-            $view = new Projektor2_View_PDF_IP2($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Formular_IP2($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast2';
             $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text)
                 ->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name)
@@ -53,7 +53,7 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
         }
 
         if ($this->request->post('pdf') == "Tiskni ukončení účasti") {
-            $view = new Projektor2_View_PDF_Mb_Ukonceni($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Formular_Ukonceni($this->sessionStatus, $this->createContextFromModels());
             $file = 'ukonceni';
             //status proměnné
             $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text);

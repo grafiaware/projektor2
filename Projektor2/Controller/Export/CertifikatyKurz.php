@@ -61,10 +61,11 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
 
     public function getResult() {
          // očekávám, že sKurz->kurz_druh odpovídá položce kurz_druh aktivit projektu v konfiguraci
-        $konfiguraceAktivity =  Config_Aktivity::findAktivityPodleKurzDruh($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ, $this->sessionStatus->getUserStatus()->getSKurz()->kurz_druh);
+        $kurzDruh = $this->sessionStatus->getUserStatus()->getSKurz()->kurz_druh;
+        $konfiguraceAktivity =  Config_Aktivity::findAktivityPodleKurzDruh($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ, $kurzDruh);
         $aktivitaSCertifikatem = ($konfiguraceAktivity['s_certifikatem'] ?? null) ? TRUE : FALSE;
         if (!isset($aktivitaSCertifikatem) OR !$aktivitaSCertifikatem) {
-            throw new LogicException("Došlo k pokusu o vytvoření certifikátů pro aktivitu bez certifikátu. Aktivita '$indexAktivity'.");
+            throw new LogicException("Došlo k pokusu o vytvoření certifikátů pro aktivitu bez certifikátu. Aktivita '$kurzDruh'.");
         }
         /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
         $aktivitaPlan = Projektor2_Viewmodel_AktivityPlanMapper::findByIndexAktivity($indexAktivity);

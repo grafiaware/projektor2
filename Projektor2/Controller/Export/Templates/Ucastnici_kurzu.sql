@@ -15,7 +15,9 @@
         `za_flat_table`.`prijmeni` AS `prijmeni`,
         `za_flat_table`.`jmeno` AS `jmeno`,
         `za_flat_table`.`titul` AS `titul`,
-        `za_flat_table`.`datum_narozeni` AS `datum_narozeni`
+        `za_flat_table`.`datum_narozeni` AS `datum_narozeni`,
+        `za_flat_table`.`mobilni_telefon` AS `mobilni_telefon`,
+        `za_flat_table`.`mail` AS `mail`
     FROM
         ((((`zajemce`
         JOIN `c_kancelar` ON ((`zajemce`.`id_c_kancelar_FK` = `c_kancelar`.`id_c_kancelar`)))

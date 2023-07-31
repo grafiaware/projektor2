@@ -10,7 +10,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Mb_Smlouva extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_Formular_Smlouva extends Projektor2_View_PDF_Common {
 
     public function createPDFObject() {
         $nazevProjektu = '„Moje budoucnost“';
@@ -39,7 +39,7 @@ class Projektor2_View_PDF_Mb_Smlouva extends Projektor2_View_PDF_Common {
         $this->pdf->TiskniBlok($a);
         $this->pdf->Ln(2);
 
-        $this->tiskniOsobniUdaje(Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT);  //--vs
+        $this->tiskniOsobniUdaje();  //--vs
         $this->pdf->Ln(2);
 
         $spolecneUzaviraji = new Projektor2_PDF_Blok;
@@ -202,5 +202,3 @@ class Projektor2_View_PDF_Mb_Smlouva extends Projektor2_View_PDF_Common {
         $this->tiskniPodpisy(Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT);
     }
 }
-
-?>

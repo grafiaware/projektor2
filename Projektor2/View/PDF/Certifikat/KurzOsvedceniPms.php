@@ -4,7 +4,7 @@
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_KurzOsvedceniPms extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_Certifikat_KurzOsvedceniPms extends Projektor2_View_PDF_Common {
 
     const MODEL_PLAN     = "plan";
     const MODEL_DOTAZNIK = "dotaznik";

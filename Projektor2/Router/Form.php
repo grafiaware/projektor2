@@ -8,9 +8,11 @@ class Projektor2_Router_Form {
 
     const CTRL_NOVA_OSOBA = "novy_zajemce";
     const CTRL_SMLOUVA = "smlouva";
+    const CTRL_CIZINEC = "cizinac";
     const CTRL_SOUHLAS = "souhlas";
+    const CTRL_DOTAZNIK = "dotaznik";
     const CTRL_PLAN = "plan";
-    const UKONCENI = "ukonceni";
+    const CTRL_UKONCENI = "ukonceni";
     const CTRL_ZAMESTNANI = "zamestnani";
 
     protected $sessionStatus;
@@ -26,6 +28,46 @@ class Projektor2_Router_Form {
     public function getResult() {
         $form = $this->request->get('form');
         $kodProjektu = $this->sessionStatus->getUserStatus()->getProjekt()->kod;
+
+        switch($form) {
+            case self::CTRL_NOVA_OSOBA:
+                switch ($kodProjektu) {
+                    case 'CJC':
+                        $controler = new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
+                        break;
+                    default :
+                        $controler = new Projektor2_Controller_Formular_Smlouva($this->sessionStatus, $this->request, $this->response);
+                        break;
+                }
+                break;
+            case self::CTRL_SMLOUVA:
+                $controler = new Projektor2_Controller_Formular_Smlouva($this->sessionStatus, $this->request, $this->response);
+                break;
+            case self::CTRL_DOTAZNIK:
+                $controler = new Projektor2_Controller_Formular_Dotaznik($this->sessionStatus, $this->request, $this->response);
+                break;
+            case self::CTRL_SOUHLAS:
+                $controler = new Projektor2_Controller_Formular_Souhlas($this->sessionStatus, $this->request, $this->response);
+                break;
+            case self::CTRL_CIZINEC:
+                $controler = new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
+                break;
+            case self::CTRL_PLAN:
+                $controler = new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
+                break;
+            case self::CTRL_UKONCENI:
+                $controler = new Projektor2_Controller_Formular_IP2($this->sessionStatus, $this->request, $this->response);
+                break;
+            case self::CTRL_ZAMESTNANI:
+                $controler = new Projektor2_Controller_Formular_Zamestnani($this->sessionStatus, $this->request, $this->response);
+                break;
+            default:
+                throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form "'.$form.'" v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
+        }
+        return $controler->getResult();
+    }
+    
+    private function getResultOLD($param) {
         switch ($kodProjektu) {
             case 'AGP':
                 /** AGP **/
@@ -372,7 +414,7 @@ class Projektor2_Router_Form {
                     case self::CTRL_NOVA_OSOBA:
                         $controler = new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
                         break;
-                    case "cizinec":
+                    case self::CTRL_CIZINEC:
                         $controler = new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
                         break;
                     case "plan":
@@ -427,43 +469,7 @@ class Projektor2_Router_Form {
                 throw new UnexpectedValueException('Neznámý kód projektu: '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
         }
 
-
-        switch($form) {
-            case self::CTRL_NOVA_OSOBA:
-                switch ($kodProjektu) {
-                    case 'CJC':
-                        $controler = new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
-                        break;
-                    default :
-                        $controler = new Projektor2_Controller_Formular_Smlouva($this->sessionStatus, $this->request, $this->response);
-                        break;
-                }
-                break;
-            case "dotaznik":
-                $controler = new Projektor2_Controller_Formular_Dotaznik($this->sessionStatus, $this->request, $this->response);
-                break;
-            case "smlouva":
-                $controler = new Projektor2_Controller_Formular_Smlouva($this->sessionStatus, $this->request, $this->response);
-                break;
-            case "souhlas":
-                $controler = new Projektor2_Controller_Formular_Souhlas($this->sessionStatus, $this->request, $this->response);
-                break;
-            case "cizinec":
-                $controler = new Projektor2_Controller_Formular_Cizinec($this->sessionStatus, $this->request, $this->response);
-                break;
-            case "plan":
-                $controler = new Projektor2_Controller_Formular_IP1($this->sessionStatus, $this->request, $this->response);
-                break;
-            case "ukonceni":
-                $controler = new Projektor2_Controller_Formular_IP2($this->sessionStatus, $this->request, $this->response);
-                break;
-            case "zamestnani":
-                $controler = new Projektor2_Controller_Formular_Zamestnani($this->sessionStatus, $this->request, $this->response);
-                break;
-            default:
-                throw new UnexpectedValueException('Router '.get_called_class().' - Neznámý parametr routeru form "'.$form.'" v projektu '.$this->sessionStatus->getUserStatus()->getProjekt()->kod);
-        }
-        return $controler->getResult();
+        
     }
 }
 

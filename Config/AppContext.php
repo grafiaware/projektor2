@@ -31,9 +31,12 @@ abstract class Config_AppContext
             case 'projektor':
                 if(!isset(self::$db['projektor']) OR !isset(self::$db['projektor'])) {
                     if (self::isRunningOnProductionMachine()) {
-                        $dbh = new Projektor2_DB_Mysql_NeonProjektor2cjc();
+//                        $dbh = new Framework_Database_HandlerSqlMysql_Localhost($dbName, $user, $pass, $dbHost, $dbPort, $charset);
+//                        $dbh = new Framework_Database_HandlerSqlMysql("projektor_2", "root", "spravce", "neon");
+                        $dbh = new Framework_Database_HandlerSqlMysql("projektor_2_cjc", "root", "spravce", "neon");
                     } else {
-                        $dbh = new Projektor2_DB_Mysql_LocalhostCjc();
+//                        $dbh = new Framework_Database_HandlerSqlMysql("projektor_2", "root", "spravce", "localhost");
+                        $dbh = new Framework_Database_HandlerSqlMysql("projektor_2_cjc", "root", "spravce", "localhost");
                     }
                     self::$db['projektor'] = $dbh;
                 }
@@ -53,7 +56,15 @@ abstract class Config_AppContext
     private static function isRunningOnProductionMachine() {
         return (strpos(strtolower(gethostname()), 'projektor')===0) ? TRUE : FALSE;
     }
-
+    
+    /**
+     * Informuje, zda skript běží v režimu extenzivního zobrazení dat.
+     * @return boolean
+     */
+    public static function isVerboseMode() {
+        return false ? true : false;
+    }
+    
     /**
      * Vrací defaulní označení (nick) databáze. Jedná se o označení používané v rámci aplikace, nikoli o skutečný název
      * databáze v databázovém stroji.
