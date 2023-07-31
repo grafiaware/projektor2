@@ -8,7 +8,7 @@ class Projektor2_Router_Form {
 
     const CTRL_NOVA_OSOBA = "novy_zajemce";
     const CTRL_SMLOUVA = "smlouva";
-    const CTRL_CIZINEC = "cizinac";
+    const CTRL_CIZINEC = "cizinec";
     const CTRL_SOUHLAS = "souhlas";
     const CTRL_DOTAZNIK = "dotaznik";
     const CTRL_PLAN = "plan";
