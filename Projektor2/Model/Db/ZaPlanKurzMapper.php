@@ -24,12 +24,9 @@ za_plan_kurz.poc_abs_hodin AS poc_abs_hodin,
 za_plan_kurz.duvod_absence AS duvod_absence,
 za_plan_kurz.dokonceno AS dokonceno,
 za_plan_kurz.duvod_neukonceni AS duvod_neukonceni,
-certifikat_kurz.`date` AS datum_certif
+za_plan_kurz.datum_certif AS datum_certif
 FROM
 za_plan_kurz
-LEFT JOIN 
-certifikat_kurz
-ON ((za_plan_kurz.id_zajemce=certifikat_kurz.id_zajemce_FK) AND (za_plan_kurz.id_s_kurz_FK=certifikat_kurz.id_s_kurz_FK))
 ";
     
     private static $statementfindAllForZajemce;
