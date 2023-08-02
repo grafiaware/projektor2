@@ -62,7 +62,8 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                                 [
                                     ''=>'',
                                     'osoby v projektu'=>'template|osoby projekt',
-                                    'osoby v kanceláři'=>'template|osoby kancelar'
+                                    'osoby v kanceláři'=>'template|osoby kancelar',
+                                    'zaměstnaní v projektu'=>'template|zamstnani projekt',
                                 ]
                             );
                             $exportSelectView->assign(Projektor2_View_HTML_ExportSelectView::FORM_ACTION, "index.php?akce=osoby&osoby=excel");
@@ -153,6 +154,11 @@ class Projektor2_Controller_Export_Excel extends Projektor2_Controller_Abstract 
                     'sqlFilename' => __DIR__."/Templates/Aktivity_projekt.sql",
                     'createdViewPostfix' => 'aktivity_projekt',
                     'xlsSheetName' => "Aktivity {$this->sessionStatus->getUserStatus()->getProjekt()->kod}"
+                    ],
+                'zamstnani projekt' => [
+                    'sqlFilename' => __DIR__."/Templates/Zamestnani_projekt.sql",
+                    'createdViewPostfix' => 'zamestnani_projekt',
+                    'xlsSheetName' => "Zaměstnaní {$this->sessionStatus->getUserStatus()->getProjekt()->kod}"
                     ],
                 ];
         if (!array_key_exists($exportTemplateName, $templateParams)) {
