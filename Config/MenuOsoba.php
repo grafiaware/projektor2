@@ -6,7 +6,6 @@
  */
 class Config_MenuOsoba {
 ############# SKUPINY TLAČÍTEK V ZOBRAZENÍ REGISTRACÍ
-
     /**
      * Nastaví skupiny tlačítek objeku zajemceRegistrace
      *
@@ -15,6 +14,172 @@ class Config_MenuOsoba {
      * @throws UnexpectedValueException
      */
     public static function setSkupinyZajemce(Projektor2_Viewmodel_OsobaMenuViewmodel $osobaMenuViewmodel) {
+       
+        $configButtons = self::getConfig();
+        
+         // skupina dotaznik
+        $skupina = new Projektor2_Viewmodel_Menu_Group();
+        //smlouva
+//        if ($user->tl_mb_sml) {
+        if (in_array(Projektor2_Router_Form::CTRL_SMLOUVA, $configButtons)) {
+        //smlouva
+            $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+            $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
+            $modelTlacitko->text = 'Osoba';
+            $modelTlacitko->title = 'Úprava osobních údajů';
+            $modelTlacitko->status = 'edit';
+            $skupina->addButton($modelTlacitko);
+        }
+        //souhlas se zpracováním osobních údajů
+        if (in_array(Projektor2_Router_Form::CTRL_SOUHLAS, $configButtons)) {
+            $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+            $modelTlacitko->osoba = 'souhlas';
+            $modelTlacitko->text = 'Souhlas';
+            $modelTlacitko->title = 'Tisk souhlasu se zpracováním osobních údajů';
+            $modelTlacitko->status = 'print';
+            $skupina->addButton($modelTlacitko);
+        }
+        //dotazník
+        if (in_array(Projektor2_Router_Form::CTRL_DOTAZNIK, $configButtons)) {
+            $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+            $modelTlacitko->osoba = 'dotaznik';
+            $modelTlacitko->text = 'Dotazník';
+            $modelTlacitko->title = 'Úprava údajů dotazníku účastníka projektu';
+            $modelTlacitko->status = 'edit';
+            $skupina->addButton($modelTlacitko);
+        }
+        if ($skupina->getButtons()) {
+            $osobaMenuViewmodel->addGroup(Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_REGISTRACE, $skupina);
+        }
+        // skupina cizinec
+        $skupina = new Projektor2_Viewmodel_Menu_Group();
+        //cizinec
+        if (in_array(Projektor2_Router_Form::CTRL_CIZINEC, $configButtons)) {
+            $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+            $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_CIZINEC;
+            $modelTlacitko->text = 'Registrace';
+            $modelTlacitko->title = 'Registrace účastníka programu';
+            $modelTlacitko->status = 'edit';
+            $skupina->addButton($modelTlacitko);
+        }
+        if ($skupina->getButtons()) {        
+            $osobaMenuViewmodel->addGroup(Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_CIZINEC, $skupina);
+        }
+        
+        // skupina plan
+        $skupina = new Projektor2_Viewmodel_Menu_Group();
+        //plán
+        if (in_array(Projektor2_Router_Form::CTRL_PLAN, $configButtons)) {
+            $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+            $modelTlacitko->osoba = 'plan';
+            $modelTlacitko->text = 'Plán kurzů';
+            $modelTlacitko->title = 'Úprava údajů plánu kurzů a aktivit';
+            $modelTlacitko->status = 'edit';
+            $skupina->addButton($modelTlacitko);
+        }
+        if ($skupina->getButtons()) {        
+            $osobaMenuViewmodel->addGroup(Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_PLAN, $skupina);
+        }
+
+        // skupina ukonceni
+        $skupina = new Projektor2_Viewmodel_Menu_Group();
+        //ukončení
+        if (in_array(Projektor2_Router_Form::CTRL_UKONCENI, $configButtons)) {
+            $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+            $modelTlacitko->osoba = 'ukonceni';
+            $modelTlacitko->text = 'Ukončení a IP2';
+            $modelTlacitko->title = 'Dokončení plánu kurzů a aktivit a ukončení účasti v projektu';
+            $modelTlacitko->status = 'edit';
+            $skupina->addButton($modelTlacitko);
+        }
+        if ($skupina->getButtons()) {        
+            $osobaMenuViewmodel->addGroup(Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_UKONCENI, $skupina);
+        }
+
+        // skupina zamestnani
+        $skupina = new Projektor2_Viewmodel_Menu_Group();
+        //zaměstnání
+        if (in_array(Projektor2_Router_Form::CTRL_ZAMESTNANI, $configButtons)) {
+            $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
+            $modelTlacitko->osoba = 'zamestnani';
+            $modelTlacitko->text = 'Zaměstnání';
+            $modelTlacitko->title = 'Údaje o zaměstnání účastníka projektu';
+            $modelTlacitko->status = 'edit';
+            $skupina->addButton($modelTlacitko);
+        }
+        if ($skupina->getButtons()) {        
+            $osobaMenuViewmodel->addGroup(Projektor2_Viewmodel_OsobaMenuViewmodel::GROUP_ZAMESTNANI, $skupina);
+        }
+
+    }
+    
+    private static function getConfig() {
+        $sessionStatus = Projektor2_Model_Status::getSessionStatus();
+        $username = $sessionStatus->getUserStatus()->getUser()->username;
+        $kodProjektu = $sessionStatus->getUserStatus()->getProjekt()->kod;
+        $buttons = [];
+        switch ($kodProjektu) {
+            case 'AP':
+            case 'HELP':
+            case 'SJZP':
+            case 'SJPK':
+            case 'SJPO':
+            case 'SJLP':
+            case 'MB':
+                $buttons = [
+                    Projektor2_Router_Form::CTRL_SMLOUVA, 
+                    Projektor2_Router_Form::CTRL_SOUHLAS, 
+                    Projektor2_Router_Form::CTRL_DOTAZNIK,
+                    Projektor2_Router_Form::CTRL_PLAN,
+                    Projektor2_Router_Form::CTRL_UKONCENI,
+                    Projektor2_Router_Form::CTRL_ZAMESTNANI];
+
+                break;
+
+            case 'VZP':
+            case 'ZPM':
+            case 'SPP':
+            case 'RP':
+            case 'VDTP':
+            case 'PDU':
+                $buttons = [
+                    Projektor2_Router_Form::CTRL_SMLOUVA, 
+                    Projektor2_Router_Form::CTRL_PLAN,
+                    Projektor2_Router_Form::CTRL_UKONCENI];
+                break;
+
+            case 'CJC':
+                $buttons = [
+                    Projektor2_Router_Form::CTRL_CIZINEC, 
+                    Projektor2_Router_Form::CTRL_PLAN,
+                    Projektor2_Router_Form::CTRL_UKONCENI,
+                    Projektor2_Router_Form::CTRL_ZAMESTNANI];
+                break;
+
+            case 'CKP':
+            case 'PKP':
+                $buttons = [
+                    Projektor2_Router_Form::CTRL_SMLOUVA, 
+                    Projektor2_Router_Form::CTRL_PLAN];
+                break;
+
+            default:
+                    throw new UnexpectedValueException('Nelze nastavit tlačítka. Neznámý kód projektu '.$kodProjektu);
+                break;
+
+        }
+        return $buttons;
+    }
+    
+    /**
+     * Nastaví skupiny tlačítek objeku zajemceRegistrace
+     *
+     * @param Projektor2_Viewmodel_OsobaMenuViewmodel $osobaMenuViewmodel
+     * @return \Projektor2_Viewmodel_OsobaMenuViewmodel
+     * @throws UnexpectedValueException
+     */
+    public static function setSkupinyZajemceOLD(Projektor2_Viewmodel_OsobaMenuViewmodel $osobaMenuViewmodel) {
+
         $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $user = $sessionStatus->getUserStatus()->getUser();
         $kod = $sessionStatus->getUserStatus()->getProjekt()->kod;
@@ -25,7 +190,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_ap_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'ap_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -106,7 +271,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_he_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'he_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -166,7 +331,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_sj_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjzp_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -238,7 +403,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_vz_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'vzp_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -279,7 +444,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_sp_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjpk_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -352,7 +517,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_zpm_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'zpm_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -394,7 +559,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_spp_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'spp_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -436,7 +601,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_rp_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'rp_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -478,7 +643,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_so_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjpo_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -551,7 +716,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_sl_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'sjlp_sml_uc';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -623,7 +788,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_vdtp_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'smlouva';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -664,7 +829,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_pdu_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'smlouva';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -705,7 +870,7 @@ class Config_MenuOsoba {
                 //smlouva
                 if ($user->tl_mb_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'smlouva';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Smlouva';
                     $modelTlacitko->title = 'Úprava údajů smlouvy';
                     $modelTlacitko->status = 'edit';
@@ -777,7 +942,7 @@ class Config_MenuOsoba {
                 //cizinec
                 if ($user->tl_cj_cizinec) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'cizinec';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_CIZINEC;
                     $modelTlacitko->text = 'Registrace';
                     $modelTlacitko->title = 'Registrace účastníka programu';
                     $modelTlacitko->status = 'edit';
@@ -832,7 +997,7 @@ class Config_MenuOsoba {
                 //cizinec
                 if ($user->tl_ckp_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'smlouva';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Registrace';
                     $modelTlacitko->title = 'Registrace účastníka programu';
                     $modelTlacitko->status = 'edit';
@@ -860,7 +1025,7 @@ class Config_MenuOsoba {
                 //cizinec
                 if ($user->tl_pkp_sml) {
                     $modelTlacitko = new Projektor2_Viewmodel_Menu_TlacitkoOsoba();
-                    $modelTlacitko->osoba = 'smlouva';
+                    $modelTlacitko->osoba = Projektor2_Router_Form::CTRL_SMLOUVA;
                     $modelTlacitko->text = 'Registrace';
                     $modelTlacitko->title = 'Registrace účastníka programu';
                     $modelTlacitko->status = 'edit';

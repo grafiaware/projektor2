@@ -85,13 +85,13 @@ class Projektor2_Service_CertifikatKurz {
        // content - potřebuje filepath a db certifikat
         switch ($certifikatRada) {
             case 'PR':
-                $view = new Projektor2_View_PDF_KurzOsvedceniOriginal($sessionStatus);
+                $view = new Projektor2_View_PDF_Certifikat_KurzOsvedceniOriginal($sessionStatus);
                 break;
             case 'MO':
-                $view = new Projektor2_View_PDF_KurzOsvedceniPms($sessionStatus);
+                $view = new Projektor2_View_PDF_Certifikat_KurzOsvedceniPms($sessionStatus);
                 break;
             case 'RK':
-                $view = new Projektor2_View_PDF_KurzOsvedceniAkreditovany($sessionStatus);
+                $view = new Projektor2_View_PDF_Certifikat_KurzOsvedceniAkreditovany($sessionStatus);
                 break;
             case 'PrK':
                 assert(false, 'Není implementováno PDF view pro profesní kvalifikaci.');
@@ -201,8 +201,8 @@ class Projektor2_Service_CertifikatKurz {
      * @return \Projektor2_Model_Db_Flat_ZaFlatTable
      */
     protected function createKurzOsvedceniModels(Projektor2_Model_Db_Zajemce $zajemce) {
-         $models[Projektor2_View_PDF_KurzOsvedceniOriginal::MODEL_PLAN] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
-         $models[Projektor2_View_PDF_KurzOsvedceniOriginal::MODEL_DOTAZNIK]= new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+         $models[Projektor2_View_PDF_Certifikat_KurzOsvedceniOriginal::MODEL_PLAN] = new Projektor2_Model_Db_Flat_ZaPlanFlatTable($zajemce);
+         $models[Projektor2_View_PDF_Certifikat_KurzOsvedceniOriginal::MODEL_DOTAZNIK]= new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
          return $models;
     }
 

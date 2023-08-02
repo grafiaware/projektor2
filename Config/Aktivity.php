@@ -8,7 +8,7 @@
 class Config_Aktivity {
 
     const TYP_KURZ = 'kurz';
-    const TYP_PORADENSTVI = self::TYP_PORADENSTVI;
+    const TYP_PORADENSTVI = 'poradenstvi';
 
     public static function findAktivity($projektKod, $aktivitaTyp) {
         $kurzyProjektu = [];
@@ -225,14 +225,14 @@ class Config_Aktivity {
                 'tiskni_certifikat' => FALSE,
                 'help'=>'Help Pracovní diagnostika'),
             'porad'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Individuální poradenství a zprostředkování zaměstnání',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
                 'help'=>self::getHelp('poradenstvi')
                 ),
             'doporuceni'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Doporučení',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
@@ -297,14 +297,14 @@ class Config_Aktivity {
                 'tiskni_certifikat' => FALSE,
                 'help'=>'SJZP Bilanční diagnostika'),
             'porad'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Individuální poradenství a zprostředkování zaměstnání',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
                 'help'=>self::getHelp('poradenstvi')
             ),
             'doporuceni'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Doporučení',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
@@ -402,7 +402,7 @@ class Config_Aktivity {
                 's_hodnocenim' => FALSE,
                 'help'=>'SJPK Pracovní diagnostika'),
             'porad'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Zprostředkování práce/Umisťování na pracovní místa',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
@@ -410,7 +410,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('poradenstvi')
                 ),
             'doporuceni'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Doporučení',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
@@ -599,7 +599,7 @@ class Config_Aktivity {
                 's_hodnocenim' => FALSE,
                 'help'=>'SJPK Pracovní diagnostika'),
             'porad'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Zprostředkování práce/Umisťování na pracovní místa',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
@@ -607,7 +607,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('poradenstvi')
             ),
             'doporuceni'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Doporučení',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
@@ -701,7 +701,7 @@ class Config_Aktivity {
                 's_hodnocenim' => FALSE,
                 'help'=>'SJPK Pracovní diagnostika'),
             'porad'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Zprostředkování práce/Umisťování na pracovní místa',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
@@ -709,7 +709,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('poradenství')
             ),
             'doporuceni'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Doporučení',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
@@ -868,7 +868,7 @@ class Config_Aktivity {
                 's_hodnocenim' => FALSE,
                 'help'=>'SJPK Pracovní diagnostika'),
             'porad'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Zprostředkování práce/Umisťování na pracovní místa',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,
@@ -876,7 +876,7 @@ class Config_Aktivity {
                 'help'=>self::getHelp('poradenství')
             ),
             'doporuceni'=>array(
-                'typ'=>'poradenství',
+                'typ'=>self::TYP_PORADENSTVI,
                 'nadpis'=>'Doporučení',
                 's_certifikatem' => FALSE,
                 'tiskni_certifikat' => FALSE,

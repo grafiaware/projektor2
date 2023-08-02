@@ -1,5 +1,5 @@
 <?php 
-abstract class Framework_Database_HandlerSqlMysql extends Framework_Database_HandlerSql implements Framework_Database_HandlerSqlInterface {
+class Framework_Database_HandlerSqlMysql extends Framework_Database_HandlerSql implements Framework_Database_HandlerSqlInterface {
     
     public function getFormattedIdentificator($identificator) {
         return "`".str_replace("`","``",$identificator)."`";;

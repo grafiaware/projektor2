@@ -31,7 +31,7 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
 
      protected function getResultPdf() {
         if ($this->request->post('pdf') == "Tiskni IP 1.část") {
-            $view = new Projektor2_View_PDF_IP1($this->sessionStatus, $this->createContextFromModels());
+            $view = new Projektor2_View_PDF_Formular_IP1($this->sessionStatus, $this->createContextFromModels());
             $file = 'IP_cast1_aktivity';
             $view->assign('kancelar_plny_text', $this->sessionStatus->getUserStatus()->getKancelar()->plny_text)
                 ->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name)

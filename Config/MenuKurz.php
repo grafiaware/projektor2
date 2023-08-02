@@ -47,7 +47,7 @@ class Config_MenuKurz {
 
                 if (count($skupina->getButtons())) {
                     $viewmodelKurz->addGroup('ucastnici', $skupina);
-                    $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findByFilter("id_s_kurz_FK={$sKurz->id_s_kurz}");
+                    $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findByFilter("za_plan_kurz.id_s_kurz_FK={$sKurz->id_s_kurz}");
                     $modelSignal = new Projektor2_Viewmodel_Menu_SignalKurz_Ucastnici();
                     $modelSignal->setByPlanKurzArray($zaPlanKurzArray);
                     $skupina->addSignal($modelSignal);

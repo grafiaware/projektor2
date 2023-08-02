@@ -52,7 +52,7 @@ class Projektor2_Service_CertifikatProjekt {
             $datetimeCertifikatu = Projektor2_Date::createFromCzechStringDate($datumCertifikatu);
             $modelDbCertifikat = Projektor2_Model_Db_CertifikatProjektMapper::create($zajemce, $datetimeCertifikatu, $creator, $service);  // bez filename
             // vytvoř a ulož pdf certifikátu
-            $viewKurz = new Projektor2_View_PDF_ProjektOsvedceniOriginal();
+            $viewKurz = new Projektor2_View_PDF_Certifikat_ProjektOsvedceniOriginal();
             $relativeOriginalDocumentPath = Projektor2_Model_File_CertifikatProjektOriginalMapper::getRelativeFilePath($sessionStatus->getUserStatus()->getProjekt(), $zajemce);
 
             $content = $this->createContentCertifikatProjekt($viewKurz, $zajemce, $sessionStatus, $kancelar, $modelDbCertifikat, $relativeOriginalDocumentPath);
@@ -60,7 +60,7 @@ class Projektor2_Service_CertifikatProjekt {
             Projektor2_Model_File_CertifikatProjektOriginalMapper::save($modelDocumentCertifikatOriginal);
 
             // vytvoř a ulož pdf pseudokopie
-            $viewKurz = new Projektor2_View_PDF_ProjektOsvedceniPseudokopie();
+            $viewKurz = new Projektor2_View_PDF_Certifikat_ProjektOsvedceniPseudokopie();
             $relativePseudokopieDocumentPath = Projektor2_Model_File_CertifikatProjektPseudokopieMapper::getRelativeFilePath($sessionStatus->getUserStatus()->getProjekt(), $zajemce);
 
             $content = $this->createContentCertifikatProjekt($viewKurz, $zajemce, $sessionStatus, $kancelar, $modelDbCertifikat, $relativeOriginalDocumentPath);
@@ -142,8 +142,8 @@ class Projektor2_Service_CertifikatProjekt {
      * @return \Projektor2_Service_CertifikatKurz
      */
     protected function createProjektOsvedceniModels(Projektor2_Model_Db_Zajemce $zajemce) {
-         $models[Projektor2_View_PDF_ProjektOsvedceniOriginal::MODEL_UKONCENI] = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
-         $models[Projektor2_View_PDF_ProjektOsvedceniOriginal::MODEL_DOTAZNIK]= new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
+         $models[Projektor2_View_PDF_Certifikat_ProjektOsvedceniOriginal::MODEL_UKONCENI] = new Projektor2_Model_Db_Flat_ZaUkoncFlatTable($zajemce);
+         $models[Projektor2_View_PDF_Certifikat_ProjektOsvedceniOriginal::MODEL_DOTAZNIK]= new Projektor2_Model_Db_Flat_ZaFlatTable($zajemce);
          return $models;
     }
 
