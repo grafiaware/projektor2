@@ -926,6 +926,16 @@ class Config_Aktivity {
                 's_hodnocenim' => FALSE,
                 'help'=>self::getHelp('jaz')
                 ],
+            'prof5'=>array(
+                'typ'=>self::TYP_KURZ,
+                'nadpis'=>'Český jazyk pro cizince - pro pokročilé',
+                'kurz_druh'=>'RKJAZ',
+                's_certifikatem' => TRUE,
+                'certifikat' => self::getCertifikatParams('o'),
+                'tiskni_certifikat' => TRUE,
+                's_hodnocenim' => FALSE,
+                'help'=>self::getHelp('jaz')
+                ),        
         ];
                 break;
             case 'CKP':

@@ -31,7 +31,6 @@ abstract class Config_AppContext
             case 'projektor':
                 if(!isset(self::$db['projektor']) OR !isset(self::$db['projektor'])) {
                     if (self::isRunningOnProductionMachine()) {
-//                        $dbh = new Framework_Database_HandlerSqlMysql_Localhost($dbName, $user, $pass, $dbHost, $dbPort, $charset);
 //                        $dbh = new Framework_Database_HandlerSqlMysql("projektor_2", "root", "spravce", "neon");
                         $dbh = new Framework_Database_HandlerSqlMysql("projektor_2_cjc", "root", "spravce", "neon");
                     } else {
@@ -62,7 +61,7 @@ abstract class Config_AppContext
      * @return boolean
      */
     public static function isVerboseMode() {
-        return false ? true : false;
+        return true;
     }
     
     /**

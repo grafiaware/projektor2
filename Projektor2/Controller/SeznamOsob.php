@@ -26,7 +26,8 @@ class Projektor2_Controller_SeznamOsob extends Projektor2_Controller_Abstract {
         $displayOsoby = true; //$this->hasBeh() || ($this->sessionStatus->getUserStatus()->getUser()->username=="sys_admin");
         if ($displayOsoby) {
 //            $osobyMenu = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::findInContext(NULL, NULL, "prijmeni, jmeno"); //"znacka"); //"prijmeni");
-            $osobyMenu = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::findInContext(NULL, NULL, "znacka"); 
+//            $osobyMenu = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::findInContext(NULL, NULL, "znacka"); 
+            $osobyMenu = Projektor2_Viewmodel_OsobaMenuViewmodelMapper::findInContext(NULL, NULL, "left(znacka, 1), id_zajemce"); 
             if ($osobyMenu) {
                 $row[] = (string) (new Projektor2_Controller_Element_TabulkaMenuOsoby($this->sessionStatus, $this->request, $this->response, $osobyMenu))->getResult();
             }
