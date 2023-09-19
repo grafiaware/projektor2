@@ -165,23 +165,7 @@ abstract class Config_Certificates
                 $filePath = "img/pozadi/certifikat_pozadi.jpg";   //certifikat_pozadi.jpg je obrázek včetně log, zobrazuje se od horní hrany strányk, překrývá hlavičku
                 break;
 
-            case 'SJZP':
-            case 'SJPK':
-            case 'SJPO':
-            case 'SJLP':
-            case 'MB':
-            case 'CJC':
-                $filePath = "img/pozadi/pozadi_osvedceni.png";   // pozadi.jpg je bez log, zobrazuje se niže na stránce, loga jsou v hlavičce
-                break;
-
-            case 'VZP':
-            case 'ZPM':
-            case 'SPP':
-            case 'RP':
-            case 'VDTP':
-            case 'PDU':
-            case 'CKP':
-            case 'PKP':
+            default :
                 $filePath = "img/pozadi/pozadi_osvedceni.png";   // pozadi.jpg je bez log, zobrazuje se niže na stránce, loga jsou v hlavičce
                 break;
 
@@ -200,51 +184,20 @@ abstract class Config_Certificates
                 $filePath = "img/pozadi/komplet_pozadi".$number.".jpg";
                 break;
 
-            case 'SJZP':
-            case 'VZP':
-            case 'SJPK':
-            case 'ZPM':
-            case 'SPP':
-            case 'RP':
-            case 'SJPO':
-            case 'SJLP':
-            case 'VDTP':
-            case 'PDU':
-            case 'MB':
-            case 'CJC':
-            case 'CKP':
-            case 'PKP':
+            default:
                 // jedno pozadí - stejné jako originál (bez podpisu)
                 $filePath = self::getCertificateOriginalBackgroundImageFilepath($sessionStatus);
                 break;
-            default:
-                throw new UnexpectedValueException('Není definován soubor s obrázkem na pozadí pro certifikát v projektu '.$sessionStatus->getUserStatus()->getProjekt()->kod.'.');
         }
         return $filePath;
     }
 
     public static function getCertificatePmsBackgroundImageFilepath(Projektor2_Model_Status $sessionStatus) {
         switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {
-            case 'AP':
-            case 'SJZP':
-            case 'VZP':
-            case 'SJPK':
-            case 'ZPM':
-            case 'SPP':
-            case 'RP':
-            case 'SJPO':
-            case 'SJLP':
-            case 'VDTP':
-            case 'PDU':
-            case 'MB':
-            case 'CJC':
-            case 'CKP':
-            case 'PKP':
+            default :
                 // jedno pozadí
                 $filePath = "img/pozadi/pozadi_osvedceni_pms.png";   // parte rámeček
                 break;
-            default:
-                throw new UnexpectedValueException('Není definován soubor s obrázkem na pozadí pro certifikát v projektu '.$sessionStatus->getUserStatus()->getProjekt()->kod.'.');
         }
         return $filePath;
     }
