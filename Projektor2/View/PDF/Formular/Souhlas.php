@@ -15,7 +15,7 @@ class Projektor2_View_PDF_Formular_Souhlas extends Projektor2_View_PDF_Common {
 
     public function createPDFObject() {
         $textPaticky = "Souhlas účastníka projektu s poskytováním osobních údajů “ ".$this->context["file"];
-        $this->setHeaderFooter($textPaticky);
+        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "Souhlas účastníka projektu s poskytováním osobních údajů";
@@ -26,13 +26,13 @@ class Projektor2_View_PDF_Formular_Souhlas extends Projektor2_View_PDF_Common {
             $strana->Nadpis("Účastník projektu:");
             $strana->ZarovnaniNadpisu("L");
             $strana->VyskaPismaNadpisu(11);
-            $this->pdf->TiskniBlok($strana);
+            $this->pdfCreator->renderBlock($strana);
         $this->tiskniOsobniUdaje();
         $dohoda1 = new Projektor2_PDF_Blok;
                 $dohoda1->Nadpis("Prohlášení");
                 $dohoda1->ZarovnaniNadpisu("C");
                 $dohoda1->VyskaPismaNadpisu(12);
-        $this->pdf->TiskniBlok($dohoda1);
+        $this->pdfCreator->renderBlock($dohoda1);
         //**********************************************
         $blok = new Projektor2_PDF_Blok;
             $blok->Odstavec("Tímto výslovně prohlašuji, že souhlasím se zpracováním, užitím a uchováním veškerých mých osobních a citlivých údajů správcem a zpracovatelem údajů, kterým je Grafia, společnost s ručením omezeným, sídlo: Budilova 1511/4, 301 21 Plzeň, IČ: 47714620, získaných při realizaci projektu v rozsahu uvedeném v mnou poskytnuté dokumentaci (Dohoda o účasti v projektu, registrační dotazník, strukturovaný životopis, reference apod.) a v rozsahu mnou osobně sdělených údajů zaznamenaných pracovníkem správce a včetně informací získaných při testování, pohovorech, pracovní diagnostice, zjišťování kulturních, týmových či osobnostních způsobilostí a kompetencí a to pro potřeby realizace projektu a pro účely zprostředkování zaměstnání a pro mou prezentaci potenciálnímu zaměstnavateli jako příjemci údajů.");
@@ -43,7 +43,7 @@ class Projektor2_View_PDF_Formular_Souhlas extends Projektor2_View_PDF_Common {
             $blok->PridejOdstavec(" Byl jsem informován, že tyto údaje mohou být využívány třetí osobou pověřenou poskytovatelem podpory, event. Evropskou komisí nebo MPSV, a to pouze za účelem kontroly.");
             $blok->PridejOdstavec("Je mi známo, že mohu kdykoli výše uvedené souhlasy odvolat.");
             $blok->Radkovani(1.00);
-        $this->pdf->TiskniBlok($blok);
+        $this->pdfCreator->renderBlock($blok);
 
         //##################################################################################################
         //$this->pdf->Ln(5);

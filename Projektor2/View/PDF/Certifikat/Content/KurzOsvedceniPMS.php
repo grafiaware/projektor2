@@ -11,9 +11,27 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Helper_KurzOsvedceniPMS extends Projektor2_View_PDF_Helper_Base {
+class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniPMS extends Projektor2_View_PDF_Certifikat_Content_Base {
 
-    public static function createContent($pdf, $context, $caller) {
+    public static function createContent(
+            Projektor2_PDF_PdfCreator $pdf, 
+            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat,   // v minitorg certifikátu nepoužit
+            $context, 
+            $caller, 
+            $radkovani=1) {
+        
+        // background
+        $odsazeniPozadiShora = 0;
+        $vyskaObrazku = 297;
+        $sirkaObrazku = 210;
+        $vyska = 297-$odsazeniPozadiShora;
+        $pomer = $vyska/$vyskaObrazku;
+        $sirka = $sirkaObrazku*$pomer;
+        $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
+        $pdf->Image(Config_Certificates::getCertificatePmsBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        
+        // content
         $pdf->SetXY(0,45);
 
         $blokCentered = new Projektor2_PDF_Blok;
@@ -41,18 +59,18 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniPMS extends Projektor2_View_PDF_He
             $blok->PridejOdstavec('Grafia, společnost s ručením omezeným');
             $blok->PridejOdstavec('se sídlem Budilova 4, 301 21 Plzeň');
             $blok->PridejOdstavec('IČ: 477 14 620');
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $pdf->Ln(15);
 
         $blok = clone $blokCentered40_14;
             $blok->Nadpis("OSVĚDČENÍ");
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered20_11;
             $blok->Nadpis('Jméno a příjmení: '.self::celeJmeno($context[$caller::MODEL_DOTAZNIK]));
             $blok->PridejOdstavec('Datum narození: '.self::datumBezNul($context[$caller::MODEL_DOTAZNIK]->datum_narozeni));
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered20_11;
             $blok->Style('I');
@@ -62,38 +80,38 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniPMS extends Projektor2_View_PDF_He
                 $abs = 'absolvovala';
             }
             $blok->PridejOdstavec($abs);
-            if ($context['sKurz']->date_konec){
-                $blok->PridejOdstavec('dne '.self::datumBezNul($context['sKurz']->date_konec));
+            if ($sKurz->date_konec){
+                $blok->PridejOdstavec('dne '.self::datumBezNul($sKurz->date_konec));
             }
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered20_11;
-            $blok->PridejOdstavec(strtolower($context['sKurz']->nadpis));
-        $pdf->TiskniBlok($blok);
+            $blok->PridejOdstavec(strtolower($sKurz->nadpis));
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered20_11;
             $blok->Nadpis('Poradenský program');
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered20_11;
-            $blok->Nadpis($context['sKurz']->kurz_nazev);
-        $pdf->TiskniBlok($blok);
-
-        $blok = clone $blokCentered20_11;
-            $blok->Style('I');
-            $blok->PridejOdstavec('v rozsahu '.$context['sKurz']->pocet_hodin.' vyučovacích hodin');
-        $pdf->TiskniBlok($blok);
+            $blok->Nadpis($sKurz->kurz_nazev);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered20_11;
             $blok->Style('I');
-            if ($context['sKurz']->date_zacatek == $context['sKurz']->date_konec) {
-                $blok->PridejOdstavec('Termín poradenského programu: '.self::datumBezNul($context['sKurz']->date_zacatek));
+            $blok->PridejOdstavec('v rozsahu '.$sKurz->pocet_hodin.' vyučovacích hodin');
+        $pdf->renderBlock($blok);
+
+        $blok = clone $blokCentered20_11;
+            $blok->Style('I');
+            if ($sKurz->date_zacatek == $sKurz->date_konec) {
+                $blok->PridejOdstavec('Termín poradenského programu: '.self::datumBezNul($sKurz->date_zacatek));
             } else {
-                $blok->PridejOdstavec('Termín poradenského programu: '.self::datumBezNul($context['sKurz']->date_zacatek)
-                                        .' - '.self::datumBezNul($context['sKurz']->date_konec));
+                $blok->PridejOdstavec('Termín poradenského programu: '.self::datumBezNul($sKurz->date_zacatek)
+                                        .' - '.self::datumBezNul($sKurz->date_konec));
             }
-            $blok->PridejOdstavec('Obsah poradenského programu: '.$context['sKurz']->kurz_obsah);
-        $pdf->TiskniBlok($blok);
+            $blok->PridejOdstavec('Obsah poradenského programu: '.$sKurz->kurz_obsah);
+        $pdf->renderBlock($blok);
 
 }
 

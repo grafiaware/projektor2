@@ -21,7 +21,7 @@ class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
 
     public function createPDFObject() {
         $textPaticky = "Individuální plán účastníka v projektu „Alternativní práce v Plzeňském kraji“ - část 1  ".$this->context["file"];      
-        $this->setHeaderFooter($textPaticky);
+        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 1";
@@ -78,7 +78,7 @@ class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
             $blok->PridejOdstavec("Účastníkovi projektu mohou být dále naplánovány aktivity vybrané z dalších doplňkových výběrových aktivit.");
             $blok->predsazeni(0);
             $blok->odsazeniZleva(0);
-        $this->pdf->TiskniBlok($blok);        
+        $this->pdfCreator->renderBlock($blok);        
         //##################################################################################################
         $this->tiskniMistoDatum($this->context[self::MODEL_PLAN ."datum_vytvor_dok_plan"]);
         $this->tiskniPodpisy(self::MODEL_DOTAZNIK);      

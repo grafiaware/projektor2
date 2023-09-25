@@ -11,7 +11,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Helper_UkonceniAktivitPoradenstvi extends Projektor2_View_PDF_Helper_Base {
+class Projektor2_View_PDF_Certifikat_Content_UkonceniAktivitPoradenstvi extends Projektor2_View_PDF_Certifikat_Content_Base {
 
     public static function createContent($pdf, $context, $caller, $dolniokrajAPaticka, $mistoDatumPodpisy) {
         $count = count($context['aktivityProjektuTypuPoradenstvi']);
@@ -28,7 +28,7 @@ class Projektor2_View_PDF_Helper_UkonceniAktivitPoradenstvi extends Projektor2_V
                     $vyhodnoceni->vyskaPismaNadpisu(11);
                     $vyhodnoceni->Odstavec($context[$caller::MODEL_UKONCENI.'vyhodnoceni']);                        
                     $vyhodnoceni->PridejOdstavec($context[$caller::MODEL_UKONCENI.$indexAktivity.'_hodnoceni']);
-                    $pdf->TiskniBlok($vyhodnoceni);
+                    $pdf->renderBlock($vyhodnoceni);
 
                     if ($counter == $count-1) {
                         $potrebneMisto = $dolniokrajAPaticka+$mistoDatumPodpisy;                        
@@ -43,12 +43,12 @@ class Projektor2_View_PDF_Helper_UkonceniAktivitPoradenstvi extends Projektor2_V
             if (!$counter) {
                 $bezAktivit = new Projektor2_PDF_Blok();
                 $bezAktivit->Odstavec("Účastníkovi nebyly naplánovány žádné aktivity.");
-                $pdf->TiskniBlok($bezAktivit);  
+                $pdf->renderBlock($bezAktivit);  
             }                
         } else {
             $bezAktivit = new Projektor2_PDF_Blok();
             $bezAktivit->Odstavec("V projektu nelze plánovat žádné aktivity.");
-            $pdf->TiskniBlok($bezAktivit);                      
+            $pdf->renderBlock($bezAktivit);                      
         }        
         
 }

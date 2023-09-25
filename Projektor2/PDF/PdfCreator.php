@@ -8,7 +8,7 @@
  */
 class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
     public function Debug($debug=false) {
-        $pdfdebug = Projektor2_PDFContext::getDebug();
+        $pdfdebug = Projektor2_PDF_Factory::getDebug();
     	$pdfdebug->debug($debug);
     }
 
@@ -26,7 +26,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
     }
 
     private function DebugCell ($w=0, $h=0, $txtUTF8='', $border=0, $ln=0, $align='', $fill=false, $link='', $lineSpacing=1.5, $hangingIndent=0) {
-        $pdfdebug = Projektor2_PDFContext::getDebug();
+        $pdfdebug = Projektor2_PDF_Factory::getDebug();
         $txt1250 = iconv("UTF-8","windows-1250",$txtUTF8);
 
         switch ($pdfdebug->debug) {
@@ -45,7 +45,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
     }
 
     public function Header() {
-        $pdfhlavicka = Projektor2_PDFContext::getHlavicka();
+        $pdfhlavicka = Projektor2_PDF_Factory::getHlavicka();
         $this->Ln($pdfhlavicka->odsazeniNahore);
         if ($pdfhlavicka->obrazekSoubor) {
             if ($pdfhlavicka->zarovnani=="C")
@@ -79,7 +79,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
     }
 
     public function Footer() {
-        $pdfpaticka = Projektor2_PDFContext::getPaticka();
+        $pdfpaticka = Projektor2_PDF_Factory::getPaticka();
         $vyskaTextuPaticky = $this->LineCount($pdfpaticka->text)*$pdfpaticka->vyskaPisma*$pdfpaticka->radkovani/$this->k;
         $vyskaCislovaniPaticky = $pdfpaticka->cislovani ? $pdfpaticka->vyskaPisma*$pdfpaticka->radkovani/$this->k : 0;
         $this->SetFont('Times','',$pdfpaticka->vyskaPisma);
@@ -124,8 +124,8 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
      * @param unknown_type $rozdelujSadu
      * @return unknown_type
      */
-    public function TiskniSaduBunek(Projektor2_PDF_SadaBunek $sadaBunek, $pocetMezer=1, $tiskniVzdy=false, $tiskniJenSpustenou=false, $rozdelujSadu=false) {
-        $pdfdebug = Projektor2_PDFContext::getDebug();
+    public function renderCellGroup(Projektor2_PDF_SadaBunek $sadaBunek, $pocetMezer=1, $tiskniVzdy=false, $tiskniJenSpustenou=false, $rozdelujSadu=false) {
+        $pdfdebug = Projektor2_PDF_Factory::getDebug();
 
         if($sadaBunek->sadaNeniPrazdna AND !$tiskniJenSpustenou OR $tiskniVzdy OR $sadaBunek->sadaSpustena OR $pdfdebug->debug > 0) {
             // určení výšky sady buněk
@@ -208,7 +208,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
      *
      * @param Projektor2_PDF_Blok $blok
      */
-    public function TiskniBlok(Projektor2_PDF_Blok $blok) {
+    public function renderBlock(Projektor2_PDF_Blok $blok) {
 //        $pdfdebug = Projektor2_PDFContext::getDebug();
         $this->SetDrawColor("255,255,255");
         $this->SetFillColor("255,255,255");
@@ -313,7 +313,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
     }
 
 
-    public function TiskniTabulku($tabulka) {
+    public function renderTable($tabulka) {
         //Šířka sloupců
         $pocet_sloupcu[] = count($tabulka->zahlavi);
         foreach ($tabulka->data as $radek) {

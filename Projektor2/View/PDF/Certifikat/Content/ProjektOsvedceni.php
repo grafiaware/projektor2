@@ -11,9 +11,23 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Helper_ProjektOsvedceni extends Projektor2_View_PDF_Helper_Base {
+class Projektor2_View_PDF_Certifikat_Content_ProjektOsvedceni extends Projektor2_View_PDF_Certifikat_Content_Base {
 
-    public static function createContent($pdf, $context, $caller) {
+    public static function createContent(\Projektor2_PDF_PdfCreator $pdf, $context, $caller) {
+        /** @var Projektor2_Model_Db_SKurz $sKurz */
+        $sKurz = $context['sKurz'];
+        
+        // pozadí
+        $odsazeniPozadiShora = 28;
+        $vyskaObrazku = 287;
+        $sirkaObrazku = 210;
+        $vyska = 297-$odsazeniPozadiShora;
+        $pomer = $vyska/$vyskaObrazku;
+        $sirka = $sirkaObrazku*$pomer;
+        $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
+        $pdf->Image(Config_Certificates::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        
+        // content
         $pdf->SetXY(0,60);
 
         $blokCentered = new Projektor2_PDF_Blok;
@@ -34,24 +48,24 @@ class Projektor2_View_PDF_Helper_ProjektOsvedceni extends Projektor2_View_PDF_He
             $blok->PridejOdstavec('IČ: 477 14 620');
             $blok->PridejOdstavec('');
             $blok->PridejOdstavec('uděluje');
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
         
         $blok = clone $blokCentered30_14;
             $blok->Nadpis("CERTIFIKÁT");
             $blok->PridejOdstavec('č. '.$context['certifikat']->identifikator);
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered30_14;
             $blok->PridejOdstavec('o absolutoriu projektu');
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
         
         $blok = clone $blokCentered30_14;
             $blok->PridejOdstavec($context['v_projektu']);
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered20_11;
             $blok->PridejOdstavec($context['financovan']);
-        $pdf->TiskniBlok($blok);  
+        $pdf->renderBlock($blok);  
         
         
         
@@ -59,7 +73,7 @@ class Projektor2_View_PDF_Helper_ProjektOsvedceni extends Projektor2_View_PDF_He
         // jméno
         $blok = clone $blokCentered30_14;
             $blok->Nadpis(self::celeJmeno($context[$caller::MODEL_DOTAZNIK]));
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered30_14;
         if ($context[$caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR.'pohlavi'] == 'muž') {
@@ -71,7 +85,7 @@ class Projektor2_View_PDF_Helper_ProjektOsvedceni extends Projektor2_View_PDF_He
         $blok->PridejOdstavec('úspěšně '.$abs.' projekt');
         $pdf->Ln(20);
 //        $blok->PridejOdstavec('v rozsahu '.$context[$caller::MODEL_PLAN .$druh.'_poc_abs_hodin'].' hodin');
-        $pdf->TiskniBlok($blok);        
+        $pdf->renderBlock($blok);        
                    
         
         

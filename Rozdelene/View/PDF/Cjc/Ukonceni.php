@@ -17,7 +17,7 @@ class Projektor2_View_PDF_Cjc_Ukonceni extends Projektor2_View_PDF_Common {
     public function createPDFObject() {
         $nazevProjektu = '„Čeština pro cizince“';
         $textPaticky = "Ukončení účasti účastníka v projektu $nazevProjektu ".$this->context["file"];
-        $this->setHeaderFooter($textPaticky);
+        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "UKONČENÍ ÚČASTI V PROJEKTU";
@@ -33,7 +33,7 @@ class Projektor2_View_PDF_Cjc_Ukonceni extends Projektor2_View_PDF_Common {
             $blok->PridejOdstavec("Účastník bere na vědomí, že dle podmínek projektu byl povinen nejpozději ke dni ukončení účasti v projektu dodat veškeré doklady k přímé podpoře "
                     . "a dále pak do 3 pracovních dnů od ukončení účasti v projektu veškeré doklady k důvodům neúčasti na aktivitách projektu (např. omluvenky) "
                     . "a dále pak k ukončení účasti v projektu (např. kopii pracovní smlouvy).");
-        $this->pdf->TiskniBlok($blok);
+        $this->pdfCreator->renderBlock($blok);
         $ukonceniUcasti = new Projektor2_PDF_SadaBunek();
             $ukonceniUcasti->Nadpis("Údaje o účasti v projektu");
     //    	$ukonceniUcasti->PridejBunku("Datum zahájení účasti v projektu: ", @$pdfpole["datum_reg"]);
@@ -49,33 +49,33 @@ class Projektor2_View_PDF_Cjc_Ukonceni extends Projektor2_View_PDF_Common {
                 $ukonceniUcasti1 = new Projektor2_PDF_Blok;
                 $ukonceniUcasti1->Odstavec( @$this->context[self::MODEL_UKONCENI . 'popis_ukonceni']);
             }
-        $this->pdf->TiskniSaduBunek($ukonceniUcasti);
-        if ($ukonceniUcasti1) $this->pdf->TiskniBlok($ukonceniUcasti1);
+        $this->pdfCreator->renderCellGroup($ukonceniUcasti);
+        if ($ukonceniUcasti1) $this->pdfCreator->renderBlock($ukonceniUcasti1);
         $pozn = new Projektor2_PDF_Blok;
             $pozn->Nadpis("Možné důvody:");
             $pozn->Odstavec("1. řádné absolvování projektu");
             $pozn->PridejOdstavec("2. předčasným ukončením účasti ze strany klienta");
             $pozn->VyskaPismaNadpisu(8);
             $pozn->VyskaPismaTextu(8);
-        $this->pdf->TiskniBlok($pozn);
+        $this->pdfCreator->renderBlock($pozn);
         $pozn = new Projektor2_PDF_Blok;
             $pozn->Odstavec("a. dnem předcházejícím nástupu klienta do pracovního poměru (ve výjimečných případech může být dohodnuto jinak)");
             $pozn->PridejOdstavec("b. výpovědí dohody o účasti v projektu účastníkem nebo ukončením dohody z jiného důvodu než nástupu do zaměstnání (ukončení bude v den předcházející dni vzniku důvodu ukončení)");
             $pozn->VyskaPismaTextu(8);
             $pozn->OdsazeniZleva(3);
             $pozn->Predsazeni(3);
-        $this->pdf->TiskniBlok($pozn);
+        $this->pdfCreator->renderBlock($pozn);
         $pozn = new Projektor2_PDF_Blok;
             $pozn->Odstavec("3. předčasným ukončením účasti ze strany dodavatele");
             $pozn->VyskaPismaTextu(8);
-        $this->pdf->TiskniBlok($pozn);
+        $this->pdfCreator->renderBlock($pozn);
         $pozn = new Projektor2_PDF_Blok;
             $pozn->Odstavec("a. pokud účastník porušuje podmínky účasti v projektu, neplní své povinnosti při účasti na aktivitách projektu (zejména na rekvalifikaci) nebo jiným závažným způsobem maří účel účasti v projektu");
             $pozn->PridejOdstavec("b. ve výjimečných případech na základě podnětu vysílajícího ÚP, např. při sankčním vyřazení z evidence ÚP (ukončení bude v pracovní den předcházející dni vzniku důvodu ukončení)");
             $pozn->VyskaPismaTextu(8);
             $pozn->OdsazeniZleva(3);
             $pozn->Predsazeni(3);
-        $this->pdf->TiskniBlok($pozn);
+        $this->pdfCreator->renderBlock($pozn);
 
         //##################################################################################################
         $this->tiskniMistoDatum($this->context[self::MODEL_UKONCENI."datum_vytvor_dok_ukonc"]);

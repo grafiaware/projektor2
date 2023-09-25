@@ -47,7 +47,6 @@ class Projektor2_Service_CertifikatKurz {
      * file model certifikátu a uloží obsah (pdf) do složky dané identifikátorem kurzu a verzí certifikátu.
      * Výsledný model certifikátu obsahuje vzniklý db model a file model.
      *
-     * @param string $certifikatVerze
      * @param Projektor2_Model_Status $sessionStatus
      * @param Projektor2_Model_Db_Kancelar $kancelar
      * @param Projektor2_Model_Db_Zajemce $zajemce
@@ -55,6 +54,7 @@ class Projektor2_Service_CertifikatKurz {
      * @param string $datumCertifikatu
      * @param string $creator
      * @param string $service
+     * 
      * @return Projektor2_Model_CertifikatKurz
      */
     private function createCertifikat(
@@ -66,47 +66,28 @@ class Projektor2_Service_CertifikatKurz {
             $datumCertifikatu, $creator, $service
     ) {
 
-
         // file certifikat model - bez content, ale filepath již vznikne
         $fileCertifikat = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->getUserStatus()->getProjekt(), $zajemce, $sKurz, $certifikatVerze);  // bez content
 
-        $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
-
         // vytvoř db certifikát - jednu verzi
+        $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
         $datetimeCertifikatu = Projektor2_Date::createFromSqlDate($datumCertifikatu);
+        try {
         $dbCertifikat = Projektor2_Model_Db_CertifikatKurzMapper::create(
                 $zajemce, $sKurz, $certifikatRada, $certifikatVerze,
                 $datetimeCertifikatu, $creator, $service, $fileCertifikat->relativeDocumentPath
             );
-        if (is_null($dbCertifikat)) {
+        } catch (Exception $e) {
             Projektor2_Model_File_CertifikatKurzMapper::delete($fileCertifikat);
+            throw RuntimeException("Nepodařilo se zapsat údaje certifikátu do databáze. Certifikát nebude vytvořen.", 0, $e);
         }
 
-       // content - potřebuje filepath a db certifikat
-        switch ($certifikatRada) {
-            case 'PR':
-                $view = new Projektor2_View_PDF_Certifikat_KurzOsvedceniOriginal($sessionStatus);
-                break;
-            case 'MO':
-                $view = new Projektor2_View_PDF_Certifikat_KurzOsvedceniPms($sessionStatus);
-                break;
-            case 'RK':
-                $view = new Projektor2_View_PDF_Certifikat_KurzOsvedceniAkreditovany($sessionStatus);
-                break;
-            case 'PrK':
-                assert(false, 'Není implementováno PDF view pro profesní kvalifikaci.');
-                break;
-            default:
-                throw new UnexpectedValueException("Nepodařilo se určit číselnou řadu certifikátů pro kurz id: {$sKurz->id_s_kurz} a verzi certifikátu: {$certifikatVerze}.");
-                break;
-        }
-        $content = $this->createContent($view, $zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $fileCertifikat->relativeDocumentPath);
+        $content = $this->createContent($zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $fileCertifikat->relativeDocumentPath);
         if (!isset($content) OR !$content) {
-            throw new UnexpectedValueException("Nevznikl obsah certifikátu pro kurz id: {$sKurz->id_s_kurz}.");
+            throw new UnexpectedValueException("Nevznikl obsah souboru certifikátu pro kurz id: {$sKurz->id_s_kurz}.");
         }
         $fileCertifikat->setContent($content);
         Projektor2_Model_File_CertifikatKurzMapper::save($fileCertifikat);  // znovuvytvoření souboru a zápis content do souboru
-
         return new Projektor2_Model_CertifikatKurz($dbCertifikat, $fileCertifikat);
     }
 
@@ -171,13 +152,35 @@ class Projektor2_Service_CertifikatKurz {
      * @return Projektor2_Model_File_ItemAbstract
      */
     private function createContent(
-            Projektor2_View_PDF_Common $pdfView,
-            Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Status $sessionStatus, Projektor2_Model_Db_Kancelar $kancelar,
-            Projektor2_Model_Db_CertifikatKurz $certifikat, Projektor2_Model_Db_SKurz $sKurz, $docPath) {
+            Projektor2_Model_Db_Zajemce $zajemce, 
+            Projektor2_Model_Status $sessionStatus, 
+            Projektor2_Model_Db_Kancelar $kancelar,
+            Projektor2_Model_Db_CertifikatKurz $certifikat, 
+            Projektor2_Model_Db_SKurz $sKurz, 
+            $docPath) {
+
+        switch ($certifikat->certifikat_kurz_rada_FK) {
+            case 'PR':
+                $pdfView = new Projektor2_View_PDF_Certifikat_KurzOsvedceniOriginal($sessionStatus);
+                break;
+            case 'MO':
+                $pdfView = new Projektor2_View_PDF_Certifikat_KurzOsvedceniPms($sessionStatus);
+                break;
+            case 'RK':
+                $pdfView = new Projektor2_View_PDF_Certifikat_KurzOsvedceniAkreditovany($sessionStatus);
+                break;
+            case 'PrK':
+                assert(false, 'Není implementováno PDF view pro profesní kvalifikaci.');
+                break;
+            default:
+                throw new UnexpectedValueException("Nepodařilo se určit číselnou řadu certifikátů pro kurz id: {$sKurz->id_s_kurz} a verzi certifikátu: {$certifikat->certifikat_kurz_verze_FK}.");
+        }        
+        
         $models = $this->createKurzOsvedceniModels($zajemce);
         $context = $this->createContextFromModels($models);
-        $pdfView->appendContext($context);
         $texts = Config_Certificates::getCertificateTexts($sessionStatus);
+
+        $pdfView->appendContext($context);
         $pdfView->assign('signerName', $texts['signerName'])
             ->assign('signerPosition', $texts['signerPosition'])
             //TODO: natvrdo psát např. Plzeň - píše se kancelář, do které jsi přihlášen
@@ -188,15 +191,14 @@ class Projektor2_Service_CertifikatKurz {
             ->assign('v_projektu',$texts['v_projektu'])
             ->assign('text_paticky',$texts['text_paticky']." ".$docPath)
             ->assign('financovan',$texts['financovan']);
-
-//        $viewKurz->appendContext(array(Projektor2_View_PDF_Ap_KurzOsvedceni::MODEL_DOTAZNIK => $this->models[Projektor2_View_PDF_Ap_KurzOsvedceni::MODEL_DOTAZNIK]));
         $pdfView->appendContext(array($pdfView::MODEL_DOTAZNIK => $models[$pdfView::MODEL_DOTAZNIK]));
+        
         $content = $pdfView->render();
         return $content;
     }
 
     /**
-     * Vztvoří a vrací pole db modelů potřebných pto view.
+     * Vytvoří a vrací pole db modelů potřebných pro view.
      * @param Projektor2_Model_Db_Zajemce $zajemce
      * @return \Projektor2_Model_Db_Flat_ZaFlatTable
      */

@@ -20,7 +20,7 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
      *
      * @var \Projektor2_PDF_PdfCreator
      */
-    protected $pdf;
+    protected $pdfCreator;
 
     protected $pdfString;
 
@@ -42,7 +42,7 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
         if (file_exists($this->fullFileName))  	{
             unlink($this->fullFileName);
         }
-        $this->pdf->Output($this->fullFileName, 'F');
+        $this->pdfCreator->Output($this->fullFileName, 'F');
         return $this->isSaved();
     }
 
@@ -62,7 +62,7 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
             define('FPDF_FONTPATH', self::FPDF_FONTPATH);  //běhová konstanta potřebná pro fpdf
         }
         $this->createPDFObject();
-        $this->pdfString = $this->pdf->Output($this->fullFileName, 'S');
+        $this->pdfString = $this->pdfCreator->Output($this->fullFileName, 'S');
         return $this->pdfString;
     }
 

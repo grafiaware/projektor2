@@ -4,14 +4,14 @@
  * @author Petr Svoboda
  *
  */
-abstract class Projektor2_PDFContext
+abstract class Projektor2_PDF_Factory
 {
     private static $hlava;
     private static $pata;
     private static $deb;
 
     /**
-     * Statická funkce, pči prvním volání vytvoří nový objekt PDF_Hlavicka, při každém dalším volání vrací již jednou vytvořený objekt
+     * Statická funkce, při prvním volání vytvoří nový objekt PDF_Hlavicka, při každém dalším volání vrací již jednou vytvořený objekt
      * @return Projektor2_PDF_Hlavicka
      */
     public static function getHlavicka() {

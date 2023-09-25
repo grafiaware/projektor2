@@ -11,12 +11,33 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany extends Projektor2_View_PDF_Helper_Base {
+class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends Projektor2_View_PDF_Certifikat_Content_Base {
 
-    public static function createContent($pdf, $context, $caller, $radkovani=1) {
+    public static function createContent(
+            Projektor2_PDF_PdfCreator $pdf, 
+            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat, 
+            $context, 
+            $caller, 
+            $radkovani=1            
+) {
+            
+            
+//            ($pdf, $context, $caller, $radkovani=1) {
 
         $prefixDotaznik = $caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
 
+        // backgound
+        $odsazeniPozadiShora = 8;
+        $vyskaObrazku = 297;
+        $sirkaObrazku = 210;
+        $vyska = 297-$odsazeniPozadiShora;
+        $pomer = $vyska/$vyskaObrazku;
+        $sirka = $sirkaObrazku*$pomer;
+        $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
+        $this->pdfCreator->Image(Config_Certificates::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        
+        // content
         // pod logo Grafia
         $pdf->SetXY(0,40);
 
@@ -46,23 +67,23 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany extends Projektor2_Vi
         $blok = clone $blokCentered28_13;
             $blok->PridejOdstavec('Grafia, společnost s ručením omezeným');
             $blok->PridejOdstavec('se sídlem Budilova 4, 301 21 Plzeň - Jižní předměstí');
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered28_13;
-            $blok->PridejOdstavec($context['sKurz']->kurz_akreditace);
-        $pdf->TiskniBlok($blok);
+            $blok->PridejOdstavec($sKurz->kurz_akreditace);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered28_13;
             $blok->Nadpis("OSVĚDČENÍ O REKVALIFIKACI");
-            $blok->PridejOdstavec('č. '.$context['certifikat']->identifikator);
-        $pdf->TiskniBlok($blok);
+            $blok->PridejOdstavec('č. '.$certifikat->identifikator);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered20_11;
             $blok->PridejOdstavec(
                 'po úspěšném ukončení vzdělávacího programu rekvalifikačního kurzu podle vyhlášky MŠMT č. 176/2009 Sb.,
                 kterou se stanoví náležitosti žádosti o akreditaci vzdělávacího programu,
                 organizace vzdělávání v rekvalifikačním zařízení a způsob jeho ukončení.');
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered28_13;
             $blok->Nadpis(self::celeJmeno($context[$caller::MODEL_DOTAZNIK]));
@@ -75,57 +96,57 @@ class Projektor2_View_PDF_Helper_KurzOsvedceniAkreditovany extends Projektor2_Vi
             }
             $blok->PridejOdstavec($naroz.' '.self::datumBezNul($context[$prefixDotaznik.'datum_narozeni'])." ".$context[$prefixDotaznik.'misto_narozeni']);
             $blok->PridejOdstavec($absol);
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
         $blok = clone $blokCentered28_13;
-        $blok->Nadpis($context['sKurz']->kurz_nazev);
+        $blok->Nadpis($sKurz->kurz_nazev);
         //            $blok->PridejOdstavec($context['v_projektu']);
-        $pdf->TiskniBlok($blok);
+        $pdf->renderBlock($blok);
 
         $blok = clone $blokCentered28_13;
-        $blok->PridejOdstavec('pro pracovní činnost: '.$context['sKurz']->kurz_pracovni_cinnost);
-        $pdf->TiskniBlok($blok);
+        $blok->PridejOdstavec('pro pracovní činnost: '.$sKurz->kurz_pracovni_cinnost);
+        $pdf->renderBlock($blok);
 
-        if ($context['sKurz']->pocet_hodin) {
+        if ($sKurz->pocet_hodin) {
             $pdf->Ln(2);
             $blok = clone $blokLeftMargin28_13;
             $blok->OdsazeniZleva(45);
-            if ($context['sKurz']->date_zacatek AND $context['sKurz']->date_konec){
-                if ($context['sKurz']->date_zacatek == $context['sKurz']->date_konec) {
-                    $blok->PridejOdstavec('Kurz proběhl dne '.self::datumBezNul($context['sKurz']->date_zacatek));
+            if ($sKurz->date_zacatek AND $sKurz->date_konec){
+                if ($sKurz->date_zacatek == $sKurz->date_konec) {
+                    $blok->PridejOdstavec('Kurz proběhl dne '.self::datumBezNul($sKurz->date_zacatek));
                 } else {
-                    $blok->PridejOdstavec('Kurz proběhl v období od '.self::datumBezNul($context['sKurz']->date_zacatek)
-                                            .' do '.self::datumBezNul($context['sKurz']->date_konec));
+                    $blok->PridejOdstavec('Kurz proběhl v období od '.self::datumBezNul($sKurz->date_zacatek)
+                                            .' do '.self::datumBezNul($sKurz->date_konec));
                 }
             }
             $blok->PridejOdstavec('v rozsahu');
-            $blok->PridejOdstavec('  - na teorii '.$context['sKurz']->pocet_hodin.' vyučovacích hodin');
-            $blok->PridejOdstavec('  - z toho distanční formou '.$context['sKurz']->pocet_hodin_distancne);
-            $blok->PridejOdstavec('  - na praxi '.$context['sKurz']->pocet_hodin_praxe.' hodin');
-            $pdf->TiskniBlok($blok);
+            $blok->PridejOdstavec('  - na teorii '.$sKurz->pocet_hodin.' vyučovacích hodin');
+            $blok->PridejOdstavec('  - z toho distanční formou '.$sKurz->pocet_hodin_distancne);
+            $blok->PridejOdstavec('  - na praxi '.$sKurz->pocet_hodin_praxe.' hodin');
+            $pdf->renderBlock($blok);
         }
 
 
-        if ($context['sKurz']->kurz_obsah) {
+        if ($sKurz->kurz_obsah) {
             $pdf->Ln(2);
             $blok = clone $blokLeftMargin20_11;
             $blok->OdsazeniZleva(45);
             $blok->PridejOdstavec('Vzdělávací program obsahoval tyto tématické celky:  Teorie/praxe');
-            $odstavceObsah = explode('\r\n', $context['sKurz']->kurz_obsah);
+            $odstavceObsah = explode('\r\n', $sKurz->kurz_obsah);
             foreach ($odstavceObsah as $bodObsahu) {
                 $blok->PridejOdstavec($bodObsahu);
             }
-            $pdf->TiskniBlok($blok);
+            $pdf->renderBlock($blok);
         }
         $pdf->Ln(2);
-        if ($context['sKurz']->kurz_typ_kvalifikace AND $context['sKurz']->date_zaverecna_zkouska) {  // jen pro typ čistá- ale zjišťuji jen jestli je typ neprázdný
+        if ($sKurz->kurz_typ_kvalifikace AND $sKurz->date_zaverecna_zkouska) {  // jen pro typ čistá- ale zjišťuji jen jestli je typ neprázdný
             $blok = clone $blokCentered28_13;
             if ($context[$prefixDotaznik.'pohlavi'] == 'muž') {
                 $jmeno = 'Jmenovaný vykonal';
             } else {
                 $jmeno = 'Jmenovaná vykonala ';
             }
-            $blok->PridejOdstavec("$jmeno úspěšně závěrečné zkoušky dne: ".self::datumBezNul($context['sKurz']->date_zaverecna_zkouska));
-            $pdf->TiskniBlok($blok);
+            $blok->PridejOdstavec("$jmeno úspěšně závěrečné zkoušky dne: ".self::datumBezNul($sKurz->date_zaverecna_zkouska));
+            $pdf->renderBlock($blok);
         }
     }
 

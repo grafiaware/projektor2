@@ -15,7 +15,7 @@ class Projektor2_View_PDF_Ap_IP2Hodnoceni extends Projektor2_View_PDF_Common {
 
         $textPaticky = "Individuální plán účastníka v projektu „Alternativní práce v Plzeňském kraji“ - část 2 - hodnocení a doporučení  ".$this->context["file"];      
         
-        $this->setHeaderFooter($textPaticky);
+        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 2 - hodnocení a doporučení";
@@ -29,14 +29,14 @@ class Projektor2_View_PDF_Ap_IP2Hodnoceni extends Projektor2_View_PDF_Common {
             $blok->PridejOdstavec("Druhá část IP obsahuje vyhodnocení účasti klienta v projektu (shrnutí absolvovaných aktivit a provedených kontaktů se zaměstnavateli) a v případě, že klient nezíská při účasti v projektu zaměstnání, také doporučení vysílajícímu KoP pro další práci s klientem.");
             $blok->predsazeni(0);
             $blok->odsazeniZleva(0);
-        $this->pdf->TiskniBlok($blok);        
+        $this->pdfCreator->renderBlock($blok);        
         //##################################################################################################
         $aktivity = Config_Aktivity::getAktivityProjektu('AP'); 
             $blok = new Projektor2_PDF_Blok;
                 $blok->Nadpis("Vyhodnocení a doporučení");            
                 $blok->predsazeni(0);
                 $blok->odsazeniZleva(0);
-            $this->pdf->TiskniBlok($blok);
+            $this->pdfCreator->renderBlock($blok);
 // kurzy
 //            VYNECHÁNO
 
@@ -50,34 +50,34 @@ class Projektor2_View_PDF_Ap_IP2Hodnoceni extends Projektor2_View_PDF_Common {
 //                    $kurzPlan = new Projektor2_Model_KurzPlan();
                     if ($this->context[self::MODEL_UKONCENI.$indexAktivity.'_hodnoceni']) {
                         $counter++;
-                        $yPositionBefore = $this->pdf->getY();  
+                        $yPositionBefore = $this->pdfCreator->getY();  
 
                         $vyhodnoceni=new Projektor2_PDF_Blok();
                         $vyhodnoceni->Nadpis($aktivita['nadpis']);
                         $vyhodnoceni->vyskaPismaNadpisu(11);
                         $vyhodnoceni->Odstavec($this->context[self::MODEL_UKONCENI.'vyhodnoceni']);                                                
                         $vyhodnoceni->PridejOdstavec($this->context[self::MODEL_UKONCENI.$indexAktivity.'_hodnoceni']);
-                        $this->pdf->TiskniBlok($vyhodnoceni);
+                        $this->pdfCreator->renderBlock($vyhodnoceni);
                             
                         if ($counter == $count-1) {
                             $potrebneMisto = $dolniokrajAPaticka+$mistoDatumPodpisy;                        
                         } else {
                             $potrebneMisto = $dolniokrajAPaticka;
                         }
-                        if (($this->pdf->h - $potrebneMisto - $this->pdf->getY()) < ($this->pdf->getY() - $yPositionBefore)) {
-                            $this->pdf->AddPage();
+                        if (($this->pdfCreator->h - $potrebneMisto - $this->pdfCreator->getY()) < ($this->pdfCreator->getY() - $yPositionBefore)) {
+                            $this->pdfCreator->AddPage();
                         }                        
                     }               
                 }
             } else {
                 $bezAktivit = new Projektor2_PDF_Blok();
                 $bezAktivit->Odstavec("Účastník se v neúčastnil žádných aktivit projektu.");
-                $this->pdf->TiskniBlok($bezAktivit);                    
+                $this->pdfCreator->renderBlock($bezAktivit);                    
             }            
         //##################################################################################################
         $this->tiskniMistoDatum($this->context[self::MODEL_UKONCENI . "datum_vytvor_dok_ukonc"]);
         $this->tiskniPodpisPoradce(self::MODEL_DOTAZNIK);   
-        return $this->pdf;
+        return $this->pdfCreator;
     }
 
 }

@@ -9,24 +9,25 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniPseudokopie extends Projektor2
     const MODEL_DOTAZNIK = "dotaznik";
 
     public function createPDFObject() {
-        $this->setHeaderFooter($this->context['text_paticky'], FALSE);
-        $this->initialize();
-        //*****************************************************
-        // přidání obrázku s vodotiskem a podpisem
-        $odsazeniPozadiShora = 28;
-        $vyskaObrazku = 287;
-        $sirkaObrazku = 210;
-        $vyska = 297-$odsazeniPozadiShora;
-        $pomer = $vyska/$vyskaObrazku;
-        $sirka = $sirkaObrazku*$pomer;
-        $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
-        $this->pdf->Image(Config_Certificates::getCertificatePseudocopyBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        /** @var Projektor2_Model_Db_SKurz $sKurz */
+        $sKurz = $this->context['sKurz'];
+        /** @var Projektor2_Model_Db_CertifikatKurz $certifikat */
+        $certifikat = $this->context['certifikat'];
 
-        Projektor2_View_PDF_Helper_KurzOsvedceni::createContent($this->pdf, $this->context, $this);
+//        $this->createHeaderFooterOsvedceniKurz($this->sessionStatus->getUserStatus()->getProjekt(), $this->context['text_paticky'], FALSE);
+        Projektor2_View_PDF_Certifikat_HeaderFooter_KurzOsvedceni::createHeaderFooterOsvedceniKurz(
+                $this->pdfCreator, 
+                $this->sessionStatus->getUserStatus()->getProjekt(), 
+                $sKurz, 
+                $certifikat, 
+                $this->context['text_paticky'], 
+                false);  
+        $this->initialize();
+        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni::createContent($this->pdfCreator, $this->context, $this);
         //##################################################################################################
-        $datumCertif = Projektor2_Date::createFromSqlDate($this->context['certifikat']->date)->getCzechStringDate();
+        $datumCertif = Projektor2_Date::createFromSqlDate($certifikat->date)->getCzechStringDate();        
         $this->tiskniMistoDatum($datumCertif);
-        $this->pdf->Ln(20);
+        $this->pdfCreator->Ln(20);
         $this->tiskniPodpisCertifikat();
     }
 }

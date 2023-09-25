@@ -255,7 +255,6 @@ abstract class Config_Certificates
                     break;
                 default:
                     throw new UnexpectedValueException('Neznámá řada certifikátu pro generování identifikátoru. Řada: '.$certifikatRada);
-                    break;
             }
             return $certIdentifikator;
         }

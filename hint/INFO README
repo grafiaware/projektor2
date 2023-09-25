@@ -1,0 +1,11 @@
+Použitá připojení k Google spreadsheet:
+
+formulář: Domovská stránka formulářů/Ukrajinci - Zájem o práci - v ukrajinštině
+z formuláře se odpovědi ukládají do sheet: Domovská stránka tabulek/Ukrajinci - Zájem o práci - v ukrajinštině (Odpovědi), na list Odpovědi formuláře 2
+z této tabulky se údaje importují do: Ukrajinci - kurzy/ukrajinci registrace k veletrhu - s importem, na list import odpovědí
+- import se provádí vzorcem =importrange(...)
+ 
+List tabulky Ukrajinci - kurzy/ukrajinci registrace k veletrhu - s importem, list import odpovědí má adresu:
+https://docs.google.com/spreadsheets/d/1xn_qqmrG2Gb5E-5srfvR5qNRN7RFT10FPNcGzuX074w/edit#gid=1708155836&range=J1
+- mezi řetězcem https://docs.google.com/spreadsheets/ a řetězcem /edit#gid=1708155836&range=J1 se nacházi id spreadsheetu potřebný do konfigurace
+- řetězec /edit#gid=1708155836&range=J1 označuje sheet a range, ale sheet a range potřebuji zadat do konfigurace zvlášť (viz $config)

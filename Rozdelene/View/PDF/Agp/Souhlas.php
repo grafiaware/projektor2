@@ -16,7 +16,7 @@ class Projektor2_View_PDF_Agp_Souhlas extends Projektor2_View_PDF_Common{
     public function createPDFObject() {
    
         $textPaticky =  "\n" . "Souhlas zájemce s poskytováním osobních údajů   " . $this->context["file"];
-        $this->setHeaderFooter($textPaticky);
+        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $textPaticky);
         $this->initialize();    
         //***************************************************** 
         $textyNadpisu[] = "Souhlas zájemce";
@@ -28,14 +28,14 @@ class Projektor2_View_PDF_Agp_Souhlas extends Projektor2_View_PDF_Common{
             $strana->Nadpis("Zájemce:");
             $strana->ZarovnaniNadpisu("L");
             $strana->VyskaPismaNadpisu(11);
-        $this->pdf->TiskniBlok($strana);        
+        $this->pdfCreator->renderBlock($strana);        
         $this->tiskniOsobniUdaje(self::MODEL_SMLOUVA);
        
         $dohoda1 = new Projektor2_PDF_Blok;
                 $dohoda1->Nadpis("Prohlášení");
                 $dohoda1->ZarovnaniNadpisu("C");
                 $dohoda1->VyskaPismaNadpisu(12);
-        $this->pdf->TiskniBlok($dohoda1);
+        $this->pdfCreator->renderBlock($dohoda1);
         //**********************************************                
             
         $blok = new Projektor2_PDF_Blok;
@@ -47,7 +47,7 @@ class Projektor2_View_PDF_Agp_Souhlas extends Projektor2_View_PDF_Common{
             $blok->PridejOdstavec("Byl jsem seznámen se skutečností, že zaměstnanci správce, jiné fyzické osoby, které zpracovávají osobní údaje na základě smlouvy se správcem nebo zpracovatelem, a další osoby, které v rámci plnění zákonem stanovených oprávnění a povinností přicházejí do styku s osobními údaji u správce nebo zpracovatele, jsou povinni zachovávat mlčenlivost o osobních údajích a o bezpečnostních opatřeních, jejichž zveřejnění by ohrozilo zabezpečení osobních údajů.");
             $blok->PridejOdstavec("Je mi známo, že mohu kdykoli výše uvedené souhlasy odvolat.");
             $blok->Radkovani(1.25);
-        $this->pdf->TiskniBlok($blok);
+        $this->pdfCreator->renderBlock($blok);
 
         $this->tiskniMistoDatum($this->context[self::MODEL_SMLOUVA ."datum_vytvor_smlouvy"]);
         $this->tiskniPodpisy(self::MODEL_SMLOUVA);

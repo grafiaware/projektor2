@@ -61,7 +61,7 @@ abstract class Config_AppContext
      * @return boolean
      */
     public static function isVerboseMode() {
-        return true;
+        return false;
     }
     
     /**

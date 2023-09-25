@@ -9,52 +9,24 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     const CS_FORMAT = "d.m.Y";
     const CS_FORMAT_BEZ_NUL = "j. n. Y";
 
-
     protected function initialize() {
-        $pdfdebug = Projektor2_PDFContext::getDebug();
+        $pdfdebug = Projektor2_PDF_Factory::getDebug();
         $pdfdebug->debug(0);
-        $this->pdf = new Projektor2_PDF_PdfCreator();
-        $this->pdf->AddFont('Times','','times.php');
-        $this->pdf->AddFont('Times','B','timesbd.php');
-        $this->pdf->AddFont("Times","BI","timesbi.php");
-        $this->pdf->AddFont("Times","I","timesi.php");
-        $this->pdf->AddFont('Arial','','arial.php');
-        $this->pdf->AddFont('Arial','B','arialbd.php');
-        $this->pdf->AddFont("Arial","BI","arialbi.php");
-        $this->pdf->AddFont("Arial","I","ariali.php");
-        $this->pdf->AddPage();   //uvodni stranka
+        $this->pdfCreator = new Projektor2_PDF_PdfCreator();
+        $this->pdfCreator->AddFont('Times','','times.php');
+        $this->pdfCreator->AddFont('Times','B','timesbd.php');
+        $this->pdfCreator->AddFont("Times","BI","timesbi.php");
+        $this->pdfCreator->AddFont("Times","I","timesi.php");
+        $this->pdfCreator->AddFont('Arial','','arial.php');
+        $this->pdfCreator->AddFont('Arial','B','arialbd.php');
+        $this->pdfCreator->AddFont("Arial","BI","arialbi.php");
+        $this->pdfCreator->AddFont("Arial","I","ariali.php");
+        $this->pdfCreator->AddPage();   //uvodni stranka
     }
-
-
-
-    protected function completeHeader($logoFileName=NULL, $x, $y, $sirka, $vyska, $zarovnani='C' ) {
-        $pdfhlavicka = Projektor2_PDFContext::getHlavicka();
-        $pdfhlavicka->zarovnani($zarovnani);
-        $pdfhlavicka->vyskaPisma(14);
-        if ($logoFileName) {
-            if (is_readable($logoFileName)) {
-                $pdfhlavicka->obrazek($logoFileName, $x, $y, $sirka, $vyska);
-            } else {
-                throw new UnexpectedValueException('Zadán neexistující soubor s obrázkem do hlavičky dokumentu: '.$logoFileName.'.');
-            }
-        }
-    }
-    protected function completeFooter( $textPaticky=NULL, $cislovani=TRUE) {
-        $pdfpaticka = Projektor2_PDFContext::getPaticka();
-        if ($textPaticky) {
-            $pdfpaticka->Odstavec($textPaticky);
-        }
-        $pdfpaticka->zarovnani("C");
-        $pdfpaticka->vyskaPisma(6);
-        $pdfpaticka->cislovani = $cislovani;
-        $pdfpaticka->OdsazeniDole(13);
-    }
-
-
 
     protected function tiskniTitul(array $textyTitulu, $naStredStrany=FALSE) {
         if ($naStredStrany) {
-            $this->pdf->Ln(125-count($textyTitulu)*20);
+            $this->pdfCreator->Ln(125-count($textyTitulu)*20);
         }
         $titulka1 = new Projektor2_PDF_Blok;
         $titulka1->MezeraPredNadpisem(1);
@@ -62,11 +34,11 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $titulka1->VyskaPismaNadpisu(14);
         foreach ($textyTitulu as $textTitulu) {
             $titulka1->Nadpis($textTitulu);
-            $this->pdf->TiskniBlok($titulka1);
+            $this->pdfCreator->renderBlock($titulka1);
             $titulka1->MezeraPredNadpisem(3);
         }
         if ($naStredStrany) {
-            $this->pdf->AddPage();   //uvodni stranka
+            $this->pdfCreator->AddPage();   //uvodni stranka
         }
     }
 
@@ -76,13 +48,13 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $podpisy->ZarovnaniTextu('C');
         $podpisy->PridejOdstavec("......................................................");
         $podpisy->PridejOdstavec($this->context['signerName'], '');
-        $this->pdf->TiskniBlok($podpisy);
+        $this->pdfCreator->renderBlock($podpisy);
 
         $position = new Projektor2_PDF_Blok();
         $position->VyskaPismaTextu(10);
         $position->ZarovnaniTextu('C');
         $position->PridejOdstavec($this->context['signerPosition'],"");
-        $this->pdf->TiskniBlok($position);
+        $this->pdfCreator->renderBlock($position);
     }
 
     protected function celeJmeno() {
@@ -141,79 +113,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 
     //-------------------------------------------------------------------------
 
-    protected function setHeaderFooter($textPaticky=NULL, $cislovani=TRUE) {
-        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
-            case 'AP':
-                self::completeHeader( "./img/loga/loga_AP_BW.png", 0, 5, 165,14 );
-                self::completeFooter( $textPaticky
-                                    . "\nProjekt Alternativní práce v Plzeňském kraji CZ.1.04/2.1.00/70.00055 je financován z Evropského "
-                                    . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.", $cislovani);
-                break;
-            case 'AGP':
-                self::completeHeader( "./img/loga/logo_agp_bw.png", 0, 5, 165,26 );
-                self::completeFooter( $textPaticky , $cislovani);
-                break;
-            case 'HELP':
-                self::completeHeader("./img/loga/loga_HELP50+_BW.png", 0, 5, 165,11);
-                self::completeFooter( $textPaticky
-                                    . "\n Projekt Help 50+ CZ.1.04/3.3.05/96.00249 je financován z Evropského "
-                                    . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.", $cislovani);
-                break;
-            case 'SJZP':
-                self::completeHeader("./img/loga/loga_OPLZZ_BW.jpg", 0, 5, 125,18);
-                self::completeFooter( $textPaticky
-                                    . "\n Projekt S jazyky za prací v Karlovarském kraji CZ.1.04/2.1.01/D8.00020 je financován "
-                                    . "z ESF prostřednictvím OP LZZ a ze státního rozpočtu ČR.", $cislovani);
-                break;
-            case 'VZP':
-            case 'ZPM':
-            case 'SPP':
-            case 'RP':
-            case 'VDTP':
-            case 'PDU':
-            case 'CKP':
-            case 'PKP':
-                self::completeHeader("./img/loga/loga_OP_Z&UP_PMS_BW.jpg", 0, 5, 110, 16, 'L');
-                self::completeFooter( $textPaticky, $cislovani);
-                break;
-            case 'SJPK':
-            case 'SJPO':
-            case 'SJLP':
-            case 'MB':
-                self::completeHeader("./img/loga/logo_OPZ.png", 0, 5, 60, 22, 'L');
-                $texts = Config_Certificates::getCertificateTexts($this->sessionStatus);
-                self::completeFooter( $textPaticky . $texts['financovan'], $cislovani);
-                break;
-            case 'CJC':
-                // nez proj. loga - akreditované kurzy
-//                self::completeHeader( "./img/loga/logo_CJC_BW.png", 0, 5, 165,26 );
-                self::completeFooter( $textPaticky , $cislovani);
-                break;
-            default:
-                throw new RuntimeException('Nepodarilo se vytvorit pdf - nanastaveno HeaderFooter pro projekt.');
-                break;
-        }
-    }
-    protected function setHeaderFooterPms($textPaticky=NULL, $cislovani=TRUE) {
-        switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
-
-            case 'VZP':
-            case 'ZPM':
-            case 'SPP':
-            case 'RP':
-            case 'VDTP':
-            case 'PDU':
-            case 'CKP':
-            case 'PKP':
-                self::completeHeader("./img/loga/loga_OP_Z&UP_PMS_BW.jpg", 5, 15, 110, 16, 'L');
-                self::completeFooter( $textPaticky, $cislovani);
-                break;
-            default:
-                throw new RuntimeException('Nepodarilo se vytvorit pdf - nanastaveno HeaderFooter pro projekt.');
-                break;
-        }
-    }
-
+    
     protected function tiskniGrafiaUdaje() {
         $grafia = new Projektor2_PDF_Blok;
         $grafia->Odstavec("Grafia, společnost s ručením omezeným");
@@ -253,9 +153,8 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         }
         $grafia->mezeraMeziOdstavci(1.5);
         $grafia->Radkovani(1);
-        $this->pdf->TiskniBlok($grafia);
+        $this->pdfCreator->renderBlock($grafia);
     }
-
 
     protected function tiskniOsobniUdaje() {
         $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
@@ -303,7 +202,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 throw new RuntimeException('Nepodarilo se vytvorit pdf - nenastavene OsobniUdaje pro projekt.');
                 break;
         }
-        $this->pdf->TiskniBlok($osobniUdaje);
+        $this->pdfCreator->renderBlock($osobniUdaje);
     }
 
     protected function tiskniPodpisy() {
@@ -380,7 +279,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 throw new RuntimeException('Nepodarilo se vytvorit pdf - neosetrene Podpisy ');
                 break;
         }
-        $this->pdf->TiskniSaduBunek($podpisy, 0, 1);
+        $this->pdfCreator->renderCellGroup($podpisy, 0, 1);
     }
 
 
@@ -396,7 +295,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $podpisy->PridejBunku("......................................................", '',TRUE);
                 $podpisy->PridejBunku('', '', FALSE, 115);
                 $podpisy->PridejBunku($this->celeJmeno($modelSmlouva), '', TRUE);
-                $this->pdf->TiskniSaduBunek($podpisy, 0, 1);
+                $this->pdfCreator->renderCellGroup($podpisy, 0, 1);
             break;
 
             default:
@@ -432,7 +331,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $podpisy->PridejBunku("......................................................", '',TRUE);
                 $podpisy->PridejBunku('', '', FALSE, 115);
                 $podpisy->PridejBunku($this->celeJmeno($modelSmlouva), '', TRUE);
-                $this->pdf->TiskniSaduBunek($podpisy, 0, 1);
+                $this->pdfCreator->renderCellGroup($podpisy, 0, 1);
                 break;
             default:
                 throw new RuntimeException('Nepodarilo se vytvorit pdf - nenastavene Podpis pro projekt.');
@@ -440,7 +339,6 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         }
 
     }
-
 
     //vola se v AP!!!!!!!!!!
     protected function tiskniPodpisPoradce($modelSmlouva) {
@@ -455,7 +353,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $podpisy->PridejBunku('', '', FALSE, 115);
                 $podpisy->PridejBunku($this->context['user_name'], '', TRUE);
 
-                $this->pdf->TiskniSaduBunek($podpisy, 0, 1);
+                $this->pdfCreator->renderCellGroup($podpisy, 0, 1);
             break;
 
             default:
@@ -484,7 +382,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $mistoDatum->NovyRadek(0,1);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);
                 $mistoDatum->PridejBunku("Dne ", $this->datumBezNul($datum),1);
-                $this->pdf->TiskniSaduBunek($mistoDatum, 0, 1);
+                $this->pdfCreator->renderCellGroup($mistoDatum, 0, 1);
                 break;
             case 'SJPK':
             case 'SJPO':
@@ -498,14 +396,13 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $mistoDatum->NovyRadek(0,1);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);
                 $mistoDatum->PridejBunku("Dne ",$this->datumBezNul($datum),1);
-                $this->pdf->TiskniSaduBunek($mistoDatum, 0, 1);
+                $this->pdfCreator->renderCellGroup($mistoDatum, 0, 1);
                 break;
             default:
                  throw new RuntimeException('Nepodarilo se vytvorit pdf - neosetrene MistoDatum ');
                 break;
         }
     }
-
 
     protected function tiskniMistoDatumPms($datum) {
         switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
@@ -534,7 +431,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $mistoDatum->PridejBunku('', '', FALSE, 60);
                 $mistoDatum->PridejBunku('', $this->context['signerName'], TRUE, 70);
                 $mistoDatum->NovyRadek(0,1);
-                $this->pdf->TiskniSaduBunek($mistoDatum, 0, 1);
+                $this->pdfCreator->renderCellGroup($mistoDatum, 0, 1);
                 break;
             default:
                  throw new RuntimeException('Nepodarilo se vytvorit pdf - neosetrene MistoDatum ');
@@ -551,5 +448,4 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 //        $this->pdf->TiskniBlok($podpisy);
 
     }
-
 }

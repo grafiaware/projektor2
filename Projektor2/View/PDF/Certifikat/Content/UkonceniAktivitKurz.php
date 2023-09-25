@@ -11,7 +11,7 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF_Helper_Base {
+class Projektor2_View_PDF_Certifikat_Content_UkonceniAktivitKurz extends Projektor2_View_PDF_Certifikat_Content_Base {
 
     public static function createContent($pdf, $context, $dolniokrajAPaticka, $mistoDatumPodpisy) {
         $signUkonceni = Projektor2_Controller_Formular_FlatTable::UKONC_FT;
@@ -44,20 +44,20 @@ class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF
                     if ($aktivita->dokoncenoUspesne == "Ne") {
                         $kurzSadaBunek->PridejBunku("Důvod neúspěšného ukončení: ", $aktivita->duvodNeuspechu,1);
                     }
-                    $pdf->TiskniSaduBunek($kurzSadaBunek); 
+                    $pdf->renderCellGroup($kurzSadaBunek); 
                     if ($aktivita->dokoncenoUspesne == "Ano" AND $aktivita->aktivitaSCertifikatem) {
                         $vyhodnoceni = new Projektor2_PDF_Blok();
                         $vyhodnoceni->Nadpis('Osvědčení o absolvování kurzu v projektu');
                         $vyhodnoceni->vyskaPismaNadpisu(9);
                         $vyhodnoceni->Odstavec("Účastníkovi bylo vydáno osvědčení dne: ".self::datumBezNul($aktivita->datumCertif));
-                        $pdf->TiskniBlok($vyhodnoceni);
+                        $pdf->renderBlock($vyhodnoceni);
                     }
                     if ($context[$prefixUkonceni.$aktivita->indexAktivity.'_hodnoceni']) {
                         $vyhodnoceni = new Projektor2_PDF_Blok();
                         $vyhodnoceni->Nadpis('Hodnocení');
                         $vyhodnoceni->vyskaPismaNadpisu(9);
                         $vyhodnoceni->Odstavec($context[$prefixUkonceni.$aktivita->indexAktivity.'_hodnoceni']);
-                        $pdf->TiskniBlok($vyhodnoceni);
+                        $pdf->renderBlock($vyhodnoceni);
                     }                        
                     if ($counter == $count-1) {
                         $potrebneMisto = $dolniokrajAPaticka+$mistoDatumPodpisy;                        
@@ -72,12 +72,12 @@ class Projektor2_View_PDF_Helper_UkonceniAktivitKurz extends Projektor2_View_PDF
             if (!$counter) {
                 $bezAktivit = new Projektor2_PDF_Blok();
                 $bezAktivit->Odstavec("Účastníkovi nebyly naplánovány žádné aktivity.");
-                $pdf->TiskniBlok($bezAktivit);  
+                $pdf->renderBlock($bezAktivit);  
             }
         } else {
             $bezAktivit = new Projektor2_PDF_Blok();
             $bezAktivit->Odstavec("V projektu nelze plánovat žádné aktivity.");
-            $pdf->TiskniBlok($bezAktivit);                    
+            $pdf->renderBlock($bezAktivit);                    
         }
         
 }

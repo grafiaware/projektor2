@@ -50,6 +50,16 @@ class Projektor2_PDF_Paticka
         $this->text=iconv("UTF-8","windows-1250",$text);
     }
 
+    public function Obrazek($obrazekSoubor, $obrazekX=null, $obrazekY=null, $obrazekW=0, $obrazekH=0, $obrazekTyp='')
+    {
+        $this->obrazekSoubor  = $obrazekSoubor;
+        $this->obrazekX = $obrazekX;
+        $this->obrazekY = $obrazekY;
+        $this->obrazekW = $obrazekW;
+        $this->obrazekH = $obrazekH;
+        $this->obrazekTyp = $obrazekTyp;
+    }
+    
     public function Zarovnani($zarovnani)
     {
         $this->zarovnani=$zarovnani;

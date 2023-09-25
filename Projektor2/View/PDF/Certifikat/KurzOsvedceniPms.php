@@ -10,23 +10,26 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniPms extends Projektor2_View_PD
     const MODEL_DOTAZNIK = "dotaznik";
 
     public function createPDFObject() {  //Projektor2_Model_Db_Projekt $projekt
-        $this->setHeaderFooterPms($this->context['text_paticky'], FALSE);
-        $this->initialize();
-        //*****************************************************
-        $odsazeniPozadiShora = 0;
-        $vyskaObrazku = 297;
-        $sirkaObrazku = 210;
-        $vyska = 297-$odsazeniPozadiShora;
-        $pomer = $vyska/$vyskaObrazku;
-        $sirka = $sirkaObrazku*$pomer;
-        $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
-        $this->pdf->Image(Config_Certificates::getCertificatePmsBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        /** @var Projektor2_Model_Db_SKurz $sKurz */
+        $sKurz = $this->context['sKurz'];
+        /** @var Projektor2_Model_Db_CertifikatKurz $certifikat */
+        $certifikat = $this->context['certifikat'];
 
-        Projektor2_View_PDF_Helper_KurzOsvedceniPMS::createContent($this->pdf, $this->context, $this);
-        //##################################################################################################
-        $datumCertif = Projektor2_Date::createFromSqlDate($this->context['certifikat']->date)->getCzechStringDate();
+        Projektor2_View_PDF_Certifikat_HeaderFooter_KurzOsvedceniMonitoring::createHeaderFooterOsvedceniKurzMonitoring(
+                $this->pdfCreator, 
+                $this->sessionStatus->getUserStatus()->getProjekt(), 
+                $sKurz, 
+                $certifikat, 
+                $this->context['text_paticky'], 
+                false);          
+        $this->initialize();
+        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniPMS::createContent(
+                $this->pdfCreator, 
+                $this->context, 
+                $this);
+        $datumCertif = Projektor2_Date::createFromSqlDate($certifikat->date)->getCzechStringDate();
         $this->tiskniMistoDatumPms($datumCertif);
-        $this->pdf->Ln(20);
+        $this->pdfCreator->Ln(20);
 //        $this->tiskniPodpisCertifikat();
 
     }
