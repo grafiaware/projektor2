@@ -64,9 +64,13 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     }
 
     /**
-     * Setter, přetěžuje setter rodiče. Nastavuje jen hodnoty existujících vlastností, nepřidává další vlastnosti.
-     * V případě, že $name neodpovídá existující vlastnosti metoda jen tiše skončí. Jedinou výjimkou je pokus o nastevení vlastnosti
-     * odpovídající id objektu, v takovém případě metoda vyhodí výjimku.
+     * Setter, přetěžuje setter rodiče. Nastavuje jen hodnoty existujících atributů, nepřidává další.
+     * 
+     * Hodnotu vstupního parametru převede na odpovídající typ podle typu databázového sloupce.
+     * 
+     * V případě, že $name neodpovídá existující vlastnosti metoda jen tiše skončí. Jedinou výjimkou je pokus o nastavení atributu
+     * odpovídajícího id objektu, v takovém případě metoda vyhodí výjimku.
+     * 
      * @param type $name
      * @param type $value
      * @return void
@@ -75,17 +79,65 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     public function __set($name,$value){
         $this->hydrate();
         if ($name == $this->primaryKeyColumnName) {
-            throw new UnexpectedValueException("nelze nastavovat vlastnost $name odpovídající primárnímu klíči tabulky $this->tableName");
+            throw new UnexpectedValueException("Chybný parametr metody __set(). Nelze nastavovat vlastnost '$name' odpovídající primárnímu klíči tabulky '$this->tableName");
+        } elseif(!array_key_exists($name, $this->attributes)) {
+            throw new UnexpectedValueException("Chybný parametr metody __set(). Nelze nastavovat vlastnost '$name', tabulka '$this->tableName' nemí atribut s takovým jménem.");            
         }
-        if(array_key_exists($name, $this->attributes)) {
-            if (isset($this->attributes[$name])) {
-                if ($this->attributes[$name]!==$value) {
-                    $this->changed[$name] = $value;
-                }
-            } else {
-                $this->changed[$name] = $value;
+        $this->changeAttribute($name, $value);
+    }
+    
+    private function changeAttribute($name, $value) {
+        // v attributes je typ přečtený z db (findAll) - int je integer, ostatní string nebo null
+        // value je z POST -> vždy string
+        // tato nerovnost je splněna např. pokud v db je int 1 a value je string '1', zapíše se changed a updatuje se
+        // => podle typu hodnoty attributes udělat cast value a pak porovnat nebo použít jen porovnání !=
+        // ?? pro porovnání != , atribut null a value '' - to je případ dosud nazadané hodnoty - ve formuláři mám hidden pole - typicky kurz fieldset
+        // a pokouším se zapsat prázdný string do sloupce, který může být například datetime - exception
+        
+        if (isset($value)) {
+            $castedValue = $this->castValueByAttributeType($name, $value);
+            if (!isset($this->attributes[$name]) || ($this->attributes[$name]!==$castedValue)) {
+                $this->changed[$name] = $castedValue;
+                $this->attributes[$name] = $castedValue;        
             }
-            $this->attributes[$name] = $value;
+        } else {
+            if (isset($this->attributes[$name])) {
+                $this->changed[$name] = 'NULL';
+                $this->attributes[$name] = $value; 
+            }
+        }
+            
+    }
+    
+    /**
+     * Očekává, že položky $this->attributes jsou typu, který odpovídá typi sloupce v databázi.
+     * To je splněno, v konstruktoru se atributy "nastaví" voláním Framework_Database_Cache::getAttributes()
+     * 
+     * @param type $name
+     * @param type $value
+     * @return type
+     */
+    private function castValueByAttributeType($name, $value) {
+        // typ atributu se sice nastaví v konstruktoru, ale pokud hodnota, kterou je hydratován je null, typ se ztratí
+        // TODO: oddělené pole pro typ atributů (podle db), pole pro hodnoty atributů a changed -> cast podle pole typů
+        if (!isset($this->attributes[$name])) {
+            // attribut je null - tj. neznám jeho typ - metoda se volá jen pokud $value není null, atribut a changed bude nastaveno
+            if ($value==='') {
+                return null;  // tady předpoládám, že pokud atrubit je null a z formuláře přišel prázdný string, znamená to, že nebyla zadána žádná hodnota (nepočítám s regulérním možností zadání prízdného řetězce)
+            } else {
+                return $value;  
+            }
+        } elseif (is_string($this->attributes[$name])) {
+            if ($value instanceof \DateTime) { 
+                /** @var DateTime $value */
+                return $value->format('Y-m-d');
+            } else {
+                return (string) $value;
+            }
+        } elseif (is_int($this->attributes[$name])) {
+            return (int) $value;
+        } elseif (is_float($this->attributes[$name])) {
+            return (float) $value;
         }
     }
 
@@ -93,27 +145,50 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
         $this->isPersisted = $persisted;
     }
 
-    public function hydrate($data=null) {
-        if (!$this->isHydrated) {
-            if(!isset($this->mainObject->id)){  // není mainOnject = není zapsáno v db
-                $this->isHydrated = true;
-                return $this;
-            } else {
-                if (!isset($data)) {
-                    $data = $this->select();
-                    if ($data) {
-                        $this->setAttributes($data);
-                        $this->isPersisted = TRUE;
-                    }
-                } else {
-                    $this->setAttributes($data);
-                }
-            }
-            $this->isHydrated = TRUE;
+    /**
+     * Pokud nejsou ještě nastaveny atributy (item není hydrated) a je nastaven main object (již je zapsáno v db)
+     * Nastaví hodnoty atributů 
+     * - pokud je zadán parametr data, nastaví atributy podle zadanáho parametru - takto se metoda volá při hydratování kolekce, 
+     *   kdy jsou všechna data načtena najednou jako pole
+     * - pokud není zadán parametr data, pokusí se přečíst záznam z databáze a hydratuje takto získanými daty
+     * 
+     * @param type $data
+     * @return $this
+     */
+    public function hydrateItem($data) {
+        if ($this->isHydrated) {
+                    throw new LogicException("Nelze hydratovat Item externími daty. Objekt ".get_class()." byl již hydtatován.");
+        } elseif ($data) {
+            $this->hydrateAttributes($data);
+            $this->isPersisted = true;
         }
+        $this->isHydrated = true;                        
         return $this;
     }
+    
+    protected function hydrate() {
+        if (!$this->isHydrated) {
+            if(isset($this->mainObject->id)){  // mainOnject nemá id = není zapsáno v db, je zbytečné číst
+                $data = $this->select();
+                if ($data) {
+                    $this->hydrateAttributes($data);
+                    $this->isPersisted = true;
+                }
+            }
+            $this->isHydrated = true;
+        }
+        return $this;        
+    }
 
+    private function hydrateAttributes($data) {
+        foreach ($data as $name => $value) {  // nastaví jen položky, které nebyly již měněny
+            if (!isset($this->changed[$name])) {
+                $this->attributes[$name] = $value;
+            }
+        }
+        $this->id = $this->attributes[$this->primaryKeyColumnName];
+    }
+    
     /**
      *
      * @return \Framework_Model_ItemFlatTable
@@ -182,14 +257,6 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
     }
 
 
-    private function setAttributes($data) {
-        foreach ($data as $key => $value) {  // nastaví jen položky,m které nebyly již měněny
-            if (!isset($this->changed[$key])) {
-                $this->attributes[$key] = $value;
-            }
-        }
-        $this->id = $this->attributes[$this->primaryKeyColumnName];
-    }
 
     private function select() {
 //!! tato podmínka vybírá v případě vazby 1:N (planKurz) recordset se všemi kurzy (pro kolekci) a následné fetch vrací vždy jen první položku
@@ -213,16 +280,18 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
      */
     private function update() {
         if ($this->changed) {
-            $set = array();
-            foreach ($this->changed as $col => $value) {
+            $set = [];
+            foreach (array_keys($this->changed) as $col) {
                     $set[] = $col . " = :" . $col;
             }
             $whereParams = array($this->primaryKeyColumnName=>$this->attributes[$this->primaryKeyColumnName]);
             $query = "UPDATE ".  $this->tableName." SET ".implode(", ", $set).$this->createWhereExpression($whereParams);
             $sth = $this->dbh->prepare($query);
-            $succ = $sth->execute(array_merge($this->changed, $whereParams));
-            if (!$succ) {
-                throw new RuntimeException("Nepodařilo se provést příkaz $query.");
+            try {
+                $data = array_merge($this->changed, $whereParams);
+                $sth->execute($data);
+            } catch (\PDOException $e) {
+                throw new \RuntimeException("Nepodařilo se provést příkaz $query.", 0,$e);
             }
             $this->changed = array();
         }
@@ -240,9 +309,10 @@ abstract class Framework_Model_ItemFlatTable extends Framework_Model_DbItemAbstr
             $values = ':'.implode(', :', array_keys($this->changed));
             $query = "INSERT INTO ".$this->tableName." (".$cols.")  VALUES (" .$values.")";
             $sth = $this->dbh->prepare($query);
-            $succ = $sth->execute($this->changed);
-            if (!$succ) {
-                throw new RuntimeException("Nepodařilo se provést příkaz $query.");
+            try {
+                $sth->execute($this->changed);
+            } catch (\PDOException $e) {
+                throw new \RuntimeException("Nepodařilo se provést příkaz $query.", 0, $e);
             }
             $this->id = $this->dbh->lastInsertId();
             $this->attributes[$this->primaryKeyColumnName] = $this->id;

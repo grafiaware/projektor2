@@ -13,22 +13,24 @@
  */
 class Projektor2_Model_Db_ZaPlanKurzMapper {
     
-    private static $sql="SELECT 
-za_plan_kurz.id_za_plan_kurz AS id_za_plan_kurz,
-za_plan_kurz.id_zajemce AS id_zajemce,
-za_plan_kurz.id_s_kurz_FK AS id_s_kurz_FK,
-za_plan_kurz.kurz_druh_fk AS kurz_druh_fk,
-za_plan_kurz.aktivita AS aktivita,
-za_plan_kurz.`text` AS `text`,
-za_plan_kurz.poc_abs_hodin AS poc_abs_hodin,
-za_plan_kurz.duvod_absence AS duvod_absence,
-za_plan_kurz.dokonceno AS dokonceno,
-za_plan_kurz.duvod_neukonceni AS duvod_neukonceni,
-za_plan_kurz.datum_certif AS datum_certif
-FROM
-za_plan_kurz
-";
-    
+    private static $sql="
+    SELECT `za_plan_kurz`.`id_za_plan_kurz`,
+    `za_plan_kurz`.`id_zajemce`,
+    `za_plan_kurz`.`id_s_kurz_FK`,
+    `za_plan_kurz`.`kurz_druh_fk`,
+    `za_plan_kurz`.`aktivita`,
+    `za_plan_kurz`.`text`,
+    `za_plan_kurz`.`poc_abs_hodin`,
+    `za_plan_kurz`.`poc_abs_hodin_distancne`,
+    `za_plan_kurz`.`poc_abs_hodin_praxe`,
+    `za_plan_kurz`.`duvod_absence`,
+    `za_plan_kurz`.`dokonceno`,
+    `za_plan_kurz`.`duvod_neukonceni`,
+    `za_plan_kurz`.`datum_certif`,
+    `za_plan_kurz`.`datum_zahajeni_extra`,
+    `za_plan_kurz`.`datum_dokonceni_extra`
+    FROM `za_plan_kurz`";
+
     private static $statementfindAllForZajemce;
     /**
      *
@@ -119,6 +121,8 @@ ORDER BY kurz_druh_fk ASC, aktivita ASC";
             $data['aktivita'],
             $data['text'],
             $data['poc_abs_hodin'],
+            $data['poc_abs_hodin_distancne'],
+            $data['poc_abs_hodin_praxe'],
             $data['duvod_absence'],
             $data['dokonceno'],
             $data['duvod_neukonceni'],

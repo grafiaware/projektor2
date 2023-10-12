@@ -1,9 +1,5 @@
 <?php
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
+use Pdf\Model\Factory;
 
 /**
  * Description of Base
@@ -12,7 +8,7 @@
  */
 class Projektor2_View_PDF_Formular_Base {
     protected static function completeHeader($logoFileName=NULL, $x, $y, $sirka, $vyska, $zarovnani='C' ) {
-        $pdfhlavicka = Projektor2_PDF_Factory::getHlavicka();
+        $pdfhlavicka = Factory::getHeaderModel();
         $pdfhlavicka->zarovnani($zarovnani);
         $pdfhlavicka->vyskaPisma(14);
         if (isset($logoFileName)) {
@@ -25,7 +21,7 @@ class Projektor2_View_PDF_Formular_Base {
     }
     
     protected static function completeFooter( $textPaticky=NULL, $cislovani=TRUE) {
-        $pdfpaticka = Projektor2_PDF_Factory::getPaticka();
+        $pdfpaticka = Factory::getFooterModel();
         if ($textPaticky) {
             $pdfpaticka->Odstavec($textPaticky);
         }

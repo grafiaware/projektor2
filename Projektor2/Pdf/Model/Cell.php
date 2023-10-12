@@ -1,5 +1,7 @@
 <?php
-class Projektor2_PDF_Bunka
+namespace Pdf\Model;
+
+class Cell
 {
 	public $sirka;
 	public $vyska;
@@ -24,7 +26,7 @@ class Projektor2_PDF_Bunka
 	 * @param boolean $vypln
 	 * @param string $link
 	 * @param integer $id
-	 * @return Bunka
+	 * @return Cell
 	 */
 	public function __construct($id, $sirka=false, $vyska=false, $textUTF8='', $promennaUTF8=false, $ohraniceni=0, $odradkovani=0, $zarovnani='', $vypln=false, $link='')
 	{

@@ -19,7 +19,7 @@ class Projektor2_View_HTML_Element_Kurz_Info extends Framework_View_Abstract {
 
         $this->parts[]= '<tr>';
 //        $this->parts[]= '<td class=identifikator>' . $viewmodelKurz->id . '</td>';
-        $this->parts[]= '<td class=info>' . $viewmodelKurz->kurz_text . '</td>';
+        $this->parts[]= '<td class=info>' . $viewmodelKurz->infoKurzText . '</td>';
 //        $this->parts[]= '<td class=identifikator>' . $viewmodelKurz->kurz_lokace.'</td>';
         $this->parts[]= $this->context[self::HTML_SKUPINY];
         $this->parts[]= '</tr>';

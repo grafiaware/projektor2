@@ -2,29 +2,29 @@
 
 class Projektor2_Viewmodel_KurzViewmodel {
     public $id;
-    public $kurz_text;
-    public $kurz_lokace;
-//    public $kurz_zkratka;
-//    public $kurz_nazev;
-//    public $kurz_pracovni_cinnost;
-//    public $kurz_akreditace;
-//    public $kurz_obsah;
-//    public $pocet_hodin;
-//    public $pocet_hodin_distancne;
-//    public $pocet_hodin_praxe;
-//    public $date_zacatek;
-    public $date_konec;
-//    public $dodavatel;
+    public $infoKurzText;
+    public $infoKurzLokace;
+    public $jeZadanPocetHodin;
+    /**
+     * 
+     * @var Projektor2_Model_Db_SKurz
+     */
+    public $sKurz;
 
     private  $skupiny = array();
 
     public function __construct(Projektor2_Model_Db_SKurz $sKurz) {
         $this->id = $sKurz->id_s_kurz;
-        $this->kurz_text = $this->textRetezecKurz($sKurz);
-        $this->kurz_lokace = $sKurz->kurz_lokace;
-        $this->date_konec = $sKurz->date_konec;
+        $this->infoKurzText = $this->textRetezecKurz($sKurz);  // pro seznam kurzů a select v kurz fieldset
+        $this->infoKurzLokace = $sKurz->kurz_lokace;  // pro seznam kurzů
+        $this->jeZadanPocetHodin = $this->jeZadanPocetHodin($sKurz); // pro kurz fieldset - pokud je počet hodin zobrazí se údaje absolvováno
+        $this->sKurz = $sKurz;
     }
 
+    private function jeZadanPocetHodin(Projektor2_Model_Db_SKurz $sKurz) {
+        return ($sKurz->pocet_hodin??0 || $sKurz->pocet_hodin_distancne??0 || $sKurz->pocet_hodin_praxe??0);
+    }
+    
     /**
      * Callback funkce pro view  Projektor2_View_HTML_Element_Select.
      * @param Projektor2_Model_Db_SKurz $kurz

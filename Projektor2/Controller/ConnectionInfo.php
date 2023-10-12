@@ -6,7 +6,7 @@
  */
 
 /**
- * Description of Hlavicka
+ * Description of ConnectionInfo
  *
  * @author pes2704
  */

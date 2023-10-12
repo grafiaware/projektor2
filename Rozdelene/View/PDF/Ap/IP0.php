@@ -1,4 +1,6 @@
 <?php
+use Pdf\Model\Block;
+use Pdf\Model\SadaBunek;
 
 /*
 * První část IP (v rozsahu 1-2 strany A4) – která bude obsahovat:
@@ -30,7 +32,7 @@ class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
         //*****************************************************
         $this->tiskniOsobniUdaje(self::MODEL_DOTAZNIK);
         //*****************************************************
-        $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
+        $kurzSadaBunek = new SadaBunek();
         $kurzSadaBunek->SpustSadu(true);
         $aktivity = Config_Aktivity::getAktivityProjektu('AP');   
         foreach ($aktivity as $druh=>$aktivita) {
@@ -57,7 +59,7 @@ class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
             }
         }
 
-        $blok = new Projektor2_PDF_Blok;
+        $blok = new Block;
             $blok->Nadpis("Individuální plán");            
             $blok->PridejOdstavec("První část IP je předběžný plán průběhu účasti v projektu, který se bude během projektu vyvíjet, doplňovat a výsledný průběh účasti v projektu bude zachycen v druhé části IP.");
             if($nabidkaPovinnychPoradenskychAktivit) {
@@ -78,7 +80,7 @@ class Projektor2_View_PDF_Ap_IP0 extends Projektor2_View_PDF_Common {
             $blok->PridejOdstavec("Účastníkovi projektu mohou být dále naplánovány aktivity vybrané z dalších doplňkových výběrových aktivit.");
             $blok->predsazeni(0);
             $blok->odsazeniZleva(0);
-        $this->pdfCreator->renderBlock($blok);        
+        $this->pdfRenderer->renderBlock($blok);        
         //##################################################################################################
         $this->tiskniMistoDatum($this->context[self::MODEL_PLAN ."datum_vytvor_dok_plan"]);
         $this->tiskniPodpisy(self::MODEL_DOTAZNIK);      

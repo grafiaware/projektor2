@@ -1,4 +1,6 @@
 <?php
+use Pdf\Model\Block;
+use Pdf\Model\SadaBunek;
 
 /*
 * První část IP (v rozsahu 1-2 strany A4) – která bude obsahovat:
@@ -36,18 +38,18 @@ class Projektor2_View_PDF_Formular_IP1 extends Projektor2_View_PDF_Common {
         //*****************************************************
         $this->tiskniOsobniUdaje();
         //********************************************************
-        $blok = new Projektor2_PDF_Blok;
+        $blok = new Block;
             $blok->Nadpis("Preambule");
             $blok->PridejOdstavec("Plán aktivit obsahuje plán konkrétních aktivit klienta v projektu členěný podle plánovaných aktivit.");
             $blok->predsazeni(0);
             $blok->odsazeniZleva(0);
-        $this->pdfCreator->renderBlock($blok);
+        $this->pdfRenderer->renderBlock($blok);
         //##################################################################################################
-        $blok = new Projektor2_PDF_Blok;
+        $blok = new Block;
             $blok->Nadpis("Individuální plán projektu členěný podle absolvovaných aktivit");
             $blok->predsazeni(0);
             $blok->odsazeniZleva(0);
-        $this->pdfCreator->renderBlock($blok);
+        $this->pdfRenderer->renderBlock($blok);
 
         $count = count($this->context['aktivityPlan']);
         $dolniokrajAPaticka = 25;
@@ -59,8 +61,8 @@ class Projektor2_View_PDF_Formular_IP1 extends Projektor2_View_PDF_Common {
 //                $kurzPlan = new Projektor2_Model_KurzPlan();
                 if (isset($aktivitaPlan->sKurz) AND $aktivitaPlan->sKurz->isRealCourse()) {
                     $counter++;
-                    $yPositionBefore = $this->pdfCreator->getY();
-                    $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
+                    $yPositionBefore = $this->pdfRenderer->getY();
+                    $kurzSadaBunek = new SadaBunek();
                     $kurzSadaBunek->SpustSadu(true);
                     $kurzSadaBunek->Nadpis($aktivitaPlan->nadpisAktivity); // prohledaz podle kurz_druh
                     $kurzSadaBunek->MezeraPredNadpisem(0);
@@ -69,25 +71,25 @@ class Projektor2_View_PDF_Formular_IP1 extends Projektor2_View_PDF_Common {
                     $kurzSadaBunek->MezeraPredSadouBunek(0);
                     $kurzSadaBunek->PridejBunku("Název kurzu: ",$aktivitaPlan->sKurz->kurz_nazev, 1);
                     $kurzSadaBunek->PridejBunku("Termín konání: ", $this->datumBezNul($aktivitaPlan->sKurz->date_zacatek).' - '. $this->datumBezNul($aktivitaPlan->sKurz->date_konec), 1);
-                    $this->pdfCreator->renderCellGroup($kurzSadaBunek);
+                    $this->pdfRenderer->renderCellGroup($kurzSadaBunek);
                     if ($counter == $count-1) {
                         $potrebneMisto = $dolniokrajAPaticka+$mistoDatumPodpisy;
                     } else {
                         $potrebneMisto = $dolniokrajAPaticka;
                     }
-                    if (($this->pdfCreator->h - $potrebneMisto - $this->pdfCreator->getY()) < ($this->pdfCreator->getY() - $yPositionBefore)) {
-                        $this->pdfCreator->AddPage();
+                    if (($this->pdfRenderer->h - $potrebneMisto - $this->pdfRenderer->getY()) < ($this->pdfRenderer->getY() - $yPositionBefore)) {
+                        $this->pdfRenderer->AddPage();
                     }
                 }
             }
         } else {
-            $bezAktivit = new Projektor2_PDF_Blok();
+            $bezAktivit = new Block();
             $bezAktivit->Odstavec("Účastník nemá naplánovány žádné konkrétní aktivity projektu.");
-            $this->pdfCreator->renderBlock($bezAktivit);
+            $this->pdfRenderer->renderBlock($bezAktivit);
         }
 
         //##################################################################################################
-        $this->pdfCreator->Ln(5);
+        $this->pdfRenderer->Ln(5);
         $this->tiskniMistoDatum($this->context[Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT][Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR."datum_vytvor_smlouvy"]);
         $this->tiskniPodpisy(Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT);
     }

@@ -1,4 +1,6 @@
 <?php
+use Pdf\Renderer\Renderer;
+use Pdf\Model\Block;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,9 +14,20 @@
  * @author pes2704
  */
 class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends Projektor2_View_PDF_Certifikat_Content_Base {
-
+    
+    public static function prepareHeaderFooter(
+            Projektor2_Model_Status $sessionStatus,            
+            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat,             
+            $textPaticky=NULL, 
+            $cislovani=TRUE
+        ) {
+        
+    }
+    
     public static function createContent(
-            Projektor2_PDF_PdfCreator $pdf, 
+            Renderer $pdf, 
+            Projektor2_Model_Status $sessionStatus,            
             Projektor2_Model_Db_SKurz $sKurz, 
             Projektor2_Model_Db_CertifikatKurz $certifikat, 
             $context, 
@@ -35,13 +48,13 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends P
         $pomer = $vyska/$vyskaObrazku;
         $sirka = $sirkaObrazku*$pomer;
         $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
-        $this->pdfCreator->Image(Config_Certificates::getCertificateoriginalBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        $pdf->Image(Config_Certificates::getCertificateoriginalBackgroundImageFilepath($sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
         
         // content
         // pod logo Grafia
         $pdf->SetXY(0,40);
 
-        $blokCentered = new Projektor2_PDF_Blok;
+        $blokCentered = new Block;
             $blokCentered->ZarovnaniNadpisu('C');
             $blokCentered->ZarovnaniTextu('C');
             $blokCentered->Radkovani($radkovani);
@@ -51,7 +64,7 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends P
         $blokCentered20_11 = clone $blokCentered;
             $blokCentered20_11->VyskaPismaNadpisu(20);
             $blokCentered20_11->VyskaPismaTextu(11);
-        $blokLeftMargin = new Projektor2_PDF_Blok;
+        $blokLeftMargin = new Block;
             $blokLeftMargin->ZarovnaniNadpisu('L');
             $blokLeftMargin->ZarovnaniTextu('L');
             $blokLeftMargin->Radkovani($radkovani);
@@ -62,7 +75,7 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends P
             $blokLeftMargin20_11->VyskaPismaNadpisu(20);
             $blokLeftMargin20_11->VyskaPismaTextu(11);
 
-        /** @var Projektor2_PDF_Blok $blok */
+        /** @var Block $blok */
 
         $blok = clone $blokCentered28_13;
             $blok->PridejOdstavec('Grafia, společnost s ručením omezeným');

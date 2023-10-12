@@ -60,15 +60,15 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
      */
     public static function findAllAssoc($idZajemce, $typAktivity=NULL) {
         $sessionStatus = Projektor2_Model_Status::getSessionStatus();
-        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);
+        $aktivity = Config_Aktivity::getAktivityProjektu($sessionStatus->getUserStatus()->getProjekt()->kod);  // nejen kurzy
         $kolekce = array();
         if ($aktivity) {
             $id = 0;
             $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($idZajemce); // ORDER BY kurz_druh_fk ASC, aktivita ASC
-            $planSortedAssoc = self::sortAndAssocToActivity($planovaneKurzy);
+            $planSortedAssoc = self::sortAndAssocToActivity($planovaneKurzy);  // itemy ZaPlanKurz v assoc oli indexované podle aktivita (prof1, prof2, ...)
             foreach ($aktivity as $indexAktivity=>$aktivita) {
                 $planKurz = $planSortedAssoc[$indexAktivity] ?? null;
-                $aktivitaPlan = self::createAktivitaPlan($planKurz, $aktivita, $indexAktivity, $id, $idZajemce);
+                $aktivitaPlan = self::createAktivitaPlan($planKurz, $aktivita, $indexAktivity, $id, $idZajemce);  // znovu se čte sKurz (a poprvé certifikát)
                 if ($aktivitaPlan) {
                     $id++;
                     $kolekce[$indexAktivity] = $aktivitaPlan;

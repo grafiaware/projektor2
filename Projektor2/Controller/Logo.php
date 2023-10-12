@@ -6,7 +6,7 @@
  */
 
 /**
- * Description of Hlavicka
+ * Description of Logo
  *
  * @author pes2704
  */

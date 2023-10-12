@@ -1,4 +1,6 @@
 <?php
+use Pdf\Model\Block;
+use Pdf\Model\SadaBunek;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,7 +27,7 @@ class Projektor2_View_PDF_Certifikat_Content_UkonceniAktivitKurz extends Projekt
                 if (isset($aktivita->sKurz) AND $aktivita->sKurz->isRealCourse()) {
                     $counter++;
                     $yPositionBefore = $pdf->getY(); 
-                    $kurzSadaBunek = new Projektor2_PDF_SadaBunek();
+                    $kurzSadaBunek = new SadaBunek();
                     $kurzSadaBunek->SpustSadu(true);
                     $kurzSadaBunek->Nadpis($aktivita->nadpisAktivity);
                     $kurzSadaBunek->MezeraPredNadpisem(4);
@@ -46,14 +48,14 @@ class Projektor2_View_PDF_Certifikat_Content_UkonceniAktivitKurz extends Projekt
                     }
                     $pdf->renderCellGroup($kurzSadaBunek); 
                     if ($aktivita->dokoncenoUspesne == "Ano" AND $aktivita->aktivitaSCertifikatem) {
-                        $vyhodnoceni = new Projektor2_PDF_Blok();
+                        $vyhodnoceni = new Block();
                         $vyhodnoceni->Nadpis('Osvědčení o absolvování kurzu v projektu');
                         $vyhodnoceni->vyskaPismaNadpisu(9);
                         $vyhodnoceni->Odstavec("Účastníkovi bylo vydáno osvědčení dne: ".self::datumBezNul($aktivita->datumCertif));
                         $pdf->renderBlock($vyhodnoceni);
                     }
                     if ($context[$prefixUkonceni.$aktivita->indexAktivity.'_hodnoceni']) {
-                        $vyhodnoceni = new Projektor2_PDF_Blok();
+                        $vyhodnoceni = new Block();
                         $vyhodnoceni->Nadpis('Hodnocení');
                         $vyhodnoceni->vyskaPismaNadpisu(9);
                         $vyhodnoceni->Odstavec($context[$prefixUkonceni.$aktivita->indexAktivity.'_hodnoceni']);
@@ -70,12 +72,12 @@ class Projektor2_View_PDF_Certifikat_Content_UkonceniAktivitKurz extends Projekt
                 }               
             }
             if (!$counter) {
-                $bezAktivit = new Projektor2_PDF_Blok();
+                $bezAktivit = new Block();
                 $bezAktivit->Odstavec("Účastníkovi nebyly naplánovány žádné aktivity.");
                 $pdf->renderBlock($bezAktivit);  
             }
         } else {
-            $bezAktivit = new Projektor2_PDF_Blok();
+            $bezAktivit = new Block();
             $bezAktivit->Odstavec("V projektu nelze plánovat žádné aktivity.");
             $pdf->renderBlock($bezAktivit);                    
         }

@@ -14,20 +14,24 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniPseudokopie extends Projektor2
         /** @var Projektor2_Model_Db_CertifikatKurz $certifikat */
         $certifikat = $this->context['certifikat'];
 
-//        $this->createHeaderFooterOsvedceniKurz($this->sessionStatus->getUserStatus()->getProjekt(), $this->context['text_paticky'], FALSE);
-        Projektor2_View_PDF_Certifikat_HeaderFooter_KurzOsvedceni::createHeaderFooterOsvedceniKurz(
-                $this->pdfCreator, 
-                $this->sessionStatus->getUserStatus()->getProjekt(), 
+        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni::prepareHeaderFooter(
+                $this->sessionStatus, 
                 $sKurz, 
                 $certifikat, 
                 $this->context['text_paticky'], 
                 false);  
         $this->initialize();
-        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni::createContent($this->pdfCreator, $this->context, $this);
+        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni::createContent(
+                $this->pdfRenderer, 
+                $this->sessionStatus, 
+                $sKurz, 
+                $certifikat, 
+                $this->context, 
+                $this);
         //##################################################################################################
         $datumCertif = Projektor2_Date::createFromSqlDate($certifikat->date)->getCzechStringDate();        
         $this->tiskniMistoDatum($datumCertif);
-        $this->pdfCreator->Ln(20);
+        $this->pdfRenderer->Ln(20);
         $this->tiskniPodpisCertifikat();
     }
 }

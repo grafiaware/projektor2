@@ -113,7 +113,7 @@ class Projektor2_Controller_Export_CertifikatyKurz extends Projektor2_Controller
                 $zajemce,
                 $aktivitaPlan->sKurz,
                 $certifikatVerze,
-                $aktivitaPlan->defaultDatumCertif,
+                $aktivitaPlan->datumCertif,
                 $this->sessionStatus->getUserStatus()->getUser()->name,
                 __CLASS__
                 );

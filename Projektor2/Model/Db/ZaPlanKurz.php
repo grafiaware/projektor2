@@ -20,6 +20,8 @@ class Projektor2_Model_Db_ZaPlanKurz {
     public $aktivita;
     public $text;
     public $poc_abs_hodin;
+    public $poc_abs_hodin_distancne;
+    public $poc_abs_hodin_praxe;
     public $duvod_absence;
     public $dokonceno;
     public $duvod_neukonceni;
@@ -33,6 +35,8 @@ class Projektor2_Model_Db_ZaPlanKurz {
             $aktivita = null,
             $text = null,
             $poc_abs_hodin = null,
+            $poc_abs_hodin_distancne = null,
+            $poc_abs_hodin_praxe = null,
             $duvod_absence = null,
             $dokonceno = null,
             $duvod_neukonceni = null,
@@ -44,6 +48,8 @@ class Projektor2_Model_Db_ZaPlanKurz {
         $this->aktivita = $aktivita;
         $this->text = $text;
         $this->poc_abs_hodin = $poc_abs_hodin;
+        $this->poc_abs_hodin_distancne = $poc_abs_hodin_distancne;
+        $this->poc_abs_hodin_praxe = $poc_abs_hodin_praxe;
         $this->duvod_absence = $duvod_absence;
         $this->dokonceno = $dokonceno;
         $this->duvod_neukonceni = $duvod_neukonceni;

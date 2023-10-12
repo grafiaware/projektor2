@@ -15,23 +15,25 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniAkreditovany extends Projektor
         /** @var Projektor2_Model_Db_CertifikatKurz $certifikat */
         $certifikat = $this->context['certifikat'];
 
-        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany::createHeaderFooter(
-                $this->pdfCreator, 
-                $this->sessionStatus->getUserStatus()->getProjekt(), 
+        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany::prepareHeaderFooter(
+                $this->sessionStatus, 
                 $sKurz, 
                 $certifikat, 
                 $this->context['text_paticky'], 
                 false);  
         $this->initialize();
         Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany::createContent(
-                $this->pdfCreator, 
+                $this->pdfRenderer, 
+                $this->sessionStatus, 
+                $sKurz, 
+                $certifikat, 
                 $this->context, 
                 $this, 
                 0.6);
         //##################################################################################################
         $datumCertif = Projektor2_Date::createFromSqlDate($certifikat->date)->getCzechStringDate();        
         $this->tiskniMistoDatum($datumCertif);
-        $this->pdfCreator->Ln(1);
+        $this->pdfRenderer->Ln(1);
         $this->tiskniPodpisCertifikat();
 
     }

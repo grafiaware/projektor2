@@ -1,4 +1,6 @@
 <?php
+use Pdf\Renderer\Renderer;
+use Pdf\Model\Block;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -11,10 +13,37 @@
  *
  * @author pes2704
  */
-class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniPMS extends Projektor2_View_PDF_Certifikat_Content_Base {
+class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniMonitoring extends Projektor2_View_PDF_Certifikat_Content_Base {
+    
+    public static function prepareHeaderFooter(
+            Projektor2_Model_Status $sessionStatus,            
+            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat,             
+            $textPaticky=NULL, 
+            $cislovani=TRUE
+        ) {
+        switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {
 
+            case 'VZP':
+            case 'ZPM':
+            case 'SPP':
+            case 'RP':
+            case 'VDTP':
+            case 'PDU':
+            case 'CKP':
+            case 'PKP':
+                self::completeHeader("./img/loga/loga_OP_Z&UP_PMS_BW.jpg", 5, 15, 110, 16, 'L');
+                self::completeFooter( $textPaticky, $cislovani);
+                break;
+            default:
+                throw new RuntimeException('Nepodarilo se vytvorit pdf - nanastaveno HeaderFooter pro projekt.');
+                break;
+        }
+    }
+    
     public static function createContent(
-            Projektor2_PDF_PdfCreator $pdf, 
+            Renderer $pdf, 
+            Projektor2_Model_Status $sessionStatus,                        
             Projektor2_Model_Db_SKurz $sKurz, 
             Projektor2_Model_Db_CertifikatKurz $certifikat,   // v minitorg certifikátu nepoužit
             $context, 
@@ -29,12 +58,12 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniPMS extends Projektor2
         $pomer = $vyska/$vyskaObrazku;
         $sirka = $sirkaObrazku*$pomer;
         $odsazeniZleva = ($sirkaObrazku-$sirka)/2;
-        $pdf->Image(Config_Certificates::getCertificatePmsBackgroundImageFilepath($this->sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
+        $pdf->Image(Config_Certificates::getCertificatePmsBackgroundImageFilepath($sessionStatus), $odsazeniZleva, $odsazeniPozadiShora, $sirka, $vyska);
         
         // content
         $pdf->SetXY(0,45);
 
-        $blokCentered = new Projektor2_PDF_Blok;
+        $blokCentered = new Block;
             $blokCentered->Font('Arial');
             $blokCentered->ZarovnaniNadpisu('C');
             $blokCentered->ZarovnaniTextu('C');
@@ -45,7 +74,7 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniPMS extends Projektor2
             $blokCentered20_11->VyskaPismaNadpisu(20);
             $blokCentered20_11->VyskaPismaTextu(11);
 
-        $blokLeft = new Projektor2_PDF_Blok;
+        $blokLeft = new Block;
             $blokLeft->Font('Arial');
             $blokLeft->OdsazeniZleva(10);
             $blokLeft->ZarovnaniNadpisu('L');

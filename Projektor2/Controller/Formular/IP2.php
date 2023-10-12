@@ -15,7 +15,7 @@ class Projektor2_Controller_Formular_IP2 extends Projektor2_Controller_Formular_
 
     protected function formular() {
         $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
-        $modelyKurzu = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
+        $modelyKurzu = $this->createKurzViewodelsAssoc($aktivityProjektuTypuKurz);
 
         $ukonceniArray = Config_Ukonceni::getUkonceniProjektu($this->sessionStatus->getUserStatus()->getProjekt()->kod);
 

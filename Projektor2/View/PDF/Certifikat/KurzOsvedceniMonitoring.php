@@ -4,7 +4,7 @@
 *
 * @author pes2704
 */
-class Projektor2_View_PDF_Certifikat_KurzOsvedceniPms extends Projektor2_View_PDF_Common {
+class Projektor2_View_PDF_Certifikat_KurzOsvedceniMonitoring extends Projektor2_View_PDF_Common {
 
     const MODEL_PLAN     = "plan";
     const MODEL_DOTAZNIK = "dotaznik";
@@ -15,21 +15,23 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniPms extends Projektor2_View_PD
         /** @var Projektor2_Model_Db_CertifikatKurz $certifikat */
         $certifikat = $this->context['certifikat'];
 
-        Projektor2_View_PDF_Certifikat_HeaderFooter_KurzOsvedceniMonitoring::createHeaderFooterOsvedceniKurzMonitoring(
-                $this->pdfCreator, 
-                $this->sessionStatus->getUserStatus()->getProjekt(), 
+        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniMonitoring::prepareHeaderFooter(
+                $this->sessionStatus, 
                 $sKurz, 
                 $certifikat, 
                 $this->context['text_paticky'], 
                 false);          
         $this->initialize();
-        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniPMS::createContent(
-                $this->pdfCreator, 
+        Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniMonitoring::createContent(
+                $this->pdfRenderer, 
+                $this->sessionStatus, 
+                $sKurz, 
+                $certifikat, 
                 $this->context, 
                 $this);
         $datumCertif = Projektor2_Date::createFromSqlDate($certifikat->date)->getCzechStringDate();
         $this->tiskniMistoDatumPms($datumCertif);
-        $this->pdfCreator->Ln(20);
+        $this->pdfRenderer->Ln(20);
 //        $this->tiskniPodpisCertifikat();
 
     }

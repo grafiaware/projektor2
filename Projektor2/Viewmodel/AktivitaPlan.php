@@ -26,8 +26,6 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
     public $duvodNeuspechu;
     public $datumCertif;
 
-    public $defaultDatumCertif;
-
     /**
      * @var Projektor2_Model_Db_CertifikatKurz array of
      */
@@ -37,7 +35,7 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
     public function __construct(
             $id = null, $indexAktivity = null, $nadpisAktivity = null,
             $aktivitaSCertifikatem = null,
-            Projektor2_Viewmodel_AktivitaPlanCertifikatParams $certifikat = null,
+            Projektor2_Viewmodel_AktivitaPlanCertifikatParams $certifikatParams = null,
             Projektor2_Model_Db_SKurz $sKurz = null,
             $pocAbsHodin = null, $duvodAbsence = null, $dokoncenoUspesne = null, $duvodNeuspechu = null, $planDatumCertif = null,
             $certifikatyKurz = null) {
@@ -45,18 +43,17 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
         $this->indexAktivity = $indexAktivity;
         $this->nadpisAktivity = $nadpisAktivity;
         $this->aktivitaSCertifikatem = $aktivitaSCertifikatem;
-        $this->certifikat = $certifikat;
+        $this->certifikat = $certifikatParams;
         $this->sKurz = $sKurz;
         $this->pocAbsHodin = $pocAbsHodin;
         $this->duvodAbsence = $duvodAbsence;
         $this->dokoncenoUspesne = $dokoncenoUspesne;
         $this->duvodNeuspechu = $duvodNeuspechu;
-        $this->datumCertif = $planDatumCertif;
         $this->certifikatyKurz = $certifikatyKurz;
 
-        $this->defaultDatumCertif =
-                isset($this->datumCertif)
-                ? $this->datumCertif
+        $this->datumCertif =
+                isset($planDatumCertif)
+                ? $planDatumCertif
                 : ($this->sKurz->date_zaverecna_zkouska ? $this->sKurz->date_zaverecna_zkouska : $this->sKurz->date_konec);
 
     }

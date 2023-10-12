@@ -1,4 +1,10 @@
 <?php
+use Pdf\Renderer\Renderer;
+
+use Pdf\Model\Factory;
+use Pdf\Model\Block;
+use Pdf\Model\SadaBunek;
+
 /**
  *
  * @author pes2704
@@ -10,51 +16,51 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     const CS_FORMAT_BEZ_NUL = "j. n. Y";
 
     protected function initialize() {
-        $pdfdebug = Projektor2_PDF_Factory::getDebug();
+        $pdfdebug = Factory::getDebugModel();
         $pdfdebug->debug(0);
-        $this->pdfCreator = new Projektor2_PDF_PdfCreator();
-        $this->pdfCreator->AddFont('Times','','times.php');
-        $this->pdfCreator->AddFont('Times','B','timesbd.php');
-        $this->pdfCreator->AddFont("Times","BI","timesbi.php");
-        $this->pdfCreator->AddFont("Times","I","timesi.php");
-        $this->pdfCreator->AddFont('Arial','','arial.php');
-        $this->pdfCreator->AddFont('Arial','B','arialbd.php');
-        $this->pdfCreator->AddFont("Arial","BI","arialbi.php");
-        $this->pdfCreator->AddFont("Arial","I","ariali.php");
-        $this->pdfCreator->AddPage();   //uvodni stranka
+        $this->pdfRenderer = new Renderer();
+        $this->pdfRenderer->AddFont('Times','','times.php');
+        $this->pdfRenderer->AddFont('Times','B','timesbd.php');
+        $this->pdfRenderer->AddFont("Times","BI","timesbi.php");
+        $this->pdfRenderer->AddFont("Times","I","timesi.php");
+        $this->pdfRenderer->AddFont('Arial','','arial.php');
+        $this->pdfRenderer->AddFont('Arial','B','arialbd.php');
+        $this->pdfRenderer->AddFont("Arial","BI","arialbi.php");
+        $this->pdfRenderer->AddFont("Arial","I","ariali.php");
+        $this->pdfRenderer->AddPage();   //uvodni stranka
     }
 
     protected function tiskniTitul(array $textyTitulu, $naStredStrany=FALSE) {
         if ($naStredStrany) {
-            $this->pdfCreator->Ln(125-count($textyTitulu)*20);
+            $this->pdfRenderer->Ln(125-count($textyTitulu)*20);
         }
-        $titulka1 = new Projektor2_PDF_Blok;
+        $titulka1 = new Block;
         $titulka1->MezeraPredNadpisem(1);
         $titulka1->ZarovnaniNadpisu("C");
         $titulka1->VyskaPismaNadpisu(14);
         foreach ($textyTitulu as $textTitulu) {
             $titulka1->Nadpis($textTitulu);
-            $this->pdfCreator->renderBlock($titulka1);
+            $this->pdfRenderer->renderBlock($titulka1);
             $titulka1->MezeraPredNadpisem(3);
         }
         if ($naStredStrany) {
-            $this->pdfCreator->AddPage();   //uvodni stranka
+            $this->pdfRenderer->AddPage();   //uvodni stranka
         }
     }
 
     protected function tiskniPodpisCertifikat() {
-        $podpisy = new Projektor2_PDF_Blok();
+        $podpisy = new Block();
         $podpisy->VyskaPismaTextu(12);
         $podpisy->ZarovnaniTextu('C');
         $podpisy->PridejOdstavec("......................................................");
         $podpisy->PridejOdstavec($this->context['signerName'], '');
-        $this->pdfCreator->renderBlock($podpisy);
+        $this->pdfRenderer->renderBlock($podpisy);
 
-        $position = new Projektor2_PDF_Blok();
+        $position = new Block();
         $position->VyskaPismaTextu(10);
         $position->ZarovnaniTextu('C');
         $position->PridejOdstavec($this->context['signerPosition'],"");
-        $this->pdfCreator->renderBlock($position);
+        $this->pdfRenderer->renderBlock($position);
     }
 
     protected function celeJmeno() {
@@ -115,7 +121,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
 
     
     protected function tiskniGrafiaUdaje() {
-        $grafia = new Projektor2_PDF_Blok;
+        $grafia = new Block;
         $grafia->Odstavec("Grafia, společnost s ručením omezeným");
         $grafia->PridejOdstavec("zapsaná v obchodním rejstříku vedeném Krajským soudem v Plzni, odd. C, vl. 3067");
         $grafia->PridejOdstavec("sídlo: Plzeň, Budilova 4, PSČ 301 21");
@@ -153,13 +159,13 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         }
         $grafia->mezeraMeziOdstavci(1.5);
         $grafia->Radkovani(1);
-        $this->pdfCreator->renderBlock($grafia);
+        $this->pdfRenderer->renderBlock($grafia);
     }
 
     protected function tiskniOsobniUdaje() {
         $signDotaznik = Projektor2_Controller_Formular_FlatTable::DOTAZNIK_FT;
         $prefixDotaznik = $signDotaznik.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
-        $osobniUdaje = new Projektor2_PDF_Blok;
+        $osobniUdaje = new Block;
         $osobniUdaje->MezeraMeziOdstavci(1.5);
         $osobniUdaje->Radkovani(1);
 
@@ -202,11 +208,11 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 throw new RuntimeException('Nepodarilo se vytvorit pdf - nenastavene OsobniUdaje pro projekt.');
                 break;
         }
-        $this->pdfCreator->renderBlock($osobniUdaje);
+        $this->pdfRenderer->renderBlock($osobniUdaje);
     }
 
     protected function tiskniPodpisy() {
-        $podpisy = new Projektor2_PDF_SadaBunek();
+        $podpisy = new SadaBunek();
         $podpisy->PridejBunku('', '', FALSE, 20);
         switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
@@ -279,7 +285,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 throw new RuntimeException('Nepodarilo se vytvorit pdf - neosetrene Podpisy ');
                 break;
         }
-        $this->pdfCreator->renderCellGroup($podpisy, 0, 1);
+        $this->pdfRenderer->renderCellGroup($podpisy, 0, 1);
     }
 
 
@@ -287,7 +293,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     protected function tiskniPodpisUcastnik($modelSmlouva) {
         switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
-                $podpisy = new Projektor2_PDF_SadaBunek();
+                $podpisy = new SadaBunek();
                 $podpisy->PridejBunku('', '', FALSE, 110);
                 $podpisy->PridejBunku("Účastník:", '',TRUE);
                 $podpisy->NovyRadek(0,4);
@@ -295,7 +301,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $podpisy->PridejBunku("......................................................", '',TRUE);
                 $podpisy->PridejBunku('', '', FALSE, 115);
                 $podpisy->PridejBunku($this->celeJmeno($modelSmlouva), '', TRUE);
-                $this->pdfCreator->renderCellGroup($podpisy, 0, 1);
+                $this->pdfRenderer->renderCellGroup($podpisy, 0, 1);
             break;
 
             default:
@@ -323,7 +329,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'CJC':
             case 'CKP':
             case 'PKP':
-                $podpisy = new Projektor2_PDF_SadaBunek();
+                $podpisy = new SadaBunek();
                 $podpisy->PridejBunku('', '', FALSE, 110);
                 $podpisy->PridejBunku("Účastník:", '',TRUE);
                 $podpisy->NovyRadek(0,4);
@@ -331,7 +337,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $podpisy->PridejBunku("......................................................", '',TRUE);
                 $podpisy->PridejBunku('', '', FALSE, 115);
                 $podpisy->PridejBunku($this->celeJmeno($modelSmlouva), '', TRUE);
-                $this->pdfCreator->renderCellGroup($podpisy, 0, 1);
+                $this->pdfRenderer->renderCellGroup($podpisy, 0, 1);
                 break;
             default:
                 throw new RuntimeException('Nepodarilo se vytvorit pdf - nenastavene Podpis pro projekt.');
@@ -344,7 +350,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
     protected function tiskniPodpisPoradce($modelSmlouva) {
         switch ($this->sessionStatus->getUserStatus()->getProjekt()->kod) {
             case 'AP':
-                $podpisy = new Projektor2_PDF_SadaBunek();
+                $podpisy = new SadaBunek();
                 $podpisy->PridejBunku('', '', FALSE, 110);
                 $podpisy->PridejBunku("Dodavatel:", '',TRUE);
                 $podpisy->NovyRadek(0,4);
@@ -353,7 +359,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $podpisy->PridejBunku('', '', FALSE, 115);
                 $podpisy->PridejBunku($this->context['user_name'], '', TRUE);
 
-                $this->pdfCreator->renderCellGroup($podpisy, 0, 1);
+                $this->pdfRenderer->renderCellGroup($podpisy, 0, 1);
             break;
 
             default:
@@ -375,28 +381,28 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'PDU':
             case 'CKP':
             case 'PKP':
-                $mistoDatum = new Projektor2_PDF_SadaBunek();
+                $mistoDatum = new SadaBunek();
                 $mistoDatum->MezeraPredSadouBunek(8);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);  //odsazeni zleva
                 $mistoDatum->PridejBunku("Konzultační centrum: ", $this->context['kancelar_plny_text'], TRUE);
                 $mistoDatum->NovyRadek(0,1);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);
                 $mistoDatum->PridejBunku("Dne ", $this->datumBezNul($datum),1);
-                $this->pdfCreator->renderCellGroup($mistoDatum, 0, 1);
+                $this->pdfRenderer->renderCellGroup($mistoDatum, 0, 1);
                 break;
             case 'SJPK':
             case 'SJPO':
             case 'SJLP':
             case 'MB':
             case 'CJC':
-                $mistoDatum = new Projektor2_PDF_SadaBunek();
+                $mistoDatum = new SadaBunek();
                 $mistoDatum->MezeraPredSadouBunek(6);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);  //odsazeni zleva
                 $mistoDatum->PridejBunku("Poradenské centrum: ", $this->context['kancelar_plny_text'], TRUE);
                 $mistoDatum->NovyRadek(0,1);
                 $mistoDatum->PridejBunku('', '', FALSE, 0);
                 $mistoDatum->PridejBunku("Dne ",$this->datumBezNul($datum),1);
-                $this->pdfCreator->renderCellGroup($mistoDatum, 0, 1);
+                $this->pdfRenderer->renderCellGroup($mistoDatum, 0, 1);
                 break;
             default:
                  throw new RuntimeException('Nepodarilo se vytvorit pdf - neosetrene MistoDatum ');
@@ -415,7 +421,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
             case 'PDU':
             case 'CKP':
             case 'PKP':
-                $mistoDatum = new Projektor2_PDF_SadaBunek();
+                $mistoDatum = new SadaBunek();
                 $mistoDatum->MezeraPredSadouBunek(8);
 //                $mistoDatum->PridejBunku('', '', FALSE, 0);  //odsazeni zleva
 //                $mistoDatum->PridejBunku("Konzultační centrum: ", $this->context['kancelar_plny_text'], TRUE);
@@ -431,14 +437,14 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
                 $mistoDatum->PridejBunku('', '', FALSE, 60);
                 $mistoDatum->PridejBunku('', $this->context['signerName'], TRUE, 70);
                 $mistoDatum->NovyRadek(0,1);
-                $this->pdfCreator->renderCellGroup($mistoDatum, 0, 1);
+                $this->pdfRenderer->renderCellGroup($mistoDatum, 0, 1);
                 break;
             default:
                  throw new RuntimeException('Nepodarilo se vytvorit pdf - neosetrene MistoDatum ');
                 break;
         }
 
-//        $podpisy = new Projektor2_PDF_Blok();
+//        $podpisy = new Blok();
 //        $podpisy->VyskaPismaTextu(12);
 //        $podpisy->ZarovnaniTextu('C');
 //        $podpisy->PridejOdstavec("......................................................");

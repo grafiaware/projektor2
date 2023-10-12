@@ -1,4 +1,5 @@
 <?php
+use Pdf\Model\Block;
 
 /*
 * První část IP (v rozsahu 1-2 strany A4) – která bude obsahovat:
@@ -28,10 +29,10 @@ class Projektor2_View_PDF_Help_IPOsvedceni extends Projektor2_View_PDF_Common {
         $druh = $this->context['druh'];
         $aktivita = $aktivity[$druh];
 
-        $this->pdfCreator->Image("img/pozadi/pozadi.jpg", 0, 25, 210, 272);  
-        $this->pdfCreator->SetXY(0,60);
+        $this->pdfRenderer->Image("img/pozadi/pozadi.jpg", 0, 25, 210, 272);  
+        $this->pdfRenderer->SetXY(0,60);
 
-        $blokCentered = new Projektor2_PDF_Blok;
+        $blokCentered = new Block;
             $blokCentered->ZarovnaniNadpisu('C');
             $blokCentered->ZarovnaniTextu('C');
         $blokCentered30_14 = clone $blokCentered;
@@ -49,29 +50,29 @@ class Projektor2_View_PDF_Help_IPOsvedceni extends Projektor2_View_PDF_Common {
             $blok->PridejOdstavec('IČ: 477 14 620');
             $blok->PridejOdstavec('');
             $blok->PridejOdstavec('uděluje');
-        $this->pdfCreator->renderBlock($blok);
+        $this->pdfRenderer->renderBlock($blok);
         
         $blok = clone $blokCentered30_14;
             $blok->Nadpis("CERTIFIKÁT");
             $blok->PridejOdstavec('č. '.$this->context['cisloCertifikatu']);
-        $this->pdfCreator->renderBlock($blok);
+        $this->pdfRenderer->renderBlock($blok);
 
         $blok = clone $blokCentered30_14;
             $blok->PridejOdstavec('o absolutoriu kurzu');
-        $this->pdfCreator->renderBlock($blok);
+        $this->pdfRenderer->renderBlock($blok);
         
         $blok = clone $blokCentered30_14;
             $blok->Nadpis($aktivita['nadpis']);  
             $blok->PridejOdstavec('v projektu „Help 50+“');
-        $this->pdfCreator->renderBlock($blok);
+        $this->pdfRenderer->renderBlock($blok);
 
         $blok = clone $blokCentered20_11;
             $blok->PridejOdstavec(self::STALY_TEXT_PATICKY);
-        $this->pdfCreator->renderBlock($blok);        
+        $this->pdfRenderer->renderBlock($blok);        
         
         $blok = clone $blokCentered30_14;
             $blok->Nadpis($this->celeJmeno(self::MODEL_DOTAZNIK));
-        $this->pdfCreator->renderBlock($blok);
+        $this->pdfRenderer->renderBlock($blok);
 
         $blok = clone $blokCentered30_14;
         if ($this->context[self::MODEL_DOTAZNIK.'pohlavi'] == 'muž') {
@@ -87,18 +88,18 @@ class Projektor2_View_PDF_Help_IPOsvedceni extends Projektor2_View_PDF_Common {
                                     .' do '.$this->datumBezNul($this->context[$druh.'_kurz']->date_konec));
         }
 
-        if ($this->context[$druh.'_kurz']->pocet_hodin) {
-            $blok->PridejOdstavec('s plánovaným rozsahem '.$this->context[$druh.'_kurz']->pocet_hodin.' hodin');
+        if ($this->context[$druh.'_kurz']->jeZadanPocetHodin) {
+            $blok->PridejOdstavec('s plánovaným rozsahem '.$this->context[$druh.'_kurz']->jeZadanPocetHodin.' hodin');
         }
 //        $blok->PridejOdstavec('v rozsahu '.$this->context[self::MODEL_PLAN .$druh.'_poc_abs_hodin'].' hodin');
-        $this->pdfCreator->renderBlock($blok);        
+        $this->pdfRenderer->renderBlock($blok);        
         
 
         
         
         //##################################################################################################
         $this->tiskniMistoDatum($this->context[self::MODEL_PLAN .$druh."_datum_certif"]);
-        $this->pdfCreator->Ln(20);
+        $this->pdfRenderer->Ln(20);
         $this->tiskniPodpisCertifikat();      
     }
 }

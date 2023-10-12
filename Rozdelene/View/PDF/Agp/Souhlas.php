@@ -1,4 +1,5 @@
 <?php
+use Pdf\Model\Block;
 
 /*
  * To change this template, choose Tools | Templates
@@ -24,21 +25,21 @@ class Projektor2_View_PDF_Agp_Souhlas extends Projektor2_View_PDF_Common{
         $this->tiskniTitul($textyNadpisu, FALSE);
         //**********************************************
         
-        $strana = new Projektor2_PDF_Blok;
+        $strana = new Block;
             $strana->Nadpis("Zájemce:");
             $strana->ZarovnaniNadpisu("L");
             $strana->VyskaPismaNadpisu(11);
-        $this->pdfCreator->renderBlock($strana);        
+        $this->pdfRenderer->renderBlock($strana);        
         $this->tiskniOsobniUdaje(self::MODEL_SMLOUVA);
        
-        $dohoda1 = new Projektor2_PDF_Blok;
+        $dohoda1 = new Block;
                 $dohoda1->Nadpis("Prohlášení");
                 $dohoda1->ZarovnaniNadpisu("C");
                 $dohoda1->VyskaPismaNadpisu(12);
-        $this->pdfCreator->renderBlock($dohoda1);
+        $this->pdfRenderer->renderBlock($dohoda1);
         //**********************************************                
             
-        $blok = new Projektor2_PDF_Blok;
+        $blok = new Block;
             $blok->Odstavec("V souladu se zákonem č.101/2000 Sb. v platném znění tímto výslovně prohlašuji, že souhlasím se zpracováním, užitím a uchováním veškerých mých osobních a citlivých údajů správcem a zpracovatelem údajů, kterým je Grafia, společnost s ručením omezeným, sídlo: Budilova 1511/4, 301 21 Plzeň, IČ: 47714620, získaných při realizaci dohody v rozsahu uvedeném v mnou poskytnuté dokumentaci (Dohoda o zprostředkování zaměstnání, registrační dotazník, strukturovaný životopis, reference apod.) a v rozsahu mnou osobně sdělených údajů zaznamenaných pracovníkem správce a včetně informací získaných při testování, pohovorech, pracovní diagnostice, zjišťování kulturních, týmových či osobnostních způsobilostí a kompetencí a to zejména pro účely zprostředkování zaměstnání a mé prezentace potenciálnímu zaměstnavateli jako příjemci.");
             $blok->PridejOdstavec("Konkrétně se jedná o základní osobní údaje (např. jméno a příjmení, datum a místo narození, rodinný stav, občanství, pohlaví, získané tituly), údaj o zdravotním stavu potřebný pro posouzení nezbytně dobrého zdravotního stavu v povoláních vyžadujících zvýšenou fyzickou a psychickou odolnost, dále o podrobné informace týkající se kontaktních údajů včetně trvalého bydliště, získaného vzdělání, současného mého postavení na trhu práce a získané dosavadní praxe, znalostí a dovedností, zdravotního stavu, představ a požadavků na mnou hledanou práci a dalších souvisejících údajů.");
             $blok->PridejOdstavec("Výslovně souhlasím s tím, aby mnou poskytnuté osobní údaje byly společností Grafia předány potenciálním zaměstnavatelům  v postavení uživatele osobních údajů.");
@@ -47,7 +48,7 @@ class Projektor2_View_PDF_Agp_Souhlas extends Projektor2_View_PDF_Common{
             $blok->PridejOdstavec("Byl jsem seznámen se skutečností, že zaměstnanci správce, jiné fyzické osoby, které zpracovávají osobní údaje na základě smlouvy se správcem nebo zpracovatelem, a další osoby, které v rámci plnění zákonem stanovených oprávnění a povinností přicházejí do styku s osobními údaji u správce nebo zpracovatele, jsou povinni zachovávat mlčenlivost o osobních údajích a o bezpečnostních opatřeních, jejichž zveřejnění by ohrozilo zabezpečení osobních údajů.");
             $blok->PridejOdstavec("Je mi známo, že mohu kdykoli výše uvedené souhlasy odvolat.");
             $blok->Radkovani(1.25);
-        $this->pdfCreator->renderBlock($blok);
+        $this->pdfRenderer->renderBlock($blok);
 
         $this->tiskniMistoDatum($this->context[self::MODEL_SMLOUVA ."datum_vytvor_smlouvy"]);
         $this->tiskniPodpisy(self::MODEL_SMLOUVA);

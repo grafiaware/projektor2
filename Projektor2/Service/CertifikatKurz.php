@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of Projektor2_Model_CertifikatMapper
  *
@@ -34,7 +35,13 @@ class Projektor2_Service_CertifikatKurz {
         $fullCertifikatKurz = $this->readCertifikat($zajemce, $sKurz, $certifikatRada, $certifikatVerze);
 
         if (!$fullCertifikatKurz) {
-            $fullCertifikatKurz = $this->createCertifikat($sessionStatus, $kancelar, $zajemce, $sKurz, $certifikatVerze, $datumCertifikatu, $creator, $service);
+            $fullCertifikatKurz = $this->createCertifikat(
+                    $sessionStatus, 
+                    $kancelar, 
+                    $zajemce, 
+                    $sKurz, 
+                    $certifikatVerze, 
+                    $datumCertifikatu, $creator, $service);
             $logger->log('Vytvořen certifikát. Db id: '.$fullCertifikatKurz->dbCertifikatKurz->id.'. File path: '.$fullCertifikatKurz->documentCertifikatKurz->filePath);
         }
         return $fullCertifikatKurz;
@@ -67,7 +74,11 @@ class Projektor2_Service_CertifikatKurz {
     ) {
 
         // file certifikat model - bez content, ale filepath již vznikne
-        $fileCertifikat = Projektor2_Model_File_CertifikatKurzMapper::create($sessionStatus->getUserStatus()->getProjekt(), $zajemce, $sKurz, $certifikatVerze);  // bez content
+        $fileCertifikat = Projektor2_Model_File_CertifikatKurzMapper::create(
+                $sessionStatus->getUserStatus()->getProjekt(), 
+                $zajemce, 
+                $sKurz, 
+                $certifikatVerze);  // bez content
 
         // vytvoř db certifikát - jednu verzi
         $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
@@ -84,10 +95,15 @@ class Projektor2_Service_CertifikatKurz {
 
         $content = $this->createContent($zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $fileCertifikat->relativeDocumentPath);
         if (!isset($content) OR !$content) {
-            throw new UnexpectedValueException("Nevznikl obsah souboru certifikátu pro kurz id: {$sKurz->id_s_kurz}.");
+            Projektor2_Model_File_CertifikatKurzMapper::delete($fileCertifikat);
+            throw new RuntimeException("Nevznikl obsah souboru certifikátu pro kurz id: {$sKurz->id_s_kurz}.");
         }
         $fileCertifikat->setContent($content);
-        Projektor2_Model_File_CertifikatKurzMapper::save($fileCertifikat);  // znovuvytvoření souboru a zápis content do souboru
+        try {
+            Projektor2_Model_File_CertifikatKurzMapper::save($fileCertifikat);  // znovuvytvoření souboru a zápis content do souboru
+        } catch (Exception $e) {
+            throw RuntimeException("Nepodařilo se zapsat údaje certifikátu do souboru. Certifikát nebude vytvořen.", 0, $e);
+        }
         return new Projektor2_Model_CertifikatKurz($dbCertifikat, $fileCertifikat);
     }
 
@@ -164,7 +180,7 @@ class Projektor2_Service_CertifikatKurz {
                 $pdfView = new Projektor2_View_PDF_Certifikat_KurzOsvedceniOriginal($sessionStatus);
                 break;
             case 'MO':
-                $pdfView = new Projektor2_View_PDF_Certifikat_KurzOsvedceniPms($sessionStatus);
+                $pdfView = new Projektor2_View_PDF_Certifikat_KurzOsvedceniMonitoring($sessionStatus);
                 break;
             case 'RK':
                 $pdfView = new Projektor2_View_PDF_Certifikat_KurzOsvedceniAkreditovany($sessionStatus);
@@ -216,8 +232,7 @@ class Projektor2_Service_CertifikatKurz {
      */
     protected function createContextFromModels($models) {
         foreach ($models as $modelSign => $model) {
-            $assoc = $model->getValuesAssoc();
-            foreach ($assoc as $key => $value) {
+            foreach ($model->getValuesAssoc() as $key => $value) {
                 $context[$modelSign.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR.$key] = $value;
             }
         }

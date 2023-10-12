@@ -38,6 +38,10 @@ abstract class Framework_Model_FileMapper {
             $model->isPersisted = TRUE;
             $model->changed = FALSE;
         } else {
+            if($fileResource) {
+                fclose($fileResource);
+                unlink($fileResource);
+            }
             throw new RuntimeException('Neznámá chyba! Soubor '.$model->filePath.' se nepodařilo uložit.');
         }
     }

@@ -170,8 +170,8 @@ abstract class Config_Certificates
                 break;
 
 
-            default:
-                throw new UnexpectedValueException('Není definován soubor s orázkem na pozadí pro certifikát v projektu '.$sessionStatus->getUserStatus()->getProjekt()->kod.'.');
+//            default:
+//                throw new UnexpectedValueException('Není definován soubor s orázkem na pozadí pro certifikát v projektu '.$sessionStatus->getUserStatus()->getProjekt()->kod.'.');
         }
         return $filePath;
     }

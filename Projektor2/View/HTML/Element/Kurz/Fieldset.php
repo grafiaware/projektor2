@@ -13,7 +13,11 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
 
         $indexAktivity = $this->context['indexAktivity'];  // index aktivity
         $konfiguraceAktivity = $this->context['aktivityTypuKurz'][$indexAktivity];
-        $modelySKurz = $this->context['modelySKurz'][$indexAktivity];
+        $kurzViewmodels = $this->context['kurzViewmodels'][$indexAktivity];
+        /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
+        $aktivitaPlan = $this->context['aktivityPlan'][$indexAktivity];
+        /** @var Projektor2_Model_Db_SKurz $zvolenySKurz */
+        $zvolenySKurz = $aktivitaPlan->sKurz;
         $planKurzArray = $this->context[$planKurzSign][$indexAktivity];
 
         // hodnoty proměnných pro vytváření atributů při skládání tagů
@@ -48,13 +52,13 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
 
         // hodnoty z contextu
         $idSKurz = $planKurzArray[$nameIdSKurz];
-        /** @var Projektor2_Model_Db_SKurz $modelSKurz */
-        $modelSKurz = $modelySKurz[$idSKurz];
+        /** @var Projektor2_Viewmodel_KurzViewmodel $kurzViewmodel */
+        $kurzViewmodel = $kurzViewmodels[$idSKurz];
         if ($idSKurz>3) {
-            $planovanyPocetHodin = $modelSKurz->pocet_hodin;
+            $jeZadanPocetHodin = $kurzViewmodel->jeZadanPocetHodin;
             $naplanovanKurz = true;
         } else {
-            $planovanyPocetHodin = 0;
+            $jeZadanPocetHodin = false;
             $naplanovanKurz = false;
         }
 
@@ -75,15 +79,15 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         // flag je true pokud již byl dříve zadán (načten z db) počet hodin nebo dokonceno
         $displayBlokAbsolvovano = ($zadanyAbsolvovaneHodiny OR $zadanoUspesneNeuspesne) ? 'block':'none';
             // další bloky jsou uvnitř bloku BlokAbsolvovano
-            $displayBlokPocetHodin = ($planovanyPocetHodin>0) ? 'block':'none';
+            $displayBlokPocetHodin = ($jeZadanPocetHodin) ? 'block':'none';
             $displayBlokDuvodAbsence = ($planKurzArray[$nameDuvodAbsence] ?? null) ? 'block':'none';
-            $displayBlokDokonceno = (!($planovanyPocetHodin>0) OR $zadanoUspesneNeuspesne) ? 'block':'none';
+            $displayBlokDokonceno = (!($jeZadanPocetHodin) OR $zadanoUspesneNeuspesne) ? 'block':'none';
         //blok certifikat
         $idBlokCertifikat = $uniqueFieldsetSign.'_certifikat';
         $displayBlokCertifikat = ($zadanoDokoncenoAno) ? 'block':'none';
 
 
-        $modelSelect = new Projektor2_Viewmodel_Element_Select($nameIdSKurz, $modelySKurz, $idSKurz, $this->context['returnedModelProperty']);
+        $modelSelect = new Projektor2_Viewmodel_Element_Select($nameIdSKurz, $kurzViewmodels, $idSKurz, $this->context['returnedModelProperty']);
         $modelSelect->setSelectId($idSelect);
         $modelSelect->setInnerTextCallable(array($this,'textRetezecKurz'));
         // $this->context['readonly'] nastyví readonly pro všechny elementy fieldsetu
@@ -119,26 +123,45 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
         $this->parts[] = '<div id="'.$idUdajeAbsolvovano.'" style="display:'.$displayBlokAbsolvovano.'">';
             // span pro počet absolvovaných hodin
             $this->parts[] = '<span style="display:'.$displayBlokPocetHodin.'">';
+                // počet plánovaných hodin
+                $hodiny = [];
+                if ($zvolenySKurz->pocet_hodin_praxe) {
+                    $hodiny['Počet hodin teorie: '] = $zvolenySKurz->pocet_hodin;
+                } else {
+                    $hodiny['Počet hodin: '] = $zvolenySKurz->pocet_hodin;
+                }
+                if ($zvolenySKurz->pocet_hodin_distancne) {
+                    $hodiny['Z toho distančně: '] = $zvolenySKurz->pocet_hodin;
+                }
+                if ($zvolenySKurz->pocet_hodin_praxe) {
+                    $hodiny['Počet hodin praxe: '] = $zvolenySKurz->pocet_hodin_praxe;
+                }
                 $this->parts[] = '<p>';
-                    // počet plánovaných hodin
-                    $this->parts[] ='<span> Plánovaný počet hodin: '.$planovanyPocetHodin;
-                    $this->parts[] ='</span>';
+                $this->parts[] ="<span>Plánovaný rozsah - </span>";
+                foreach ($hodiny as $text => $value) {
+                    $this->parts[] ="<span>$text $value</span>";
+                }
+                $this->parts[] = '</p>';
+                $this->parts[] = '<p>';
+                foreach ($hodiny as $text => $value) {
                     // input pro počet absolvovaných hodin - ovládá závislý prvek důvod absence
-                    $this->parts[] = '<label>Počet absolvovaných hodin: </label>';
-                    $this->parts[] = '<input type="number" pattern="\d+" min="0" max="'.$planovanyPocetHodin.'" '
+                    $this->parts[] = "<label>$text</label>";
+                    $this->parts[] = '<input type="number" pattern="\d+" min="0" max="'.$value.'" '
                             . 'name="'.$namePocAbsHodin.'" '
                             . 'size=8 maxlength=10 value="'.$planKurzArray[$namePocAbsHodin].'" '
                             . $disabledAttribute
-                            . ' onChange="showWithRequiredInputsIfIn(\''.$nameDuvodAbsence.'\', this, 1, '.($planovanyPocetHodin-1).');'
+                            . ' onChange="showWithRequiredInputsIfIn(\''.$nameDuvodAbsence.'\', this, 1, '.($value-1).');'
                             . 'showWithRequiredInputsIfGt(\''.$nameDokonceno.'\', this, 0);">';
                 $this->parts[] = '</p>';
+
+                }
                 // prvek důvod absence
                 $this->parts[] ='<p id="'.$nameDuvodAbsence.'" style="display:'.$displayBlokDuvodAbsence.'">';
                     $this->parts[] ='<label>V případě, že neabsolvoval plný počet hodin, uveďte důvod: </label>';
                     $this->parts[] ='<input type="text" name="'.$nameDuvodAbsence.'" size=120 maxlength=120 '
                                 . 'value="'.$planKurzArray[$nameDuvodAbsence].'" '
                                 . $disabledAttribute.' >'
-                                . '</input>';
+                                . '</input>';                
                 $this->parts[] ='</p>';
             $this->parts[] ='</span>';
             // konec span pro počet plánovaných hodin
@@ -200,28 +223,10 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
     /**
      * Callback funkce pro view  Projektor2_View_HTML_Element_Select.
      *
-     * !! Identická metoda použita v Projektor2_Viewmodel_Kurz
-     *
-     * @param Projektor2_Model_Db_SKurz $kurz
+     * @param Projektor2_Viewmodel_KurzViewmodel $kurz
      * @return string
      */
     public function textRetezecKurz(Projektor2_Viewmodel_KurzViewmodel $kurz) {  // musí být public pro použití jako callback
-    // Projektor2_Viewmodel_Kurz
-    return $kurz->kurz_text;
-//    public function textRetezecKurz(Projektor2_Model_Db_SKurz $kurz) {  // musí být public pro použití jako callback
-//        if ($kurz->kurz_zkratka == '*') {
-//            $ret = $kurz->kurz_nazev;
-//        } else {
-//            $ret = trim($kurz->projekt_kod). "_"
-//                    .trim($kurz->kurz_druh). "_"
-//                    .trim($kurz->kurz_cislo) . "_"
-//                    .trim($kurz->beh_cislo) . "T_"
-//                    .trim($kurz->kurz_zkratka). " | "
-//                    .trim($kurz->kurz_nazev)." | "
-//                    .DateTime::createFromFormat('Y-m-d', trim($kurz->date_zacatek))->format('j.n.Y')." - "
-//                    .DateTime::createFromFormat('Y-m-d', trim($kurz->date_konec))->format('j.n.Y'). " | "
-//                    .trim($kurz->kancelar_kod);
-//        }
-//        return $ret;
+        return $kurz->infoKurzText;
     }
 }

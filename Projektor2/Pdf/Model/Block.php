@@ -1,5 +1,7 @@
 <?php
-class Projektor2_PDF_Blok
+namespace Pdf\Model;
+
+class Block
 {
     public $font;
     public $style;

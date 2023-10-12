@@ -1,4 +1,5 @@
 <?php
+use Pdf\Model\Block;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,7 +24,7 @@ class Projektor2_View_PDF_Certifikat_Content_UkonceniAktivitPoradenstvi extends 
                     $counter++;
                     $yPositionBefore = $pdf->getY();  
 
-                    $vyhodnoceni=new Projektor2_PDF_Blok();
+                    $vyhodnoceni=new Block();
                     $vyhodnoceni->Nadpis($aktivita['nadpis']);
                     $vyhodnoceni->vyskaPismaNadpisu(11);
                     $vyhodnoceni->Odstavec($context[$caller::MODEL_UKONCENI.'vyhodnoceni']);                        
@@ -41,12 +42,12 @@ class Projektor2_View_PDF_Certifikat_Content_UkonceniAktivitPoradenstvi extends 
                 }               
             }
             if (!$counter) {
-                $bezAktivit = new Projektor2_PDF_Blok();
+                $bezAktivit = new Block();
                 $bezAktivit->Odstavec("Účastníkovi nebyly naplánovány žádné aktivity.");
                 $pdf->renderBlock($bezAktivit);  
             }                
         } else {
-            $bezAktivit = new Projektor2_PDF_Blok();
+            $bezAktivit = new Block();
             $bezAktivit->Odstavec("V projektu nelze plánovat žádné aktivity.");
             $pdf->renderBlock($bezAktivit);                      
         }        

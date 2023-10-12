@@ -18,12 +18,16 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
 
     protected function formular() {
         $aktivityProjektuTypuKurz = Config_Aktivity::findAktivity($this->sessionStatus->getUserStatus()->getProjekt()->kod, Config_Aktivity::TYP_KURZ);
-        $modelySKurz = $this->createDbSKurzModelsAssoc($aktivityProjektuTypuKurz);
+        $kurzViewmodels = $this->createKurzViewodelsAssoc($aktivityProjektuTypuKurz);
 
         $view = new Projektor2_View_HTML_Formular_IP1($this->sessionStatus, $this->createContextFromModels(TRUE));
         $view->assign('nadpis', 'INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA '.$this->sessionStatus->getUserStatus()->getProjekt()->text)
-            ->assign('aktivityTypuKurz', $aktivityProjektuTypuKurz)
-            ->assign('modelySKurz', $modelySKurz)   // Projektor2_Model_Db_SKurz[]
+            ->assign('aktivityTypuKurz', $aktivityProjektuTypuKurz)  // Projektor2_Viewmodel_KurzViewmodel[]
+            ->assign('kurzViewmodels', $kurzViewmodels)   // Projektor2_Model_Db_SKurz[]
+                
+                // v findAllAssoc se čtou data znovu
+                //  - např. plánované kurzy účastníka - t yuž jsou v modelu (kolekci) PLAN_KURZ
+            ->assign('aktivityPlan', Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus->getUserStatus()->getZajemce()->id))  // Projektor2_Viewmodel_AktivitaPlan[]
             ->assign('submitUloz', array('name'=>'save', 'value'=>'Uložit'))
             ->assign('submitTiskIP1', array('name'=>'pdf', 'value'=>'Tiskni IP 1.část'));
         return $view;
@@ -37,8 +41,8 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
                 ->assign('user_name', $this->sessionStatus->getUserStatus()->getUser()->name)
                 ->assign('identifikator', $this->sessionStatus->getUserStatus()->getZajemce()->identifikator)
                 ->assign('znacka', $this->sessionStatus->getUserStatus()->getZajemce()->znacka)
-                ->assign('aktivityPlan', Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus->getUserStatus()->getZajemce()->id))  // Projektor2_Model_AktivitaPlan[]
-                    ;
+                ->assign('aktivityPlan', Projektor2_Viewmodel_AktivityPlanMapper::findAllAssoc($this->sessionStatus->getUserStatus()->getZajemce()->id));  // Projektor2_Viewmodel_AktivitaPlan[]
+  
             $fileName = $this->createFileName($this->sessionStatus, $file);
             $view->assign('file', $fileName);
 

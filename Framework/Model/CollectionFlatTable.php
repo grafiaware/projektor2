@@ -82,7 +82,7 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
         $row = $this->selectOne([static::COLLECTION_KEY_ATTRIBUTE => $collectionKey]);
         // hydratuje se i prázným polem dat - i neexistující položka musí být nastavena na isHydrated=true jinak by se ItemFlatTable pokoušel načítat data a hydratovat
         // pozor - kdyby došlo k pokusu i hydrataci v ItemFlatTable jsou do collection item nastavena data prvního řádku resultsetu pro celou kolekci - chyba!
-        $item->hydrate($row);   // nastaví item->isHydrated, NENASTAVUJE ->isPersisted
+        $item->hydrateItem($row);   // nastaví item->isHydrated, NENASTAVUJE ->isPersisted
         $this->items[$collectionKey] = $item;
 
         return $item;
@@ -98,7 +98,7 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
         if(!$this->mainObject->id){
             $this->createNewMainObject();
         }
-        foreach ($this->items as $key => $item) {
+        foreach ($this->items as $item) {
             if (!$item->getMainObject()) {
                 $this->setMainObject($this->mainObject);
             }
@@ -151,8 +151,8 @@ class Framework_Model_CollectionFlatTable implements \IteratorAggregate {
                 if($data) {
                     foreach ($data as $row) {
                         $item = $this->createItem($this->mainObject);
-                        $item->hydrate($row);   // nastaví item->isHydrated, NENASTAVUJE ->isPersisted
-                        $item->setPersisted(true);
+                        $item->hydrateItem($row);   // nastaví item->isHydrated, NENASTAVUJE ->isPersisted
+//                        $item->setPersisted(true);
                         $this->items[$this->provideCollectionKey($row)] = $item;
                     }
                 }

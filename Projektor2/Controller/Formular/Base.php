@@ -113,7 +113,6 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
     protected function setModelsFromPost($post) {
         foreach ($post as $key => $postValue) {
             list($modelSign, $attributeName) = explode(Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR, $key);
-//          count($chunks) == 1      proměnná kontextu přidaná metodou assign(), tj. bez separátoru v názvu - neukládá se
             if(isset($modelSign) AND isset($attributeName)) {
                 $parsedModelsign = explode(Projektor2_Controller_Formular_FlatTable::ITEM_SEPARATOR, $modelSign);
                 switch (count($parsedModelsign)) {
@@ -124,19 +123,19 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
                         $this->models[$modelSign]->{$attributeName} = $this->transformForSql($this->models[$modelSign]->{$attributeName}, $attributeName, $postValue);
                         break;
                     case 2:
-                        $collectionFT = $this->models[$parsedModelsign[0]];
+                        list($collectionSign, $itemSign) = $parsedModelsign;
+                        $collectionFT = $this->models[$collectionSign];
                         if (isset($collectionFT)) {
                             /** @var Framework_Model_CollectionFlatTable $collectionFT */
-                            $itemFT = $collectionFT->getItem($parsedModelsign[1]);
+                            $itemFT = $collectionFT->getItem($itemSign);
                             if (!isset($itemFT)) {
-                               $itemFT = $collectionFT->addItem($parsedModelsign[1]);
+                               $itemFT = $collectionFT->addItem($itemSign);
                             }
                             $itemFT->{$attributeName} = $this->transformForSql($itemFT->{$attributeName}, $attributeName, $postValue);
                         }
                         break;
                     default:
-                        throw new LogicException("První řetězec '$modelSign' v názvu post proměnné '$key' obsahujevíce než jeden separator '".Projektor2_Controller_Formular_FlatTable::ITEM_SEPARATOR.".");
-                        break;
+                        throw new LogicException("První řetězec '$modelSign' v názvu post proměnné '$key' obsahuje více než jeden separator '".Projektor2_Controller_Formular_FlatTable::ITEM_SEPARATOR.".");
                 }
 
             } else {

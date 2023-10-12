@@ -69,8 +69,13 @@ class Projektor2_Model_Db_CertifikatKurzMapper {
      * @return Projektor2_Model_Db_CertifikatKurz
      * @throws \Exception
      */
-    public static function create(Projektor2_Model_Db_Zajemce $zajemce, Projektor2_Model_Db_SKurz $sKurz, $certifikatRada, $certifikatVerze,
-                                    Projektor2_Date $date, $creator, $service, $fileName) {
+    public static function create(
+            Projektor2_Model_Db_Zajemce $zajemce, 
+            Projektor2_Model_Db_SKurz $sKurz, 
+            $certifikatRada, 
+            $certifikatVerze,
+            Projektor2_Date $date, 
+            $creator, $service, $fileName) {
         $dbh = Config_AppContext::getDb();
 
         $rok = $date->getCzechStringYear();

@@ -1,4 +1,5 @@
 <?php
+use Pdf\Renderer\Renderer;
 
 /*
  * To change this template, choose Tools | Templates
@@ -18,9 +19,9 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
 
     /**
      *
-     * @var \Projektor2_PDF_PdfCreator
+     * @var \Projektor2_Pdf_Renderer_Renderer
      */
-    protected $pdfCreator;
+    protected $pdfRenderer;
 
     protected $pdfString;
 
@@ -42,7 +43,7 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
         if (file_exists($this->fullFileName))  	{
             unlink($this->fullFileName);
         }
-        $this->pdfCreator->Output($this->fullFileName, 'F');
+        $this->pdfRenderer->Output($this->fullFileName, 'F');
         return $this->isSaved();
     }
 
@@ -62,7 +63,7 @@ abstract class Projektor2_View_PDF_Base extends Framework_View_Abstract implemen
             define('FPDF_FONTPATH', self::FPDF_FONTPATH);  //běhová konstanta potřebná pro fpdf
         }
         $this->createPDFObject();
-        $this->pdfString = $this->pdfCreator->Output($this->fullFileName, 'S');
+        $this->pdfString = $this->pdfRenderer->Output($this->fullFileName, 'S');
         return $this->pdfString;
     }
 
