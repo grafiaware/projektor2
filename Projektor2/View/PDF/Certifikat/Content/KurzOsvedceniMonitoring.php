@@ -19,7 +19,7 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniMonitoring extends Pro
             Projektor2_Model_Status $sessionStatus,            
             Projektor2_Model_Db_SKurz $sKurz, 
             Projektor2_Model_Db_CertifikatKurz $certifikat,             
-            $textPaticky=NULL, 
+            $context, 
             $cislovani=TRUE
         ) {
         switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {

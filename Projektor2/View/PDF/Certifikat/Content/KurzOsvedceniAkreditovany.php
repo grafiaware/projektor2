@@ -19,10 +19,13 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends P
             Projektor2_Model_Status $sessionStatus,            
             Projektor2_Model_Db_SKurz $sKurz, 
             Projektor2_Model_Db_CertifikatKurz $certifikat,             
-            $textPaticky=NULL, 
+            $context, 
             $cislovani=TRUE
         ) {
-        
+        $texts = Config_Certificates::getCertificateTexts($sessionStatus);
+        $filepath = $context['file'] ?? '';
+        self::completeFooter( "{$texts['text_paticky']} $filepath" , $cislovani);
+
     }
     
     public static function createContent(

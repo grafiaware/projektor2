@@ -127,7 +127,6 @@ class Projektor2_Service_CertifikatProjekt {
             ->assign('certifikat', $certifikat)
             ->assign('file', $docPath)
             ->assign('v_projektu',$texts['v_projektu'])
-            ->assign('text_paticky',$texts['text_paticky']." ".$docPath)
             ->assign('financovan',$texts['financovan']);
 
 //        $viewKurz->appendContext(array(Projektor2_View_PDF_Ap_KurzOsvedceni::MODEL_DOTAZNIK => $this->models[Projektor2_View_PDF_Ap_KurzOsvedceni::MODEL_DOTAZNIK]));

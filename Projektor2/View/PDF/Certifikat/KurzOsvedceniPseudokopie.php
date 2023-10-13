@@ -18,7 +18,7 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniPseudokopie extends Projektor2
                 $this->sessionStatus, 
                 $sKurz, 
                 $certifikat, 
-                $this->context['text_paticky'], 
+                $this->context, 
                 false);  
         $this->initialize();
         Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni::createContent(

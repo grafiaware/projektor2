@@ -19,7 +19,7 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniMonitoring extends Projektor2_
                 $this->sessionStatus, 
                 $sKurz, 
                 $certifikat, 
-                $this->context['text_paticky'], 
+                $this->context, 
                 false);          
         $this->initialize();
         Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniMonitoring::createContent(

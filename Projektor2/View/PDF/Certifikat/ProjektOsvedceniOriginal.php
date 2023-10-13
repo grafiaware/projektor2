@@ -9,7 +9,7 @@ class Projektor2_View_PDF_Certifikat_ProjektOsvedceniOriginal extends Projektor2
     const MODEL_UKONCENI = "ukonceni";
 
     public function createPDFObject() {
-        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $this->context['text_paticky'], FALSE);
+        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $this->context, FALSE);
         $this->initialize();
         Projektor2_View_PDF_Certifikat_Content_ProjektOsvedceni::createContent($this->pdfRenderer, $this->sessionStatus, $this->context, $this);
         //##################################################################################################

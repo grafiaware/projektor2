@@ -205,7 +205,6 @@ class Projektor2_Service_CertifikatKurz {
             ->assign('sKurz', $sKurz)
             ->assign('file', $docPath)
             ->assign('v_projektu',$texts['v_projektu'])
-            ->assign('text_paticky',$texts['text_paticky']." ".$docPath)
             ->assign('financovan',$texts['financovan']);
         $pdfView->appendContext(array($pdfView::MODEL_DOTAZNIK => $models[$pdfView::MODEL_DOTAZNIK]));
         
