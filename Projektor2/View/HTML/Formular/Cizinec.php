@@ -55,8 +55,10 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                                 "Najdi osobu z Google formuláře podle příjmení"),
                         ################
                         Html::input($prefixDotaznik.'titul_za', "Titul za:", $poleDotaznik, ["type"=>"text", "size"=>"3", "maxlength"=>"10"]),
-                        Html::select($prefixDotaznik.'pohlavi', "Pohlaví:", ["", "muž", "žena"], $poleDotaznik, ["id"=>"pohlavi", "required"=>true]),  // id pro javascript
+                        // event listener pro id pohlavi - skript dole
+                        Html::select($prefixDotaznik.'pohlavi', "Pohlaví:", $poleDotaznik, ["", "muž", "žena"], ["id"=>"pohlavi", "required"=>true]),  // id pro javascript
                     ),
+                    // event listener pro id datum_narozeni - skript dole
                     Html::tag("p", [],
                         Html::input($prefixDotaznik.'datum_narozeni', "Datum narození:", $poleDotaznik, ["id"=>"datum_narozeni", "type"=>"date", "size"=>"8", "maxlength"=>"10", "required"=>true]),  // id pro javascript
                         Html::input($prefixDotaznik.'misto_narozeni', "Místo narození pro certifikáty:", $poleDotaznik, ["id"=>"misto_narozeni", "type"=>"text", "size"=>"30", "maxlength"=>"50", "required"=>true]),
@@ -74,7 +76,7 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                     Html::tag("fieldset", [],
                         Html::tag("legend", [], "Vhodné místo konání kurzů"),
                         Html::tag("p", [],
-                            Html::select($prefixCizinec."obec_pro_kurz", "Město:", ["", "Plzeň", "Klatovy", "Karlovy Vary", "jiné"], $poleCizinec, []),  //"required"=>true]),
+                            Html::select($prefixCizinec."obec_pro_kurz", "Město:", $poleCizinec, ["", "Plzeň", "Klatovy", "Karlovy Vary", "jiné"], []),  //"required"=>true]),
                             Html::input($prefixCizinec.'pozadavky_kurz', "Požadavky na konání kurzu:", $poleCizinec, ["type"=>"text", "size"=>"100", "maxlength"=>"200"])
                         )
                     ),
@@ -115,7 +117,7 @@ class Projektor2_View_HTML_Formular_Cizinec extends Projektor2_View_HTML_Formula
                         Html::tag("legend", [], "Vysílající ÚP"),
                         Html::tag("p", [],
                             Html::tag("div", [],
-                                Html::select($prefixDotaznik."z_up", "Vysílající úřad práce:", ["", "Plzeň-město", "Plzeň-jih", "Plzeň-sever", "Klatovy", "Cheb", "jiné"], $poleDotaznik, [])
+                                Html::select($prefixDotaznik."z_up", "Vysílající úřad práce:", $poleDotaznik, ["", "Plzeň-město", "Plzeň-jih", "Plzeň-sever", "Klatovy", "Cheb", "jiné"], [])
                             )
                         )
                     ),
