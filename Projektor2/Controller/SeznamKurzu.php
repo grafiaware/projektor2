@@ -37,7 +37,8 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
 
         $f = "(".implode(" AND ", $filter).")";
         $mapper = new Projektor2_Viewmodel_KurzViewmodelMapper();
-        return $mapper->find($f, 'razeni');
+        return $mapper->find($f, 'kurz_druh, kurz_cislo');
+//        return $mapper->find($f, 'razeni');
     }
 
     protected function getLeftMenuArray() {
