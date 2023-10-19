@@ -1,5 +1,7 @@
 <?php
-class Projektor2_PDF_Paticka
+namespace Pdf\Model;
+
+class Paticka
 {
     public $text;
     public $zarovnani;

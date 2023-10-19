@@ -1,5 +1,7 @@
 <?php
-class Projektor2_PDF_SadaBunek
+namespace Pdf\Model;
+
+class SadaBunek
 {
     public $nadpis;
     public $bunky;
@@ -69,7 +71,7 @@ class Projektor2_PDF_SadaBunek
      */
     function PridejBunku($titulekUTF8='', $promennaUTF8='', $odradkovani=FALSE, $sirka=0, $prazdnaHodnota=false, $vyska=0,  $ohraniceni=0, $zarovnani='', $vypln=false, $link='') {
         $this->id = $this->id+1;
-        $b = new Projektor2_PDF_Bunka($this->id, $sirka, $vyska, $titulekUTF8, $promennaUTF8, $ohraniceni, $odradkovani, $zarovnani, $vypln, $link='');
+        $b = new Cell($this->id, $sirka, $vyska, $titulekUTF8, $promennaUTF8, $ohraniceni, $odradkovani, $zarovnani, $vypln, $link='');
         if ($prazdnaHodnota) {
             if (substr_count($promennaUTF8, $prazdnaHodnota)*strlen($prazdnaHodnota) <> strlen($promennaUTF8)) {
                 $this->sadaNeniPrazdna = true;

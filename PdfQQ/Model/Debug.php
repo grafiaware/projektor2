@@ -1,6 +1,7 @@
 <?php
+namespace Pdf\Model;
 
-class Projektor2_PDF_Debug
+class Debug
 {
 
     public $debug;

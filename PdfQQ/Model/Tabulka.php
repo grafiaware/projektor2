@@ -1,5 +1,5 @@
     <?php
-class Projektor2_PDF_Tabulka {
+class Tabulka {
     public $nadpis;
     public $zahlavi;
     public $data;

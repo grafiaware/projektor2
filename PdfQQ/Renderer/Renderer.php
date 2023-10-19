@@ -1,4 +1,10 @@
 <?php
+namespace Pdf\Renderer;
+
+use Pdf\Model\Factory;
+use Pdf\Model\Block;
+use Pdf\Model\SadaBunek;
+
 /**
  * Vytvoří pdf objekt
  * Potomek třídy PDF_ExtFPDF, implementuje funkce Header a Footer volané zevnitř z třídy fpdf
@@ -6,13 +12,14 @@
  * @author Petr Svoboda
  *
  */
-class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
-    public function Debug($debug=false) {
-        $pdfdebug = Projektor2_PDF_Factory::getDebug();
-    	$pdfdebug->debug($debug);
+class Renderer extends ExtendedFPDF {
+    
+    public function setDebugModel($debug=false) {
+        $pdfdebug = Factory::getDebugModel();
+    	$pdfdebug->Debug($debug);
     }
 
-    private function AutoSirka($txt) {
+    private function setAutoWidth($txt) {
     setlocale(LC_CTYPE, 'cs_CZ.UTF-8');
         $max = 0;
         if (strlen($txt)) {
@@ -25,8 +32,8 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
     	return $max;
     }
 
-    private function DebugCell ($w=0, $h=0, $txtUTF8='', $border=0, $ln=0, $align='', $fill=false, $link='', $lineSpacing=1.5, $hangingIndent=0) {
-        $pdfdebug = Projektor2_PDF_Factory::getDebug();
+    private function renderDebugCell ($w=0, $h=0, $txtUTF8='', $border=0, $ln=0, $align='', $fill=false, $link='', $lineSpacing=1.5, $hangingIndent=0) {
+        $pdfdebug = Factory::getDebugModel();
         $txt1250 = iconv("UTF-8","windows-1250",$txtUTF8);
 
         switch ($pdfdebug->debug) {
@@ -45,7 +52,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
     }
 
     public function Header() {
-        $pdfhlavicka = Projektor2_PDF_Factory::getHlavicka();
+        $pdfhlavicka = Factory::getHeaderModel();
         $this->Ln($pdfhlavicka->odsazeniNahore);
         if ($pdfhlavicka->obrazekSoubor) {
             if ($pdfhlavicka->zarovnani=="C")
@@ -60,7 +67,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
         }
     	if ($pdfhlavicka->text) {
             $this->SetFont('times','B',$pdfhlavicka->vyskaPisma);
-            $sirkaTextu=$this->AutoSirka($pdfhlavicka->text);
+            $sirkaTextu=$this->setAutoWidth($pdfhlavicka->text);
             if ($pdfhlavicka->zarovnani=="C")
                 $this->SetX(($this->w-$sirkaTextu)/2);
             if ($pdfhlavicka->zarovnani=="R")
@@ -79,18 +86,18 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
     }
 
     public function Footer() {
-        $pdfpaticka = Projektor2_PDF_Factory::getPaticka();
-        $vyskaTextuPaticky = $this->LineCount($pdfpaticka->text)*$pdfpaticka->vyskaPisma*$pdfpaticka->radkovani/$this->k;
+        $pdfpaticka = Factory::getFooterModel();
+        $vyskaTextuPaticky = $this->lineCount($pdfpaticka->text)*$pdfpaticka->vyskaPisma*$pdfpaticka->radkovani/$this->k;
         $vyskaCislovaniPaticky = $pdfpaticka->cislovani ? $pdfpaticka->vyskaPisma*$pdfpaticka->radkovani/$this->k : 0;
         $this->SetFont('Times','',$pdfpaticka->vyskaPisma);
-        $this->SetPageBreakTrigger($this->h-$this->bMargin-$pdfpaticka->odsazeniNahore-$vyskaTextuPaticky-$vyskaCislovaniPaticky-$pdfpaticka->odsazeniDole);
+        $this->setPageBreakTrigger($this->h-$this->bMargin-$pdfpaticka->odsazeniNahore-$vyskaTextuPaticky-$vyskaCislovaniPaticky-$pdfpaticka->odsazeniDole);
         $this->SetY(-1*($vyskaTextuPaticky+$vyskaCislovaniPaticky+$pdfpaticka->odsazeniDole));  //záporná hodnota = výška nad bottom margin strínky
         $this->SetDrawColor($pdfpaticka->barvaRamecku);
         $this->SetFillColor($pdfpaticka->barvaPozadi);
         $this->SetTextColor($pdfpaticka->barvaPisma);
         $this->SetLineWidth(1);
     	if ($pdfpaticka->text) {
-            $sirkaTextu=$this->AutoSirka($pdfpaticka->text);
+            $sirkaTextu=$this->setAutoWidth($pdfpaticka->text);
             if ($pdfpaticka->zarovnani=="C")
                 $this->SetX(($this->w-$sirkaTextu)/2);
             if ($pdfpaticka->zarovnani=="R")
@@ -102,7 +109,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
         }
         if ($pdfpaticka->cislovani) {
             $pdfpaticka->cisloStranky = $pdfpaticka->cisloStranky + 1;
-            $sirkaTextu = $this->AutoSirka("- ".$pdfpaticka->cisloStranky." -");
+            $sirkaTextu = $this->setAutoWidth("- ".$pdfpaticka->cisloStranky." -");
             if ($pdfpaticka->zarovnani=="C")
                     $this->SetX(($this->w-$sirkaTextu)/2);
             if ($pdfpaticka->zarovnani=="R")
@@ -117,15 +124,15 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
 
     /**
      * Funkce tiskne objekt třídy SadaBunek
-     * @param Projektor2_PDF_SadaBunek $sadaBunek
+     * @param Projektor2_Pdf_Model_SadaBunek $sadaBunek
      * @param integer $pocetMezer , počet mezer vkládaných mezi jednotlivé buňky v řádku
      * @param unknown_type $tiskniVzdy
      * @param unknown_type $tiskniJenNeprazdnou
      * @param unknown_type $rozdelujSadu
      * @return unknown_type
      */
-    public function renderCellGroup(Projektor2_PDF_SadaBunek $sadaBunek, $pocetMezer=1, $tiskniVzdy=false, $tiskniJenSpustenou=false, $rozdelujSadu=false) {
-        $pdfdebug = Projektor2_PDF_Factory::getDebug();
+    public function renderCellGroup(SadaBunek $sadaBunek, $pocetMezer=1, $tiskniVzdy=false, $tiskniJenSpustenou=false, $rozdelujSadu=false) {
+        $pdfdebug = Factory::getDebugModel();
 
         if($sadaBunek->sadaNeniPrazdna AND !$tiskniJenSpustenou OR $tiskniVzdy OR $sadaBunek->sadaSpustena OR $pdfdebug->debug > 0) {
             // určení výšky sady buněk
@@ -166,7 +173,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
                         $this->SetFont('Times','B',$sadaBunek->vyskaPismaNadpisu);
                         $this->x = $this->lMargin + $sadaBunek->odsazeniZleva;
                         $this->Ln($sadaBunek->mezeraPredNadpisem);
-                        $this->DebugCell(0, $sadaBunek->vyskaPismaNadpisu, $sadaBunek->nadpis, 0, 1, $sadaBunek->zarovnaniNadpisu, FALSE, '', 0);
+                        $this->renderDebugCell(0, $sadaBunek->vyskaPismaNadpisu, $sadaBunek->nadpis, 0, 1, $sadaBunek->zarovnaniNadpisu, FALSE, '', 0);
                         $this->Ln($sadaBunek->mezeraPredSadouBunek);
 
 
@@ -175,7 +182,7 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
 //                $this->DebugCell(0,$sadaBunek->vyskaPismaNadpisu/$this->k,$sadaBunek->nadpis,0,1,'L');
 //                $this->Ln(1);
             } elseif ($pdfdebug->debug > 1) {
-                $this->DebugCell(0, $sadaBunek->vyskaPismaNadpisu, "Text nadpisu sady buněk je prázdný", 0, 1, $sadaBunek->zarovnaniNadpisu, FALSE, '', 0);
+                $this->renderDebugCell(0, $sadaBunek->vyskaPismaNadpisu, "Text nadpisu sady buněk je prázdný", 0, 1, $sadaBunek->zarovnaniNadpisu, FALSE, '', 0);
 //                $this->DebugCell(0, $sadaBunek->vyskaPismaNadpisu/$this->k, "Text nadpisu sady buněk je prázdný" , 0, 1, "L");
             }
             $this->Ln($sadaBunek->mezeraPredSadouBunek);
@@ -189,26 +196,26 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
                                 $sirka = $bunka->sirka;
                         } else {
                             if ($bunka->odradkovani) {
-                                $sirka = $this->AutoSirka($text);
+                                $sirka = $this->setAutoWidth($text);
                             } else {
-                                $sirka = $this->AutoSirka($text.str_repeat(" ", $pocetMezer));
+                                $sirka = $this->setAutoWidth($text.str_repeat(" ", $pocetMezer));
                             }
                         }
-                        $this->DebugCell($sirka, $radek['vyska'], $text, $bunka->ohraniceni, $bunka->odradkovani, $bunka->zarovnani, $bunka->vypln);
+                        $this->renderDebugCell($sirka, $radek['vyska'], $text, $bunka->ohraniceni, $bunka->odradkovani, $bunka->zarovnani, $bunka->vypln);
                     }
                     if (!$bunka->odradkovani) $this->Ln(1);
                 }
             } elseif ($pdfdebug->debug > 1) {
-                $this->DebugCell(0, $sadaBunek->vyskaPismaBunek/$this->k, "Sada buňek je prázdná" , 0, 1, "L");
+                $this->renderDebugCell(0, $sadaBunek->vyskaPismaBunek/$this->k, "Sada buňek je prázdná" , 0, 1, "L");
             }
         }
     }
 
     /**
      *
-     * @param Projektor2_PDF_Blok $blok
+     * @param Block $blok
      */
-    public function renderBlock(Projektor2_PDF_Blok $blok) {
+    public function renderBlock(Block $blok) {
 //        $pdfdebug = Projektor2_PDFContext::getDebug();
         $this->SetDrawColor("255,255,255");
         $this->SetFillColor("255,255,255");
@@ -297,18 +304,18 @@ class Projektor2_PDF_PdfCreator extends Projektor2_PDF_ExtendedFPDF {
         }
     }
 
-    private function paragraf($prvniParagraf, Projektor2_PDF_Blok $blok, $pocetRadku, $zalomenyText) {
+    private function paragraf($prvniParagraf, Block $blok, $pocetRadku, $zalomenyText) {
         if ($prvniParagraf AND $blok->nadpis) {
             $this->SetFont($blok->font,'B'.$blok->style,$blok->vyskaPismaNadpisu);
             $this->Ln($blok->mezeraPredNadpisem);
             $this->x = $this->lMargin + $blok->odsazeniZleva;
-            $this->DebugCell(0, $blok->vyskaPismaNadpisu/$this->k, $blok->nadpis, 0, 1, $blok->zarovnaniNadpisu, FALSE, '', 0);
+            $this->renderDebugCell(0, $blok->vyskaPismaNadpisu/$this->k, $blok->nadpis, 0, 1, $blok->zarovnaniNadpisu, FALSE, '', 0);
         }
         if ($zalomenyText) {
             $this->SetFont($blok->font, $blok->style, $blok->vyskaPismaTextu );
             $this->Ln($blok->mezeraMeziOdstavci);
             $this->x = $this->lMargin + $blok->odsazeniZleva;
-            $this->DebugCell(0, $pocetRadku*$blok->vyskaPismaTextu*$blok->radkovani/$this->k, $zalomenyText , 0, 1, $blok->zarovnaniTextu, FALSE, '', $blok->radkovani, $blok->predsazeni);
+            $this->renderDebugCell(0, $pocetRadku*$blok->vyskaPismaTextu*$blok->radkovani/$this->k, $zalomenyText , 0, 1, $blok->zarovnaniTextu, FALSE, '', $blok->radkovani, $blok->predsazeni);
         }
     }
 

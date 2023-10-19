@@ -1,10 +1,15 @@
 <?php
+namespace Pdf\Model;
+
+use Pdf\Model\Debug;
+use Pdf\Model\Hlavicka;
+use Pdf\Model\Paticka;
 /**
  * Kontejner na statickou hlavičku a patičku PDF stránky
  * @author Petr Svoboda
  *
  */
-abstract class Projektor2_PDF_Factory
+abstract class Factory
 {
     private static $hlava;
     private static $pata;
@@ -12,28 +17,31 @@ abstract class Projektor2_PDF_Factory
 
     /**
      * Statická funkce, při prvním volání vytvoří nový objekt PDF_Hlavicka, při každém dalším volání vrací již jednou vytvořený objekt
-     * @return Projektor2_PDF_Hlavicka
+     * @return Hlavicka
      */
-    public static function getHlavicka() {
-        if(!self::$hlava)
-        self::$hlava = new Projektor2_PDF_Hlavicka();
+    public static function getHeaderModel(): Hlavicka {
+        if(!self::$hlava) {
+            self::$hlava = new Hlavicka();
+        }
         return self::$hlava;
     }
 
     /**
      * Statická funkce, pči prvním volání vytvoří nový objekt PDF_Paticka, při každém dalším volání vrací již jednou vytvořený objekt
-     * @return Projektor2_PDF_Paticka
+     * @return Paticka
      */
-    public static function getPaticka() {
-        if(!self::$pata)
-        self::$pata = new Projektor2_PDF_Paticka();
+    public static function getFooterModel(): Paticka {
+        if(!self::$pata) {
+            self::$pata = new Paticka();
+        }
         return self::$pata;
     }
 
-    public static function getDebug()
+    public static function getDebugModel(): Debug
     {
-        if(!self::$deb)
-        self::$deb = new Projektor2_PDF_Debug();
+        if(!self::$deb) {
+            self::$deb = new Debug();
+        }
         return self::$deb;
     }
 }

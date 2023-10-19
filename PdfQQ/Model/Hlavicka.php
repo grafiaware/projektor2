@@ -1,10 +1,12 @@
 <?php
+namespace Pdf\Model;
+
 /**
  * Objekt hlavičky dokumentu pdf
  * @author Martin, Kovář, Petr Svoboda
  *
  */
-class Projektor2_PDF_Hlavicka
+class Hlavicka
 {
 
     public $text;

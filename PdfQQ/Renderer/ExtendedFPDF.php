@@ -1,4 +1,6 @@
 <?php
+namespace Pdf\Renderer;
+
 /**
  * Vytvoří pdf objekt
  * Potomek třídy fpdf, implementuje funkce Header a Footer volané zevnitř z třídy fpdf
@@ -6,7 +8,7 @@
  * @author Petr Svoboda
  *
  */
-class Projektor2_PDF_ExtendedFPDF extends \FPDF
+class ExtendedFPDF extends \FPDF
 {
     /**
      * Konstruktor - přetěžuje konstruktor třídy FPDF
@@ -95,7 +97,7 @@ class Projektor2_PDF_ExtendedFPDF extends \FPDF
 	$this->hPt = $this->h*$this->k;
 	// Page margins (1 cm)
 	$margin = 28.35/$this->k;
-	$this->SetMargins($margin,$margin);
+	$this->setMargins($margin,$margin);
 	// Interior cell margin (1 mm)
 	$this->cMargin = $margin/10;
 	// Line width (0.2 mm)
@@ -117,7 +119,7 @@ class Projektor2_PDF_ExtendedFPDF extends \FPDF
      * @param type $txt
      * @return int
      */
-    public function LineCount($txt) {
+    public function lineCount($txt) {
 //       http://www.pcre.org/pcre.txt
 //       WHAT \R MATCHES
 //       By default, the sequence \R in a pattern matches  any  Unicode  newline
@@ -134,7 +136,7 @@ class Projektor2_PDF_ExtendedFPDF extends \FPDF
      * Metoda nastaví svislou pozici na stránce, kde dojde k automatickému odstránkování
      * @param type $yTriggerPosition
      */
-    public function SetPageBreakTrigger($yTriggerPosition=NULL) {
+    public function setPageBreakTrigger($yTriggerPosition=NULL) {
         if ($yTriggerPosition!==NULL) {
             $this->PageBreakTrigger = $yTriggerPosition;
         }
@@ -147,7 +149,7 @@ class Projektor2_PDF_ExtendedFPDF extends \FPDF
      * @param type $right
      * @param type $bottom
      */
-    public function SetMargins($left, $top, $right=NULL, $bottom=NULL) {
+    public function setMargins($left, $top, $right=NULL, $bottom=NULL) {
     // Set left, top and right margins
 //        $this->lMargin = $left;
 //        $this->tMargin = $top;
@@ -156,24 +158,24 @@ class Projektor2_PDF_ExtendedFPDF extends \FPDF
 //        $this->rMargin = $right;
 
         //Nastavuji left, top, right i bottom margins
-        $this->SetLeftMargin($left);
-        $this->SetTopMargin($top);
+        $this->setLeftMargin($left);
+        $this->setTopMargin($top);
         if ($right===NULL) {
-            $this->SetRightMargin($left);
+            $this->setRightMargin($left);
         } else {
-            $this->SetRightMargin($right);
+            $this->setRightMargin($right);
         }
         if ($bottom===NULL) {
-            $this->SetBottomMargin($top);
+            $this->setBottomMargin($top);
         } else {
-            $this->SetBottomMargin($bottom);
+            $this->setBottomMargin($bottom);
         }    }
 
     /**
      * Metoda přetěžuje metodu SetLeftMargin třídy FPDF, metoda nastavuje šířku levého okraje stránky v uživatelských jednotkách
      * @param type $margin
      */
-    public function SetLeftMargin($margin)
+    public function setLeftMargin($margin)
     {
     // Set left margin
         $this->lMargin = $margin;
@@ -184,7 +186,7 @@ class Projektor2_PDF_ExtendedFPDF extends \FPDF
      * Metoda přetěžuje metodu SetTopMargin třídy FPDF
      * @param type $margin
      */
-    public function SetTopMargin($margin)
+    public function setTopMargin($margin)
     {
     // Set top margin
         $this->tMargin = $margin;
@@ -194,7 +196,7 @@ class Projektor2_PDF_ExtendedFPDF extends \FPDF
      * Metoda přetěžuje metodu SetRightMargin třídy FPDF, metoda nastavuje šířku pravého okraje stránky v uživatelských jednotkách
      * @param type $margin
      */
-    public function SetRightMargin($margin)
+    public function setRightMargin($margin)
     {
     // Set right margin
         $this->rMargin = $margin;
@@ -204,7 +206,7 @@ class Projektor2_PDF_ExtendedFPDF extends \FPDF
      * Metoda nastavuje šířku dolního okraje stránky v uživatelských jednotkách
      * @param type $margin
      */
-    public function SetBottomMargin($margin)
+    public function setBottomMargin($margin)
     {
     // Set bottom margin
         $this->bMargin = $margin;
