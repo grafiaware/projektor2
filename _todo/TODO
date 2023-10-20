@@ -1,10 +1,16 @@
 
+přestat používat id_s_kurz = 1 v selectech jako default
+vyhodit tuto položku z s_kurz
+smazat řádky s id_s_kurz_FK z za_plan_kurz
+
++ možná přestat používat id_s_kurz 2 a 3
+    - odstaranit všude if idSKurz>3 jako test, že se jedná o "skutečný" kurz
+
+
 s_kurz
 - upload a download harmonogramu
 
 - strornování certifikátu
-
-typ certifikátu - do config - nedoděláno
 
 
 Projektor2_Controller_SeznamRegistraci
@@ -22,10 +28,5 @@ foreach
 
 
 ####
-akceptovat hodnoty z Google form - tel, mail, datum narození
-
-- duplikát kurzu
-
-- opravit exporty
 
 - opravit (nebo zahodit??) onload="Zobraz_pdf()"
