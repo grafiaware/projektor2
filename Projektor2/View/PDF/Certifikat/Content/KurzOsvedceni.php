@@ -54,8 +54,9 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni extends Projektor2_Vi
             case 'VDTP':
             case 'PDU':
             case 'CKP':
-            case 'PKP':
-                self::completeHeader("./img/loga/loga_OP_Z&UP_PMS_BW.jpg", 0, 5, 110, 16, 'L');
+            case 'PKP':           
+//                self::completeHeader("./img/loga/loga_OP_Z&UP_PMS_BW.jpg", 0, 5, 110, 16, 'L');
+                self::completeHeader("./img/loga/loga_OP_Z&UP_BW_2023_09.jpg", 0, 5, 110, 16, 'L');
                 self::completeFooter( "{$texts['text_paticky']} $filepath", $cislovani);
                 break;
             case 'SJPK':

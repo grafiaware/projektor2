@@ -32,7 +32,8 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniMonitoring extends Pro
             case 'PDU':
             case 'CKP':
             case 'PKP':
-                self::completeHeader("./img/loga/loga_OP_Z&UP_PMS_BW.jpg", 5, 15, 110, 16, 'L');
+                self::completeHeader("./img/loga/loga_OP_Z&UP_BW_2023_09.jpg", 5, 15, 110, 16, 'L');                
+//                self::completeHeader("./img/loga/loga_OP_Z&UP_PMS_BW.jpg", 5, 15, 110, 16, 'L');
                 self::completeFooter( $textPaticky, $cislovani);
                 break;
             default:
