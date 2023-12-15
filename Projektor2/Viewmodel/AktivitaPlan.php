@@ -25,6 +25,9 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
     public $dokoncenoUspesne;
     public $duvodNeuspechu;
     public $datumCertif;
+    public $datumZacatkuReal;
+    public $datumKonceReal;
+    public $datumZaverecneZkouskyReal;
 
     /**
      * @var Projektor2_Model_Db_CertifikatKurz array of
@@ -36,25 +39,25 @@ class Projektor2_Viewmodel_AktivitaPlan  extends Framework_Model_DbItemAbstract 
             $id = null, $indexAktivity = null, $nadpisAktivity = null,
             $aktivitaSCertifikatem = null,
             Projektor2_Viewmodel_AktivitaPlanCertifikatParams $certifikatParams = null,
+            Projektor2_Model_Db_ZaPlanKurz $planKurz = null,
             Projektor2_Model_Db_SKurz $sKurz = null,
-            $pocAbsHodin = null, $duvodAbsence = null, $dokoncenoUspesne = null, $duvodNeuspechu = null, $planDatumCertif = null,
             $certifikatyKurz = null) {
         $this->id = $id;
         $this->indexAktivity = $indexAktivity;
         $this->nadpisAktivity = $nadpisAktivity;
         $this->aktivitaSCertifikatem = $aktivitaSCertifikatem;
         $this->certifikat = $certifikatParams;
+        
+        $this->pocAbsHodin = $planKurz->poc_abs_hodin;
+        $this->duvodAbsence = $planKurz->duvod_absence;
+        $this->dokoncenoUspesne = $planKurz->dokonceno;
+        $this->duvodNeuspechu = $planKurz->duvod_neukonceni;
+        $this->datumCertif = $planKurz->date_certif;
+        $this->datumZacatkuReal = $planKurz->date_zacatek_extra ?? $sKurz->date_zacatek;
+        $this->datumKonceReal = $planKurz->date_konec_extra ?? $sKurz->date_konec;
+        $this->datumZaverecneZkouskyReal = $planKurz->date_zaverecna_zkouska_extra ?? $sKurz->date_zaverecna_zkouska;
+        
         $this->sKurz = $sKurz;
-        $this->pocAbsHodin = $pocAbsHodin;
-        $this->duvodAbsence = $duvodAbsence;
-        $this->dokoncenoUspesne = $dokoncenoUspesne;
-        $this->duvodNeuspechu = $duvodNeuspechu;
         $this->certifikatyKurz = $certifikatyKurz;
-
-        $this->datumCertif =
-                isset($planDatumCertif)
-                ? $planDatumCertif
-                : ($this->sKurz->date_zaverecna_zkouska ? $this->sKurz->date_zaverecna_zkouska : $this->sKurz->date_konec);
-
     }
 }

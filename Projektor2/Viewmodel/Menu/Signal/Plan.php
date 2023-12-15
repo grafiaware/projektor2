@@ -26,7 +26,7 @@ class Projektor2_Viewmodel_Menu_Signal_Plan extends Projektor2_Viewmodel_Menu_Si
                 $this->text = $kurz->kurz_druh_fk;
             }        
             
-            if ($kurz->datum_certif) {  //ma certifikat kurz
+            if ($kurz->date_certif) {  //ma certifikat kurz
                 $this->status = 'uspesneSCertifikatem';
             } elseif ($kurz->dokonceno=='Ano' AND !$aktivita['s_certifikatem']) {
                 $this->status = 'uspesne';

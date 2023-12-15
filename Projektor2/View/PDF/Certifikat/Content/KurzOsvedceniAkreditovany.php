@@ -17,7 +17,7 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends P
     
     public static function prepareHeaderFooter(
             Projektor2_Model_Status $sessionStatus,            
-            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
             Projektor2_Model_Db_CertifikatKurz $certifikat,             
             $context, 
             $cislovani=TRUE
@@ -31,16 +31,14 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends P
     public static function createContent(
             Renderer $pdf, 
             Projektor2_Model_Status $sessionStatus,            
-            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
             Projektor2_Model_Db_CertifikatKurz $certifikat, 
             $context, 
             $caller, 
             $radkovani=1            
-) {
+            ) {
             
-            
-//            ($pdf, $context, $caller, $radkovani=1) {
-
+        $sKurz = $aktivitaPlan->sKurz;
         $prefixDotaznik = $caller::MODEL_DOTAZNIK.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
 
         // backgound
@@ -126,15 +124,16 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends P
             $pdf->Ln(2);
             $blok = clone $blokLeftMargin28_13;
             $blok->OdsazeniZleva(45);
-            if ($sKurz->date_zacatek AND $sKurz->date_konec){
-                if ($sKurz->date_zacatek == $sKurz->date_konec) {
-                    $blok->PridejOdstavec('Kurz proběhl dne '.self::datumBezNul($sKurz->date_zacatek));
+            if ($aktivitaPlan->datumZacatkuReal AND $aktivitaPlan->datumKonceReal){
+                if ($aktivitaPlan->datumZacatkuReal == $aktivitaPlan->datumKonceReal) {
+                    $blok->PridejOdstavec('Kurz proběhl dne '.self::datumBezNul($aktivitaPlan->datumZacatkuReal));
                 } else {
-                    $blok->PridejOdstavec('Kurz proběhl v období od '.self::datumBezNul($sKurz->date_zacatek)
-                                            .' do '.self::datumBezNul($sKurz->date_konec));
+                    $blok->PridejOdstavec('Kurz proběhl v období od '.self::datumBezNul($aktivitaPlan->datumZacatkuReal)
+                                            .' do '.self::datumBezNul($aktivitaPlan->datumKonceReal));
                 }
             }
             $blok->PridejOdstavec('v rozsahu');
+            // vypisuji plánovaný rozsah kurzu, ne reál
             $blok->PridejOdstavec('  - na teorii '.$sKurz->pocet_hodin.' vyučovacích hodin');
             $blok->PridejOdstavec('  - z toho distanční formou '.$sKurz->pocet_hodin_distancne);
             $blok->PridejOdstavec('  - na praxi '.$sKurz->pocet_hodin_praxe.' hodin');
@@ -154,14 +153,14 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends P
             $pdf->renderBlock($blok);
         }
         $pdf->Ln(2);
-        if ($sKurz->kurz_typ_kvalifikace AND $sKurz->date_zaverecna_zkouska) {  // jen pro typ čistá- ale zjišťuji jen jestli je typ neprázdný
+        if ($sKurz->kurz_typ_kvalifikace=='čistá' AND $aktivitaPlan->datumZaverecneZkouskyReal) {  // jen pro typ kvalifikace čistá
             $blok = clone $blokCentered28_13;
             if ($context[$prefixDotaznik.'pohlavi'] == 'muž') {
                 $jmeno = 'Jmenovaný vykonal';
             } else {
                 $jmeno = 'Jmenovaná vykonala ';
             }
-            $blok->PridejOdstavec("$jmeno úspěšně závěrečné zkoušky dne: ".self::datumBezNul($sKurz->date_zaverecna_zkouska));
+            $blok->PridejOdstavec("$jmeno úspěšně závěrečné zkoušky dne: ".self::datumBezNul($aktivitaPlan->datumZaverecneZkouskyReal));
             $pdf->renderBlock($blok);
         }
     }

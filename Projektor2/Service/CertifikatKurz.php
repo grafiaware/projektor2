@@ -13,7 +13,7 @@ class Projektor2_Service_CertifikatKurz {
      * @param Projektor2_Model_Status $sessionStatus
      * @param Projektor2_Model_Db_Kancelar $kancelar
      * @param Projektor2_Model_Db_Zajemce $zajemce
-     * @param Projektor2_Model_Db_SKurz $sKurz
+     * @param Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan
      * @param string $datumCertifikatu
      * @param string $creator
      * @param string $service
@@ -25,12 +25,12 @@ class Projektor2_Service_CertifikatKurz {
             Projektor2_Model_Status $sessionStatus,
             Projektor2_Model_Db_Kancelar $kancelar,
             Projektor2_Model_Db_Zajemce $zajemce,
-            Projektor2_Model_Db_SKurz $sKurz,
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan,
             $certifikatVerze,
             $datumCertifikatu, $creator, $service
         ) {
         $logger = Framework_Logger_File::getInstance(Config_AppContext::getLogsPath().'Certificates/', date('Ymd').' CertificateCreation.log');  // denní logy - jméno začíná "číslem" dne
-
+        $sKurz = $aktivitaPlan->sKurz;
         $certifikatRada = self::getRadaCislovani($sKurz, $certifikatVerze);
         $fullCertifikatKurz = $this->readCertifikat($zajemce, $sKurz, $certifikatRada, $certifikatVerze);
 
@@ -39,7 +39,7 @@ class Projektor2_Service_CertifikatKurz {
                     $sessionStatus, 
                     $kancelar, 
                     $zajemce, 
-                    $sKurz, 
+                    $aktivitaPlan, 
                     $certifikatVerze, 
                     $datumCertifikatu, $creator, $service);
             $logger->log('Vytvořen certifikát. Db id: '.$fullCertifikatKurz->dbCertifikatKurz->id.'. File path: '.$fullCertifikatKurz->documentCertifikatKurz->filePath);
@@ -68,10 +68,11 @@ class Projektor2_Service_CertifikatKurz {
             Projektor2_Model_Status $sessionStatus,
             Projektor2_Model_Db_Kancelar $kancelar,
             Projektor2_Model_Db_Zajemce $zajemce,
-            Projektor2_Model_Db_SKurz $sKurz,
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan,
             $certifikatVerze,
             $datumCertifikatu, $creator, $service
     ) {
+        $sKurz = $aktivitaPlan->sKurz;
 
         // file certifikat model - bez content, ale filepath již vznikne
         $fileCertifikat = Projektor2_Model_File_CertifikatKurzMapper::create(
@@ -93,7 +94,7 @@ class Projektor2_Service_CertifikatKurz {
             throw RuntimeException("Nepodařilo se zapsat údaje certifikátu do databáze. Certifikát nebude vytvořen.", 0, $e);
         }
 
-        $content = $this->createContent($zajemce, $sessionStatus, $kancelar, $dbCertifikat, $sKurz, $fileCertifikat->relativeDocumentPath);
+        $content = $this->createContent($zajemce, $sessionStatus, $kancelar, $dbCertifikat, $aktivitaPlan, $fileCertifikat->relativeDocumentPath);
         if (!isset($content) OR !$content) {
             Projektor2_Model_File_CertifikatKurzMapper::delete($fileCertifikat);
             throw new RuntimeException("Nevznikl obsah souboru certifikátu pro kurz id: {$sKurz->id_s_kurz}.");
@@ -161,18 +162,22 @@ class Projektor2_Service_CertifikatKurz {
     }
 
     /**
-     *
+     * 
      * @param Projektor2_Model_Db_Zajemce $zajemce
-     * @param Projektor2_View_PDF_Common $pdfView
-     * @param type $fileMapperClassName
-     * @return Projektor2_Model_File_ItemAbstract
+     * @param Projektor2_Model_Status $sessionStatus
+     * @param Projektor2_Model_Db_Kancelar $kancelar
+     * @param Projektor2_Model_Db_CertifikatKurz $certifikat
+     * @param Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan
+     * @param type $docPath
+     * @return type
+     * @throws UnexpectedValueException
      */
     private function createContent(
             Projektor2_Model_Db_Zajemce $zajemce, 
             Projektor2_Model_Status $sessionStatus, 
             Projektor2_Model_Db_Kancelar $kancelar,
             Projektor2_Model_Db_CertifikatKurz $certifikat, 
-            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
             $docPath) {
 
         switch ($certifikat->certifikat_kurz_rada_FK) {
@@ -189,7 +194,7 @@ class Projektor2_Service_CertifikatKurz {
                 assert(false, 'Není implementováno PDF view pro profesní kvalifikaci.');
                 break;
             default:
-                throw new UnexpectedValueException("Nepodařilo se určit číselnou řadu certifikátů pro kurz id: {$sKurz->id_s_kurz} a verzi certifikátu: {$certifikat->certifikat_kurz_verze_FK}.");
+                throw new UnexpectedValueException("Nepodařilo se view pro vytvoření pdf certifikátu. Neznámá verze certifikátu: '{$certifikat->certifikat_kurz_verze_FK}'.");
         }        
         
         $models = $this->createKurzOsvedceniModels($zajemce);
@@ -202,7 +207,7 @@ class Projektor2_Service_CertifikatKurz {
             //TODO: natvrdo psát např. Plzeň - píše se kancelář, do které jsi přihlášen
             ->assign('kancelar_plny_text', $kancelar->plny_text)
             ->assign('certifikat', $certifikat)
-            ->assign('sKurz', $sKurz)
+            ->assign('aktivitaPlanViewModel', $aktivitaPlan)
             ->assign('file', $docPath)
             ->assign('v_projektu',$texts['v_projektu'])
             ->assign('financovan',$texts['financovan']);

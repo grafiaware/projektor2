@@ -25,8 +25,11 @@ class Projektor2_Model_Db_ZaPlanKurz {
     public $duvod_absence;
     public $dokonceno;
     public $duvod_neukonceni;
-    public $datum_certif;
-
+    public $date_certif;
+    public $date_zacatek_extra;
+    public $date_konec_extra;
+    public $date_zaverecna_zkouska_extra;
+    
     public function __construct(
             $id_za_plan_kurz = null,
             $id_zajemce = null,
@@ -40,7 +43,10 @@ class Projektor2_Model_Db_ZaPlanKurz {
             $duvod_absence = null,
             $dokonceno = null,
             $duvod_neukonceni = null,
-            $datum_certif = null) {
+            $date_certif = null,
+            $date_zacatek_extra = null,
+            $date_konec_extra = null,
+            $date_zaverecna_zkouska_extra = null) {
         $this->id_za_plan_kurz = $id_za_plan_kurz;
         $this->id_zajemce = $id_zajemce;
         $this->id_s_kurz_FK = $id_s_kurz_FK;
@@ -53,6 +59,9 @@ class Projektor2_Model_Db_ZaPlanKurz {
         $this->duvod_absence = $duvod_absence;
         $this->dokonceno = $dokonceno;
         $this->duvod_neukonceni = $duvod_neukonceni;
-        $this->datum_certif = $datum_certif;
+        $this->date_certif = $date_certif;
+        $this->date_zacatek_extra = $date_zacatek_extra;
+        $this->date_konec_extra =$date_konec_extra;
+        $this->date_zaverecna_zkouska_extra = $date_zaverecna_zkouska_extra;
     }
 }

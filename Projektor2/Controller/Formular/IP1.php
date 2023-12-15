@@ -105,7 +105,7 @@ class Projektor2_Controller_Formular_IP1 extends Projektor2_Controller_Formular_
                 $this->sessionStatus,
                 $this->sessionStatus->getUserStatus()->getKancelar(),
                 $this->sessionStatus->getUserStatus()->getZajemce(),
-                $aktivitaPlan->sKurz,
+                $aktivitaPlan,
                 $certifikatVerze,
                 $aktivitaPlan->datumCertif,
                 $this->sessionStatus->getUserStatus()->getUser()->name,

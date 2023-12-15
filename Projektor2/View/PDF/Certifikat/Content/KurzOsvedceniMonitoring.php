@@ -17,7 +17,7 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniMonitoring extends Pro
     
     public static function prepareHeaderFooter(
             Projektor2_Model_Status $sessionStatus,            
-            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
             Projektor2_Model_Db_CertifikatKurz $certifikat,             
             $context, 
             $cislovani=TRUE
@@ -38,19 +38,20 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniMonitoring extends Pro
                 break;
             default:
                 throw new RuntimeException('Nepodarilo se vytvorit pdf - nanastaveno HeaderFooter pro projekt.');
-                break;
         }
     }
     
     public static function createContent(
             Renderer $pdf, 
-            Projektor2_Model_Status $sessionStatus,                        
-            Projektor2_Model_Db_SKurz $sKurz, 
-            Projektor2_Model_Db_CertifikatKurz $certifikat,   // v minitorg certifikátu nepoužit
+            Projektor2_Model_Status $sessionStatus,            
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat, 
             $context, 
             $caller, 
-            $radkovani=1) {
-        
+            $radkovani=1            
+            ) {
+            
+        $sKurz = $aktivitaPlan->sKurz;
         // background
         $odsazeniPozadiShora = 0;
         $vyskaObrazku = 297;
@@ -110,8 +111,8 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniMonitoring extends Pro
                 $abs = 'absolvovala';
             }
             $blok->PridejOdstavec($abs);
-            if ($sKurz->date_konec){
-                $blok->PridejOdstavec('dne '.self::datumBezNul($sKurz->date_konec));
+            if ($aktivitaPlan->datumKonceReal){
+                $blok->PridejOdstavec('dne '.self::datumBezNul($aktivitaPlan->datumKonceReal));
             }
         $pdf->renderBlock($blok);
 

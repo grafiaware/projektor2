@@ -97,7 +97,7 @@ abstract class Framework_View_Abstract implements Framework_View_Interface {
             } elseif (is_array($render)) {
                 $str =  $this->convertToString($render);
             } elseif (is_scalar($render)) {
-                $tr = $render;
+                $str = $render;
             }
         } else {
             $str = $this->convertToString($this->parts);

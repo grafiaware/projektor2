@@ -10,14 +10,16 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniAkreditovany extends Projektor
     const MODEL_DOTAZNIK = "dotaznik";
 
     public function createPDFObject() {
+        /** @var Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan */
+        $aktivitaPlan = $this->context['aktivitaPlanViewModel'];
         /** @var Projektor2_Model_Db_SKurz $sKurz */
-        $sKurz = $this->context['sKurz'];
+        $sKurz = $aktivitaPlan->sKurz;
         /** @var Projektor2_Model_Db_CertifikatKurz $certifikat */
         $certifikat = $this->context['certifikat'];
 
         Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany::prepareHeaderFooter(
                 $this->sessionStatus, 
-                $sKurz, 
+                $aktivitaPlan, 
                 $certifikat, 
                 $this->context, 
                 false);  
@@ -25,7 +27,7 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniAkreditovany extends Projektor
         Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany::createContent(
                 $this->pdfRenderer, 
                 $this->sessionStatus, 
-                $sKurz, 
+                $aktivitaPlan, 
                 $certifikat, 
                 $this->context, 
                 $this, 

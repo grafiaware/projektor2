@@ -17,9 +17,9 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni extends Projektor2_Vi
     
     public static function prepareHeaderFooter(
             Projektor2_Model_Status $sessionStatus,            
-            Projektor2_Model_Db_SKurz $sKurz, 
-            Projektor2_Model_Db_CertifikatKurz $certifikat,
-            $context,             
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat,             
+            $context, 
             $cislovani=TRUE
         ) {
         $texts = Config_Certificates::getCertificateTexts($sessionStatus);
@@ -78,12 +78,15 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni extends Projektor2_Vi
     
     public static function createContent(
             Renderer $pdf, 
-            Projektor2_Model_Status $sessionStatus, 
-            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Model_Status $sessionStatus,            
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
             Projektor2_Model_Db_CertifikatKurz $certifikat, 
             $context, 
             $caller, 
-            $radkovani=1) {
+            $radkovani=1            
+            ) {
+            
+        $sKurz = $aktivitaPlan->sKurz;
         // background
         $odsazeniPozadiShora = 28;
         $vyskaObrazku = 287;
@@ -103,12 +106,21 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni extends Projektor2_Vi
         $blokCentered28_13 = clone $blokCentered;
             $blokCentered28_13->VyskaPismaNadpisu(28);
             $blokCentered28_13->VyskaPismaTextu(13);
-            $blokCentered28_13->ZarovnaniTextu('C');
         $blokCentered20_11 = clone $blokCentered;
             $blokCentered20_11->VyskaPismaNadpisu(20);
             $blokCentered20_11->VyskaPismaTextu(11);
-            $blokCentered20_11->ZarovnaniTextu('C');
+        $blokLeftMargin = new Block;
+            $blokLeftMargin->ZarovnaniNadpisu('L');
+            $blokLeftMargin->ZarovnaniTextu('L');
+            $blokLeftMargin->Radkovani($radkovani);
+        $blokLeftMargin28_13 = clone $blokLeftMargin;
+            $blokLeftMargin28_13->VyskaPismaNadpisu(28);
+            $blokLeftMargin28_13->VyskaPismaTextu(13);
+        $blokLeftMargin20_11 = clone $blokLeftMargin;
+            $blokLeftMargin20_11->VyskaPismaNadpisu(20);
+            $blokLeftMargin20_11->VyskaPismaTextu(11);
 
+        /** @var Block $blok */
 
         $blok = clone $blokCentered28_13;
             $blok->PridejOdstavec('Grafia, společnost s ručením omezeným');
@@ -147,12 +159,12 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceni extends Projektor2_Vi
             $abs = 'absolvovala';
         }
 
-        if ($sKurz->date_zacatek AND $sKurz->date_konec){
-            if ($sKurz->date_zacatek == $sKurz->date_konec) {
-                $blok->PridejOdstavec('úspěšně '.$abs.' kurz dne '.self::datumBezNul($sKurz->date_zacatek));
+        if ($aktivitaPlan->datumZacatkuReal AND $aktivitaPlan->datumKonceReal){
+            if ($aktivitaPlan->datumZacatkuReal == $aktivitaPlan->datumKonceReal) {
+                $blok->PridejOdstavec('úspěšně '.$abs.' kurz dne '.self::datumBezNul($aktivitaPlan->datumZacatkuReal));
             } else {
-                $blok->PridejOdstavec('úspěšně '.$abs.' kurz od '.self::datumBezNul($sKurz->date_zacatek)
-                                        .' do '.self::datumBezNul($sKurz->date_konec));
+                $blok->PridejOdstavec('úspěšně '.$abs.' kurz od '.self::datumBezNul($aktivitaPlan->datumZacatkuReal)
+                                        .' do '.self::datumBezNul($aktivitaPlan->datumKonceReal));
             }
         } else {
             $blok->PridejOdstavec('úspěšně '.$abs.' kurz');

@@ -26,6 +26,6 @@ class Projektor2_Controller_Element_MenuOsoba extends Projektor2_Controller_Abst
                                                                  array('zajemceRegistrace'=>$osobaViewmodel, 'htmlSkupiny'=>$htmlSkupiny));
             $htmlParts[] = $viewRegistrace;
         }
-        return new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$htmlParts));
+        return implode(PHP_EOL, $htmlParts);
     }
 }

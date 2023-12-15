@@ -10,8 +10,8 @@ interface Projektor2_View_PDF_Certifikat_Content_CreatorInterface {
     
     public static function prepareHeaderFooter(
             Projektor2_Model_Status $sessionStatus,            
-            Projektor2_Model_Db_SKurz $sKurz, 
-            Projektor2_Model_Db_CertifikatKurz $certifikat,                         
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat,             
             $context, 
             $cislovani=TRUE
         );
@@ -19,9 +19,10 @@ interface Projektor2_View_PDF_Certifikat_Content_CreatorInterface {
     public static function createContent(
             Renderer $pdf, 
             Projektor2_Model_Status $sessionStatus,            
-            Projektor2_Model_Db_SKurz $sKurz, 
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
             Projektor2_Model_Db_CertifikatKurz $certifikat, 
             $context, 
             $caller, 
-            $radkovani=1);
+            $radkovani=1            
+            );
 }

@@ -12,7 +12,7 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
         $kurzPlan = NULL;
         if ($aktivity) {
             $idZajemce = $sessionStatus->getUserStatus()->getZajemce()->id;
-            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($idZajemce);
+            $planovaneKurzy = Projektor2_Model_Db_ZaPlanKurzMapper::findAllForZajemce($idZajemce);  // where zajemce AND $indexAktivity=aktivita
             $planSortedAssoc = self::sortAndAssocToActivity($planovaneKurzy);
             $aktivita = $aktivity[$indexAktivity];
             $planKurz = $planSortedAssoc[$indexAktivity] ?? null;
@@ -91,7 +91,7 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
     private static function createAktivitaPlan(Projektor2_Model_Db_ZaPlanKurz $planKurz=null,
             $aktivita, $indexAktivity, $id, $idZajemce) {
 
-        if ($aktivita['typ']==Config_Aktivity::TYP_KURZ) {
+        if ($aktivita['typ']==Config_Aktivity::TYP_KURZ) {     // $planKurz nemá date_certif
             $sKurz = Projektor2_Model_Db_SKurzMapper::get($planKurz->id_s_kurz_FK);
             if ($sKurz) {
                 $certifikatyKurz = Projektor2_Model_Db_CertifikatKurzMapper::find($idZajemce, $sKurz->id_s_kurz, FALSE);  // všechny typy certifikátu
@@ -107,9 +107,8 @@ class Projektor2_Viewmodel_AktivityPlanMapper {
                             $aktivita['certifikat']['pseudokopie'] ?? false,
                             $aktivita['certifikat']['monitoring'] ?? false
                             ),
+                    $planKurz,
                     $sKurz,
-                    $planKurz->poc_abs_hodin, $planKurz->duvod_absence, $planKurz->dokonceno,
-                    $planKurz->duvod_neukonceni, $planKurz->datum_certif,
                     $certifikatyKurz);
         }
     }
