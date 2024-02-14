@@ -1,5 +1,6 @@
 <?php
 use Pdf\Model\Block;
+use Pdf\Renderer\Renderer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,8 +14,22 @@ use Pdf\Model\Block;
  * @author pes2704
  */
 class Projektor2_View_PDF_Certifikat_Content_UkonceniAktivitPoradenstvi extends Projektor2_View_PDF_Certifikat_Content_Base {
-
-    public static function createContent($pdf, $context, $caller, $dolniokrajAPaticka, $mistoDatumPodpisy) {
+    public static function prepareHeaderFooter(
+            Projektor2_Model_Status $sessionStatus,            
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat,             
+            $context, 
+            $cislovani=TRUE
+        ) {
+    }
+    public static function createContent(
+//            Renderer $pdf, 
+//            Projektor2_Model_Status $sessionStatus,            
+//            Projektor2_Model_Db_SKurz $sKurz, 
+//            Projektor2_Model_Db_CertifikatKurz $certifikat,                      
+//            $context, 
+//            $caller)            
+            $pdf, $context, $caller, $dolniokrajAPaticka, $mistoDatumPodpisy) {
         $count = count($context['aktivityProjektuTypuPoradenstvi']);
         if ($count) {
             $counter = 0;

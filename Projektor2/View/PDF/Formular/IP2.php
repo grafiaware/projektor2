@@ -14,7 +14,7 @@ class Projektor2_View_PDF_Formular_IP2 extends Projektor2_View_PDF_Common {
         $prefixUkonceni = $signUkonceni.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
         
         $textPaticky = "Individuální plán účastníka v projektu „{$this->sessionStatus->getUserStatus()->getProjekt()->text}“ - část 2 - vyhodnocení aktivit  ".$this->context["file"];
-        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $textPaticky);
+        Projektor2_View_PDF_Formular_HeaderFooter_Base::createHeaderFooter($this->sessionStatus, $textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "INDIVIDUÁLNÍ PLÁN ÚČASTNÍKA - část 2 - vyhodnocení aktivit";

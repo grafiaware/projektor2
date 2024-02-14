@@ -19,7 +19,7 @@ class Projektor2_View_PDF_Formular_Ukonceni extends Projektor2_View_PDF_Common {
     public function createPDFObject() {
         $nazevProjektu = '„Moje budoucnost“';
         $textPaticky = "Ukončení účasti účastníka v projektu $nazevProjektu ".$this->context["file"];
-        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $textPaticky);
+        Projektor2_View_PDF_Formular_HeaderFooter_Base::createHeaderFooter($this->sessionStatus, $textPaticky);
         $this->initialize();
         //*****************************************************
         $textyNadpisu[] = "UKONČENÍ ÚČASTI V PROJEKTU";

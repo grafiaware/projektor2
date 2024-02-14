@@ -16,8 +16,9 @@ use Pdf\Model\Block;
 class Projektor2_View_PDF_Certifikat_Content_ProjektOsvedceni extends Projektor2_View_PDF_Certifikat_Content_Base {
     public static function prepareHeaderFooter(
             Projektor2_Model_Status $sessionStatus,            
-            Projektor2_Model_Db_SKurz $sKurz, 
-            Projektor2_Model_Db_CertifikatKurz $certifikat,  
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat,             
+            $context, 
             $cislovani=TRUE
         ) {
         $texts = Config_Certificates::getCertificateTexts($sessionStatus);
@@ -73,7 +74,7 @@ class Projektor2_View_PDF_Certifikat_Content_ProjektOsvedceni extends Projektor2
     }    
     
     public static function createContent(
-            \Projektor2_Pdf_Renderer_Renderer $pdf, 
+            Renderer $pdf, 
             Projektor2_Model_Status $sessionStatus,            
             Projektor2_Model_Db_SKurz $sKurz, 
             Projektor2_Model_Db_CertifikatKurz $certifikat,                      

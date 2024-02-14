@@ -1,6 +1,7 @@
 <?php
 use Pdf\Model\Block;
 use Pdf\Model\SadaBunek;
+use Pdf\Renderer\Renderer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,8 +15,24 @@ use Pdf\Model\SadaBunek;
  * @author pes2704
  */
 class Projektor2_View_PDF_Certifikat_Content_UkonceniAktivitKurz extends Projektor2_View_PDF_Certifikat_Content_Base {
-
-    public static function createContent($pdf, $context, $dolniokrajAPaticka, $mistoDatumPodpisy) {
+    
+    public static function prepareHeaderFooter(
+            Projektor2_Model_Status $sessionStatus,            
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan, 
+            Projektor2_Model_Db_CertifikatKurz $certifikat,             
+            $context, 
+            $cislovani=TRUE
+        ) {
+    }
+    
+    public static function createContent(
+//            Renderer $pdf, 
+//            Projektor2_Model_Status $sessionStatus,            
+//            Projektor2_Model_Db_SKurz $sKurz, 
+//            Projektor2_Model_Db_CertifikatKurz $certifikat,                      
+//            $context, 
+//            $caller)
+            $context, $dolniokrajAPaticka, $mistoDatumPodpisy) {
         $signUkonceni = Projektor2_Controller_Formular_FlatTable::UKONC_FT;
         $prefixUkonceni = $signUkonceni.Projektor2_Controller_Formular_FlatTable::MODEL_SEPARATOR;
         

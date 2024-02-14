@@ -16,7 +16,7 @@ class Projektor2_View_PDF_Formular_Smlouva extends Projektor2_View_PDF_Common {
     public function createPDFObject() {
         $nazevProjektu = '„Moje budoucnost“';
         $textPaticky = "Dohoda o účasti v projektu $nazevProjektu ".$this->context["file"];
-        $this->createHeaderFooter($this->sessionStatus->getUserStatus()->getProjekt(), $textPaticky);
+        Projektor2_View_PDF_Formular_HeaderFooter_Base::createHeaderFooter($this->sessionStatus, $textPaticky);
         $this->initialize();  // vytvoří $this->pdf
         //*****************************************************
         $textyNadpisu[] = "DOHODA O ÚČASTI V PROJEKTU ";
