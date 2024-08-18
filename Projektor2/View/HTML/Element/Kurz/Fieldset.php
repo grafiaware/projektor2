@@ -190,7 +190,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
             $this->parts[] ='<div id="'.$nameDuvodNeukonceni.'" style="display:'.$styleDuvodNeukonceni.'">'
                     . '<label>Při neúspěšném ukončení uveďte důvod: </label>'
                     . '<input type="text" name="'.$nameDuvodNeukonceni.'" size=120 maxlength=120 '
-                    . 'value="'.$this->context[$nameDuvodNeukonceni].'" '
+                    . 'value="'.$planKurzArray[$nameDuvodNeukonceni].'" '
                     . $disabledAttribute.' />'
                     . '</div>';
             // konec dokončeno úšpěšně/neúspěšně a závislý prvek důvod neukončení

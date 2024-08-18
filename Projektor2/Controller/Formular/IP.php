@@ -25,7 +25,7 @@ abstract class Projektor2_Controller_Formular_IP extends Projektor2_Controller_F
             $filter .= " OR kurz_zkratka='*'";
         }
         $filter = "(".$filter.")";
-        return Projektor2_Viewmodel_KurzViewmodelMapper::find($filter, 'razeni');
+        return Projektor2_Viewmodel_KurzViewmodelMapper::find($filter, 'kurz_druh, kurz_cislo'); // 'razeni');
     }
 
     /**

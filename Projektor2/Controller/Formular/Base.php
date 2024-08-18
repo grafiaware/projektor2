@@ -244,6 +244,8 @@ abstract class Projektor2_Controller_Formular_Base extends Projektor2_Controller
     }
 
     private function getNewValueForSql($modelValue, $key, $postValue) {
+        // pokus o odstraňování ctrl znaků nelze použít, odstraní i CR LF - potřebné v obsahu kurzu
+//        $postValue = filter_var($postValue, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);        
         if ($this->jeToProjektoroveDatum($key) AND $postValue AND !$this->formatJeRfc($postValue)) {
             $postValue = $this->transformDatumToRfc($postValue);
         }

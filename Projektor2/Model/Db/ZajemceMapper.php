@@ -3,8 +3,8 @@ class Projektor2_Model_Db_ZajemceMapper {
 
     public static function create() {
         $appStatus = Projektor2_Model_Status::getSessionStatus();
-        if(!$appStatus->getUserStatus()->getProjekt() OR !$appStatus->getUserStatus()->getKancelar()) {
-            throw new Exception ("Cannot create new zajemce - kancelar,projekt - one or more are not setted or setted improperly");
+        if(!$appStatus->getUserStatus()->getProjekt() OR !$appStatus->getUserStatus()->getKancelar() OR !$appStatus->getUserStatus()->getBeh()) {
+            throw new Exception ("Cannot create new zajemce - projekt, kancelar, beh is not set up properly. Set up projekt, kancelar, beh.");
         }
         $dbh = Config_AppContext::getDb();
         // select a insert v transakci
