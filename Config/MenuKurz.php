@@ -19,7 +19,7 @@ class Config_MenuKurz {
      * @return type
      * @throws UnexpectedValueException
      */
-    public static function setSkupinyKurz(Projektor2_Viewmodel_KurzViewmodel $viewmodelKurz, Projektor2_Model_Db_SKurz $sKurz) {
+    public static function setSkupinyKurz(Projektor2_Viewmodel_KurzViewmodel $viewmodelKurz, $planCount) {
         $sessionStatus = Projektor2_Model_Status::getSessionStatus();
         $user = $sessionStatus->getUserStatus()->getUser();
 
@@ -47,9 +47,8 @@ class Config_MenuKurz {
 
                 if (count($skupina->getButtons())) {
                     $viewmodelKurz->addGroup('ucastnici', $skupina);
-                    $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findByFilter("za_plan_kurz.id_s_kurz_FK={$sKurz->id_s_kurz}");
                     $modelSignal = new Projektor2_Viewmodel_Menu_SignalKurz_Ucastnici();
-                    $modelSignal->setByPlanKurzArray($zaPlanKurzArray);
+                    $modelSignal->setByPlanKurzArray($planCount);
                     $skupina->addSignal($modelSignal);
                 }
 

@@ -18,7 +18,7 @@ class Projektor2_Controller_Element_MenuKurz extends Projektor2_Controller_Abstr
         $htmlParts = array();
         if (isset($this->params[self::VIEWMODEL_KURZ])) {
             $kurzViewmodel = $this->params[self::VIEWMODEL_KURZ];
-            // sada td tlačítka
+            // sada td = tlačítka
             $skupinaController = new Projektor2_Controller_Element_MenuKurz_Skupina($this->sessionStatus, $this->request, $this->response,
                     [Projektor2_Controller_Element_MenuKurz_Skupina::VIEWMODEL_KURZ=>$kurzViewmodel]);
             $htmlSkupiny = $skupinaController->getResult();

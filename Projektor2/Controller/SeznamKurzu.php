@@ -65,6 +65,12 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
         $viewmodelyKurzu = $this->findKurzViewmodels($multilike1, $multilike2);
         if ($viewmodelyKurzu) {
             foreach ($viewmodelyKurzu as $viewmodelKurz) {
+
+                $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findByFilter("za_plan_kurz.id_s_kurz_FK={$viewmodelKurz->id}");
+                $planCount = count($zaPlanKurzArray);
+                $viewmodelKurz = Config_MenuKurz::setSkupinyKurz($viewmodelKurz, $planCount);
+
+
                 $params = [Projektor2_Controller_Element_MenuKurz::VIEWMODEL_KURZ => $viewmodelKurz];
                 $tlacitkaController = new Projektor2_Controller_Element_MenuKurz($this->sessionStatus, $this->request, $this->response, $params);
                 $rows[] = $tlacitkaController->getResult();
@@ -73,9 +79,6 @@ class Projektor2_Controller_SeznamKurzu extends Projektor2_Controller_Abstract {
             $viewContent = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>array($viewZaznamy), 'class'=>'content'));
             $parts[] = $viewContent;
         }
-        $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, array('htmlParts'=>$parts, 'class'=>'grid-container'));
-
-
         $gridColumns[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArray()]);
         $gridColumns[] = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$parts, 'class'=>'content']);
         $viewZobrazeniRegistraci = new Projektor2_View_HTML_Element_Div($this->sessionStatus, ['htmlParts'=>$gridColumns, 'class'=>'grid-container']);

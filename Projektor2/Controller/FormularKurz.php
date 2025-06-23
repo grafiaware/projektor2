@@ -16,7 +16,11 @@ class Projektor2_Controller_FormularKurz extends Projektor2_Controller_Abstract 
         $gridColumn[] = new Projektor2_View_HTML_LeftMenu($this->sessionStatus, ['menuArray'=>$this->getLeftMenuArray()]);
 
         // jednořádková tabulka s kurzem - nezobrazuje se pro nový kurz
-        $viewmodelKurz = (new Projektor2_Viewmodel_KurzViewmodelMapper())->get($this->sessionStatus->getUserStatus()->getSKurz()->id_s_kurz);
+        $sKurz = $this->sessionStatus->getUserStatus()->getSKurz();
+        $zaPlanKurzArray = Projektor2_Model_Db_ZaPlanKurzMapper::findByFilter("za_plan_kurz.id_s_kurz_FK={$sKurz->id_s_kurz}");
+        $planCount = count($zaPlanKurzArray);
+        $viewmodelKurz = Config_MenuKurz::setSkupinyKurz((new Projektor2_Viewmodel_KurzViewmodelMapper())->get($sKurz->id_s_kurz), $planCount);
+        
         $params = [Projektor2_Controller_Element_MenuKurz::VIEWMODEL_KURZ => $viewmodelKurz];
         $tlacitkaController = new Projektor2_Controller_Element_MenuKurz($this->sessionStatus, $this->request, $this->response, $params);
         $rowsKurzy[] = $tlacitkaController->getResult();

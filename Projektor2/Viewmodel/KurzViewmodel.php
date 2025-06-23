@@ -18,7 +18,7 @@ class Projektor2_Viewmodel_KurzViewmodel {
         $this->infoKurzText = $this->textRetezecKurz($sKurz);  // pro seznam kurzů a select v kurz fieldset
         $this->infoKurzLokace = $sKurz->kurz_lokace;  // pro seznam kurzů
         $this->jeZadanPocetHodin = $this->jeZadanPocetHodin($sKurz); // pro kurz fieldset - pokud je počet hodin zobrazí se údaje absolvováno
-        $this->sKurz = $sKurz;
+//        $this->sKurz = $sKurz;
     }
 
     private function jeZadanPocetHodin(Projektor2_Model_Db_SKurz $sKurz) {

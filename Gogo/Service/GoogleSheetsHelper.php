@@ -18,7 +18,9 @@ class GoogleSheetsHelper {
     }
 
     /**
-     *
+     * Vrací ploe hodnot všech buněk v oblasti zadané jménem listu a rozsahem buněk v listu.
+     * Pole je dvourozměrné číselné pole, první index řádky, druhý index sloupce.
+     * 
      * @param type $spreadsheetId
      * @param type $sheetName
      * @param type $cellRange
@@ -31,7 +33,8 @@ class GoogleSheetsHelper {
     }
 
     /**
-     *
+     * Vrací pole hodnot v prvním (horním) řádku oblasti zadané jménem listu a rozsahem buněk v listu.
+     * 
      * @param type $spreadsheetId
      * @param type $range
      * @return array číselné pole hodnot prvního řádku rozsahu
@@ -43,6 +46,14 @@ class GoogleSheetsHelper {
         return $response->getValues()[0];
     }
 
+    /**
+     * Vrací pole hodnot v prvním (levém) sloupci oblasti zadané jménem listu a rozsahem buněk v listu.
+     * 
+     * @param type $spreadsheetId
+     * @param type $sheetName
+     * @param type $cellRange
+     * @return type
+     */
     public function getRangeFirstColumnValues($spreadsheetId, $sheetName, $cellRange) {
         $sheets = $this->googlesheetsService->getSheets();
         $response = $sheets->spreadsheets_values->get($spreadsheetId, $this->range($sheetName, $cellRange));
@@ -54,7 +65,7 @@ class GoogleSheetsHelper {
     }
 
     /**
-     * Hledá hodnotu ve sloupci zadaném jménem listi a rozsahem buněk v listu.
+     * Hledá hodnotu v prvním (levém) sloupci oblasti zadané jménem listu a rozsahem buněk v listu.
      *
      * Vrací číslo řádku ve sloupci (přesněji v prvním, levém sloupci zadaného rozsahu buněk) počínaje hodnotou 1 (pro první řádek)
      * nebo false, pokud hodnota nebyla nalezena.
