@@ -206,6 +206,7 @@ class Projektor2_View_HTML_Element_Kurz_Fieldset extends Framework_View_Abstract
                 $viewCertifikat->assign('planKurzPrefix', $planKurzPrefix);
                 $viewCertifikat->assign('planKurzArray', $planKurzArray);
                 $viewCertifikat->assign('kurzViewmodel', $kurzViewmodel);
+                $viewCertifikat->assign('zvolenySKurz', $zvolenySKurz);
                 
                 $viewCertifikat->assign('indexAktivity', $indexAktivity);
                 $this->parts[] = $viewCertifikat;

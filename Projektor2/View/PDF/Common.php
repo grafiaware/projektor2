@@ -60,7 +60,7 @@ abstract class Projektor2_View_PDF_Common extends Projektor2_View_PDF_Base{
         $position->VyskaPismaTextu(10);
         $position->ZarovnaniTextu('C');
         $position->PridejOdstavec($this->context['signerPosition'],"");
-        $this->pdfRenderer->renderBlock($position);
+        $this->pdfRenderer->renderBlock($position);   
     }
 
     protected function celeJmeno() {

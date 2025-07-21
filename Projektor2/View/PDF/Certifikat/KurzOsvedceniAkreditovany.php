@@ -1,4 +1,7 @@
 <?php
+
+use Config\Certificates;
+
 /**
 * Description of
 *
@@ -36,7 +39,17 @@ class Projektor2_View_PDF_Certifikat_KurzOsvedceniAkreditovany extends Projektor
         $datumCertif = Projektor2_Date::createFromSqlDate($certifikat->date)->getCzechStringDate();        
         $this->tiskniMistoDatum($datumCertif);
         $this->pdfRenderer->Ln(1);
-        $this->tiskniPodpisCertifikat();
+        
+        //TODO: SV - dočasné řešení - přepínám podle existence garanta lurzu v s_kurz
+        if ($aktivitaPlan->sKurz->kurz_garant) {
+            Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany::createSigns(
+                $this->pdfRenderer, 
+                $aktivitaPlan,
+                Config_Certificates::getCertificateStatutoryRepresentative($this->sessionStatus)
+                );
+        } else {
+            $this->tiskniPodpisCertifikat();
+        }
 
     }
 }

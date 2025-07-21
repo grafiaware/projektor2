@@ -15,6 +15,7 @@ class Projektor2_Model_Db_SKurz implements Framework_Model_AttributeModelInterfa
     public $kurz_pracovni_cinnost;
     public $kurz_akreditace;
     public $kurz_obsah;
+    public $kurz_garant;
     public $pocet_hodin;
     public $pocet_hodin_distancne;
     public $pocet_hodin_praxe;
@@ -32,7 +33,7 @@ class Projektor2_Model_Db_SKurz implements Framework_Model_AttributeModelInterfa
     public function __construct(
             $id_s_kurz=null, $razeni=null, $projekt_kod=null, $kancelar_kod=null,
             $kurz_druh=null, $kurz_cislo=null, $beh_cislo=null, $kurz_lokace=null, $kurz_zkratka=null,
-            $kurz_typ_kvalifikace=null, $kurz_nazev=null, $kurz_pracovni_cinnost=null, $kurz_akreditace=null, $kurz_obsah=null,
+            $kurz_typ_kvalifikace=null, $kurz_nazev=null, $kurz_pracovni_cinnost=null, $kurz_akreditace=null, $kurz_obsah=null, $kurz_garant=null,
             $pocet_hodin=null, $pocet_hodin_distancne=null, $pocet_hodin_praxe=null, $certifikat_kurz_rada_FK=null,
             $date_zacatek=null, $date_konec=null, $date_zaverecna_zkouska=null, $dodavatel=null,
             $info_cas_konani=null, $info_misto_konani=null, $info_lektor=null, $harmonogram_filename=null,
@@ -53,6 +54,7 @@ class Projektor2_Model_Db_SKurz implements Framework_Model_AttributeModelInterfa
         $this->kurz_pracovni_cinnost = $kurz_pracovni_cinnost;
         $this->kurz_akreditace = $kurz_akreditace;
         $this->kurz_obsah = $kurz_obsah;
+        $this->kurz_garant = $kurz_garant;
         $this->pocet_hodin_distancne = $pocet_hodin_distancne;
         $this->pocet_hodin_praxe = $pocet_hodin_praxe;
         $this->pocet_hodin = $pocet_hodin;

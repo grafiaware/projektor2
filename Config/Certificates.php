@@ -9,6 +9,10 @@ abstract class Config_Certificates
 
 ############# CERTIFIKÁTY #############
 
+    public static function getCertificateStatutoryRepresentative(Projektor2_Model_Status $sessionStatus) {
+        return "Mgr. Jana Brabcová, jednatelka";
+    }    
+    
     /**
      * Vrací pole s texty pro certifikáty
      * @param string $kod
@@ -18,7 +22,7 @@ abstract class Config_Certificates
     public static function getCertificateTexts(Projektor2_Model_Status $sessionStatus) {
         $texts = array();
         switch ($sessionStatus->getUserStatus()->getProjekt()->kod) {
-        ######## AP #################
+            ######## AP #################
             case 'AP':
                 $texts['signerName'] = 'Mgr. Milada Kolářová';
                 $texts['signerPosition'] = 'manažer projektu';
@@ -27,7 +31,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nProjekt Alternativní práce v Plzeňském kraji CZ.1.04/2.1.00/70.00055 je financován z Evropského "
                                     . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.";
                 break;
-        ######## SJZP #################
+            ######## SJZP #################
             case 'SJZP':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
@@ -36,7 +40,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nProjekt S jazyky za prací v Karlovarském kraji CZ.1.04/2.1.01/D8.00020 je financován z Evropského "
                                     . "sociálního fondu prostřednictvím OP LZZ a ze státního rozpočtu ČR.";
                 break;
-        ######## VZP #################
+            ######## VZP #################
             case 'VZP':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'administrator programu';
@@ -46,7 +50,7 @@ abstract class Config_Certificates
                         . "\nje spolufinancovaný z prostředků Evropského sociálního fondu, "
                         . "\nresp. Operačního programu Zaměstnanost a státního rozpočtu České republiky.";
                 break;
-         ######## SJZP PK KK #################
+            ######## SJZP PK KK #################
             case 'SJPK':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
@@ -55,7 +59,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nProjekt S jazyky za prací v Plzeňském a Karlovarském kraji CZ.03.1.48/0.0/0.0/15_040/0002665 je financován z Evropského "
                                     . "sociálního fondu prostřednictvím OPZ a ze státního rozpočtu ČR.";
                 break;
-           ######## ZPM #################
+            ######## ZPM #################
             case 'ZPM':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
@@ -64,7 +68,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nProjekt Záruky pro mladé v Plzeňském kraji CZ.03.1.48/0.0/0.0/15_004/0000006 je spolufinancován "
                                   . "z Evropského sociálního fondu prostřednictvím Operačního programu Zaměstnanost a ze státního rozpočtu České republiky.";
                 break;
-           ######## SPP #################
+            ######## SPP #################
             case 'SPP':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
@@ -83,7 +87,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nProjekt Rodina i práce v Plzeňském kraji CZ.03.1.48/0.0/0.0/15_010/0000036 je spolufinancován "
                                     . "z Evropského sociálního fondu, konkrétně z Operačního programu Zaměstnanost, a státního rozpočtu České republiky.";
                 break;
-        ######## SJPO V PLZNI A OKOLÍ #################
+            ######## SJPO V PLZNI A OKOLÍ #################
             case 'SJPO':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
@@ -92,7 +96,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nS jazyky za prací v Plzni a okolí CZ.03.1.48/0.0/0.0/16_045/0009267 je financován z Evropského "
                                     . "sociálního fondu prostřednictvím OPZ a ze státního rozpočtu ČR.";
                 break;
-        ######## SJLP PRO LEPŠÍ PRÁCI #################
+            ######## SJLP PRO LEPŠÍ PRÁCI #################
             case 'SJLP':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
@@ -101,7 +105,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nS jazyky pro lepší práci CZ.03.1.48/0.0/0.0/17_075/0009252 je financován z Evropského "
                                     . "sociálního fondu prostřednictvím OPZ a ze státního rozpočtu ČR.";
                 break;
-           ######## VDTP #################
+            ######## VDTP #################
             case 'VDTP':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
@@ -110,7 +114,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nProjekt Vzdělávání a dovednosti pro trh práce II CZ.03.1.48/0.0/0.0/15_121/0000597 je spolufinancován "
                                     . "z Evropského sociálního fondu, konkrétně z Operačního programu Zaměstnanost, a státního rozpočtu ČR.";
                 break;
-           ######## PDU #################
+            ######## PDU #################
             case 'PDU':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
@@ -119,7 +123,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nProjekt Podpora zaměstnanosti dlouhodobě nezaměstnaných uchazečů o zaměstnání CZ.03.1.48/0.0/0.0/15_121/0010247 je spolufinancován "
                                     . "z Evropského sociálního fondu, konkrétně z Operačního programu Zaměstnanost, a státního rozpočtu ČR.";
                 break;
-        ######## MB MOJE BUDOUCNOST #################
+            ######## MB MOJE BUDOUCNOST #################
             case 'MB':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'poradce projektu';
@@ -128,7 +132,7 @@ abstract class Config_Certificates
                 $texts['financovan'] = "\nProjekt Rozvoj nabídky služeb zaměstnosti Moje budoucnost CZ.03.1.48/0.0/0.0/16_045/0015019 je financován z Evropského "
                                     . "sociálního fondu prostřednictvím OPZ a ze státního rozpočtu ČR.";    // DOPLNIT
                 break;
-        ######## MB MOJE BUDOUCNOST #################
+            ######## CESKÝ JAZYK PRO CIZINCE #################
             case 'CJC':
                 $texts['signerName'] = $sessionStatus->getUserStatus()->getUser()->name;
                 $texts['signerPosition'] = 'pracovník sekce vzdělávání';

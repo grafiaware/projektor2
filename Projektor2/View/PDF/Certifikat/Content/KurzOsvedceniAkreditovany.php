@@ -1,6 +1,7 @@
 <?php
 use Pdf\Renderer\Renderer;
 use Pdf\Model\Block;
+use Pdf\Model\SadaBunek;
 
 /**
  * Description of KurzOsvedceni
@@ -158,5 +159,31 @@ class Projektor2_View_PDF_Certifikat_Content_KurzOsvedceniAkreditovany extends P
             $pdf->renderBlock($blok);
         }
     }
+    public static function createSigns(
+            Renderer $pdf, 
+            Projektor2_Viewmodel_AktivitaPlan $aktivitaPlan,
+            $statutoryRepresentative
+            
+    ) {
+        
+        $sKurz = $aktivitaPlan->sKurz;
+        ################
+        $podpisy = new SadaBunek();
+        $podpisy->PridejBunku('', '', FALSE, 20);
+        $podpisy->PridejBunku("garant kurzu:", '', FALSE, 100);
+        $podpisy->PridejBunku("statutární zástupce:","",TRUE);
+        $podpisy->NovyRadek(0,2);
+        $podpisy->PridejBunku('', '', FALSE, 15);
+        $podpisy->PridejBunku("......................................................", '', FALSE, 100);
+        $podpisy->PridejBunku("......................................................","",TRUE);
+        $podpisy->PridejBunku('', '', FALSE, 20);
+        $podpisy->PridejBunku($sKurz->kurz_garant, '', FALSE, 98);
+        $podpisy->PridejBunku($statutoryRepresentative, '', TRUE);
+//        $podpisy->PridejBunku('', '', FALSE, 120);
+//        $podpisy->PridejBunku("pracovník sekce vzdělávání","",TRUE);
+        $pdf->renderCellGroup($podpisy, 0, 1);
 
+
+             
+    }
 }

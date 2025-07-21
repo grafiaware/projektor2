@@ -23,8 +23,10 @@ class Projektor2_View_HTML_Element_Kurz_DatumATlacitkoCertifikat extends Framewo
         /** @var Projektor2_Viewmodel_KurzViewmodel $kurzViewmodel */        
         $planKurzArray = $this->context['planKurzArray'];
         /** @var Projektor2_Viewmodel_KurzViewmodel $kurzViewmodel */
-        $kurzViewmodel = $this->context['kurzViewmodel'];
-        $sKurz = $kurzViewmodel->sKurz;
+//        $kurzViewmodel = $this->context['kurzViewmodel'];
+//        $kurzViewmodel->sKurz;
+        /** @var Projektor2_Model_Db_SKurz $sKurz */
+        $sKurz = $this->context['zvolenySKurz'];   
         
         if (isset($planKurzArray[$planKurzPrefix.'date_certif']) AND $planKurzArray[$planKurzPrefix.'date_certif']) {
             $displayTiskniCertifikat = 'block';
